@@ -10,6 +10,7 @@ const stats = {
       facing:document.querySelector("#facing")
    },
    driftForce : document.querySelector("#drift-force"),
+   particleCount : document.querySelector("#particle-count")
 }
 const rows = parseInt(
    getComputedStyle(document.documentElement).getPropertyValue('--rows')
@@ -17,14 +18,17 @@ const rows = parseInt(
 const columns = parseInt(
    getComputedStyle(document.documentElement).getPropertyValue('--columns')
 );
+const cellMultiplier = parseInt(
+   getComputedStyle(document.documentElement).getPropertyValue('--cell-muliplier')
+);
 
 const carSize = 32;
 const acceleration = .1;
 const friction = .05;
 
 //start in the middle of the map
-let x = ((columns * 16) - carSize)/2;
-let y = ((rows * 16) - carSize)/2;;
+let x = ((columns * cellMultiplier) - carSize)/2;
+let y = ((rows * cellMultiplier) - carSize)/2;;
 let speed = 0; 
 let angle = {
    moving: 90,
@@ -37,14 +41,24 @@ let driftForce = 0;
 let particles = [];
 const held_directions = []; //State of which arrow keys we are holding down
 
-const createDriftParticle = (x,y) => {
+const createDriftParticle = (x,y,driftForce) => {
       let particle = {
          x : x,
          y : y,
-         size : 32,
+         size : driftForce*20,
          element : document.createElement("div"),
       }
-      particle.element.classList.add("particle")
+      particle.element.classList.add("particle");
+      particle.element.style.width = particle.size;
+      particle.element.style.height = particle.size;
+
+      // skidMark vs cloud
+      if(driftForce > -2.5 && driftForce < 2.5){
+         particle.element.classList.add("skid-mark");
+      }
+      else if(driftForce <= -2.5 || driftForce >= 2.5){
+         particle.element.classList.add("cloud");
+      }
       particles.push(particle);
       map.appendChild(particle.element)
 }
@@ -54,11 +68,20 @@ const placeParticles = (particles) => {
 }
 const placeCharacter = () => {
    
+   //update stats
+   stats.x.innerHTML = x.toFixed(2);
+   stats.y.innerHTML = y.toFixed(2);
+   stats.speed.innerHTML = speed.toFixed(2);
+   stats.angle.facing.innerHTML = angle.facing.toFixed(2);
+   stats.angle.moving.innerHTML = angle.moving.toFixed(2);
+   stats.driftForce.innerHTML = driftForce.toFixed(2);
+   stats.particleCount.innerHTML = particles.length;
+
    let pixelSize = parseInt(
       getComputedStyle(document.documentElement).getPropertyValue('--pixel-size')
    );
 
-   const gridCellSize = pixelSize * 16;
+   const gridCellSize = pixelSize * cellMultiplier;
 
    // check if a direction is being held
    if (held_directions.length > 0) {
@@ -99,7 +122,6 @@ const placeCharacter = () => {
 
       // console.log("speed",speed,"acceleration",acceleration, "angle",angle, "speed",speed)
    }
-   console.log(driftForce)
    if(driftForce <= .05 && driftForce >= -.05){
       driftForce = 0;
    }
@@ -110,12 +132,12 @@ const placeCharacter = () => {
    else if(driftForce < -.05){
       driftForce += .05;
    }
-   if(driftForce > 2 || driftForce < -2){
-      //the x and y needs to be minus speed direction just like how we predict our next position. but in reverse
+   if(driftForce > 1.5 || driftForce < -1.5){
 
-      const particleX = x - (speed * Math.cos(angle.moving * Math.PI/180));
-      const particleY = y - (speed * Math.sin(angle.moving * Math.PI/180));
-      createDriftParticle(particleX,particleY);
+
+      const particleX = x - ((2*speed) * Math.cos(angle.moving * Math.PI/180));
+      const particleY = y - ((2*speed) * Math.sin(angle.moving * Math.PI/180));
+      createDriftParticle(particleX,particleY,driftForce);
    }
    // if(angle.facing - angle.moving <= tireGrip){
    //    angle.facing = angle.moving;
@@ -171,21 +193,15 @@ const placeCharacter = () => {
    //       break;   
    // }
 
-   //update stats
-   stats.x.innerHTML = x.toFixed(2);
-   stats.y.innerHTML = y.toFixed(2);
-   stats.speed.innerHTML = speed.toFixed(2);
-   stats.angle.facing.innerHTML = angle.facing.toFixed(2);
-   stats.angle.moving.innerHTML = angle.moving.toFixed(2);
-   stats.driftForce.innerHTML = driftForce.toFixed(2);
+
 
    //Limits (gives the illusion of walls)
    //set the right and bottom limit to the image size in the dom
 
    const leftLimit = 0;
-   const rightLimit = (columns * 16) -carSize; 
+   const rightLimit = (columns * cellMultiplier) -carSize; 
    const topLimit = 0;
-   const bottomLimit = (rows * 16) -carSize;
+   const bottomLimit = (rows * cellMultiplier) -carSize;
    // console.log(bottomLimit);
    if (x < leftLimit) { x = leftLimit; }
    if (x > rightLimit) { x = rightLimit; }
@@ -237,7 +253,6 @@ document.addEventListener("keydown", (e) => {
    if (dir && held_directions.indexOf(dir) === -1) {
       held_directions.unshift(dir)
    }
-   console.log(held_directions);
 })
 
 document.addEventListener("keyup", (e) => {
@@ -246,5 +261,4 @@ document.addEventListener("keyup", (e) => {
    if (index > -1) {
       held_directions.splice(index, 1)
    }
-   console.log(held_directions);
 });

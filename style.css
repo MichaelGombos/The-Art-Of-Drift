@@ -1,9 +1,11 @@
 :root {
   --pixel-size: 2px;
-  --grid-cell: calc( var(--pixel-size) * 16);
-  --rows: 100;
-  --columns: 100;
+  --cell-muliplier: 32;
+  --grid-cell: calc( var(--pixel-size) * var(--cell-muliplier));
+  --rows: 20;
+  --columns: 20;
   --bg: #242424;
+  
   color:white;
 }
 @media( min-width: 700px ) {
@@ -61,15 +63,6 @@ li{
   image-rendering: pixelated;
 }
 
-.frame {
-  /* This is just for Pen decoration */
-  /* width: calc(var(--pixel-size) * 160);
-  height: calc(var(--pixel-size) * 144);
-  outline: var(--pixel-size) solid #fff;
-  z-index:1; 
-  position:relative; */
-}
-
 .camera {
   width: calc(var(--pixel-size) * 160);
   height: calc(var(--pixel-size) * 144);
@@ -88,8 +81,8 @@ li{
 }
 
 .character {
-  width: calc( var(--grid-cell)* 2 );
-  height: calc( var(--grid-cell)* 2 );
+  width: calc( var(--grid-cell) );
+  height: calc( var(--grid-cell) );
   position: absolute;
   overflow:hidden;
 }
@@ -113,4 +106,11 @@ li{
   height:32px;
   width:32px;
   background-color:rgb(154, 154, 154);
+}
+
+.particle.skid-mark{
+  background-color:rgb(33, 33, 33);
+}
+.particle.cloud{
+  background-color:rgba(197, 197, 197, 0.499);
 }
