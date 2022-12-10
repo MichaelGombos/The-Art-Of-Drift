@@ -1,15 +1,22 @@
 <head>
 <link href="style.css" rel="stylesheet">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+
 </head>
 <body>
 
-<div class="frame">
-  <div class="corner_topleft"></div>
-  <div class="corner_topright"></div>
-  <div class="corner_bottomleft"></div>
-  <div class="corner_bottomright"></div>
-  
-  
+
+   <ul class="stats">
+      <li>X <span id="x">0</span></li>
+      <li>Y <span id="y">0</span></li>
+      <li>SPEED <span id="speed">0</span></li>
+      <li>ANGLE <span id="angle">0</span></li>
+   </ul>
+   
+   <div class="frame">
   <div class="camera">
      <div class="map pixel-art">
         <div class="character" facing="down" walking="true" angle="0">
@@ -17,9 +24,10 @@
         </div>
      </div>
      
+     
   </div>
 </div>
 
-</canvas>
+<a href="https://github.com/MichaelGombos/browser-driving-demo">REPO</a>
 <script src="main.js"></script>
 </body>

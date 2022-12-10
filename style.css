@@ -1,7 +1,10 @@
 :root {
   --pixel-size: 2px;
   --grid-cell: calc( var(--pixel-size) * 16);
-  --bg: #1c5c0d;
+  --rows: 40;
+  --columns: 40;
+  --bg: #242424;
+  color:white;
 }
 @media( min-width: 700px ) {
   :root {
@@ -13,41 +16,62 @@
      --pixel-size: 4px;
   }
 }
-/* @media( min-width: 1000px ) {
-  :root {
-     --pixel-size: 5px;
-  }
-} */
+
 
 html, body {
   height: 100%;
+  font-size:18px;
+  font-weight: lighter;
+  font-family: 'Open Sans', sans-serif;
 }
 
 body {
   background: var(--bg);
   display: flex;
+  flex-direction:column;
+  gap:80px;
   align-items: center;
   justify-content: center;
 }
+a{
+  color:white;
+  text-decoration: none;
+}
 
+ul{
+  padding:unset;
+}
+li{
+  list-style: none;
+}
+.stats{
+  display: flex;
+  flex-direction:column;
+  gap:5px;
+}
+.stats li{
+  display:flex;
+  justify-content: space-between;
+  gap:50px;
+}
 .pixel-art {
   image-rendering: pixelated;
 }
 
 .frame {
   /* This is just for Pen decoration */
-  width: calc(var(--pixel-size) * 160);
+  /* width: calc(var(--pixel-size) * 160);
   height: calc(var(--pixel-size) * 144);
   outline: var(--pixel-size) solid #fff;
   z-index:1; 
-  position:relative;
+  position:relative; */
 }
 
 .camera {
   width: calc(var(--pixel-size) * 160);
   height: calc(var(--pixel-size) * 144);
   overflow: hidden;
-  background: #76f057;
+  background: #818181;
   position:relative;
 }
 
@@ -55,8 +79,8 @@ body {
   image-rendering: pixelated;
   background-image: url("https://fxfactory.com/downloads/docs/noiseindustries/fxfactorypro/Thumbnails/Checkerboard.jpg");
   background-size: 100%;
-  width: calc(13 * var(--grid-cell));
-  height: calc(10 * var(--grid-cell));
+  width: calc(var(--rows) * var(--grid-cell)); 
+  height: calc(var(--columns) * var(--grid-cell));
   position: relative;
 }
 
@@ -79,108 +103,3 @@ body {
   height:100%;
 }
 
-/* .character[facing="right"] .character_spritesheet {
-  background-position-y: calc( var(--pixel-size) * -32 );
-}
-.character[facing="up"] .character_spritesheet {
-  background-position-y: calc( var(--pixel-size) * -64 );
-}
-.character[facing="left"] .character_spritesheet {
-  background-position-y: calc( var(--pixel-size) * -96 );
-}
-.character[walking="true"] .character_spritesheet {
-  animation: walkAnimation 0.6s steps(4) infinite; 
-} */ 
-
-@keyframes walkAnimation {
- from {
-   transform: translate3d(0%,0%,0);
- }
- to {
-   transform: translate3d(-100%,0%,0);
- }
-}
-
-/* .dpad {
-  position:absolute;
-  right: calc(var(--pixel-size) * 2);
-  bottom: calc(var(--pixel-size) * 2);
-  width: calc(var(--pixel-size) * 37);
-  height: calc(var(--pixel-size) * 38);
-}
-.dpad-button {
-  appearance:none;
-  outline:0;
-  border:0;
-  background:transparent;
-  padding:0;
-  cursor:pointer;
-}
-.dpad-button svg {
-  display:block;
-  height: calc(var(--pixel-size) * 13);
-}
-
-.dpad-button.pressed .Arrow_arrow-inset { stroke:#07c2cc; }
-.dpad-button.pressed .Arrow_arrow-body { stroke:#17dfea; }
-
-.dpad-up {
-  position: absolute;
-  left: calc(var(--pixel-size) * 12);
-  top:0;
-}
-.dpad-down {
-  position: absolute;
-  bottom:var(--pixel-size);
-  left: calc(var(--pixel-size) * 12);
-}
-.dpad-left {
-  position: absolute;
-  top: calc(var(--pixel-size) * 12);
-  left:0;
-}
-.dpad-right {
-  position: absolute;
-  top: calc(var(--pixel-size) * 12);
-  right:0;
-}
-
-.dpad {
-  user-select:none;
-}
-
-
-.corner_topleft,
-.corner_topright,
-.corner_bottomleft,
-.corner_bottomright {
-  position: absolute;
-  width: var(--pixel-size);
-  height: var(--pixel-size);
-  background: var(--bg);
-  z-index:2;
-}
-
-.corner_topleft {
-  top: calc(var(--pixel-size) * -1);
-  left: calc(var(--pixel-size) * -1);
-}
-.corner_topright {
-  top: calc(var(--pixel-size) * -1);
-  right: calc(var(--pixel-size) * -1);
-}
-.corner_bottomleft {
-  bottom: calc(var(--pixel-size) * -1);
-  left: calc(var(--pixel-size) * -1);
-}
-.corner_bottomright {
-  bottom: calc(var(--pixel-size) * -1);
-  right: calc(var(--pixel-size) * -1);
-}
-
-.headline {
-  position:absolute;
-  top:calc(var(--pixel-size) * 2);
-  right:calc(var(--pixel-size) * 2);
-  width: calc(var(--pixel-size) * 75)
-} */

@@ -1,6 +1,18 @@
-var character = document.querySelector(".character");
-var characterSprite = document.querySelector(".character_spritesheet")
-var map = document.querySelector(".map");
+const character = document.querySelector(".character");
+const characterSprite = document.querySelector(".character_spritesheet")
+const map = document.querySelector(".map");
+const stats = {
+   x : document.querySelector("#x"),
+   y : document.querySelector("#y"),
+   speed : document.querySelector("#speed"),
+   angle : document.querySelector("#angle")
+}
+const rows = parseInt(
+   getComputedStyle(document.documentElement).getPropertyValue('--rows')
+);
+const columns = parseInt(
+   getComputedStyle(document.documentElement).getPropertyValue('--columns')
+);
 
 //start in the middle of the map
 let x = 90;
@@ -14,10 +26,12 @@ const held_directions = []; //State of which arrow keys we are holding down
 
 const placeCharacter = () => {
    
-   var pixelSize = parseInt(
+   let pixelSize = parseInt(
       getComputedStyle(document.documentElement).getPropertyValue('--pixel-size')
    );
-   
+
+   const gridCellSize = pixelSize * 16;
+   const carSize = 32;
    // check if a direction is being held
    if (held_directions.length > 0) {
       //increase velocity and/or change direction 
@@ -29,22 +43,30 @@ const placeCharacter = () => {
       //rotate  
       characterSprite.style.transform = `rotate(${angle}deg)`;
 
-      console.log("speed",speed,"acceleration",acceleration, "angle",angle, "speed",speed)
+      // console.log("speed",speed,"acceleration",acceleration, "angle",angle, "speed",speed)
    }
    
    if(speed != 0){
       //make sure we are actually moving.
-
+      console.log("X",x,"Y",y);
       x = x + (speed * Math.cos(angle * Math.PI/180));
       y = y + (speed * Math.sin(angle * Math.PI/180));
-      // console.log("newX",x,"newY",y);
+      
    }
+   //update stats
+   stats.x.innerHTML = x.toFixed(2);
+   stats.y.innerHTML = y.toFixed(2);
+   stats.speed.innerHTML = speed.toFixed(2);
+   stats.angle.innerHTML = angle.toFixed(2);
 
    //Limits (gives the illusion of walls)
-   var leftLimit = -8;
-   var rightLimit = (16 * 11)+8;
-   var topLimit = -8 + 32;
-   var bottomLimit = (16 * 7);
+   //set the right and bottom limit to the image size in the dom
+
+   var leftLimit = 0;
+   var rightLimit = (columns * 16) -carSize; 
+   var topLimit = 0;
+   var bottomLimit = (rows * 16) -carSize;
+   console.log(bottomLimit);
    if (x < leftLimit) { x = leftLimit; }
    if (x > rightLimit) { x = rightLimit; }
    if (y < topLimit) { y = topLimit; }
