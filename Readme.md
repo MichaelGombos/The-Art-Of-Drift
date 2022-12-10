@@ -1,7 +1,9 @@
-# Movement Demo
+# Browser Driving Demo
+Demonstration of car driving using javascript.
 
-This project was built to assist me in learning camera, and collisions with javascript.
+This is controlled using the arrow keys.
+## Car Graphic designed by sheikh_tuhin
+https://opengameart.org/content/red-car-top-down
 
-Red Car designed by sheikh_tuhin
-https://opengameart.org/content/red-car-top-down # browser-driving-demo
-# browser-driving-demo
+## View this project below:
+https://michaelgombos.github.io/browser-driving-demo/

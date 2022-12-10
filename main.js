@@ -3,32 +3,33 @@ var characterSprite = document.querySelector(".character_spritesheet")
 var map = document.querySelector(".map");
 
 //start in the middle of the map
-var x = 90;
-var y = 34;
-var held_directions = []; //State of which arrow keys we are holding down
-var speed = 0; //How fast the character moves in pixels per frame
-let acceleration = .02;
+let x = 90;
+let y = 34;
+let speed = 0; //How fast the character moves in pixels per frame
 let angle = 90;
+
+const acceleration = .05;
+const friction = .3;
+const held_directions = []; //State of which arrow keys we are holding down
+
 const placeCharacter = () => {
    
    var pixelSize = parseInt(
       getComputedStyle(document.documentElement).getPropertyValue('--pixel-size')
    );
    
-   const held_direction = held_directions[0];
-   if (held_direction) {
-      //increase velocity, and change direction
-      if (held_direction === directions.right) {angle += 2;}
-      if (held_direction === directions.left) {angle -= 2;}
-      if (held_direction === directions.down) {speed -= acceleration;}
-      if (held_direction === directions.up) {speed += acceleration;}
-      // character.setAttribute("facing", held_direction);
+   // check if a direction is being held
+   if (held_directions.length > 0) {
+      //increase velocity and/or change direction 
+      if (held_directions.includes(directions.right)) {angle += 3;}
+      if (held_directions.includes(directions.left)) {angle -= 3;}
+      if (held_directions.includes(directions.down)) {speed -= acceleration;}
+      if (held_directions.includes(directions.up)) {speed += acceleration;}
 
-      //rotate character 
+      //rotate  
       characterSprite.style.transform = `rotate(${angle}deg)`;
 
       console.log("speed",speed,"acceleration",acceleration, "angle",angle, "speed",speed)
-
    }
    
    if(speed != 0){
@@ -36,13 +37,9 @@ const placeCharacter = () => {
 
       x = x + (speed * Math.cos(angle * Math.PI/180));
       y = y + (speed * Math.sin(angle * Math.PI/180));
-
-      console.log("newX",x,"newY",y);
+      // console.log("newX",x,"newY",y);
    }
 
-
-   character.setAttribute("walking", held_direction ? "true" : "false");
-   
    //Limits (gives the illusion of walls)
    var leftLimit = -8;
    var rightLimit = (16 * 11)+8;
@@ -52,7 +49,6 @@ const placeCharacter = () => {
    if (x > rightLimit) { x = rightLimit; }
    if (y < topLimit) { y = topLimit; }
    if (y > bottomLimit) { y = bottomLimit; }
-   
    
    var camera_left = pixelSize * 66;
    var camera_top = pixelSize * 42;
@@ -91,6 +87,7 @@ document.addEventListener("keydown", (e) => {
    if (dir && held_directions.indexOf(dir) === -1) {
       held_directions.unshift(dir)
    }
+   console.log(held_directions);
 })
 
 document.addEventListener("keyup", (e) => {
@@ -99,7 +96,5 @@ document.addEventListener("keyup", (e) => {
    if (index > -1) {
       held_directions.splice(index, 1)
    }
+   console.log(held_directions);
 });
-
-
-
