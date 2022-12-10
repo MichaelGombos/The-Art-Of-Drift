@@ -5,7 +5,10 @@ const stats = {
    x : document.querySelector("#x"),
    y : document.querySelector("#y"),
    speed : document.querySelector("#speed"),
-   angle : document.querySelector("#angle")
+   angle : {
+      moving:document.querySelector("#moving"),
+      facing:document.querySelector("#facing")
+   }
 }
 const rows = parseInt(
    getComputedStyle(document.documentElement).getPropertyValue('--rows')
@@ -22,10 +25,14 @@ const friction = .05;
 let x = ((columns * 16) - carSize)/2;
 let y = ((rows * 16) - carSize)/2;;
 let speed = 0; 
-let angle = 90;
+let angle = {
+   moving: 90,
+   facing: 90,
+}
+
+let tireGrip = 3;
 let turningSpeed = 5;
-
-
+let driftForce = 0;
 
 const held_directions = []; //State of which arrow keys we are holding down
 
@@ -41,23 +48,69 @@ const placeCharacter = () => {
    if (held_directions.length > 0) {
       //turn
       if(speed != 0){
-         if (held_directions.includes(directions.right)) {angle += turningSpeed;}
-         if (held_directions.includes(directions.left)) {angle -= turningSpeed;}
-
-         characterSprite.style.transform = `rotate(${angle}deg)`;
+         if (held_directions.includes(directions.right)) {
+            if(driftForce < 3){
+               driftForce += .1;
+            }
+            
+            angle.facing += turningSpeed;
+            angle.moving += turningSpeed - driftForce;
+            if(angle.facing > 360){
+               angle.facing = angle.facing - 360;
+            }
+            if(angle.moving > 360){
+               angle.moving = angle.moving - 360;
+            }
+         }
+         if (held_directions.includes(directions.left)) {
+            if(driftForce > -3){
+               driftForce -= .1;
+            }
+            angle.facing -= turningSpeed;
+            angle.moving -= turningSpeed + driftForce;
+            if(angle.facing < 0){
+               angle.facing = angle.facing + 360;
+            }
+            if(angle.moving < 0){
+               angle.moving = angle.moving + 360;
+            }
+         }
+         characterSprite.style.transform = `rotate(${angle.facing}deg)`;
       }
 
       if (held_directions.includes(directions.down)) {speed -= acceleration*1.2;}
       if (held_directions.includes(directions.up)) {speed += acceleration;}
-      
+
       // console.log("speed",speed,"acceleration",acceleration, "angle",angle, "speed",speed)
+   }
+   console.log(driftForce)
+   if(driftForce <= .05 && driftForce >= -.05){
+      driftForce = 0;
+   }
+   if(driftForce > .5){
+      driftForce -= .05;
+   }
+   if(driftForce < -.5){
+      driftForce += .05;
+   }
+   // if(angle.facing - angle.moving <= tireGrip){
+   //    angle.facing = angle.moving;
+   // }
+   if(Math.abs(angle.moving - angle.facing) < tireGrip ){
+      angle.moving = angle.facing;
+   }
+   if(angle.moving > angle.facing){
+      angle.moving -= tireGrip;
+   }
+   if(angle.moving < angle.facing){
+      angle.moving += tireGrip;
    }
    
    if(speed != 0){
       //make sure we are actually moving.
       // console.log("X",x,"Y",y);
-      x = x + (speed * Math.cos(angle * Math.PI/180));
-      y = y + (speed * Math.sin(angle * Math.PI/180));
+      x = x + (speed * Math.cos(angle.moving * Math.PI/180));
+      y = y + (speed * Math.sin(angle.moving * Math.PI/180));
       
       if(Math.abs(speed) < 0.05){
          speed = 0;
@@ -71,34 +124,35 @@ const placeCharacter = () => {
 
    }
 
-   switch(true) {
-      case (Math.abs(speed) > 0 && Math.abs(speed)< .5):
-         turningSpeed = 1
-         break;
-      case (Math.abs(speed) > .5 && Math.abs(speed)< 1):
-         turningSpeed = 2
-         break;
-      case (Math.abs(speed) > 1 && Math.abs(speed)< 4):
-         turningSpeed = 4
-         break;
-      case (Math.abs(speed) > 4 && Math.abs(speed)< 5):
-         turningSpeed = 3
-         break;
-      case (Math.abs(speed) > 5 && Math.abs(speed)< 7):
-         turningSpeed = 2.5
-         break;
-      case (Math.abs(speed) > 7):
-         turningSpeed = 2
-         break;
-      default:
-         break;   
-   }
+   // switch(true) { TODO drift rate.
+   //    case (Math.abs(speed) > 0 && Math.abs(speed)< .5):
+   //       turningSpeed = 5
+   //       break;
+   //    case (Math.abs(speed) > .5 && Math.abs(speed)< 1):
+   //       turningSpeed = 4.5
+   //       break;
+   //    case (Math.abs(speed) > 1 && Math.abs(speed)< 4):
+   //       turningSpeed = 4
+   //       break;
+   //    case (Math.abs(speed) > 4 && Math.abs(speed)< 5):
+   //       turningSpeed = 3.5
+   //       break;
+   //    case (Math.abs(speed) > 5 && Math.abs(speed)< 7):
+   //       turningSpeed = 3
+   //       break;
+   //    case (Math.abs(speed) > 7):
+   //       turningSpeed = 2.5
+   //       break;
+   //    default:
+   //       break;   
+   // }
 
    //update stats
    stats.x.innerHTML = x.toFixed(2);
    stats.y.innerHTML = y.toFixed(2);
    stats.speed.innerHTML = speed.toFixed(2);
-   stats.angle.innerHTML = angle.toFixed(2);
+   stats.angle.facing.innerHTML = angle.facing.toFixed(2);
+   stats.angle.moving.innerHTML = angle.moving.toFixed(2);
 
    //Limits (gives the illusion of walls)
    //set the right and bottom limit to the image size in the dom
