@@ -1,8 +1,8 @@
 :root {
   --pixel-size: 2px;
   --grid-cell: calc( var(--pixel-size) * 16);
-  --rows: 40;
-  --columns: 40;
+  --rows: 100;
+  --columns: 100;
   --bg: #242424;
   color:white;
 }
@@ -21,7 +21,7 @@
 html, body {
   height: 100%;
   font-size:18px;
-  font-weight: lighter;
+  font-weight: bold;
   font-family: 'Open Sans', sans-serif;
 }
 
@@ -48,6 +48,9 @@ li{
   display: flex;
   flex-direction:column;
   gap:5px;
+}
+.stats span{
+  font-weight: lighter;
 }
 .stats li{
   display:flex;
@@ -94,6 +97,7 @@ li{
 
 
  .character_spritesheet {
+   z-index: 2;
   transform: rotate(90deg);
   position: relative;
   background: url("./assets/car.svg") no-repeat no-repeat;
@@ -103,3 +107,10 @@ li{
   height:100%;
 }
 
+.particle{
+  z-index: 0;
+  position:absolute;
+  height:32px;
+  width:32px;
+  background-color:rgb(154, 154, 154);
+}
