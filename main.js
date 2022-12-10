@@ -14,15 +14,19 @@ const columns = parseInt(
    getComputedStyle(document.documentElement).getPropertyValue('--columns')
 );
 
-//start in the middle of the map
-let x = 90;
-let y = 34;
-let speed = 0; //How fast the character moves in pixels per frame
-let angle = 90;
-
+const carSize = 32;
 const acceleration = .1;
 const friction = .05;
-let tireHandling = 5;
+
+//start in the middle of the map
+let x = ((columns * 16) - carSize)/2;
+let y = ((rows * 16) - carSize)/2;;
+let speed = 0; 
+let angle = 90;
+let turningSpeed = 5;
+
+
+
 const held_directions = []; //State of which arrow keys we are holding down
 
 const placeCharacter = () => {
@@ -32,18 +36,20 @@ const placeCharacter = () => {
    );
 
    const gridCellSize = pixelSize * 16;
-   const carSize = 32;
+
    // check if a direction is being held
    if (held_directions.length > 0) {
-      //increase velocity and/or change direction 
-      if (held_directions.includes(directions.right)) {angle += tireHandling;}
-      if (held_directions.includes(directions.left)) {angle -= tireHandling;}
-      if (held_directions.includes(directions.down)) {speed -= acceleration;}
+      //turn
+      if(speed != 0){
+         if (held_directions.includes(directions.right)) {angle += turningSpeed;}
+         if (held_directions.includes(directions.left)) {angle -= turningSpeed;}
+
+         characterSprite.style.transform = `rotate(${angle}deg)`;
+      }
+
+      if (held_directions.includes(directions.down)) {speed -= acceleration*1.2;}
       if (held_directions.includes(directions.up)) {speed += acceleration;}
-
-      //rotate  
-      characterSprite.style.transform = `rotate(${angle}deg)`;
-
+      
       // console.log("speed",speed,"acceleration",acceleration, "angle",angle, "speed",speed)
    }
    
@@ -66,18 +72,24 @@ const placeCharacter = () => {
    }
 
    switch(true) {
-      case (Math.abs(speed) > 0 && Math.abs(speed)< 3):
-         tireHandling = 4
+      case (Math.abs(speed) > 0 && Math.abs(speed)< .5):
+         turningSpeed = 1
          break;
-      case (Math.abs(speed) > 3 && Math.abs(speed)< 5):
-         tireHandling = 3
+      case (Math.abs(speed) > .5 && Math.abs(speed)< 1):
+         turningSpeed = 2
+         break;
+      case (Math.abs(speed) > 1 && Math.abs(speed)< 4):
+         turningSpeed = 4
+         break;
+      case (Math.abs(speed) > 4 && Math.abs(speed)< 5):
+         turningSpeed = 3
          break;
       case (Math.abs(speed) > 5 && Math.abs(speed)< 7):
-         tireHandling = 2.5
+         turningSpeed = 2.5
          break;
       case (Math.abs(speed) > 7):
-            tireHandling = 2
-            break;
+         turningSpeed = 2
+         break;
       default:
          break;   
    }
@@ -116,7 +128,7 @@ const step = () => {
       step();
    })
 }
-step(); //kick off the first step!
+step();
 
 
 
