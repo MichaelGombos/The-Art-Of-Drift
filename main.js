@@ -8,7 +8,8 @@ const stats = {
    angle : {
       moving:document.querySelector("#moving"),
       facing:document.querySelector("#facing")
-   }
+   },
+   driftForce : document.querySelector("#drift-force"),
 }
 const rows = parseInt(
    getComputedStyle(document.documentElement).getPropertyValue('--rows')
@@ -33,9 +34,24 @@ let angle = {
 let tireGrip = 3;
 let turningSpeed = 5;
 let driftForce = 0;
-
+let particles = [];
 const held_directions = []; //State of which arrow keys we are holding down
 
+const createDriftParticle = (x,y) => {
+      let particle = {
+         x : x,
+         y : y,
+         size : 32,
+         element : document.createElement("div"),
+      }
+      particle.element.classList.add("particle")
+      particles.push(particle);
+      map.appendChild(particle.element)
+}
+
+const placeParticles = (particles) => {
+
+}
 const placeCharacter = () => {
    
    let pixelSize = parseInt(
@@ -49,7 +65,7 @@ const placeCharacter = () => {
       //turn
       if(speed != 0){
          if (held_directions.includes(directions.right)) {
-            if(driftForce < 3){
+            if(driftForce < 6){
                driftForce += .1;
             }
             
@@ -62,8 +78,8 @@ const placeCharacter = () => {
                angle.moving = angle.moving - 360;
             }
          }
-         if (held_directions.includes(directions.left)) {
-            if(driftForce > -3){
+         else if (held_directions.includes(directions.left)) {
+            if(driftForce > -6){
                driftForce -= .1;
             }
             angle.facing -= turningSpeed;
@@ -87,11 +103,19 @@ const placeCharacter = () => {
    if(driftForce <= .05 && driftForce >= -.05){
       driftForce = 0;
    }
-   if(driftForce > .5){
+   else if(driftForce > .05){
+
       driftForce -= .05;
    }
-   if(driftForce < -.5){
+   else if(driftForce < -.05){
       driftForce += .05;
+   }
+   if(driftForce > 2 || driftForce < -2){
+      //the x and y needs to be minus speed direction just like how we predict our next position. but in reverse
+
+      const particleX = x - (speed * Math.cos(angle.moving * Math.PI/180));
+      const particleY = y - (speed * Math.sin(angle.moving * Math.PI/180));
+      createDriftParticle(particleX,particleY);
    }
    // if(angle.facing - angle.moving <= tireGrip){
    //    angle.facing = angle.moving;
@@ -153,6 +177,7 @@ const placeCharacter = () => {
    stats.speed.innerHTML = speed.toFixed(2);
    stats.angle.facing.innerHTML = angle.facing.toFixed(2);
    stats.angle.moving.innerHTML = angle.moving.toFixed(2);
+   stats.driftForce.innerHTML = driftForce.toFixed(2);
 
    //Limits (gives the illusion of walls)
    //set the right and bottom limit to the image size in the dom
@@ -171,7 +196,15 @@ const placeCharacter = () => {
    const camera_top = pixelSize * 42;
    
    map.style.transform = `translate3d( ${-x*pixelSize+camera_left}px, ${-y*pixelSize+camera_top}px, 0 )`;
-   character.style.transform = `translate3d( ${x*pixelSize}px, ${y*pixelSize}px, 0 )`;  
+
+   //place particles
+   for(particle of particles){
+      particle.element.style.transform = `translate3d( ${particle.x*pixelSize}px, ${particle.y*pixelSize}px, 0 `; 
+   }
+
+   character.style.transform = `translate3d( ${x*pixelSize}px, ${y*pixelSize}px, 0 )`; 
+   
+
 }
 
 
