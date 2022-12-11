@@ -1,7 +1,7 @@
 :root {
   --pixel-size: 2px;
-  --cell-muliplier: 32;
-  --grid-cell: calc( var(--pixel-size) * var(--cell-muliplier));
+  --tile-pixel-count: 32;
+  --grid-cell: calc( var(--pixel-size) * var(--tile-pixel-count));
   --rows: 20;
   --columns: 20;
   --bg: #242424;
@@ -99,7 +99,7 @@ li{
 
  .character_spritesheet {
    z-index: 2;
-  transform: rotate(90deg);
+  transform: rotate(0deg);
   position: relative;
   background: url("./assets/car.svg") no-repeat no-repeat;
   background-position:center;

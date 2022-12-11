@@ -60,21 +60,26 @@ const rows = parseInt(
 const columns = parseInt(
    getComputedStyle(document.documentElement).getPropertyValue('--columns')
 );
-const cellMultiplier = parseInt(
-   getComputedStyle(document.documentElement).getPropertyValue('--cell-muliplier')
+const tilePixelCount = parseInt(
+   getComputedStyle(document.documentElement).getPropertyValue('--tile-pixel-count')
 );
+let pixelSize = parseInt(
+   getComputedStyle(document.documentElement).getPropertyValue('--pixel-size')
+);
+   
+let  gridCellSize = pixelSize * tilePixelCount;
 
 const carSize = 32;
 const acceleration = .1;
 const friction = .05;
 
 //start in the middle of the map
-let x = ((columns * cellMultiplier) - carSize)/2;
-let y = ((rows * cellMultiplier) - carSize)/2;;
+let x = ((columns * tilePixelCount) - carSize)/2;
+let y = ((rows * tilePixelCount) - carSize)/2;;
 let speed = 0; 
 let angle = {
-   moving: 90,
-   facing: 90,
+   moving: 0,
+   facing: 0,
 }
 
 let tireGrip = 3;
@@ -105,7 +110,7 @@ const createDriftParticle = (x,y,driftForce) => {
       map.appendChild(particle.element)
 }
 
-const placeParticles = (particles) => {
+const colliding = (x,y,speed,movingAngle) => {
 
 }
 const placeCharacter = () => {
@@ -119,11 +124,11 @@ const placeCharacter = () => {
    stats.driftForce.innerHTML = driftForce.toFixed(2);
    stats.particleCount.innerHTML = particles.length;
 
-   let pixelSize = parseInt(
+   pixelSize = parseInt(
       getComputedStyle(document.documentElement).getPropertyValue('--pixel-size')
    );
-
-   const gridCellSize = pixelSize * cellMultiplier;
+      
+   gridCellSize = pixelSize * tilePixelCount;
 
    // check if a direction is being held
    if (held_directions.length > 0) {
@@ -161,7 +166,10 @@ const placeCharacter = () => {
 
       if (held_directions.includes(directions.down)) {speed -= acceleration*1.2;}
       if (held_directions.includes(directions.up)) {speed += acceleration;}
+      //pixelPos position
 
+      // console.log("tilePos",x/tilePixelCount,y/tilePixelCount)
+      
       // console.log("speed",speed,"acceleration",acceleration, "angle",angle, "speed",speed)
    }
    if(driftForce <= .05 && driftForce >= -.05){
@@ -195,11 +203,26 @@ const placeCharacter = () => {
    }
    
    if(speed != 0){
-      //make sure we are actually moving.
-      // console.log("X",x,"Y",y);
-      x = x + (speed * Math.cos(angle.moving * Math.PI/180));
-      y = y + (speed * Math.sin(angle.moving * Math.PI/180));
+
+      let newX = x + (speed * Math.cos(angle.moving * Math.PI/180));
+      let newY = y + (speed * Math.sin(angle.moving * Math.PI/180));
       
+
+      if(Math.ceil(y/tilePixelCount)-1 > 0 && Math.ceil(y/tilePixelCount)-1 < rows && Math.ceil(x/tilePixelCount)-1 > 0 && Math.ceil(x/tilePixelCount)-1 < rows){
+         console.log(mapData[Math.ceil(x/tilePixelCount)-1][Math.ceil(y/tilePixelCount)-1]);
+
+         if(mapData[Math.ceil(newX/tilePixelCount)][Math.ceil(y/tilePixelCount)-1] == 0){
+            newX = x - (speed * Math.cos(angle.moving * Math.PI/180));
+         }
+
+         if(mapData[Math.ceil(x/tilePixelCount)][Math.ceil(newY/tilePixelCount)-1] == 0){
+            newY = y - (speed * Math.sin(angle.moving * Math.PI/180));
+         }
+      }
+
+      x = newX;
+      y = newY;
+
       if(Math.abs(speed) < 0.05){
          speed = 0;
       }
@@ -241,9 +264,9 @@ const placeCharacter = () => {
    //set the right and bottom limit to the image size in the dom
 
    const leftLimit = 0;
-   const rightLimit = (columns * cellMultiplier) -carSize; 
+   const rightLimit = (columns * tilePixelCount) -carSize; 
    const topLimit = 0;
-   const bottomLimit = (rows * cellMultiplier) -carSize;
+   const bottomLimit = (rows * tilePixelCount) -carSize;
    // console.log(bottomLimit);
    if (x < leftLimit) { x = leftLimit; }
    if (x > rightLimit) { x = rightLimit; }
