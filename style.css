@@ -73,13 +73,21 @@ li{
 
 .map {
   image-rendering: pixelated;
-  background-image: url("https://fxfactory.com/downloads/docs/noiseindustries/fxfactorypro/Thumbnails/Checkerboard.jpg");
+  /* background-image: url("https://fxfactory.com/downloads/docs/noiseindustries/fxfactorypro/Thumbnails/Checkerboard.jpg"); */
   background-size: 100%;
   width: calc(var(--rows) * var(--grid-cell)); 
   height: calc(var(--columns) * var(--grid-cell));
   position: relative;
 }
 
+.map-grid{
+  width: calc(var(--rows) * var(--grid-cell)); 
+  height: calc(var(--columns) * var(--grid-cell));
+  display:flex;
+  position: absolute;
+  background-image: url("https://images.unsplash.com/photo-1670607615489-ccb0b75fa748?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80");
+  opacity: 1;
+}
 .character {
   width: calc( var(--grid-cell) );
   height: calc( var(--grid-cell) );
@@ -110,7 +118,23 @@ li{
 
 .particle.skid-mark{
   background-color:rgb(33, 33, 33);
+  max-height:20px;
+  max-width:20px;
 }
 .particle.cloud{
-  background-color:rgba(197, 197, 197, 0.499);
+  background-color:rgba(255, 255, 255, 0.409);
+}
+
+.cell{
+  width:var(--grid-cell);
+  height:var(--grid-cell);
+  background-color:white;
+}
+
+.road{
+  background-color:red;
+}
+
+.wall{
+  background-color:orange;
 }

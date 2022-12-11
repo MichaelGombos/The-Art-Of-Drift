@@ -1,6 +1,5 @@
 const character = document.querySelector(".character");
 const characterSprite = document.querySelector(".character_spritesheet")
-const map = document.querySelector(".map");
 const stats = {
    x : document.querySelector("#x"),
    y : document.querySelector("#y"),
@@ -11,6 +10,49 @@ const stats = {
    },
    driftForce : document.querySelector("#drift-force"),
    particleCount : document.querySelector("#particle-count")
+}
+const map = document.querySelector(".map");
+const mapGrid = document.querySelector(".map-grid")
+//20 * 20
+const mapData = 
+[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+[0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],]
+
+for(let row of mapData){
+   let mapRow = document.createElement("div")
+   mapRow.classList.add("row");
+   for(let cellData of row){
+      let mapCell = document.createElement("div");
+      mapCell.classList.add("cell");
+      if(cellData == 0){
+         mapCell.classList.add("road");
+      }
+      if(cellData == 1){
+         mapCell.classList.add("wall");
+      }
+      //put cell into row
+      mapRow.appendChild(mapCell);
+   }
+   //put the row into the dom
+   mapGrid.appendChild(mapRow);
 }
 const rows = parseInt(
    getComputedStyle(document.documentElement).getPropertyValue('--rows')
