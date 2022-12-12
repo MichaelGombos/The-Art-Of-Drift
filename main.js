@@ -9,32 +9,56 @@ const stats = {
       facing:document.querySelector("#facing")
    },
    driftForce : document.querySelector("#drift-force"),
+   underSteering : document.querySelector("#under-steer"),
    particleCount : document.querySelector("#particle-count")
 }
 const map = document.querySelector(".map");
 const mapGrid = document.querySelector(".map-grid")
-//20 * 20
-const mapData = 
-[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
-[0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
-[0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
-[0,0,0,1,1,1,1,0,0,0,0,0,1,1,1,1,0,0,0,0],
-[0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0],
-[0,0,1,1,1,1,0,0,0,0,0,1,1,1,1,0,0,0,0,0],
-[0,1,1,1,1,1,0,0,0,0,1,1,1,1,1,0,0,0,0,0],
-[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1],
-[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1],
-[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1],
-[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],]
+//test map
+// const mapData = 
+// [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+// [0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+// [0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
+// [0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
+// [0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,1,0,0,0,0],
+// [0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0],
+// [0,0,1,1,1,1,0,0,0,0,0,1,1,1,1,0,0,0,0,0],
+// [0,1,1,1,1,1,0,0,0,0,1,1,1,1,1,0,0,0,0,0],
+// [1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,0,1,1],
+// [1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,0,1,1],
+// [1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,0,1,1],
+// [1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1],
+// [0,0,1,1,1,1,0,0,0,0,0,1,1,1,1,1,0,0,0,0],
+// [0,0,1,1,1,1,0,0,0,0,0,1,1,1,1,1,0,0,0,0],
+// [0,0,1,1,1,1,0,0,0,0,0,1,1,1,1,1,0,0,0,0],
+// [0,0,1,1,1,1,1,0,0,0,1,1,1,1,1,1,0,0,0,0],
+// [0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
+// [0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
+// [0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+// [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],]
+
+const mapData = [
+   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+   [1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1],
+   [1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1],
+   [1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1],
+   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+   [1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1],
+   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+]
 
 for(let row of mapData){
    let mapRow = document.createElement("div")
@@ -70,7 +94,7 @@ let pixelSize = parseInt(
 let  gridCellSize = pixelSize * tilePixelCount;
 
 const carSize = 32;
-const acceleration = .1;
+const acceleration = .075;
 const friction = .05;
 
 //start in the middle of the map
@@ -85,6 +109,7 @@ let angle = {
 let tireGrip = 3;
 let turningSpeed = 5;
 let driftForce = 0;
+let underSteering = 1;
 let particles = [];
 const held_directions = []; //State of which arrow keys we are holding down
 
@@ -92,7 +117,7 @@ const createDriftParticle = (x,y,driftForce) => {
       let particle = {
          x : x,
          y : y,
-         size : Math.abs(driftForce)*20,
+         size : driftForce*10,
          element : document.createElement("div"),
       }
       particle.element.classList.add("particle");
@@ -100,10 +125,10 @@ const createDriftParticle = (x,y,driftForce) => {
       particle.element.style.height = particle.size;
 
       // skidMark vs cloud
-      if(driftForce > -2.5 && driftForce < 2.5){
+      if(driftForce < 2.5){
          particle.element.classList.add("skid-mark");
       }
-      else if(driftForce <= -2.5 || driftForce >= 2.5){
+      else if(driftForce >= 2.5){
          particle.element.classList.add("cloud");
       }
       particles.push(particle);
@@ -113,11 +138,11 @@ const createDriftParticle = (x,y,driftForce) => {
 const turn = (direction) => {
 
    if(direction === "right"){
-      if(driftForce < 6){
-         driftForce += .1;
+      if(driftForce < 5){
+         driftForce += .075;
       }
       
-      angle.facing += turningSpeed;
+      angle.facing += turningSpeed *underSteering;
       angle.moving += turningSpeed - driftForce;
       if(angle.facing > 360){
          angle.facing = angle.facing - 360;
@@ -127,11 +152,11 @@ const turn = (direction) => {
       }
    }
    else if(direction === "left"){
-      if(driftForce > -6){
-         driftForce -= .1;
+      if(driftForce < 5){
+         driftForce += .075;
       }
-      angle.facing -= turningSpeed;
-      angle.moving -= turningSpeed + driftForce;
+      angle.facing -= turningSpeed *underSteering;
+      angle.moving -= turningSpeed - driftForce;
       if(angle.facing < 0){
          angle.facing = angle.facing + 360;
       }
@@ -142,14 +167,11 @@ const turn = (direction) => {
 }
 
 const stabalizeDriftForce = (driftForce)=> {
-   if(driftForce <= .05 && driftForce >= -.05){
+   if(driftForce <= .05){
       return driftForce;
    }
    else if(driftForce > .05){
       return driftForce -= .05;
-   }
-   else if(driftForce < -.05){
-      return driftForce += .05;
    }
 }
 
@@ -165,13 +187,34 @@ const angleCorrect = (movingAngle,facingAngle,tireGrip) =>{
    }
 }
 
+const updateUnderSteering = (speed) => {
+   switch(true) { 
+      case (Math.abs(speed) > 0 && Math.abs(speed)< 1.5):
+         return 1
+      case (Math.abs(speed) > 1.5 && Math.abs(speed)< 2.5):
+         return .8
+      case (Math.abs(speed) > 2.5 && Math.abs(speed)< 4):
+         return .75
+      case (Math.abs(speed) > 4 && Math.abs(speed)< 5):
+         return .7
+      case (Math.abs(speed) > 5 && Math.abs(speed)< 7):
+         return .65
+      case (Math.abs(speed) > 7):
+         return .6
+      default:
+         break;   
+   }
+}
+
 const collision = (x,y,speed) => {
    let newX = x + (speed * Math.cos(angle.moving * Math.PI/180));
    let newY = y + (speed * Math.sin(angle.moving * Math.PI/180));
 
    //make sure we are in map bounds
 
-   if(Math.ceil(x/tilePixelCount) >= 0 && Math.ceil(y/tilePixelCount) < rows && Math.ceil(y/tilePixelCount) >= 0 && Math.ceil(x/tilePixelCount) < columns){
+   if(Math.ceil(newX/tilePixelCount) >= 0 && Math.ceil(newY/tilePixelCount) < rows && Math.ceil(newY/tilePixelCount) >= 0 && Math.ceil(newX/tilePixelCount) < columns &&
+   Math.floor(newX/tilePixelCount) >= 0 && Math.floor(newY/tilePixelCount) < rows && Math.floor(newY/tilePixelCount) >= 0 && Math.floor(newX/tilePixelCount) < columns
+   ){
 
       //collision detection
       if(mapData[Math.floor(newY/tilePixelCount)][Math.floor(x/tilePixelCount)] == 0 || mapData[Math.ceil(newY/tilePixelCount)][Math.ceil(x/tilePixelCount)] == 0){
@@ -191,7 +234,7 @@ const collision = (x,y,speed) => {
 }
 
 const displayDriftParticles = (driftForce) => {
-   if(driftForce > 1.5 || driftForce < -1.5){
+   if(driftForce > 1.5){
       const particleX = x - ((2*speed) * Math.cos(angle.moving * Math.PI/180));
       const particleY = y - ((2*speed) * Math.sin(angle.moving * Math.PI/180));
       createDriftParticle(particleX,particleY,driftForce);
@@ -206,6 +249,7 @@ const placeCharacter = () => {
    stats.angle.facing.innerHTML = angle.facing.toFixed(2);
    stats.angle.moving.innerHTML = angle.moving.toFixed(2);
    stats.driftForce.innerHTML = driftForce.toFixed(2);
+   stats.underSteering.innerHTML = (1 - underSteering).toFixed(2);
    stats.particleCount.innerHTML = particles.length;
 
    pixelSize = parseInt(
@@ -223,6 +267,9 @@ const placeCharacter = () => {
          }
          else if (held_directions.includes(directions.left)) {
             turn("left");
+         }
+         else{
+            driftForce = stabalizeDriftForce(driftForce);
          }
          characterSprite.style.transform = `rotate(${angle.facing}deg)`;
       }
@@ -254,29 +301,9 @@ const placeCharacter = () => {
       }
 
    }
+   underSteering = updateUnderSteering(speed);
+   //understeering
 
-   // switch(true) { TODO drift rate.
-   //    case (Math.abs(speed) > 0 && Math.abs(speed)< .5):
-   //       turningSpeed = 5
-   //       break;
-   //    case (Math.abs(speed) > .5 && Math.abs(speed)< 1):
-   //       turningSpeed = 4.5
-   //       break;
-   //    case (Math.abs(speed) > 1 && Math.abs(speed)< 4):
-   //       turningSpeed = 4
-   //       break;
-   //    case (Math.abs(speed) > 4 && Math.abs(speed)< 5):
-   //       turningSpeed = 3.5
-   //       break;
-   //    case (Math.abs(speed) > 5 && Math.abs(speed)< 7):
-   //       turningSpeed = 3
-   //       break;
-   //    case (Math.abs(speed) > 7):
-   //       turningSpeed = 2.5
-   //       break;
-   //    default:
-   //       break;   
-   // }
 
 
 
