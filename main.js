@@ -16,18 +16,18 @@ const mapGrid = document.querySelector(".map-grid")
 //20 * 20
 const mapData = 
 [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
+[0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
+[0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
+[0,0,0,1,1,1,1,0,0,0,0,0,1,1,1,1,0,0,0,0],
+[0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0],
+[0,0,1,1,1,1,0,0,0,0,0,1,1,1,1,0,0,0,0,0],
+[0,1,1,1,1,1,0,0,0,0,1,1,1,1,1,0,0,0,0,0],
+[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1],
+[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1],
+[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1],
 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-[0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -208,21 +208,29 @@ const placeCharacter = () => {
       let newY = y + (speed * Math.sin(angle.moving * Math.PI/180));
       
 
-      if(Math.ceil(y/tilePixelCount)-1 > 0 && Math.ceil(y/tilePixelCount)-1 < rows && Math.ceil(x/tilePixelCount)-1 > 0 && Math.ceil(x/tilePixelCount)-1 < rows){
-         console.log(mapData[Math.ceil(x/tilePixelCount)-1][Math.ceil(y/tilePixelCount)-1]);
+      //make sure we are in map bounds
 
-         if(mapData[Math.ceil(newX/tilePixelCount)][Math.ceil(y/tilePixelCount)-1] == 0){
-            newX = x - (speed * Math.cos(angle.moving * Math.PI/180));
+
+      if(Math.ceil(x/tilePixelCount) >= 0 && Math.ceil(y/tilePixelCount) < rows && Math.ceil(y/tilePixelCount) >= 0 && Math.ceil(x/tilePixelCount) < columns){
+
+         //collision detection
+         if(mapData[Math.floor(newY/tilePixelCount)][Math.floor(x/tilePixelCount)] == 0 || mapData[Math.ceil(newY/tilePixelCount)][Math.ceil(x/tilePixelCount)] == 0){
+            console.log("colliding Y?")
+            newY = y -  (speed * Math.sin(angle.moving * Math.PI/180));
+            speed = 0-speed/2;
          }
 
-         if(mapData[Math.ceil(x/tilePixelCount)][Math.ceil(newY/tilePixelCount)-1] == 0){
-            newY = y - (speed * Math.sin(angle.moving * Math.PI/180));
+         if(mapData[Math.floor(y/tilePixelCount)][Math.floor(newX/tilePixelCount)] == 0 || mapData[Math.ceil(y/tilePixelCount)][Math.ceil(newX/tilePixelCount)] == 0){
+            console.log("colliding X?")
+            newX = x - (speed * Math.cos(angle.moving * Math.PI/180));
+            speed = 0-speed/2;
          }
       }
 
       x = newX;
       y = newY;
 
+      //friction
       if(Math.abs(speed) < 0.05){
          speed = 0;
       }

@@ -93,6 +93,8 @@ li{
   height: calc( var(--grid-cell) );
   position: absolute;
   overflow:hidden;
+  /* testing */
+  border: 1px solid white;
 }
 
 
@@ -137,4 +139,14 @@ li{
 
 .wall{
   background-color:orange;
+}
+
+.map-grid{
+  display:flex;
+  flex-direction:column;
+}
+
+.row{
+  display:flex;
+  flex-direction:row;
 }
