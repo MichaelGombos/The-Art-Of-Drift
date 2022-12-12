@@ -92,7 +92,7 @@ const createDriftParticle = (x,y,driftForce) => {
       let particle = {
          x : x,
          y : y,
-         size : driftForce*20,
+         size : Math.abs(driftForce)*20,
          element : document.createElement("div"),
       }
       particle.element.classList.add("particle");
@@ -110,8 +110,92 @@ const createDriftParticle = (x,y,driftForce) => {
       map.appendChild(particle.element)
 }
 
-const colliding = (x,y,speed,movingAngle) => {
+const turn = (direction) => {
 
+   if(direction === "right"){
+      if(driftForce < 6){
+         driftForce += .1;
+      }
+      
+      angle.facing += turningSpeed;
+      angle.moving += turningSpeed - driftForce;
+      if(angle.facing > 360){
+         angle.facing = angle.facing - 360;
+      }
+      if(angle.moving > 360){
+         angle.moving = angle.moving - 360;
+      }
+   }
+   else if(direction === "left"){
+      if(driftForce > -6){
+         driftForce -= .1;
+      }
+      angle.facing -= turningSpeed;
+      angle.moving -= turningSpeed + driftForce;
+      if(angle.facing < 0){
+         angle.facing = angle.facing + 360;
+      }
+      if(angle.moving < 0){
+         angle.moving = angle.moving + 360;
+      }
+   }
+}
+
+const stabalizeDriftForce = (driftForce)=> {
+   if(driftForce <= .05 && driftForce >= -.05){
+      return driftForce;
+   }
+   else if(driftForce > .05){
+      return driftForce -= .05;
+   }
+   else if(driftForce < -.05){
+      return driftForce += .05;
+   }
+}
+
+const angleCorrect = (movingAngle,facingAngle,tireGrip) =>{
+   if(Math.abs(movingAngle - facingAngle) < tireGrip ){
+      return movingAngle = facingAngle;
+   }
+   if(movingAngle > facingAngle){
+      return movingAngle -= tireGrip;
+   }
+   if(movingAngle < facingAngle){
+      return movingAngle += tireGrip;
+   }
+}
+
+const collision = (x,y,speed) => {
+   let newX = x + (speed * Math.cos(angle.moving * Math.PI/180));
+   let newY = y + (speed * Math.sin(angle.moving * Math.PI/180));
+
+   //make sure we are in map bounds
+
+   if(Math.ceil(x/tilePixelCount) >= 0 && Math.ceil(y/tilePixelCount) < rows && Math.ceil(y/tilePixelCount) >= 0 && Math.ceil(x/tilePixelCount) < columns){
+
+      //collision detection
+      if(mapData[Math.floor(newY/tilePixelCount)][Math.floor(x/tilePixelCount)] == 0 || mapData[Math.ceil(newY/tilePixelCount)][Math.ceil(x/tilePixelCount)] == 0){
+         newY = y -  (speed * Math.sin(angle.moving * Math.PI/180));
+         speed = 0-speed/2;
+      }
+
+      if(mapData[Math.floor(y/tilePixelCount)][Math.floor(newX/tilePixelCount)] == 0 || mapData[Math.ceil(y/tilePixelCount)][Math.ceil(newX/tilePixelCount)] == 0){
+         newX = x - (speed * Math.cos(angle.moving * Math.PI/180));
+         speed = 0-speed/2;
+      }
+   }
+
+   x = newX;
+   y = newY;
+   return {x,y,speed};
+}
+
+const displayDriftParticles = (driftForce) => {
+   if(driftForce > 1.5 || driftForce < -1.5){
+      const particleX = x - ((2*speed) * Math.cos(angle.moving * Math.PI/180));
+      const particleY = y - ((2*speed) * Math.sin(angle.moving * Math.PI/180));
+      createDriftParticle(particleX,particleY,driftForce);
+   }
 }
 const placeCharacter = () => {
    
@@ -135,101 +219,29 @@ const placeCharacter = () => {
       //turn
       if(speed != 0){
          if (held_directions.includes(directions.right)) {
-            if(driftForce < 6){
-               driftForce += .1;
-            }
-            
-            angle.facing += turningSpeed;
-            angle.moving += turningSpeed - driftForce;
-            if(angle.facing > 360){
-               angle.facing = angle.facing - 360;
-            }
-            if(angle.moving > 360){
-               angle.moving = angle.moving - 360;
-            }
+            turn("right");
          }
          else if (held_directions.includes(directions.left)) {
-            if(driftForce > -6){
-               driftForce -= .1;
-            }
-            angle.facing -= turningSpeed;
-            angle.moving -= turningSpeed + driftForce;
-            if(angle.facing < 0){
-               angle.facing = angle.facing + 360;
-            }
-            if(angle.moving < 0){
-               angle.moving = angle.moving + 360;
-            }
+            turn("left");
          }
          characterSprite.style.transform = `rotate(${angle.facing}deg)`;
       }
 
       if (held_directions.includes(directions.down)) {speed -= acceleration*1.2;}
       if (held_directions.includes(directions.up)) {speed += acceleration;}
-      //pixelPos position
 
-      // console.log("tilePos",x/tilePixelCount,y/tilePixelCount)
-      
-      // console.log("speed",speed,"acceleration",acceleration, "angle",angle, "speed",speed)
    }
-   if(driftForce <= .05 && driftForce >= -.05){
-      driftForce = 0;
-   }
-   else if(driftForce > .05){
+   driftForce = stabalizeDriftForce(driftForce);
+   displayDriftParticles(driftForce);
+   angle.moving = angleCorrect(angle.moving,angle.facing,tireGrip)
 
-      driftForce -= .05;
-   }
-   else if(driftForce < -.05){
-      driftForce += .05;
-   }
-   if(driftForce > 1.5 || driftForce < -1.5){
-
-
-      const particleX = x - ((2*speed) * Math.cos(angle.moving * Math.PI/180));
-      const particleY = y - ((2*speed) * Math.sin(angle.moving * Math.PI/180));
-      createDriftParticle(particleX,particleY,driftForce);
-   }
-   // if(angle.facing - angle.moving <= tireGrip){
-   //    angle.facing = angle.moving;
-   // }
-   if(Math.abs(angle.moving - angle.facing) < tireGrip ){
-      angle.moving = angle.facing;
-   }
-   if(angle.moving > angle.facing){
-      angle.moving -= tireGrip;
-   }
-   if(angle.moving < angle.facing){
-      angle.moving += tireGrip;
-   }
    
    if(speed != 0){
-
-      let newX = x + (speed * Math.cos(angle.moving * Math.PI/180));
-      let newY = y + (speed * Math.sin(angle.moving * Math.PI/180));
-      
-
-      //make sure we are in map bounds
-
-
-      if(Math.ceil(x/tilePixelCount) >= 0 && Math.ceil(y/tilePixelCount) < rows && Math.ceil(y/tilePixelCount) >= 0 && Math.ceil(x/tilePixelCount) < columns){
-
-         //collision detection
-         if(mapData[Math.floor(newY/tilePixelCount)][Math.floor(x/tilePixelCount)] == 0 || mapData[Math.ceil(newY/tilePixelCount)][Math.ceil(x/tilePixelCount)] == 0){
-            console.log("colliding Y?")
-            newY = y -  (speed * Math.sin(angle.moving * Math.PI/180));
-            speed = 0-speed/2;
-         }
-
-         if(mapData[Math.floor(y/tilePixelCount)][Math.floor(newX/tilePixelCount)] == 0 || mapData[Math.ceil(y/tilePixelCount)][Math.ceil(newX/tilePixelCount)] == 0){
-            console.log("colliding X?")
-            newX = x - (speed * Math.cos(angle.moving * Math.PI/180));
-            speed = 0-speed/2;
-         }
-      }
-
-      x = newX;
-      y = newY;
-
+      let position;
+      position = collision(x,y,speed)
+      x = position.x;
+      y = position.y;
+      speed = position.speed;
       //friction
       if(Math.abs(speed) < 0.05){
          speed = 0;
