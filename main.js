@@ -94,8 +94,8 @@ let pixelSize = parseInt(
 let  gridCellSize = pixelSize * tilePixelCount;
 
 const carSize = 32;
-const acceleration = .075;
-const friction = .05;
+const acceleration = .05;
+const friction = .015;
 
 //start in the middle of the map
 let x = ((columns * tilePixelCount) - carSize)/2;
@@ -106,9 +106,9 @@ let angle = {
    facing: 0,
 }
 
-let tireGrip = 3;
+let tireGrip = 1.05;
 let turningSpeed = 5;
-let driftForce = 0;
+let driftForce = 1;
 let underSteering = 1;
 let particles = [];
 const held_directions = []; //State of which arrow keys we are holding down
@@ -125,10 +125,10 @@ const createDriftParticle = (x,y,driftForce) => {
       particle.element.style.height = particle.size;
 
       // skidMark vs cloud
-      if(driftForce < 2.5){
+      if(driftForce < 2){
          particle.element.classList.add("skid-mark");
       }
-      else if(driftForce >= 2.5){
+      else if(driftForce >= 2){
          particle.element.classList.add("cloud");
       }
       particles.push(particle);
@@ -138,12 +138,15 @@ const createDriftParticle = (x,y,driftForce) => {
 const turn = (direction) => {
 
    if(direction === "right"){
-      if(driftForce < 5){
-         driftForce += .075;
+      if(driftForce <= 1.4){
+         driftForce += .1;
+      }
+      else if(driftForce >1.4 && driftForce < 3){
+         driftForce += 0.08;
       }
       
       angle.facing += turningSpeed *underSteering;
-      angle.moving += turningSpeed - driftForce;
+      angle.moving += turningSpeed/driftForce;
       if(angle.facing > 360){
          angle.facing = angle.facing - 360;
       }
@@ -152,11 +155,15 @@ const turn = (direction) => {
       }
    }
    else if(direction === "left"){
-      if(driftForce < 5){
-         driftForce += .075;
+      if(driftForce <= 1.4){
+         driftForce += .1;
       }
+      else if(driftForce >1.4 && driftForce < 3){
+         driftForce += 0.08;
+      }
+
       angle.facing -= turningSpeed *underSteering;
-      angle.moving -= turningSpeed - driftForce;
+      angle.moving -= turningSpeed /driftForce;
       if(angle.facing < 0){
          angle.facing = angle.facing + 360;
       }
@@ -167,23 +174,36 @@ const turn = (direction) => {
 }
 
 const stabalizeDriftForce = (driftForce)=> {
-   if(driftForce <= .05){
-      return driftForce;
+   if(driftForce <= 1.05){
+      return 1;
    }
-   else if(driftForce > .05){
+   else if(driftForce > 1.05){
       return driftForce -= .05;
    }
 }
 
 const angleCorrect = (movingAngle,facingAngle,tireGrip) =>{
+
    if(Math.abs(movingAngle - facingAngle) < tireGrip ){
       return movingAngle = facingAngle;
    }
-   if(movingAngle > facingAngle){
-      return movingAngle -= tireGrip;
+   //angle correct normal 
+   if(Math.abs(movingAngle - facingAngle) < 30 ){
+      if(movingAngle > facingAngle){
+         return movingAngle -= tireGrip;
+      }
+      if(movingAngle < facingAngle){
+         return movingAngle += tireGrip;
+      }
    }
-   if(movingAngle < facingAngle){
-      return movingAngle += tireGrip;
+   //angle correct faster 
+   if(Math.abs(movingAngle - facingAngle) > 30 ){
+      if(movingAngle > facingAngle){
+         return movingAngle -= tireGrip*3;
+      }
+      if(movingAngle < facingAngle){
+         return movingAngle += tireGrip*3;
+      }
    }
 }
 
@@ -192,16 +212,17 @@ const updateUnderSteering = (speed) => {
       case (Math.abs(speed) > 0 && Math.abs(speed)< 1.5):
          return 1
       case (Math.abs(speed) > 1.5 && Math.abs(speed)< 2.5):
-         return .8
+         return .9
       case (Math.abs(speed) > 2.5 && Math.abs(speed)< 4):
-         return .75
+         return .8
       case (Math.abs(speed) > 4 && Math.abs(speed)< 5):
          return .7
       case (Math.abs(speed) > 5 && Math.abs(speed)< 7):
-         return .65
-      case (Math.abs(speed) > 7):
          return .6
+      case (Math.abs(speed) > 7):
+         return .5
       default:
+         return 1;
          break;   
    }
 }
@@ -249,7 +270,7 @@ const placeCharacter = () => {
    stats.angle.facing.innerHTML = angle.facing.toFixed(2);
    stats.angle.moving.innerHTML = angle.moving.toFixed(2);
    stats.driftForce.innerHTML = driftForce.toFixed(2);
-   stats.underSteering.innerHTML = (1 - underSteering).toFixed(2);
+   stats.underSteering.innerHTML = underSteering.toFixed(2);
    stats.particleCount.innerHTML = particles.length;
 
    pixelSize = parseInt(
