@@ -141,6 +141,10 @@ li{
   background-color:orange;
 }
 
+.dirt{
+  background-color:rgb(255, 247, 155);
+}
+
 .map-grid{
   display:flex;
   flex-direction:column;

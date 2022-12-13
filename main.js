@@ -46,13 +46,13 @@ const mapData = [
    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-   [1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1],
-   [1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1],
-   [1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1],
+   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+   [1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1],
    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+   [1,1,1,1,1,1,1,1,1,1,2,2,2,1,1,1,1,1,1,1],
+   [1,1,1,1,1,1,1,1,1,1,2,2,1,1,1,1,1,1,1,1],
+   [1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1],
    [1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1],
    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -69,8 +69,11 @@ for(let row of mapData){
       if(cellData == 0){
          mapCell.classList.add("road");
       }
-      if(cellData == 1){
+      else if(cellData == 1){
          mapCell.classList.add("wall");
+      }
+      else if(cellData == 2){
+         mapCell.classList.add("dirt");
       }
       //put cell into row
       mapRow.appendChild(mapCell);
@@ -141,10 +144,9 @@ const turn = (direction) => {
       if(driftForce <= 1.4){
          driftForce += .1;
       }
-      else if(driftForce >1.4 && driftForce < 3){
-         driftForce += 0.08;
+      else if(driftForce >1.4 && driftForce < 5){
+         driftForce += 0.075;
       }
-      
       angle.facing += turningSpeed *underSteering;
       angle.moving += turningSpeed/driftForce;
       if(angle.facing > 360){
@@ -158,8 +160,8 @@ const turn = (direction) => {
       if(driftForce <= 1.4){
          driftForce += .1;
       }
-      else if(driftForce >1.4 && driftForce < 3){
-         driftForce += 0.08;
+      else if(driftForce >1.4 && driftForce < 5){
+         driftForce += 0.075;
       }
 
       angle.facing -= turningSpeed *underSteering;
@@ -182,7 +184,7 @@ const stabalizeDriftForce = (driftForce)=> {
    }
 }
 
-const angleCorrect = (movingAngle,facingAngle,tireGrip) =>{
+const stabalizeAngle = (movingAngle,facingAngle,tireGrip) =>{
 
    if(Math.abs(movingAngle - facingAngle) < tireGrip ){
       return movingAngle = facingAngle;
@@ -237,7 +239,9 @@ const collision = (x,y,speed) => {
    Math.floor(newX/tilePixelCount) >= 0 && Math.floor(newY/tilePixelCount) < rows && Math.floor(newY/tilePixelCount) >= 0 && Math.floor(newX/tilePixelCount) < columns
    ){
 
-      //collision detection
+      //collision detection for x or y since both can happen
+
+      //walls
       if(mapData[Math.floor(newY/tilePixelCount)][Math.floor(x/tilePixelCount)] == 0 || mapData[Math.ceil(newY/tilePixelCount)][Math.ceil(x/tilePixelCount)] == 0){
          newY = y -  (speed * Math.sin(angle.moving * Math.PI/180));
          speed = 0-speed/2;
@@ -246,6 +250,22 @@ const collision = (x,y,speed) => {
       if(mapData[Math.floor(y/tilePixelCount)][Math.floor(newX/tilePixelCount)] == 0 || mapData[Math.ceil(y/tilePixelCount)][Math.ceil(newX/tilePixelCount)] == 0){
          newX = x - (speed * Math.cos(angle.moving * Math.PI/180));
          speed = 0-speed/2;
+      }
+      //sand
+      if(mapData[Math.floor(newY/tilePixelCount)][Math.floor(x/tilePixelCount)] == 2 || mapData[Math.ceil(newY/tilePixelCount)][Math.ceil(x/tilePixelCount)] == 2){
+         speed = speed/1.02;
+         //different drift max in sand
+         if(driftForce < 8 && held_directions.includes("left") || held_directions.includes("right")){
+            driftForce += .2;
+         }
+
+      }
+
+      if(mapData[Math.floor(y/tilePixelCount)][Math.floor(newX/tilePixelCount)] == 2 || mapData[Math.ceil(y/tilePixelCount)][Math.ceil(newX/tilePixelCount)] == 2){
+         speed = speed/1.02;
+         if(driftForce < 8 && held_directions.includes("left") || held_directions.includes("right")){
+            driftForce += .2;
+         }
       }
    }
 
@@ -301,7 +321,7 @@ const placeCharacter = () => {
    }
    driftForce = stabalizeDriftForce(driftForce);
    displayDriftParticles(driftForce);
-   angle.moving = angleCorrect(angle.moving,angle.facing,tireGrip)
+   angle.moving = stabalizeAngle(angle.moving,angle.facing,tireGrip)
 
    
    if(speed != 0){
