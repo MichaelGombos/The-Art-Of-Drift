@@ -175,17 +175,21 @@ const turn = (direction) => {
    }
 }
 
-const stabalizeDriftForce = (driftForce)=> {
-   if(driftForce <= 1.05){
+const stabalizeDriftForce = (driftForce,speed)=> {
+
+   if(speed < 1.5 || driftForce <= 1.05){
       return 1;
    }
    else if(driftForce > 1.05){
-      return driftForce -= .05;
+      return driftForce -= .1;
    }
 }
 
-const stabalizeAngle = (movingAngle,facingAngle,tireGrip) =>{
-
+const stabalizeAngle = (movingAngle,facingAngle,speed,tireGrip) =>{
+   console.log("DO I MAKE IT TO THE END?")
+   if(speed == 0){
+      return facingAngle;
+   }
    if(Math.abs(movingAngle - facingAngle) < tireGrip ){
       return movingAngle = facingAngle;
    }
@@ -229,6 +233,18 @@ const updateUnderSteering = (speed) => {
    }
 }
 
+const applyFriction = (speed) => {
+   if(Math.abs(speed) < 0.05){
+      return 0;
+   }
+   else if(speed > 0){
+      return speed - friction;
+   }
+   else if(speed < 0){
+      return speed + friction;
+   }
+}
+
 const collision = (x,y,speed) => {
    let newX = x + (speed * Math.cos(angle.moving * Math.PI/180));
    let newY = y + (speed * Math.sin(angle.moving * Math.PI/180));
@@ -253,17 +269,24 @@ const collision = (x,y,speed) => {
       }
       //sand
       if(mapData[Math.floor(newY/tilePixelCount)][Math.floor(x/tilePixelCount)] == 2 || mapData[Math.ceil(newY/tilePixelCount)][Math.ceil(x/tilePixelCount)] == 2){
-         speed = speed/1.02;
+         if(speed > 1){
+            speed = speed/1.03;
+         }
          //different drift max in sand
-         if(driftForce < 8 && held_directions.includes("left") || held_directions.includes("right")){
+         // createDirtParticle(x,y);
+         if(driftForce < 8 && held_directions.includes("left") || driftForce < 8 &&held_directions.includes("right")){
             driftForce += .2;
          }
 
       }
 
       if(mapData[Math.floor(y/tilePixelCount)][Math.floor(newX/tilePixelCount)] == 2 || mapData[Math.ceil(y/tilePixelCount)][Math.ceil(newX/tilePixelCount)] == 2){
-         speed = speed/1.02;
-         if(driftForce < 8 && held_directions.includes("left") || held_directions.includes("right")){
+         if(speed > 1){
+            speed = speed/1.03;
+         }
+
+         // createDirtParticle(x,y);
+         if(driftForce < 8 && held_directions.includes("left") || driftForce < 8 && held_directions.includes("right")){
             driftForce += .2;
          }
       }
@@ -300,6 +323,8 @@ const placeCharacter = () => {
    gridCellSize = pixelSize * tilePixelCount;
 
    // check if a direction is being held
+
+   
    if (held_directions.length > 0) {
       //turn
       if(speed != 0){
@@ -310,18 +335,19 @@ const placeCharacter = () => {
             turn("left");
          }
          else{
-            driftForce = stabalizeDriftForce(driftForce);
+            driftForce = stabalizeDriftForce(driftForce,speed);
          }
          characterSprite.style.transform = `rotate(${angle.facing}deg)`;
       }
-
+      
       if (held_directions.includes(directions.down)) {speed -= acceleration*1.2;}
       if (held_directions.includes(directions.up)) {speed += acceleration;}
 
    }
-   driftForce = stabalizeDriftForce(driftForce);
    displayDriftParticles(driftForce);
-   angle.moving = stabalizeAngle(angle.moving,angle.facing,tireGrip)
+
+   angle.moving = stabalizeAngle(angle.moving,angle.facing,speed,tireGrip)
+   console.log("OH DUH I DEFINITELY DO?")
 
    
    if(speed != 0){
@@ -331,15 +357,7 @@ const placeCharacter = () => {
       y = position.y;
       speed = position.speed;
       //friction
-      if(Math.abs(speed) < 0.05){
-         speed = 0;
-      }
-      else if(speed > 0){
-         speed = speed - friction;
-      }
-      else if(speed < 0){
-         speed = speed + friction;
-      }
+      speed = applyFriction(speed);
 
    }
    underSteering = updateUnderSteering(speed);
