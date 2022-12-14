@@ -1,6 +1,6 @@
 :root {
   --pixel-size: 2px;
-  --tile-pixel-count: 32;
+  --tile-pixel-count: 16;
   --grid-cell: calc( var(--pixel-size) * var(--tile-pixel-count));
   --rows: 20;
   --columns: 20;
@@ -22,7 +22,7 @@
 
 html, body {
   height: 100%;
-  font-size:18px;
+  font-size:14px;
   font-weight: bold;
   font-family: 'Open Sans', sans-serif;
 }
@@ -30,8 +30,8 @@ html, body {
 body {
   background: var(--bg);
   display: flex;
-  flex-direction:column;
-  gap:80px;
+  flex-direction:row;
+  gap:20px;
   align-items: center;
   justify-content: center;
 }

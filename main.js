@@ -96,7 +96,7 @@ let pixelSize = parseInt(
    
 let  gridCellSize = pixelSize * tilePixelCount;
 
-const carSize = 32;
+const carSize = tilePixelCount;
 const acceleration = .05;
 const friction = .015;
 
