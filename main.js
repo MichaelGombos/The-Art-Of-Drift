@@ -115,6 +115,7 @@ let driftForce = 1;
 let underSteering = 1;
 let particles = [];
 const held_directions = []; //State of which arrow keys we are holding down
+let onDirt = false;
 
 const createDriftParticle = (x,y,driftForce) => {
       let particle = {
@@ -136,6 +137,24 @@ const createDriftParticle = (x,y,driftForce) => {
       }
       particles.push(particle);
       map.appendChild(particle.element)
+}
+
+const createDirtParticle = (x,y) => {
+   let particle = {
+      x : x + Math.floor(Math.random() * 20)-10,
+      y : y + Math.floor(Math.random() * 20)-10,
+      size : 40,
+      element : document.createElement("div"),
+   }
+   particle.element.classList.add("particle");
+   particle.element.style.width = particle.size;
+   particle.element.style.height = particle.size;
+
+   // skidMark vs cloud
+   particle.element.classList.add("dirt");
+
+   particles.push(particle);
+   map.appendChild(particle.element)
 }
 
 const turn = (direction) => {
@@ -181,12 +200,11 @@ const stabalizeDriftForce = (driftForce,speed)=> {
       return 1;
    }
    else if(driftForce > 1.05){
-      return driftForce -= .1;
+      return driftForce -= .05;
    }
 }
 
 const stabalizeAngle = (movingAngle,facingAngle,speed,tireGrip) =>{
-   console.log("DO I MAKE IT TO THE END?")
    if(speed == 0){
       return facingAngle;
    }
@@ -267,28 +285,32 @@ const collision = (x,y,speed) => {
          newX = x - (speed * Math.cos(angle.moving * Math.PI/180));
          speed = 0-speed/2;
       }
-      //sand
+      //dirt
       if(mapData[Math.floor(newY/tilePixelCount)][Math.floor(x/tilePixelCount)] == 2 || mapData[Math.ceil(newY/tilePixelCount)][Math.ceil(x/tilePixelCount)] == 2){
+         onDirt = true;
          if(speed > 1){
             speed = speed/1.03;
          }
-         //different drift max in sand
-         // createDirtParticle(x,y);
+         //different drift max in dirt
+         createDirtParticle(x,y);
          if(driftForce < 8 && held_directions.includes("left") || driftForce < 8 &&held_directions.includes("right")){
             driftForce += .2;
          }
 
       }
-
-      if(mapData[Math.floor(y/tilePixelCount)][Math.floor(newX/tilePixelCount)] == 2 || mapData[Math.ceil(y/tilePixelCount)][Math.ceil(newX/tilePixelCount)] == 2){
+      else if(mapData[Math.floor(y/tilePixelCount)][Math.floor(newX/tilePixelCount)] == 2 || mapData[Math.ceil(y/tilePixelCount)][Math.ceil(newX/tilePixelCount)] == 2){
+         onDirt = true;
          if(speed > 1){
             speed = speed/1.03;
          }
 
-         // createDirtParticle(x,y);
+         createDirtParticle(x,y);
          if(driftForce < 8 && held_directions.includes("left") || driftForce < 8 && held_directions.includes("right")){
             driftForce += .2;
          }
+      }
+      else{
+         onDirt = false;
       }
    }
 
@@ -298,7 +320,7 @@ const collision = (x,y,speed) => {
 }
 
 const displayDriftParticles = (driftForce) => {
-   if(driftForce > 1.5){
+   if(driftForce > 1.5 && !onDirt){
       const particleX = x - ((2*speed) * Math.cos(angle.moving * Math.PI/180));
       const particleY = y - ((2*speed) * Math.sin(angle.moving * Math.PI/180));
       createDriftParticle(particleX,particleY,driftForce);
@@ -334,9 +356,6 @@ const placeCharacter = () => {
          else if (held_directions.includes(directions.left)) {
             turn("left");
          }
-         else{
-            driftForce = stabalizeDriftForce(driftForce,speed);
-         }
          characterSprite.style.transform = `rotate(${angle.facing}deg)`;
       }
       
@@ -344,10 +363,10 @@ const placeCharacter = () => {
       if (held_directions.includes(directions.up)) {speed += acceleration;}
 
    }
+   driftForce = stabalizeDriftForce(driftForce,speed);
    displayDriftParticles(driftForce);
 
    angle.moving = stabalizeAngle(angle.moving,angle.facing,speed,tireGrip)
-   console.log("OH DUH I DEFINITELY DO?")
 
    
    if(speed != 0){

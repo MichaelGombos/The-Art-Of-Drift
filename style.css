@@ -127,7 +127,7 @@ li{
   background-color:rgba(255, 255, 255, 0.149);
 }
 .particle.dirt{
-  background-color:blue;
+  background-color:rgba(106, 67, 15, 0.203);
 }
 
 .cell{
@@ -145,7 +145,7 @@ li{
 }
 
 .dirt{
-  background-color:rgb(255, 247, 155);
+  background-color:rgb(131, 76, 25);
 }
 
 .map-grid{
