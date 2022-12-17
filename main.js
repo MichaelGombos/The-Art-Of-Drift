@@ -119,6 +119,7 @@ const mapData = [
 let rows;
 let columns;
 let spawn = {};
+
 for(let rowIndex in mapData){
    let mapRow = document.createElement("div");
    let row = mapData[rowIndex];
@@ -152,6 +153,7 @@ for(let rowIndex in mapData){
 document.documentElement.style.setProperty("--rows",rows);
 document.documentElement.style.setProperty("--columns",columns);
 
+
 const tilePixelCount = parseInt(
    getComputedStyle(document.documentElement).getPropertyValue('--tile-pixel-count')
 );
@@ -164,7 +166,7 @@ let  gridCellSize = pixelSize * tilePixelCount;
 const carSize = tilePixelCount;
 const acceleration = .030;
 const friction = .015;
-
+const maxSpeed = 10;
 //find spawn
 
 let x = spawn.x * tilePixelCount;
@@ -399,6 +401,19 @@ const displayDriftParticles = (driftForce) => {
       createDriftParticle(particleX,particleY,driftForce);
    }
 }
+
+const accelerate = (acceleration,forward) => {
+   if(speed <= 10){
+      if(forward){
+         speed += acceleration;
+      }
+      else{
+         speed -= acceleration;
+      }
+   }
+
+}
+
 const placeCharacter = () => {
    
    //update stats
@@ -432,8 +447,8 @@ const placeCharacter = () => {
          characterSprite.style.transform = `rotate(${angle.facing}deg)`;
       }
       
-      if (held_directions.includes(directions.down)) {speed -= acceleration*1.2;}
-      if (held_directions.includes(directions.up)) {speed += acceleration;}
+      if (held_directions.includes(directions.down)) {accelerate(acceleration,false)}
+      if (held_directions.includes(directions.up)) {accelerate(acceleration,true)}
 
    }
    driftForce = stabalizeDriftForce(driftForce,speed);
@@ -471,8 +486,8 @@ const placeCharacter = () => {
    if (y < topLimit) { y = topLimit; }
    if (y > bottomLimit) { y = bottomLimit; }
    
-   const camera_left = pixelSize * 66;
-   const camera_top = pixelSize * 42;
+   const camera_left = pixelSize * 70;
+   const camera_top = pixelSize * 70;
    
    map.style.transform = `translate3d( ${-x*pixelSize+camera_left}px, ${-y*pixelSize+camera_top}px, 0 )`;
 
