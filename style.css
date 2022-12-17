@@ -1,6 +1,6 @@
 :root {
   --pixel-size: 2px;
-  --tile-pixel-count: 16;
+  --tile-pixel-count: 8;
   --grid-cell: calc( var(--pixel-size) * var(--tile-pixel-count));
   --rows: 20;
   --columns: 20;
@@ -146,6 +146,10 @@ li{
 
 .dirt{
   background-color:rgb(131, 76, 25);
+}
+
+.spawn{
+  background-color:#71c9ff;
 }
 
 .map-grid{

@@ -105,7 +105,7 @@ const mapData = [
    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -118,20 +118,28 @@ const mapData = [
    ];
 let rows;
 let columns;
-for(let row of mapData){
-   let mapRow = document.createElement("div")
+let spawn = {};
+for(let rowIndex in mapData){
+   let mapRow = document.createElement("div");
+   let row = mapData[rowIndex];
    mapRow.classList.add("row");
-   for(let cellData of row){
+   for(let cellDataIndex in row){
       let mapCell = document.createElement("div");
+      let cell = row[cellDataIndex];
       mapCell.classList.add("cell");
-      if(cellData == 0){
+      if(cell == 0){
          mapCell.classList.add("road");
       }
-      else if(cellData == 1){
+      else if(cell == 1){
          mapCell.classList.add("wall");
       }
-      else if(cellData == 2){
+      else if(cell == 2){
          mapCell.classList.add("dirt");
+      }
+      else if(cell == 3){
+         mapCell.classList.add("spawn");
+         spawn.x = cellDataIndex;
+         spawn.y = rowIndex;
       }
       //put cell into row
       mapRow.appendChild(mapCell);
@@ -141,7 +149,6 @@ for(let row of mapData){
    mapGrid.appendChild(mapRow);
    rows = mapGrid.childElementCount;
 }
-
 document.documentElement.style.setProperty("--rows",rows);
 document.documentElement.style.setProperty("--columns",columns);
 
@@ -158,11 +165,10 @@ const carSize = tilePixelCount;
 const acceleration = .030;
 const friction = .015;
 
-//start in the middle of the map
-// let x = ((columns * tilePixelCount) - carSize)/2;
-// let y = ((rows * tilePixelCount) - carSize)/2;;
-let x = 60;
-let y = 60;
+//find spawn
+
+let x = spawn.x * tilePixelCount;
+let y = spawn.y * tilePixelCount;
 let speed = 0; 
 let angle = {
    moving: 0,
