@@ -40,25 +40,25 @@ const mapGrid = document.querySelector(".map-grid")
 const mapData = [
    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+   [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1],
+   [1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,1],
+   [1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,1],
+   [1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,1],
+   [1,2,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,2,2,1],
+   [1,2,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,2,2,1],
+   [1,2,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,2,1],
+   [1,2,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,2,1],
+   [1,2,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,2,1],
+   [1,2,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,2,1],
+   [1,2,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,2,1],
+   [1,2,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,2,1],
+   [1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1],
+   [1,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1],
+   [1,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,2,1],
+   [1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-   [1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1],
-   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-   [1,1,1,1,1,1,1,1,1,1,2,2,2,1,1,1,1,1,1,1],
-   [1,1,1,1,1,1,1,1,1,1,2,2,1,1,1,1,1,1,1,1],
-   [1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1],
-   [1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1],
-   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-]
+   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+   ];
 
 for(let row of mapData){
    let mapRow = document.createElement("div")
@@ -97,12 +97,14 @@ let pixelSize = parseInt(
 let  gridCellSize = pixelSize * tilePixelCount;
 
 const carSize = tilePixelCount;
-const acceleration = .05;
+const acceleration = .030;
 const friction = .015;
 
 //start in the middle of the map
-let x = ((columns * tilePixelCount) - carSize)/2;
-let y = ((rows * tilePixelCount) - carSize)/2;;
+// let x = ((columns * tilePixelCount) - carSize)/2;
+// let y = ((rows * tilePixelCount) - carSize)/2;;
+let x = 60;
+let y = 60;
 let speed = 0; 
 let angle = {
    moving: 0,
@@ -208,11 +210,11 @@ const stabalizeAngle = (movingAngle,facingAngle,speed,tireGrip) =>{
    if(speed == 0){
       return facingAngle;
    }
-   if(Math.abs(movingAngle - facingAngle) < tireGrip ){
+   else if(Math.abs(movingAngle - facingAngle) < tireGrip ){
       return movingAngle = facingAngle;
    }
    //angle correct normal 
-   if(Math.abs(movingAngle - facingAngle) < 30 ){
+   else if(Math.abs(movingAngle - facingAngle) < 30 ){
       if(movingAngle > facingAngle){
          return movingAngle -= tireGrip;
       }
@@ -221,7 +223,7 @@ const stabalizeAngle = (movingAngle,facingAngle,speed,tireGrip) =>{
       }
    }
    //angle correct faster 
-   if(Math.abs(movingAngle - facingAngle) > 30 ){
+   else if(Math.abs(movingAngle - facingAngle) > 30 ){
       if(movingAngle > facingAngle){
          return movingAngle -= tireGrip*3;
       }
@@ -252,7 +254,7 @@ const updateUnderSteering = (speed) => {
 }
 
 const applyFriction = (speed) => {
-   if(Math.abs(speed) < 0.05){
+   if(Math.abs(speed) < 0.025){
       return 0;
    }
    else if(speed > 0){
@@ -276,12 +278,12 @@ const collision = (x,y,speed) => {
       //collision detection for x or y since both can happen
 
       //walls
-      if(mapData[Math.floor(newY/tilePixelCount)][Math.floor(x/tilePixelCount)] == 0 || mapData[Math.ceil(newY/tilePixelCount)][Math.ceil(x/tilePixelCount)] == 0){
+      if(mapData[Math.floor(newY/tilePixelCount)][Math.floor(x/tilePixelCount)] == 1 || mapData[Math.ceil(newY/tilePixelCount)][Math.ceil(x/tilePixelCount)] == 1){
          newY = y -  (speed * Math.sin(angle.moving * Math.PI/180));
          speed = 0-speed/2;
       }
 
-      if(mapData[Math.floor(y/tilePixelCount)][Math.floor(newX/tilePixelCount)] == 0 || mapData[Math.ceil(y/tilePixelCount)][Math.ceil(newX/tilePixelCount)] == 0){
+      if(mapData[Math.floor(y/tilePixelCount)][Math.floor(newX/tilePixelCount)] == 1 || mapData[Math.ceil(y/tilePixelCount)][Math.ceil(newX/tilePixelCount)] == 1){
          newX = x - (speed * Math.cos(angle.moving * Math.PI/180));
          speed = 0-speed/2;
       }
@@ -321,8 +323,8 @@ const collision = (x,y,speed) => {
 
 const displayDriftParticles = (driftForce) => {
    if(driftForce > 1.5 && !onDirt){
-      const particleX = x - ((2*speed) * Math.cos(angle.moving * Math.PI/180));
-      const particleY = y - ((2*speed) * Math.sin(angle.moving * Math.PI/180));
+      const particleX = x - ((10) * Math.cos(angle.moving * Math.PI/180));
+      const particleY = y - ((10) * Math.sin(angle.moving * Math.PI/180));
       createDriftParticle(particleX,particleY,driftForce);
    }
 }
