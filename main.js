@@ -156,6 +156,10 @@ let angle = {
    moving: 0,
    facing: 0,
 }
+let angleLock = {
+   left:false,
+   right:false
+}
 
 let tireGrip = 1.05;
 let turningSpeed = 5;
@@ -205,9 +209,68 @@ const createDirtParticle = (x,y) => {
    map.appendChild(particle.element)
 }
 
+const compareFacingRelativeToMoving = (facingAngle,movingAngle) => { // 1 right 0 middle - 1l eft 
+
+   let difference = facingAngle - movingAngle;
+   if (difference > 0 && difference < 180 || difference < -180) {
+   //   console.log("facingAngle is to the right of movingAngle", difference);
+     return 1;
+   } else if (difference < 0 || difference > 180) {
+   //   console.log("facingAngle is to the left of movingAngle", difference);
+     return -1;
+   } else {
+     return 0;
+   }
+}
+
+const updateAngleLock = (direction, facingAngle, movingAngle) => {
+   let diff;
+   console.log(angleLock);
+   if(direction == 1){ //facing is right of moving Angle
+      if(facingAngle - movingAngle < 0){
+         diff = facingAngle + 360 - movingAngle;
+      }
+      else{
+         diff = facingAngle - movingAngle;
+      }
+      
+      if(diff > 120){
+         angleLock.right = true;
+         // console.log("angleLock RIGHT ON ",diff)
+         console.log(diff)
+      }
+      else{
+         angleLock.right = false;
+      }
+      
+   }
+   else if(direction == -1) { //facing is left of moving angle
+      if(movingAngle - facingAngle < 0){
+         diff = movingAngle + 360 - facingAngle;
+      }
+      else{
+         diff = movingAngle - facingAngle;
+      }
+
+      if(diff > 120){
+         angleLock.left = true;
+         // console.log("angleLock LEFT ON ",diff)
+      }
+      else{
+         angleLock.left = false;
+      }
+   }
+   else{
+      angleLock.left = false;
+      angleLock.right = false;
+   }
+}
+
 const turn = (direction) => {
 
-   if(direction === "right"){
+   //compareAngles 
+   
+   if(direction === "right" && !angleLock.right){
       if(driftForce <= 1.4){
          driftForce += .1;
       }
@@ -221,8 +284,12 @@ const turn = (direction) => {
       // if(Math.abs(angle.facing - angle.moving) > 120){
       //    console.log("OVER 120?");
       // }
+
+      //turn
       angle.facing += turningSpeed *underSteering;
       angle.moving += turningSpeed/driftForce;
+
+      //degree correction
       if(angle.facing > 360){
          angle.facing = angle.facing - 360;
       }
@@ -230,22 +297,26 @@ const turn = (direction) => {
          angle.moving = angle.moving - 360;
       }
    }
-   else if(direction === "left"){
+   else if(direction === "left" && !angleLock.left){
       if(driftForce <= 1.4){
          driftForce += .1;
       }
       else if(driftForce >1.4 && driftForce < 5){
          driftForce += 0.075;
       }
-
+      
+      //turn
       angle.facing -= turningSpeed *underSteering;
       angle.moving -= turningSpeed /driftForce;
+
+      //degree correction
       if(angle.facing < 0){
          angle.facing = angle.facing + 360;
       }
       if(angle.moving < 0){
          angle.moving = angle.moving + 360;
       }
+
    }
 }
 
@@ -426,7 +497,8 @@ const placeCharacter = () => {
 
    // check if a direction is being held
 
-   
+  
+
    if (held_directions.length > 0) {
       //turn
       if(speed != 0){
@@ -443,6 +515,8 @@ const placeCharacter = () => {
       if (held_directions.includes(directions.up)) {accelerate(acceleration,true)}
 
    }
+   updateAngleLock(compareFacingRelativeToMoving(angle.facing,angle.moving), angle.facing,angle.moving)
+
    driftForce = stabalizeDriftForce(driftForce,speed);
    displayDriftParticles(driftForce);
 
