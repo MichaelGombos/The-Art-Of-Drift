@@ -468,13 +468,31 @@ const displayDriftParticles = (driftForce) => {
 const accelerate = (acceleration,forward) => {
    if(speed <= 10){
       if(forward){
-         speed += acceleration;
+         let diff = angle.facing - angle.moving;
+         if(diff < 0){
+            diff += 360;
+         }
+         if(diff < 90 || diff > 270) {//we are facing forwards
+            speed += acceleration;
+         }
+         else{ // backwards
+            console.log("diff",diff)
+            speed -= acceleration;
+         }
+      }
       }
       else{
-         speed -= acceleration;
+         let diff = angle.facing - angle.moving;
+         if(diff < 0){
+            diff += 360;
+         }
+         if(diff < 90) {//we are facing forwards
+            speed -= acceleration;
+         }
+         else{ // backwards
+            speed += acceleration;
+         }
       }
-   }
-
 }
 
 const placeCharacter = () => {
