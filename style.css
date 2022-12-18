@@ -1,6 +1,6 @@
 :root {
   --pixel-size: 2px;
-  --tile-pixel-count: 8;
+  --tile-pixel-count: 4;
   --grid-cell: calc( var(--pixel-size) * var(--tile-pixel-count));
   --rows: 20;
   --columns: 20;
