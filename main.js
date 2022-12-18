@@ -10,6 +10,10 @@ const stats = {
    },
    driftForce : document.querySelector("#drift-force"),
    underSteering : document.querySelector("#under-steer"),
+   angleLock :{
+      left:document.querySelector("#lock-left"),
+      right:document.querySelector("#lock-right")
+   },
    particleCount : document.querySelector("#particle-count")
 }
 const map = document.querySelector(".map");
@@ -225,7 +229,6 @@ const compareFacingRelativeToMoving = (facingAngle,movingAngle) => { // 1 right 
 
 const updateAngleLock = (direction, facingAngle, movingAngle) => {
    let diff;
-   console.log(angleLock);
    if(direction == 1){ //facing is right of moving Angle
       if(facingAngle - movingAngle < 0){
          diff = facingAngle + 360 - movingAngle;
@@ -234,12 +237,16 @@ const updateAngleLock = (direction, facingAngle, movingAngle) => {
          diff = facingAngle - movingAngle;
       }
       
-      if(diff > 120){
+      if(diff > 90){
          angleLock.right = true;
-         // console.log("angleLock RIGHT ON ",diff)
+         angleLock.left = false;
+         console.log("angleLock RIGHT ON ",diff)
          console.log(diff)
       }
       else{
+         if(angleLock.right){
+            console.log("TURNING ANGLE LOCK RIGHT OFF!!!")
+         }
          angleLock.right = false;
       }
       
@@ -252,15 +259,21 @@ const updateAngleLock = (direction, facingAngle, movingAngle) => {
          diff = movingAngle - facingAngle;
       }
 
-      if(diff > 120){
+      if(diff > 90){
          angleLock.left = true;
-         // console.log("angleLock LEFT ON ",diff)
+         angleLock.right = false;
+         console.log("angleLock LEFT ON ",diff)
+         console.log(diff)
       }
       else{
+         if(angleLock.left){
+            console.log("TURNING ANGLE LOCK LEFT OFF!!!")
+         }
          angleLock.left = false;
       }
    }
    else{
+      console.log("SO its oviously here.. but why???")
       angleLock.left = false;
       angleLock.right = false;
    }
@@ -505,6 +518,8 @@ const placeCharacter = () => {
    stats.angle.moving.innerHTML = angle.moving.toFixed(2);
    stats.driftForce.innerHTML = driftForce.toFixed(2);
    stats.underSteering.innerHTML = underSteering.toFixed(2);
+   stats.angleLock.left.innerHTML = angleLock.left;
+   stats.angleLock.right.innerHTML = angleLock.right;
    stats.particleCount.innerHTML = particles.length;
 
    pixelSize = parseInt(
@@ -516,6 +531,7 @@ const placeCharacter = () => {
    // check if a direction is being held
 
   
+   updateAngleLock(compareFacingRelativeToMoving(angle.facing,angle.moving), angle.facing,angle.moving)
 
    if (held_directions.length > 0) {
       //turn
@@ -533,7 +549,6 @@ const placeCharacter = () => {
       if (held_directions.includes(directions.up)) {accelerate(acceleration,true)}
 
    }
-   updateAngleLock(compareFacingRelativeToMoving(angle.facing,angle.moving), angle.facing,angle.moving)
 
    driftForce = stabalizeDriftForce(driftForce,speed);
    displayDriftParticles(driftForce);
