@@ -193,12 +193,13 @@ let particles = [];
 const held_directions = []; //State of which arrow keys we are holding down
 let onDirt = false;
 
-const createDriftParticle = (x,y,driftForce) => {
+const createDriftParticle = (x,y,driftForce,angle) => {
       let particle = {
          x : x,
          y : y,
          size : driftForce*10,
          element : document.createElement("div"),
+         angle : null
       }
       particle.element.classList.add("particle");
       particle.element.style.width = particle.size;
@@ -206,13 +207,17 @@ const createDriftParticle = (x,y,driftForce) => {
 
       // skidMark vs cloud
       if(driftForce < 2){
+         particle.angle = angle.facing;
          particle.element.classList.add("skid-mark");
       }
       else if(driftForce >= 2){
+         particle.angle = angle.moving + Math.floor(Math.random() * 50)-25;
          particle.element.classList.add("cloud");
       }
       particles.push(particle);
       map.appendChild(particle.element)
+      console.log("particlerotate",angle);
+      console.log("particlerotate",particle.element.style.transform);
 }
 
 const createDirtParticle = (x,y) => {
@@ -221,6 +226,7 @@ const createDirtParticle = (x,y) => {
       y : y + Math.floor(Math.random() * 20)-10,
       size : 40,
       element : document.createElement("div"),
+      angle : Math.floor(Math.random() * 359)
    }
    particle.element.classList.add("particle");
    particle.element.style.width = particle.size;
@@ -260,12 +266,9 @@ const updateAngleLock = (direction, facingAngle, movingAngle) => {
       if(diff > 90){
          angleLock.right = true;
          angleLock.left = false;
-         console.log("angleLock RIGHT ON ",diff)
-         console.log(diff)
       }
       else{
          if(angleLock.right){
-            console.log("TURNING ANGLE LOCK RIGHT OFF!!!")
          }
          angleLock.right = false;
       }
@@ -282,18 +285,14 @@ const updateAngleLock = (direction, facingAngle, movingAngle) => {
       if(diff > 90){
          angleLock.left = true;
          angleLock.right = false;
-         console.log("angleLock LEFT ON ",diff)
-         console.log(diff)
       }
       else{
          if(angleLock.left){
-            console.log("TURNING ANGLE LOCK LEFT OFF!!!")
          }
          angleLock.left = false;
       }
    }
    else{
-      console.log("SO its oviously here.. but why???")
       angleLock.left = false;
       angleLock.right = false;
    }
@@ -310,14 +309,6 @@ const turn = (direction) => {
       else if(driftForce >1.4  && driftForce < 5){
          driftForce += 0.075;
       }
-      //TODO angle offset limit at 90 degrees 
-      // if(Math.abs(angle.facing - angle.moving) > 90){
-      //    console.log("OVER 90");
-      // }
-      // if(Math.abs(angle.facing - angle.moving) > 120){
-      //    console.log("OVER 120?");
-      // }
-
       //turn
       angle.facing += turningSpeed *underSteering;
       angle.moving += turningSpeed/driftForce;
@@ -495,7 +486,7 @@ const displayDriftParticles = (driftForce) => {
    if(driftForce > 1.5 && !onDirt){
       const particleX = x - ((10) * Math.cos(angle.moving * Math.PI/180));
       const particleY = y - ((10) * Math.sin(angle.moving * Math.PI/180));
-      createDriftParticle(particleX,particleY,driftForce);
+      createDriftParticle(particleX,particleY,driftForce,angle);
    }
 }
 
@@ -510,7 +501,6 @@ const accelerate = (acceleration,forward) => {
             speed += acceleration;
          }
          else{ // backwards
-            console.log("diff",diff)
             speed -= acceleration;
          }
       }
@@ -613,7 +603,7 @@ const placeCharacter = () => {
 
    //place particles
    for(particle of particles){
-      particle.element.style.transform = `translate3d( ${particle.x*pixelSize}px, ${particle.y*pixelSize}px, 0 `; 
+      particle.element.style.transform = `translate3d( ${particle.x*pixelSize}px, ${particle.y*pixelSize}px , 0) rotate(${particle.angle}deg)`; 
    }
 
    character.style.transform = `translate3d( ${x*pixelSize}px, ${y*pixelSize}px, 0 )`; 
