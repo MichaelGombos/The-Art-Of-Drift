@@ -99,8 +99,6 @@ for(let rowIndex in mapData){
       }
       else if(cell == 4){
          mapCell.classList.add("finish");
-         spawn.x = cellDataIndex;
-         spawn.y = rowIndex;
       }
       //put cell into row
       mapRow.appendChild(mapCell);
