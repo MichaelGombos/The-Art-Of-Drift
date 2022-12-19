@@ -151,7 +151,9 @@ li{
 .spawn{
   background-color:#71c9ff;
 }
-
+.finish{
+  background-color:#73ff71;
+}
 .map-grid{
   display:flex;
   flex-direction:column;
