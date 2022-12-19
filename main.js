@@ -1,6 +1,7 @@
 const character = document.querySelector(".character");
 const characterSprite = document.querySelector(".character_spritesheet")
 const stats = {
+   lap : document.querySelector("#lap"),
    x : document.querySelector("#x"),
    y : document.querySelector("#y"),
    speed : document.querySelector("#speed"),
@@ -451,8 +452,7 @@ const collision = (x,y,speed) => {
          if(onFinish == true){
             //exiting the finish line 
             onFinish = false;
-            // lap++;
-            // console.log("LAP!!", lap)
+            lap++;
          }
          onFinish == false;
       }
@@ -503,6 +503,7 @@ const accelerate = (acceleration,forward) => {
 const placeCharacter = () => {
    
    //update stats
+   stats.lap.innerHTML = lap;
    stats.x.innerHTML = x.toFixed(2);
    stats.y.innerHTML = y.toFixed(2);
    stats.speed.innerHTML = speed.toFixed(2);
