@@ -687,6 +687,9 @@ const keys = {
 }
 document.addEventListener("keydown", (e) => {
    const dir = keys[e.which];
+   if(dir == "up" || dir == "down"){
+      e.preventDefault();
+   }
    if (dir && held_directions.indexOf(dir) === -1) {
       held_directions.unshift(dir)
    }
