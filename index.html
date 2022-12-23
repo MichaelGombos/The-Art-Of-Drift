@@ -22,18 +22,30 @@
       <li>RIGHT LOCK <span id="lock-right">False</span></li>
       <li>PARTICLE COUNT <span id="particle-count">0</span></li>
    </ul>
-   
-  <div class="camera">
-     <div class="map pixel-art">
-        <div class="map-grid"> 
-        </div>
-        <div class="character" facing="down" walking="true" angle="0">
-           <div class="character_spritesheet pixel-art"></div>
-        </div>
-     </div>
-  </div>
+   <main>
+      <div class="camera">
+         <div class="map pixel-art">
+            <div class="map-grid"> 
+            </div>
+            <div class="character" facing="down" walking="true" angle="0">
+               <div class="character_spritesheet pixel-art"></div>
+            </div>
+         </div>
+      </div>
+
+      <div id="import">
+         Import your own map Below
+         <button id="upload">Import</button>
+         <textarea id="map-input">
+
+         </textarea>
+      </div>
+   </main>
 
 
+  <div class="menu">
    <a href="https://github.com/MichaelGombos/browser-driving-demo">REPO</a>
+   <a href="https://michaelgombos.github.io/browser-driving-map-creator/">MAP MAKER</a>
+  </div>
 <script src="main.js"></script>
 </body>
