@@ -25,26 +25,26 @@ const uploadButton = document.querySelector("#upload");
 const mapInput = document.querySelector("#map-input")
 
 let mapData = [
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,4,4,4,4,4,0,0,5,5,5,5,5,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+   [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1],
+   [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1],
+   [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1],
+   [1,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1],
+   [1,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1],
+   [1,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,1,1,1],
+   [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1],
+   [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1],
+   [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1],
+   [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1],
+   [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1],
+   [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1],
+   [1,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,1,1,1],
+   [1,0,0,0,0,1,1,1,5,5,5,5,5,0,0,0,0,1,1,1],
+   [1,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,1,1,1],
+   [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1],
+   [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1],
+   [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1],
+   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
    ];
 let rows;
 let columns;
@@ -381,25 +381,30 @@ const collision = (x,y,speed) => {
       //walls
       if(mapData[Math.floor(newY/tilePixelCount)][Math.floor(x/tilePixelCount)] == 1 || mapData[Math.ceil(newY/tilePixelCount)][Math.ceil(x/tilePixelCount)] == 1){
          
-         let tempAngle = angle.moving
-         angle.moving = 360 - tempAngle;
-         angle.facing = 360 - tempAngle;
+         // //old bouncy collition
+         // let tempAngle = angle.moving
+         // angle.moving = 360 - tempAngle;
+         // angle.facing = 360 - tempAngle;
 
-         newY = y + (speed * Math.sin(angle.moving * Math.PI/180));
-         speed = speed;
-         console.log("Y BOUNCE!")
+         // newY = y + (speed * Math.sin(angle.moving * Math.PI/180));
+         // speed = speed;
+
+         newY = y;
+         console.log("y wall collision")
       }
 
       if(mapData[Math.floor(y/tilePixelCount)][Math.floor(newX/tilePixelCount)] == 1 || mapData[Math.ceil(y/tilePixelCount)][Math.ceil(newX/tilePixelCount)] == 1){
          
-         let tempAngle = angle.moving
-         angle.moving =   180 - tempAngle;
-         angle.facing = 180 - tempAngle  ;
+         // //old bouncy collision
+         // let tempAngle = angle.moving
+         // angle.moving =   180 - tempAngle;
+         // angle.facing = 180 - tempAngle  ;
          
-         newX = x + (speed * Math.cos(angle.moving * Math.PI/180));
-         speed = speed;
-         console.log("mapData",mapData)
-         console.log("X BOUNCE")
+         // newX = x + (speed * Math.cos(angle.moving * Math.PI/180));
+         // speed = speed;
+         // console.log("mapData",mapData)
+         newX = x;
+         console.log("x wall collision")
       }
       //dirt
       if(mapData[Math.floor(newY/tilePixelCount)][Math.floor(x/tilePixelCount)] == 2 || mapData[Math.ceil(newY/tilePixelCount)][Math.ceil(x/tilePixelCount)] == 2){
