@@ -110,7 +110,13 @@ li{
   height:100%;
 }
 
+@keyframes particle-fade {
+  from{opacity:1;}
+  to {opacity:0;}
+}
+
 .particle{
+  opacity: 1;
   z-index: 0;
   position:absolute;
   height:32px;
@@ -125,9 +131,18 @@ li{
 }
 .particle.cloud{
   background-color:rgba(255, 255, 255, 0.149);
+
+  animation: particle-fade;
+  animation-fill-mode: forwards;  
+
+  animation-duration:1s;
 }
 .particle.dirt{
   background-color:rgba(106, 67, 15, 0.203);
+  animation: particle-fade;
+  animation-fill-mode: forwards;  
+
+  animation-duration:2s;
 }
 
 .cell{
