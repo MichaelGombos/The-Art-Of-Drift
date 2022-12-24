@@ -19,6 +19,7 @@ const stats = {
 }
 const map = document.querySelector(".map");
 const mapGrid = document.querySelector(".map-grid")
+const mapParticles = document.createElement("div");
 
 const uploadButton = document.querySelector("#upload");
 const mapInput = document.querySelector("#map-input")
@@ -188,8 +189,8 @@ let  gridCellSize = pixelSize * tilePixelCount;
 
 const carSize = tilePixelCount;
 const acceleration = .030;
-const friction = .015;
-const maxSpeed = 10;
+const friction = .008;
+const maxSpeed = 20;
 //find spawn
 
 let x = spawn.x * tilePixelCount;
@@ -236,9 +237,13 @@ const createDriftParticle = (x,y,driftForce,angle) => {
          particle.element.classList.add("cloud");
       }
       particles.push(particle);
+      
+      let index = particles.length-1;
       map.appendChild(particle.element)
       console.log("particlerotate",angle);
       console.log("particlerotate",particle.element.style.transform);
+
+
 }
 
 const createDirtParticle = (x,y) => {
@@ -533,10 +538,22 @@ const displayDriftParticles = (driftForce) => {
       const particleY = y - ((10) * Math.sin(angle.moving * Math.PI/180));
       createDriftParticle(particleX,particleY,driftForce,angle);
    }
+
+   //delete drift particle if more than 100
+  
+      setTimeout(() => {
+         if(particles.length > 100){
+            if(particles[100]){
+               particles[0].element.remove();
+               particles.shift();
+            }
+         }
+      },10000)
+   
 }
 
 const accelerate = (acceleration,forward) => {
-   if(speed <= 10){
+   if(speed <= maxSpeed){
       if(forward){
          let diff = angle.facing - angle.moving;
          if(diff < 0){
