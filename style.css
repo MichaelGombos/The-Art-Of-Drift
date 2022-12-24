@@ -166,8 +166,11 @@ li{
 .spawn{
   background-color:#71c9ff;
 }
-.finish{
+.finish-up{
   background-color:#73ff71;
+}
+.finish-down{
+  background-color:#ff29e2;
 }
 .map-grid{
   display:flex;
