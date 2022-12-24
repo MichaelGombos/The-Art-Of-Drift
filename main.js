@@ -1,6 +1,7 @@
 const character = document.querySelector(".character");
 const characterSprite = document.querySelector(".character_spritesheet")
 const stats = {
+   time : document.querySelector("#time"),
    lap : document.querySelector("#lap"),
    x : document.querySelector("#x"),
    y : document.querySelector("#y"),
@@ -172,6 +173,17 @@ let onFinish = {
    down: false
 };
 let lap = 0;
+let seconds = 0;
+let timeString = "00:00:00";
+
+const incrementSeconds = () => {
+   seconds+=1;
+   var date = new Date(0);
+   date.setSeconds(seconds); // specify value for SECONDS here
+   timeString = date.toISOString().substring(11, 19);
+}
+
+setInterval(incrementSeconds,1000)
 
 const createDriftParticle = (x,y,driftForce,angle) => {
       let particle = {
@@ -569,6 +581,7 @@ const accelerate = (acceleration,forward) => {
 const placeCharacter = () => {
    
    //update stats
+   stats.time.innerHTML = timeString;
    stats.lap.innerHTML = lap;
    stats.x.innerHTML = x.toFixed(2);
    stats.y.innerHTML = y.toFixed(2);
