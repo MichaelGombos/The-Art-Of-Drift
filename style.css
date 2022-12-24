@@ -176,6 +176,10 @@ li{
   transform: rotate(180deg);
    background-color:#ff29e2;
 }
+.bumper{
+  background-color:#0027d2;
+}
+
 .map-grid{
   display:flex;
   flex-direction:column;
