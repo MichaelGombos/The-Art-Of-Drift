@@ -147,8 +147,9 @@ const carSize = tilePixelCount;
 const acceleration = .030;
 const friction = .008;
 const maxSpeed = 20;
-//find spawn
+const maxLaps = 3;
 
+//find spawn
 let x = spawn.x * tilePixelCount;
 let y = spawn.y * tilePixelCount;
 let speed = 0; 
@@ -160,6 +161,7 @@ let angleLock = {
    left:false,
    right:false
 }
+let engineLock = false;
 
 let tireGrip = 1.05;
 let turningSpeed = 5;
@@ -408,6 +410,14 @@ const applyFriction = (speed) => {
    }
 }
 
+const increaseLaps = () => {
+   lap++;
+
+   if(lap >= maxLaps){
+      engineLock = true; //disbales acceleration
+   }
+}
+
 const collision = (x,y,speed) => {
    let newX = x + (speed * Math.cos(angle.moving * Math.PI/180));
    let newY = y + (speed * Math.sin(angle.moving * Math.PI/180));
@@ -468,7 +478,7 @@ const collision = (x,y,speed) => {
             //exiting the finish line 
             onFinish.up = false;
             if(newY < y) {
-               lap++;
+               increaseLaps();
             }
             else{
                // lap--;
@@ -486,7 +496,7 @@ const collision = (x,y,speed) => {
             //exiting the finish line 
             onFinish.down = false;
             if(newY > y) {
-               lap++;
+               increaseLaps();
             }
             else{
                // lap--;
@@ -550,7 +560,7 @@ const displayDriftParticles = (driftForce) => {
 }
 
 const accelerate = (acceleration,forward) => {
-   if(speed <= maxSpeed){
+   if(Math.abs(speed) <= maxSpeed && !engineLock ){
       if(forward){
          let diff = angle.facing - angle.moving;
          if(diff < 0){
@@ -563,7 +573,7 @@ const accelerate = (acceleration,forward) => {
             speed -= acceleration;
          }
       }
-      }
+
       else{
          let diff = angle.facing - angle.moving;
          if(diff < 0){
@@ -576,13 +586,15 @@ const accelerate = (acceleration,forward) => {
             speed += acceleration;
          }
       }
+      }
+
 }
 
 const placeCharacter = () => {
    
    //update stats
    stats.time.innerHTML = timeString;
-   stats.lap.innerHTML = lap;
+   stats.lap.innerHTML = `${lap}/${maxLaps}`;
    stats.x.innerHTML = x.toFixed(2);
    stats.y.innerHTML = y.toFixed(2);
    stats.speed.innerHTML = speed.toFixed(2);
