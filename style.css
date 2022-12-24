@@ -210,3 +210,13 @@ li{
   flex-direction:column;
   gap:10px;
 }
+
+#time-header.current{
+  font-weight:bold;
+  color:rgb(255, 225, 0);
+}
+
+#time-header.final{
+  font-weight:bold;
+  color:rgb(20, 255, 51);
+}
