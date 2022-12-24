@@ -167,10 +167,14 @@ li{
   background-color:#71c9ff;
 }
 .finish-up{
+  background-image:url("./assets/arrow.svg");
   background-color:#73ff71;
+
 }
 .finish-down{
-  background-color:#ff29e2;
+  background-image:url("./assets/arrow.svg");
+  transform: rotate(180deg);
+   background-color:#ff29e2;
 }
 .map-grid{
   display:flex;
