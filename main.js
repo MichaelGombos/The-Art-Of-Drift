@@ -78,9 +78,10 @@ const generateMap = (inputData) => {
     mapData = inputData;
     document.documentElement.style.setProperty("--rows", rows);
     document.documentElement.style.setProperty("--columns", columns);
-}
 
-generateMap(mapData);
+    car.setX(spawn.x * tilePixelCount)
+    car.setY(spawn.y * tilePixelCount)
+}
 
 const tilePixelCount = parseInt(
     getComputedStyle(document.documentElement).getPropertyValue('--tile-pixel-count')
@@ -89,129 +90,22 @@ let pixelSize = parseInt(
     getComputedStyle(document.documentElement).getPropertyValue('--pixel-size')
 );
 
+generateMap(mapData);
+
 let gridCellSize = pixelSize * tilePixelCount;
 
 const carSize = tilePixelCount;
-const acceleration = car.acceleration;
-const friction = car.friction;
-const maxSpeed = car.maxSpeed;
-const maxLaps = car.maxLaps;
-
-//find spawn
-let x = spawn.x * tilePixelCount;
-let y = spawn.y * tilePixelCount;
-let speed = 0;
-let angle = {
-    moving: 0,
-    facing: 0,
-}
-let angleLock = {
-    left: false,
-    right: false
-}
-let engineLock = false;
-
-let tireGrip = 1.05;
-let turningSpeed = 5;
-let driftForce = car.driftForce;
-let underSteering = 1;
-const held_directions = []; //State of which arrow keys we are holding down
-let onDirt = false;
-let onFinish = {
-    up: false,
-    down: false
-};
-let lap = car.lap;
-
-let seconds = 0;
-let timeString = "00:00:00";
-
-
-
-//car controls
-
-const accelerate = (acceleration, forward) => {
-    if (Math.abs(speed) <= maxSpeed && !engineLock) {
-        if (forward) {
-            let diff = angle.facing - angle.moving;
-            if (diff < 0) {
-                diff += 360;
-            }
-            if (diff < 90 || diff > 270) { //we are facing forwards
-                speed += acceleration;
-            } else { // backwards
-                speed -= acceleration;
-            }
-        } else {
-            let diff = angle.facing - angle.moving;
-            if (diff < 0) {
-                diff += 360;
-            }
-            if (diff < 90) { //we are facing forwards
-                speed -= acceleration;
-            } else { // backwards
-                speed += acceleration;
-            }
-        }
-    }
-}
-
-const turn = (direction) => {
-
-    //compareAngles 
-    if (direction === "right" && !angleLock.right) {
-        if (driftForce <= 1.4) {
-            driftForce += .1;
-        } else if (driftForce > 1.4 && driftForce < 5) {
-            driftForce += 0.075;
-        }
-        //turn
-        angle.facing += turningSpeed * underSteering;
-        angle.moving += turningSpeed / driftForce;
-
-        //degree correction
-        if (angle.facing > 360) {
-            angle.facing = angle.facing - 360;
-        }
-        if (angle.moving > 360) {
-            angle.moving = angle.moving - 360;
-        }
-    } else if (direction === "left" && !angleLock.left) {
-        if (driftForce <= 1.4) {
-            driftForce += .1;
-        } else if (driftForce > 1.4 && driftForce < 5) {
-            driftForce += 0.075;
-        }
-
-        //turn
-        angle.facing -= turningSpeed * underSteering;
-        angle.moving -= turningSpeed / driftForce;
-
-        //degree correction
-        if (angle.facing < 0) {
-            angle.facing = angle.facing + 360;
-        }
-        if (angle.moving < 0) {
-            angle.moving = angle.moving + 360;
-        }
-
-    }
-}
-
-// car physics
-
-
-
-
 
 //game 
 
-const checkGameOver = (currentLap, maxLaps) => {
-    lap = currentLap
+const held_directions = []; //State of which arrow keys we are holding down
+let seconds = 0;
+let timeString = "00:00:00";
 
+const checkGameOver = (currentLap, maxLaps) => {
     console.log(lap)
     if (currentLap >= maxLaps) {
-        engineLock = true; //disbales acceleration
+        car.setEngineLock(true); //disbales acceleration
         timeHeader.innerText = "FINAL TIME";
         timeHeader.classList.remove("current");
         timeHeader.classList.add("final")
@@ -220,7 +114,7 @@ const checkGameOver = (currentLap, maxLaps) => {
 
 
 const incrementSeconds = () => {
-    if (!engineLock) {
+    if (!car.getEngineLock()) {
         seconds += 1;
         var date = new Date(0);
         date.setSeconds(seconds); // specify value for SECONDS here
@@ -237,16 +131,16 @@ const placeCharacter = () => {
     //update stats
     stats.time.innerHTML = timeString;
     console.log()
-    stats.lap.innerHTML = `${lap}/${maxLaps}`;
-    stats.x.innerHTML = x.toFixed(2);
-    stats.y.innerHTML = y.toFixed(2);
-    stats.speed.innerHTML = speed.toFixed(2);
-    stats.angle.facing.innerHTML = angle.facing.toFixed(2);
-    stats.angle.moving.innerHTML = angle.moving.toFixed(2);
-    stats.driftForce.innerHTML = driftForce.toFixed(2);
-    stats.underSteering.innerHTML = underSteering.toFixed(2);
-    stats.angleLock.left.innerHTML = angleLock.left;
-    stats.angleLock.right.innerHTML = angleLock.right;
+    stats.lap.innerHTML = `${car.getLap()}/${car.getMaxLaps()}`;
+    stats.x.innerHTML = car.getX().toFixed(2);
+    stats.y.innerHTML = car.getY().toFixed(2);
+    stats.speed.innerHTML = car.getSpeed().toFixed(2);
+    stats.angle.facing.innerHTML = car.getAngle().facing.toFixed(2);
+    stats.angle.moving.innerHTML = car.getAngle().moving.toFixed(2);
+    stats.driftForce.innerHTML = car.getDriftForce().toFixed(2);
+    stats.underSteering.innerHTML = car.getUnderSteering().toFixed(2);
+    stats.angleLock.left.innerHTML = car.getAngleLock().left;
+    stats.angleLock.right.innerHTML = car.getAngleLock().right;
     stats.particleCount.innerHTML = particles.length;
 
 
@@ -259,43 +153,38 @@ const placeCharacter = () => {
     // check if a direction is being held
 
 
-    angleLock = car.updateAngleLock(angle, angleLock)
+    car.updateAngleLock()
     if (held_directions.length > 0) {
         //turn
         if (speed != 0) {
             if (held_directions.includes(directions.right)) {
-                turn("right");
+                car.turn("right");
             } else if (held_directions.includes(directions.left)) {
-                turn("left");
+                car.turn("left");
             }
-            characterSprite.style.transform = `rotate(${angle.facing}deg)`;
+            characterSprite.style.transform = `rotate(${car.getAngle().facing}deg)`;
         }
 
         if (held_directions.includes(directions.down)) {
-            accelerate(acceleration, false)
+            car.accelerate( false)
         }
         if (held_directions.includes(directions.up)) {
-            accelerate(acceleration, true)
+            car.accelerate( true)
         }
 
     }
 
-    driftForce = car.stabalizeDriftForce(driftForce, speed);
-    displayDriftParticles(driftForce,onDirt,angle);
-    angle.moving = car.stabalizeAngle(angle.moving, angle.facing, speed, tireGrip)
+    car.stabalizeDriftForce();
+    displayDriftParticles(car.getDriftForce(),car.getOnDirt(),car.getAngle());
+    car.stabalizeAngle()
 
 
     if (speed != 0) {
-        let position;
-        position = car.collision(x, y, speed, angle, tilePixelCount, rows, columns, mapData, onDirt, onFinish)
-        x = position.x;
-        y = position.y;
-        speed = position.speed;
+        car.collision(tilePixelCount, rows, columns, mapData)
         //friction
-        speed = car.applyFriction(speed);
-
+        car.applyFriction();
     }
-    underSteering = car.updateUnderSteering(speed);
+    car.updateUnderSteering(speed);
     //understeering
 
 
@@ -308,30 +197,31 @@ const placeCharacter = () => {
     const rightLimit = (columns * tilePixelCount) - carSize;
     const topLimit = 0;
     const bottomLimit = (rows * tilePixelCount) - carSize;
-    if (x < leftLimit) {
-        x = leftLimit;
+    if (car.getX() < leftLimit) {
+        car.setX(leftLimit);
     }
-    if (x > rightLimit) {
-        x = rightLimit;
+    if (car.getX() > rightLimit) {
+        car.setX(rightLimit);
     }
-    if (y < topLimit) {
-        y = topLimit;
+    if (car.getY() < topLimit) {
+        car.setY(topLimit);
     }
-    if (y > bottomLimit) {
-        y = bottomLimit;
+    if (car.getY() > bottomLimit) {
+        car.setY(bottomLimit);
     }
+    // console.log(x);
 
     const camera_left = pixelSize * 70;
     const camera_top = pixelSize * 70;
 
-    map.style.transform = `translate3d( ${-x*pixelSize+camera_left}px, ${-y*pixelSize+camera_top}px, 0 )`;
+    map.style.transform = `translate3d( ${-car.getX()*pixelSize+camera_left}px, ${-car.getY()*pixelSize+camera_top}px, 0 )`;
 
     //place particles
     for (let particle of particles) {
         particle.element.style.transform = `translate3d( ${particle.x*pixelSize}px, ${particle.y*pixelSize}px , 0) rotate(${particle.angle}deg)`;
     }
 
-    character.style.transform = `translate3d( ${x*pixelSize}px, ${y*pixelSize}px, 0 )`;
+    character.style.transform = `translate3d( ${car.getX()*pixelSize}px, ${car.getY()*pixelSize}px, 0 )`;
 
 
 }
@@ -339,6 +229,8 @@ const placeCharacter = () => {
 
 const handleUpload = (e) => {
     generateMap(JSON.parse("[" + mapInput.value + "]")[0])
+
+
 }
 
 

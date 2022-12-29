@@ -15,6 +15,47 @@ const Car = () => {
     let lap = 0;
     let driftForce = 1;
 
+    let x = 0;
+    let y = 0;
+
+    let speed = 0;
+    let angle = {
+        moving: 0,
+        facing: 0,
+    }
+    let angleLock = {
+        left: false,
+        right: false
+    }
+    let engineLock = false;
+
+    let tireGrip = 1.05;
+    let turningSpeed = 5;
+    let underSteering = 1;
+    
+    let onDirt = false;
+    let onFinish = {
+        up: false,
+        down: false
+    };
+    //getters
+    const getMaxLaps = () => {return maxLaps}
+    const getLap = () => {return lap}
+    const getAngle = () => {return angle}
+    const getDriftForce = () => {return driftForce}
+    const getX = () => {return x}
+    const getY = () => {return y}
+    const getSpeed = () => {return speed}
+    const getAngleLock = () => {return angleLock}
+    const getEngineLock =() => {return engineLock}
+    const getUnderSteering =() => {return underSteering}
+    const getOnDirt = () => {return onDirt}
+    //setters 
+    const setX = (value) => {x = value}
+    const setY = (value) => {y = value}
+    const setEngineLock = (value) => {engineLock = value}
+
+    
     const compareFacingRelativeToMoving = (facingAngle, movingAngle) => { // 1 right 0 middle - 1l eft 
 
         let difference = facingAngle - movingAngle;
@@ -29,7 +70,7 @@ const Car = () => {
         }
     }
 
-    const updateAngleLock = (angle, angleLock) => {
+    const updateAngleLock = () => {
 
         const direction = compareFacingRelativeToMoving(angle.facing, angle.moving)
         const facingAngle = angle.facing;
@@ -46,18 +87,19 @@ const Car = () => {
             if (diff > 90) {
                 console.log("here1")
 
-                return ({ //TODO, need to reurn an angle lock object, instead of trying to mutate main from car.js!
+                return (
+                    angleLock = {
                     right: true,
                     left: false
                 })
             } else {
                 if (angleLock.right) {
-                    return {
+                    angleLock = {
                         right: false,
                         left: angleLock.left
                     }
                 } else {
-                    return {
+                    angleLock = {
                         right: false,
                         left: false
                     }
@@ -73,66 +115,64 @@ const Car = () => {
             }
 
             if (diff > 90) {
-                return {
+                angleLock = {
                     right: true,
                     left: false
                 }
             } else {
                 if (angleLock.left) {
-                    return {
+                    angleLock = {
                         right: angleLock.right,
                         left: false
                     }
                 } else {
-                    return {
+                    angleLock = {
                         right: false,
                         left: false
                     }
                 }
             }
         } else {
-            return {
+            angleLock = {
                 right: false,
                 left: false
             }
         }
     }
 
-
-
-
-    const stabalizeDriftForce = (driftForce, speed) => {
+    const stabalizeDriftForce = () => {
 
         if (speed < 1.5 || driftForce <= 1.05) {
-            return 1;
+            driftForce =  1;
         } else if (driftForce > 1.05) {
-            return driftForce -= .05;
+            driftForce -= .05;
         }
     }
 
-    const stabalizeAngle = (movingAngle, facingAngle, speed, tireGrip) => {
-
+    const stabalizeAngle = () => {
+        let movingAngle = angle.moving;
+        let facingAngle = angle.facing;
         if (speed == 0) {
-            return facingAngle;
-        } else if (Math.abs(movingAngle - facingAngle) < tireGrip) {
-            return facingAngle;
+            angle.moving = angle.facing;
+        } else if (Math.abs(angle.moving - facingAngle) < tireGrip) {
+            angle.moving = angle.facing;
         }
         //angle correct normal 
-        else if (Math.abs(movingAngle - facingAngle) < 30) {
+        else if (Math.abs(angle.moving - facingAngle) < 30) {
             if (movingAngle > facingAngle) {
-                return movingAngle - tireGrip;
+                angle.moving =  angle.moving - tireGrip;
             }
             if (movingAngle < facingAngle) {
-                return movingAngle + tireGrip;
+                angle.moving =  angle.moving + tireGrip;
             }
         }
         //angle correct faster 
         else if (Math.abs(movingAngle - facingAngle) > 30) {
             if (movingAngle > facingAngle) {
-                return movingAngle - tireGrip * 3;
+                angle.moving =  angle.moving - tireGrip * 3;
             }
             if (movingAngle < facingAngle) {
-                return movingAngle + tireGrip * 3;
+                angle.moving = angle.moving + tireGrip * 3;
             }
         }
     }
@@ -140,30 +180,30 @@ const Car = () => {
     const updateUnderSteering = (speed) => {
         switch (true) {
             case (Math.abs(speed) > 0 && Math.abs(speed) < 1.5):
-                return 1
+                underSteering = 1
             case (Math.abs(speed) > 1.5 && Math.abs(speed) < 2.5):
-                return .9
+                underSteering = .9
             case (Math.abs(speed) > 2.5 && Math.abs(speed) < 4):
-                return .7
+                underSteering = .7
             case (Math.abs(speed) > 4 && Math.abs(speed) < 5):
-                return .5
+                underSteering = .5
             case (Math.abs(speed) > 5 && Math.abs(speed) < 7):
-                return .4
+                underSteering = .4
             case (Math.abs(speed) > 7):
-                return .3
+                underSteering = .3
             default:
-                return 1;
+                underSteering = 1;
                 break;
         }
     }
 
-    const applyFriction = (speed) => {
+    const applyFriction = () => {
         if (Math.abs(speed) < 0.025) {
-            return 0;
+            speed = 0;
         } else if (speed > 0) {
-            return speed - friction;
+            speed -= friction;
         } else if (speed < 0) {
-            return speed + friction;
+            speed += friction;
         }
     }
 
@@ -173,7 +213,78 @@ const Car = () => {
         checkGameOver(lap, maxLaps)
     }
 
-    const collision = (x, y, speed, angle, tilePixelCount, rows, columns, mapData, onDirt, onFinish) => {
+    //car controls
+
+    const accelerate = ( forward) => {
+        if (Math.abs(speed) <= maxSpeed && !engineLock) {
+            if (forward) {
+                let diff = angle.facing - angle.moving;
+                if (diff < 0) {
+                    diff += 360;
+                }
+                if (diff < 90 || diff > 270) { //we are facing forwards
+                    speed += acceleration;
+                } else { // backwards
+                    speed -= acceleration;
+                }
+            } else {
+                let diff = angle.facing - angle.moving;
+                if (diff < 0) {
+                    diff += 360;
+                }
+                if (diff < 90) { //we are facing forwards
+                    speed -= acceleration;
+                } else { // backwards
+                    speed += acceleration;
+                }
+            }
+        }
+    }
+
+    const turn = (direction) => {
+
+        //compareAngles 
+        if (direction === "right" && !angleLock.right) {
+            if (driftForce <= 1.4) {
+                driftForce += .1;
+            } else if (driftForce > 1.4 && driftForce < 5) {
+                driftForce += 0.075;
+            }
+            //turn
+            angle.facing += turningSpeed * underSteering;
+            angle.moving += turningSpeed / driftForce;
+
+            //degree correction
+            if (angle.facing > 360) {
+                angle.facing = angle.facing - 360;
+            }
+            if (angle.moving > 360) {
+                angle.moving = angle.moving - 360;
+            }
+        } else if (direction === "left" && !angleLock.left) {
+            if (driftForce <= 1.4) {
+                driftForce += .1;
+            } else if (driftForce > 1.4 && driftForce < 5) {
+                driftForce += 0.075;
+            }
+
+            //turn
+            angle.facing -= turningSpeed * underSteering;
+            angle.moving -= turningSpeed / driftForce;
+
+            //degree correction
+            if (angle.facing < 0) {
+                angle.facing = angle.facing + 360;
+            }
+            if (angle.moving < 0) {
+                angle.moving = angle.moving + 360;
+            }
+
+        }
+    }
+
+
+    const collision = (tilePixelCount, rows, columns, mapData) => {
         let newX = x + (speed * Math.cos(angle.moving * Math.PI / 180));
         let newY = y + (speed * Math.sin(angle.moving * Math.PI / 180));
 
@@ -265,7 +376,6 @@ const Car = () => {
                 angle.facing = 360 - tempAngle;
 
                 newY = y + (speed * Math.sin(angle.moving * Math.PI / 180));
-                speed = speed;
 
                 console.log("y bounce collision")
             }
@@ -278,7 +388,6 @@ const Car = () => {
                 angle.facing = 180 - tempAngle;
 
                 newX = x + (speed * Math.cos(angle.moving * Math.PI / 180));
-                speed = speed;
 
                 console.log("x bounce collision")
             }
@@ -286,27 +395,34 @@ const Car = () => {
 
         x = newX;
         y = newY;
-        return {
-            x,
-            y,
-            speed
-        };
     }
 
+    
     return {
-        acceleration,
-        friction,
-        maxSpeed,
-        maxLaps,
-        lap,
-        driftForce,
-        compareFacingRelativeToMoving,
+        //getters
+        getMaxLaps,
+        getLap,
+        getAngle,
+        getDriftForce,
+        getX,
+        getY,
+        getSpeed,
+        getAngleLock,
+        getEngineLock,
+        getUnderSteering,
+        getOnDirt,
+        //setters
+        setX,
+        setY,
+        setEngineLock,
+        //functions
         updateAngleLock,
         stabalizeDriftForce,
         stabalizeAngle,
         updateUnderSteering,
         applyFriction,
-        increaseLaps,
+        turn,
+        accelerate,
         collision
     }
 }
