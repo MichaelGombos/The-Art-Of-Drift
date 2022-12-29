@@ -1,10 +1,8 @@
 import {
-    createDirtParticle,
-    createDriftParticle,
-    held_directions,
     checkGameOver
-} from "./main.js";
+} from "./game.js";
 
+import {createDirtParticle, createDriftParticle,displayDriftParticles,particles} from "./graphics.js"
 
 //defines car physics 
 const Car = () => {
@@ -284,7 +282,7 @@ const Car = () => {
     }
 
 
-    const collision = (tilePixelCount, rows, columns, mapData) => {
+    const collision = (tilePixelCount, rows, columns, mapData, held_directions) => {
         let newX = x + (speed * Math.cos(angle.moving * Math.PI / 180));
         let newY = y + (speed * Math.sin(angle.moving * Math.PI / 180));
 
@@ -358,7 +356,6 @@ const Car = () => {
                     //exiting the finish line 
                     onFinish.down = false;
                     if (newY > y) {
-                        console.log(lap, "OMG")
                         increaseLaps();
                     } else {
                         // lap--;
@@ -428,7 +425,5 @@ const Car = () => {
     }
 }
 const car = Car();
-
-console.log(car)
 
 export default car;
