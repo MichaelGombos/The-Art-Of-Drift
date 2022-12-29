@@ -49,7 +49,7 @@ const createDirtParticle = (x, y) => {
   particles.push(particle);
   map.appendChild(particle.element)
 }
-const displayDriftParticles = (driftForce, onDirt,angle) => {
+const displayDriftParticles = (x,y ,driftForce, onDirt,angle) => {
   if (driftForce > 1.5 && !onDirt) {
       const particleX = x - ((10) * Math.cos(angle.moving * Math.PI / 180));
       const particleY = y - ((10) * Math.sin(angle.moving * Math.PI / 180));

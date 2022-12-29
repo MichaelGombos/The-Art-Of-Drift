@@ -36,6 +36,23 @@ let rows;
 let columns;
 let spawn = {};
 
+
+
+const tilePixelCount = parseInt(
+    getComputedStyle(document.documentElement).getPropertyValue('--tile-pixel-count')
+);
+let pixelSize = parseInt(
+    getComputedStyle(document.documentElement).getPropertyValue('--pixel-size')
+);
+
+
+
+let gridCellSize = pixelSize * tilePixelCount;
+
+const carSize = tilePixelCount;
+
+//game 
+
 const generateMap = (inputData) => {
     while (mapGrid.lastElementChild) {
         mapGrid.removeChild(mapGrid.lastElementChild);
@@ -83,20 +100,7 @@ const generateMap = (inputData) => {
     car.setY(spawn.y * tilePixelCount)
 }
 
-const tilePixelCount = parseInt(
-    getComputedStyle(document.documentElement).getPropertyValue('--tile-pixel-count')
-);
-let pixelSize = parseInt(
-    getComputedStyle(document.documentElement).getPropertyValue('--pixel-size')
-);
-
 generateMap(mapData);
-
-let gridCellSize = pixelSize * tilePixelCount;
-
-const carSize = tilePixelCount;
-
-//game 
 
 const held_directions = []; //State of which arrow keys we are holding down
 let seconds = 0;
@@ -175,7 +179,7 @@ const placeCharacter = () => {
     }
 
     car.stabalizeDriftForce();
-    displayDriftParticles(car.getDriftForce(),car.getOnDirt(),car.getAngle());
+    displayDriftParticles(car.getX(),car.getY(),car.getDriftForce(),car.getOnDirt(),car.getAngle());
     car.stabalizeAngle()
 
 

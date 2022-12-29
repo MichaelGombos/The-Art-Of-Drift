@@ -312,9 +312,9 @@ const Car = () => {
                 onDirt = true;
                 if (speed > 1) {
                     speed = speed / 1.03;
+                    createDirtParticle(x, y);
                 }
                 //different drift max in dirt
-                createDirtParticle(x, y);
                 if (driftForce < 8 && held_directions.includes("left") || driftForce < 8 && held_directions.includes("right")) {
                     driftForce += .2;
                 }
@@ -323,9 +323,10 @@ const Car = () => {
                 onDirt = true;
                 if (speed > 1) {
                     speed = speed / 1.03;
+                    createDirtParticle(x, y);
                 }
 
-                createDirtParticle(x, y);
+                
                 if (driftForce < 8 && held_directions.includes("left") || driftForce < 8 && held_directions.includes("right")) {
                     driftForce += .2;
                 }
