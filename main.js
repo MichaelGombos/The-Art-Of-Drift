@@ -35,6 +35,7 @@ const mapParticles = document.createElement("div");
 const uploadButton = document.querySelector("#upload");
 const mapInput = document.querySelector("#map-input")
 
+const replayOutput = document.querySelector("#replay-output")
 
 
 
@@ -58,5 +59,6 @@ export {
     stats,
     timeHeader,
     map,
-    mapGrid
+    mapGrid,
+    replayOutput
 }

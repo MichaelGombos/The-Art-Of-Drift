@@ -4,7 +4,8 @@ import {
   stats,
   timeHeader,
   map,
-  mapGrid
+  mapGrid,
+  replayOutput
 } from "./main.js"
 import car from "./car.js"
 import {
@@ -17,6 +18,8 @@ const tilePixelCount = parseInt(
 );
 const carSize = tilePixelCount;
 const held_directions = []; //State of which arrow keys we are holding down
+const replayArray = [] //array containing list of inputs we can use for the ghost car 
+
 
 /* Direction key state */
 const directions = {
@@ -101,6 +104,10 @@ const checkGameOver = (currentLap, maxLaps) => {
       timeHeader.innerText = "FINAL TIME";
       timeHeader.classList.remove("current");
       timeHeader.classList.add("final")
+
+
+      //paste replay array to export.
+      replayOutput.innerText =  "[" + replayArray.map(frame => "\n[" + frame.map(command => command ) + "]") + "\n]";;
   }
 }
 
@@ -161,7 +168,8 @@ const placeCharacter = () => {
       }
 
   }
-
+  replayArray.push([...held_directions]); 
+  
   car.stabalizeDriftForce();
   displayDriftParticles(car.getX(), car.getY(), car.getDriftForce(), car.getOnDirt(), car.getAngle());
   car.stabalizeAngle()
