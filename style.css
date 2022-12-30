@@ -41,6 +41,11 @@ main{
   flex-direction:column;
   align-items: center;
 }
+nav{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
 a{
   color:white;
   text-decoration: none;
@@ -69,6 +74,24 @@ li{
   image-rendering: pixelated;
 }
 
+#game{
+  position:relative;
+}
+.menu{
+  position:absolute;
+  z-index:1;
+  width: calc(var(--pixel-size) * 160);
+  height: calc(var(--pixel-size) * 144);
+  background-color:rgba(0, 128, 0, 0.407);
+
+}
+
+.menu-button{
+  position:absolute;
+  z-index:1;
+  right:0;
+}
+
 .camera {
   width: calc(var(--pixel-size) * 160);
   height: calc(var(--pixel-size) * 144);
@@ -76,6 +99,8 @@ li{
   background: #818181;
   position:relative;
 }
+
+
 
 .map {
   image-rendering: pixelated;
@@ -215,11 +240,7 @@ textarea{
   height:500px;
 }
 
-.menu{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
+
 
 #time-header.current{
   font-weight:bold;
@@ -235,4 +256,8 @@ textarea{
   display:flex;
   flex-direction:column;
   align-items: center;
+}
+
+.hidden{
+  display:none;
 }

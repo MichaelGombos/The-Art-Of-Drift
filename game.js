@@ -7,7 +7,8 @@ import {
   timeHeader,
   map,
   mapGrid,
-  replayOutput
+  replayOutput,
+  getRunning
 } from "./main.js"
 import Car from "./car.js"
 import {
@@ -312,9 +313,11 @@ const step = () => {
   placeCharacter();
   placeGhost(ghostStep);
   ghostStep++;
-  window.requestAnimationFrame(() => {
-      step();
-  })
+  if(getRunning()){
+    window.requestAnimationFrame(() => {
+        step();
+    })
+  }
 }
 
 //listeners 
