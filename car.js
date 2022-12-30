@@ -113,7 +113,7 @@ const Car = () => {
 
             if (diff > 90) {
                 angleLock = {
-                    right: true,
+                    right: false,
                     left: false
                 }
             } else {
