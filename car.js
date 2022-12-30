@@ -166,7 +166,7 @@ const Car = () => {
 
     }
 
-    const updateUnderSteering = (speed) => {
+    const updateUnderSteering = () => {
         switch (true) {
             case (Math.abs(speed) > 0 && Math.abs(speed) < 1.5):
                 underSteering = 1
@@ -290,7 +290,7 @@ const Car = () => {
     }
 
 
-    const collision = (tilePixelCount, rows, columns, mapData, held_directions) => {
+    const collision = (tilePixelCount, rows, columns, mapData) => {
         let newX = x + (speed * Math.cos(angle.moving * Math.PI / 180));
         let newY = y + (speed * Math.sin(angle.moving * Math.PI / 180));
 
@@ -317,7 +317,7 @@ const Car = () => {
                     createDirtParticle(x, y);
                 }
                 //different drift max in dirt
-                if (driftForce < 8 && held_directions.includes("left") || driftForce < 8 && held_directions.includes("right")) {
+                if (driftForce < 8) {
                     driftForce += .2;
                 }
 
