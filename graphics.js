@@ -11,18 +11,23 @@ const createDriftParticle = (x, y, driftForce, angle) => {
       element: document.createElement("div"),
       angle: null
   }
-  particle.element.classList.add("particle");
-  particle.element.style.width = particle.size;
-  particle.element.style.height = particle.size;
 
   // skidMark vs cloud
   if (driftForce < 2) {
       particle.angle = angle.facing;
       particle.element.classList.add("skid-mark");
   } else if (driftForce >= 2) {
+      particle.x = x + Math.floor(Math.random() * 10) - 5;
+      particle.y = y + Math.floor(Math.random() * 10) - 5;
+      particle.size = driftForce * 15;
       particle.angle = angle.moving + Math.floor(Math.random() * 50) - 25;
       particle.element.classList.add("cloud");
   }
+
+  particle.element.classList.add("particle");
+  particle.element.style.width = particle.size;
+  particle.element.style.height = particle.size;
+
   particles.push(particle);
 
   let index = particles.length - 1;
@@ -43,7 +48,6 @@ const createDirtParticle = (x, y) => {
   particle.element.style.width = particle.size;
   particle.element.style.height = particle.size;
 
-  // skidMark vs cloud
   particle.element.classList.add("dirt");
 
   particles.push(particle);
