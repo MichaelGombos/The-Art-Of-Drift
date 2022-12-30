@@ -83,7 +83,6 @@ const Car = () => {
             }
 
             if (diff > 90) {
-                console.log("here1")
 
                 return (
                     angleLock = {
@@ -281,6 +280,23 @@ const Car = () => {
         }
     }
 
+    const inBounds = (newX,newY,rows,columns,tilePixelCount) => {
+        return(Math.ceil(newX / tilePixelCount) >= 0 && Math.ceil(newY / tilePixelCount) < rows && Math.ceil(newY / tilePixelCount) >= 0 && Math.ceil(newX / tilePixelCount) < columns &&
+        Math.floor(newX / tilePixelCount) >= 0 && Math.floor(newY / tilePixelCount) < rows && Math.floor(newY / tilePixelCount) >= 0 && Math.floor(newX / tilePixelCount) < columns)
+    }
+
+    const collidingWithValue = (value,axis,mapData,tilePixelCount) =>{
+        let newX = x + (speed * Math.cos(angle.moving * Math.PI / 180));
+        let newY = y + (speed * Math.sin(angle.moving * Math.PI / 180));
+
+        if(axis == "y"){
+            return mapData[Math.floor(newY / tilePixelCount)][Math.floor(x / tilePixelCount)] == value || mapData[Math.ceil(newY / tilePixelCount)][Math.ceil(x / tilePixelCount)] == value
+        }
+        else if (axis == "x"){
+            return mapData[Math.floor(y / tilePixelCount)][Math.floor(newX / tilePixelCount)] == value || mapData[Math.ceil(y / tilePixelCount)][Math.ceil(newX / tilePixelCount)] == value
+        }
+    }
+
 
     const collision = (tilePixelCount, rows, columns, mapData, held_directions) => {
         let newX = x + (speed * Math.cos(angle.moving * Math.PI / 180));
@@ -288,25 +304,21 @@ const Car = () => {
 
         //make sure we are in map bounds
 
-        if (Math.ceil(newX / tilePixelCount) >= 0 && Math.ceil(newY / tilePixelCount) < rows && Math.ceil(newY / tilePixelCount) >= 0 && Math.ceil(newX / tilePixelCount) < columns &&
-            Math.floor(newX / tilePixelCount) >= 0 && Math.floor(newY / tilePixelCount) < rows && Math.floor(newY / tilePixelCount) >= 0 && Math.floor(newX / tilePixelCount) < columns
-        ) {
+        if (inBounds(newX,newY,rows,columns,tilePixelCount)) {
 
             //walls
-            if (mapData[Math.floor(newY / tilePixelCount)][Math.floor(x / tilePixelCount)] == 1 || mapData[Math.ceil(newY / tilePixelCount)][Math.ceil(x / tilePixelCount)] == 1) {
-
-
+            if (collidingWithValue(1,"y",mapData,tilePixelCount)) {
                 newY = y;
                 console.log("y wall collision")
             }
 
-            if (mapData[Math.floor(y / tilePixelCount)][Math.floor(newX / tilePixelCount)] == 1 || mapData[Math.ceil(y / tilePixelCount)][Math.ceil(newX / tilePixelCount)] == 1) {
+            if (collidingWithValue(1,"x",mapData,tilePixelCount)) {
 
                 newX = x;
                 console.log("x wall collision")
             }
             //dirt
-            if (mapData[Math.floor(newY / tilePixelCount)][Math.floor(x / tilePixelCount)] == 2 || mapData[Math.ceil(newY / tilePixelCount)][Math.ceil(x / tilePixelCount)] == 2) {
+            if (collidingWithValue(2,"y",mapData,tilePixelCount) || collidingWithValue(2,"x",mapData,tilePixelCount)) {
                 onDirt = true;
                 if (speed > 1) {
                     speed = speed / 1.03;
@@ -317,23 +329,12 @@ const Car = () => {
                     driftForce += .2;
                 }
 
-            } else if (mapData[Math.floor(y / tilePixelCount)][Math.floor(newX / tilePixelCount)] == 2 || mapData[Math.ceil(y / tilePixelCount)][Math.ceil(newX / tilePixelCount)] == 2) {
-                onDirt = true;
-                if (speed > 1) {
-                    speed = speed / 1.03;
-                    createDirtParticle(x, y);
-                }
-
-                
-                if (driftForce < 8 && held_directions.includes("left") || driftForce < 8 && held_directions.includes("right")) {
-                    driftForce += .2;
-                }
             } else {
                 onDirt = false;
             }
 
             //Finish lines (only check y)
-            if ((mapData[Math.floor(newY / tilePixelCount)][Math.floor(x / tilePixelCount)] == 4 || mapData[Math.ceil(newY / tilePixelCount)][Math.ceil(x / tilePixelCount)] == 4)) { //finish up
+            if (collidingWithValue(4,"y",mapData,tilePixelCount)) { //finish up
                 onFinish.up = true;
             } else {
                 if (onFinish.up == true) {
@@ -349,7 +350,7 @@ const Car = () => {
                 onFinish.up == false;
             }
 
-            if ((mapData[Math.floor(newY / tilePixelCount)][Math.floor(x / tilePixelCount)] == 5 || mapData[Math.ceil(newY / tilePixelCount)][Math.ceil(x / tilePixelCount)] == 5)) { //finish down
+            if (collidingWithValue(5,"y",mapData,tilePixelCount)) { //finish down
                 onFinish.down = true;
             } else {
                 if (onFinish.down == true) {
@@ -366,7 +367,7 @@ const Car = () => {
             }
 
             //Bumper Tiles
-            if (mapData[Math.floor(newY / tilePixelCount)][Math.floor(x / tilePixelCount)] == 1 || mapData[Math.ceil(newY / tilePixelCount)][Math.ceil(x / tilePixelCount)] == 6) {
+            if (collidingWithValue(6,"y",mapData,tilePixelCount)) {
 
                 //old bouncy collition
                 let tempAngle = angle.moving
@@ -378,7 +379,7 @@ const Car = () => {
                 console.log("y bounce collision")
             }
 
-            if (mapData[Math.floor(y / tilePixelCount)][Math.floor(newX / tilePixelCount)] == 1 || mapData[Math.ceil(y / tilePixelCount)][Math.ceil(newX / tilePixelCount)] == 6) {
+            if (collidingWithValue(6,"x",mapData,tilePixelCount)) {
 
                 //old bouncy collision
                 let tempAngle = angle.moving
