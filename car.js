@@ -27,7 +27,7 @@ const Car = () => {
     }
     let engineLock = false;
 
-    let tireGrip = 1.05;
+    const tireGrip = 2;
     let turningSpeed = 5;
     let underSteering = 1;
     
@@ -82,7 +82,7 @@ const Car = () => {
                 diff = facingAngle - movingAngle;
             }
 
-            if (diff > 90) {
+            if (diff > 70) {
 
                 return (
                     angleLock = {
@@ -111,7 +111,7 @@ const Car = () => {
                 diff = movingAngle - facingAngle;
             }
 
-            if (diff > 90) {
+            if (diff > 70) {
                 angleLock = {
                     right: false,
                     left: false
@@ -149,29 +149,21 @@ const Car = () => {
     const stabalizeAngle = () => {
         let movingAngle = angle.moving;
         let facingAngle = angle.facing;
+
+
         if (speed == 0) {
             angle.moving = angle.facing;
         } else if (Math.abs(angle.moving - facingAngle) < tireGrip) {
             angle.moving = angle.facing;
         }
         //angle correct normal 
-        else if (Math.abs(angle.moving - facingAngle) < 30) {
-            if (movingAngle > facingAngle) {
-                angle.moving =  angle.moving - tireGrip;
-            }
-            if (movingAngle < facingAngle) {
-                angle.moving =  angle.moving + tireGrip;
-            }
+        if (movingAngle > facingAngle) {
+            angle.moving =  angle.moving - tireGrip;
         }
-        //angle correct faster 
-        else if (Math.abs(movingAngle - facingAngle) > 30) {
-            if (movingAngle > facingAngle) {
-                angle.moving =  angle.moving - tireGrip * 3;
-            }
-            if (movingAngle < facingAngle) {
-                angle.moving = angle.moving + tireGrip * 3;
-            }
+        else if (movingAngle < facingAngle) {
+            angle.moving =  angle.moving + tireGrip;
         }
+
     }
 
     const updateUnderSteering = (speed) => {
@@ -211,7 +203,7 @@ const Car = () => {
     }
 
     //car controls
-
+    
     const accelerate = ( forward) => {
         if (Math.abs(speed) <= maxSpeed && !engineLock) {
             if (forward) {
