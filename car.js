@@ -9,7 +9,7 @@ const Car = () => {
     const acceleration = .030;
     const friction = .008;
     const maxSpeed = 20;
-    const maxLaps = 3;
+    const maxLaps = 2;
     let lap = 0;
     let driftForce = 1;
 
@@ -18,8 +18,8 @@ const Car = () => {
 
     let speed = 0;
     let angle = {
-        moving: 0,
-        facing: 0,
+        moving: 270,
+        facing: 270,
     }
     let angleLock = {
         left: false,
@@ -417,6 +417,6 @@ const Car = () => {
         collision
     }
 }
-const car = Car();
 
-export default car;
+
+export default Car;

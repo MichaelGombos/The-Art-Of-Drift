@@ -1,24 +1,35 @@
 import {
   character,
   characterSprite,
+  ghostCharacter,
+  ghostCharacterSprite,
   stats,
   timeHeader,
   map,
   mapGrid,
   replayOutput
 } from "./main.js"
-import car from "./car.js"
+import Car from "./car.js"
 import {
   displayDriftParticles,
   particles
 } from "./graphics.js"
+
+import replayArray from "./replay.js"
+
+// const ghostInput = 
+
+const car = Car();
+const ghostCar = Car();
+let ghostStep = 0; //kind of like dubstep, but for ghosts. 
+let replayExport = []
 
 const tilePixelCount = parseInt(
   getComputedStyle(document.documentElement).getPropertyValue('--tile-pixel-count')
 );
 const carSize = tilePixelCount;
 const held_directions = []; //State of which arrow keys we are holding down
-const replayArray = [] //array containing list of inputs we can use for the ghost car 
+
 
 
 /* Direction key state */
@@ -96,18 +107,24 @@ const generateMap = (inputData) => {
 
   car.setX(spawn.x * tilePixelCount)
   car.setY(spawn.y * tilePixelCount)
+
+  ghostCar.setX(spawn.x * tilePixelCount)
+  ghostCar.setY(spawn.y * tilePixelCount)
+
 }
 
 const checkGameOver = (currentLap, maxLaps) => {
   if (currentLap >= maxLaps) {
       car.setEngineLock(true); //disbales acceleration
+      ghostCar.setEngineLock(true); //disbales acceleration
+
       timeHeader.innerText = "FINAL TIME";
       timeHeader.classList.remove("current");
       timeHeader.classList.add("final")
 
 
       //paste replay array to export.
-      replayOutput.innerText =  "[" + replayArray.map(frame => "\n[" + frame.map(command => command ) + "]") + "\n]";;
+      replayOutput.innerText =  "[" + replayExport.map(frame => "\n[" + frame.map(command => "\"" + command + "\"" ) + "]") + "\n]";;
   }
 }
 
@@ -120,12 +137,77 @@ const incrementSeconds = () => {
       timeString = date.toISOString().substring(11, 19);
   }
 }
+const placeGhost = (stepCount) => {
 
+    //CONTROLLER INPUT, USE STEPCOUNT INSTEAD.
+    let ghost_held_directions = replayArray[stepCount]
+
+    if (ghost_held_directions) {
+        //turn
+        if (speed != 0) {
+            if (ghost_held_directions.includes(directions.right)) {
+                ghostCar.turn("right");
+            } else if (ghost_held_directions.includes(directions.left)) {
+                ghostCar.turn("left");
+            }
+            ghostCharacterSprite.style.transform = `rotate(${ghostCar.getAngle().facing}deg)`;
+        }
+  
+        if (ghost_held_directions.includes(directions.down)) {
+            ghostCar.accelerate(false)
+        }
+        if (ghost_held_directions.includes(directions.up)) {
+            ghostCar.accelerate(true)
+        }
+  
+    }
+
+    ghostCar.updateAngleLock()
+    ghostCar.stabalizeDriftForce();
+    ghostCar.stabalizeAngle()
+    ghostCar.updateUnderSteering(speed);
+
+
+  if (ghostCar.getSpeed() != 0) {
+    ghostCar.collision(tilePixelCount, rows, columns, mapData, held_directions)
+      //friction
+      ghostCar.applyFriction();
+  }
+
+  
+  
+  //understeering
+
+
+
+
+  //Limits (gives the illusion of walls)
+  //set the right and bottom limit to the image size in the dom
+
+  const leftLimit = 0;
+  const rightLimit = (columns * tilePixelCount) - carSize;
+  const topLimit = 0;
+  const bottomLimit = (rows * tilePixelCount) - carSize;
+  if (ghostCar.getX() < leftLimit) {
+    ghostCar.setX(leftLimit);
+  }
+  if (ghostCar.getX() > rightLimit) {
+    ghostCar.setX(rightLimit);
+  }
+  if (ghostCar.getY() < topLimit) {
+    ghostCar.setY(topLimit);
+  }
+  if (ghostCar.getY() > bottomLimit) {
+    ghostCar.setY(bottomLimit);
+  }
+
+  ghostCharacter.style.transform = `translate3d( ${ghostCar.getX()*pixelSize}px, ${ghostCar.getY()*pixelSize}px, 0 )`;
+
+}
 const placeCharacter = () => {
 
   //update stats
   stats.time.innerHTML = timeString;
-  console.log()
   stats.lap.innerHTML = `${car.getLap()}/${car.getMaxLaps()}`;
   stats.x.innerHTML = car.getX().toFixed(2);
   stats.y.innerHTML = car.getY().toFixed(2);
@@ -148,7 +230,7 @@ const placeCharacter = () => {
   // check if a direction is being held
 
 
-  car.updateAngleLock()
+  
   if (held_directions.length > 0) {
       //turn
       if (speed != 0) {
@@ -168,11 +250,14 @@ const placeCharacter = () => {
       }
 
   }
-  replayArray.push([...held_directions]); 
-  
+
+  replayExport.push([...held_directions])
+
+  car.updateAngleLock()
   car.stabalizeDriftForce();
-  displayDriftParticles(car.getX(), car.getY(), car.getDriftForce(), car.getOnDirt(), car.getAngle());
   car.stabalizeAngle()
+  car.updateUnderSteering(speed);
+  displayDriftParticles(car.getX(), car.getY(), car.getDriftForce(), car.getOnDirt(), car.getAngle());
 
 
   if (car.getSpeed() != 0) {
@@ -180,7 +265,9 @@ const placeCharacter = () => {
       //friction
       car.applyFriction();
   }
-  car.updateUnderSteering(speed);
+
+  
+  
   //understeering
 
 
@@ -224,6 +311,8 @@ const placeCharacter = () => {
 
 const step = () => {
   placeCharacter();
+  placeGhost(ghostStep);
+  ghostStep++;
   window.requestAnimationFrame(() => {
       step();
   })

@@ -8,6 +8,10 @@ import {
 
 const character = document.querySelector(".character");
 const characterSprite = document.querySelector(".character_spritesheet")
+
+const ghostCharacter = document.querySelector(".ghost");
+const ghostCharacterSprite = document.querySelector(".ghost_spritesheet")
+
 const stats = {
     time: document.querySelector("#time"),
     lap: document.querySelector("#lap"),
@@ -56,6 +60,8 @@ uploadButton.addEventListener("click", handleUpload);
 export {
     character,
     characterSprite,
+    ghostCharacter,
+    ghostCharacterSprite,
     stats,
     timeHeader,
     map,
