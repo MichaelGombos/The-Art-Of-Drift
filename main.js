@@ -42,9 +42,6 @@ const mapInput = document.querySelector("#map-input")
 const replayOutput = document.querySelector("#replay-output")
 
 const game = document.querySelector("#game");
-const menu = document.querySelector(".menu");
-const returnToGame = menu.children[0];
-const menuButton = document.querySelector(".menu-button").children[0]; 
 
 let running = false;
 
@@ -58,29 +55,21 @@ const handleUpload = (e) => {
 
 }
 
-const hideMenu = () => {
+const unPauseGame = () => {
     running = true;
-    menu.classList.add("hidden");
-    menuButton.classList.remove("hidden");
     step();
 }
 
-const showMenu = () => {
+const pauseGame = () => {
     running = false;
-    menuButton.classList.add("hidden");
-    menu.classList.remove("hidden");
 }
 
 const getRunning = () => {
-    console.log("hello?")
     return running}
 
 step(); //Kick off the first step
 
 uploadButton.addEventListener("click", handleUpload);
-
-menu.addEventListener("click",hideMenu);
-menuButton.addEventListener("click",showMenu)
 
 export {
     character,
@@ -92,5 +81,7 @@ export {
     map,
     mapGrid,
     replayOutput,
-    getRunning
+    getRunning,
+    pauseGame,
+    unPauseGame
 }

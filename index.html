@@ -25,12 +25,9 @@
    </ul>
    <main>
       <div id="game">
-         <div class="menu">
-            <button>Return to game</button>
-         </div>
-         <div class="menu-button ">
-            <button class="hidden">Open menu</button>
-         </div>
+         <div class="menu-container"></div>
+
+
          <!-- later there can be stats overlay, and minimap here too  -->
          <div class="camera">
             <div class="map pixel-art">
@@ -68,8 +65,18 @@
    <a href="https://github.com/MichaelGombos/browser-driving-demo">REPO</a>
    <a href="https://michaelgombos.github.io/browser-driving-map-creator/">MAP MAKER</a>
   </nav>
-<script src="map-data.js" type="module"></script>
-<script src="main.js" type="module" ></script>
-<script src="car.js" type="module"></script>
+
+<!-- jsx   -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<!-- Load React. -->
+<!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+
+
+<script src="main.js"  data-module="main" type="module" ></script>
+<script src="menu.js" data-type="module"   type="text/babel"></script>
+
 
 </body>
