@@ -8,71 +8,93 @@ let previous = "main"
 'use strict';
 
 const e = React.createElement;
-
-const Menu = () => {
-  let [newEnableGhost, setNewEnableGhost] = useState(true);
-  let [newParticleLimit,setNewParticleLimit] = useState(500);
-
-  let display;
-  const [type,setType] = useState('main')
-  if(type == "hidden"){
-    display = 
+const Hidden = ({setter}) => {
+  return (
     <div className="menu-button ">
       <button  onClick={() => {
-        setType("pause");
-       pauseGame();
+      setter("pause");
+      pauseGame();
       } }>Open menu</button>
     </div>
-  }
-  else if(type == "pause"){
+  )
+}
 
-    display =         
-     <div className="menu">
+const Pause = ({setter}) => {
+  return (
+    <div className="menu">
       <button onClick={() => {
-        setType("hidden");
-       unPauseGame();
+        setter("hidden");
+      unPauseGame();
       }}>Return to game</button>
       <button onClick={() => {
         previous = type
-        setType("options");
+        setter("options");
       }}>Options</button>
       <button onClick={() => {
-        setType("main");
+        setter("main");
       }}>Back to main menu</button>
     </div>
+  )
+}
 
+const Main = ({setter}) => {
+  return (
+    <div className="menu main">
+    <button onClick={() => {
+      setter("hidden");
+     resetGame();
+    }}>Start Game</button>
+    <button onClick={() => {
+      previous = type
+      setter("options");
+    }}>Options</button>
+  </div>
+  )
+}
+
+const Options = ({setter}) => {
+  let [newEnableGhost, setNewEnableGhost] = useState(true);
+  let [newParticleLimit,setNewParticleLimit] = useState(500);
+
+  return (
+    <div className="menu options">
+    <h2>options</h2>
+    <label htmlFor="ghost-selector">Enable Ghost Car  </label>
+    <input type="checkbox" id="ghost-selector" value="on" checked={newEnableGhost} onChange={(e) => {setNewEnableGhost(e.target.checked)}}></input>
+    <label htmlFor="particle-selector">Particle Limit ({newParticleLimit})</label>
+    <input type="range" min="10" max="2000" value={newParticleLimit}  className="slider" id="particle-selector" onChange={(e) => {setNewParticleLimit(e.target.value)}}/>
+    <button onClick={() => {
+      setter(previous);
+      setEnableGhost(newEnableGhost);
+      setParticleLimit(newParticleLimit);
+    }}>Save and exit</button>
+    <button onClick={() => {
+      setter(previous);
+      setNewEnableGhost(getEnableGhost());
+      setNewParticleLimit(getParticleLimit());
+    }}>Exit without saving</button>
+  </div>
+  )
+
+}
+
+const Menu = () => {
+  let display;
+  const [type,setType] = useState('main')
+  if(type == "hidden"){
+    return <Hidden setter={setType}/>
+
+  }
+  else if(type == "pause"){
+
+    return <Pause setter={setType}/>         
   }
   else if(type == "main"){
     
-    display = <div className="menu main">
-      <button onClick={() => {
-        setType("hidden");
-       resetGame();
-      }}>Start Game</button>
-      <button onClick={() => {
-        previous = type
-        setType("options");
-      }}>Options</button>
-    </div>
+    return <Main setter ={setType}/>
   }
   else if(type == "options"){
-    display = <div className="menu options">
-      <h2>options</h2>
-      <label htmlFor="ghost-selector">Enable Ghost Car  </label>
-      <input type="checkbox" id="ghost-selector" value="on" checked={newEnableGhost} onChange={(e) => {setNewEnableGhost(e.target.checked)}}></input>
-      <label htmlFor="particle-selector">Particle Limit ({newParticleLimit})</label>
-      <input type="range" min="10" max="2000" value={newParticleLimit}  className="slider" id="particle-selector" onChange={(e) => {setNewParticleLimit(e.target.value)}}/>
-      <button onClick={() => {
-        setType(previous);
-        setEnableGhost(newEnableGhost);
-        setParticleLimit(newParticleLimit);
-      }}>Save and exit</button>
-      <button onClick={() => {
-        setType(previous);
-        setNewEnableGhost(getEnableGhost());
-        setNewParticleLimit(getParticleLimit());
-      }}>Exit without saving</button>
-    </div>
+    return <div> Hello <Options setter ={setType}/> </div>
   }
   else{
     display = <div>display buggin</div>
