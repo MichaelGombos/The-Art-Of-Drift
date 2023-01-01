@@ -78,6 +78,11 @@ li{
   position:relative;
 }
 .menu{
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  align-items: center;
+  justify-content: center;
   position:absolute;
   z-index:1;
   width: calc(var(--pixel-size) * 160);

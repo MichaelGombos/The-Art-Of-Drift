@@ -21,7 +21,6 @@ import {
 import replayArray from "./replay.js"
 
 
-console.log(characterSprite)
 
 // const ghostInput = 
 
@@ -72,7 +71,15 @@ let gridCellSize = pixelSize * tilePixelCount;
 let seconds = 0;
 let timeString = "00:00:00";
 
+let enableGhost = true;
+
 // functions
+const setEnableGhost = (check) => {
+  enableGhost = check;
+  check ? ghostCharacter.classList.remove("hidden") : ghostCharacter.classList.add("hidden")
+}
+const getEnableGhost = () => {return enableGhost}
+
 const updateCarSpawnPosition = () => {
   car.setX(spawn.x * tilePixelCount)
   car.setY(spawn.y * tilePixelCount)
@@ -330,7 +337,7 @@ const placeCharacter = () => {
 }
 characterSprite.style.transform = `rotate(${car.getAngle().facing}deg)`;
 ghostCharacterSprite.style.transform = `rotate(${ghostCar.getAngle().facing}deg)`;
-const step = (timeStamp) => {
+const step = () => {
   const now = performance.now();
   while (times.length > 0 && times[0] <= now - 1000) {
     times.shift();
@@ -339,10 +346,13 @@ const step = (timeStamp) => {
   fps = times.length;
   fpsText.innerHTML = fps;
   placeCharacter();
-  placeGhost(ghostStep);
-  ghostStep++;
+  if(enableGhost){
+    console.log()
+    placeGhost(ghostStep);
+    ghostStep++;
+  }
   if(getRunning()){
-    window.requestAnimationFrame(step)
+    window.requestAnimationFrame(() => step())
   }
 }
 
@@ -371,5 +381,7 @@ export {
   checkGameOver,
   incrementSeconds,
   step,
-  resetCarValues
+  resetCarValues,
+  getEnableGhost,
+  setEnableGhost
 }
