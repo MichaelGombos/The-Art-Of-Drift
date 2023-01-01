@@ -53,7 +53,13 @@ const Car = () => {
     const setY = (value) => {y = value}
     const setEngineLock = (value) => {engineLock = value}
 
-    
+    const resetValues = () => {
+        speed = 0;
+        angle = {
+            moving: 0,
+            facing: 0,
+        }
+    }
     const compareFacingRelativeToMoving = (facingAngle, movingAngle) => { // 1 right 0 middle - 1l eft 
 
         let difference = facingAngle - movingAngle;
@@ -412,6 +418,7 @@ const Car = () => {
         setY,
         setEngineLock,
         //functions
+        resetValues,
         updateAngleLock,
         stabalizeDriftForce,
         stabalizeAngle,

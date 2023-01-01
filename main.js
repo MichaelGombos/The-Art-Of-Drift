@@ -3,7 +3,8 @@ import mapImport from "./map-data.js"
 import {
     generateMap,
     incrementSeconds,
-    step
+    step,
+    resetCarValues
 } from "./game.js"
 
 const uploadButton = document.querySelector("#upload");
@@ -19,6 +20,12 @@ const handleUpload = (e) => {
     generateMap(JSON.parse("[" + mapInput.value + "]")[0])
 
 
+}
+
+const resetGame = () => {
+    resetCarValues();
+    running = true;
+    step();
 }
 
 const unPauseGame = () => {
@@ -42,6 +49,7 @@ const replayOutput = document.querySelector("#replay-output")
 export {
     replayOutput,
     getRunning,
+    resetGame,
     pauseGame,
     unPauseGame
 }

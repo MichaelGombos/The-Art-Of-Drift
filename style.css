@@ -83,7 +83,10 @@ li{
   width: calc(var(--pixel-size) * 160);
   height: calc(var(--pixel-size) * 144);
   background-color:rgba(0, 128, 0, 0.407);
+}
 
+.menu.main{
+  background-color:grey;
 }
 
 .menu-button{

@@ -25,8 +25,8 @@ console.log(characterSprite)
 
 // const ghostInput = 
 
-const car = Car();
-const ghostCar = Car();
+let car = Car();
+let ghostCar = Car();
 let ghostStep = 0; //kind of like dubstep, but for ghosts. 
 let replayExport = []
 
@@ -73,7 +73,20 @@ let seconds = 0;
 let timeString = "00:00:00";
 
 // functions
+const updateCarSpawnPosition = () => {
+  car.setX(spawn.x * tilePixelCount)
+  car.setY(spawn.y * tilePixelCount)
 
+  ghostCar.setX(spawn.x * tilePixelCount)
+  ghostCar.setY(spawn.y * tilePixelCount)
+}
+
+const resetCarValues = () => {
+  updateCarSpawnPosition();
+  car.resetValues()
+  ghostCar.resetValues();
+  ghostStep = 0;
+}
 const generateMap = (inputData) => {
   while (mapGrid.lastElementChild) {
       mapGrid.removeChild(mapGrid.lastElementChild);
@@ -117,11 +130,7 @@ const generateMap = (inputData) => {
   document.documentElement.style.setProperty("--rows", rows);
   document.documentElement.style.setProperty("--columns", columns);
 
-  car.setX(spawn.x * tilePixelCount)
-  car.setY(spawn.y * tilePixelCount)
-
-  ghostCar.setX(spawn.x * tilePixelCount)
-  ghostCar.setY(spawn.y * tilePixelCount)
+  updateCarSpawnPosition();
 
 }
 
@@ -361,5 +370,6 @@ export {
   generateMap,
   checkGameOver,
   incrementSeconds,
-  step
+  step,
+  resetCarValues
 }

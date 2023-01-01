@@ -1,4 +1,4 @@
-import {pauseGame,unPauseGame} from "./main.js"
+import {pauseGame,unPauseGame,resetGame} from "./main.js"
 console.log(pauseGame)
 const {useState} = React
 
@@ -8,7 +8,7 @@ const e = React.createElement;
 
 const Menu = () => {
   let display;
-  const [type,setType] = useState('pause')
+  const [type,setType] = useState('main')
   if(type == "hidden"){
     display = 
     <div className="menu-button ">
@@ -25,11 +25,20 @@ const Menu = () => {
         setType("hidden");
        unPauseGame();
       }}>Return to game</button>
+      <button onClick={() => {
+        setType("main");
+      }}>Back to main menu</button>
     </div>
 
   }
-  else if(type == "main-menu"){
-    display = "this is the main menu"
+  else if(type == "main"){
+    
+    display = <div className="menu main">
+      <button onClick={() => {
+        setType("hidden");
+       resetGame();
+      }}>Start Game</button>
+    </div>
   }
   else{
     display = <div>display buggin</div>
