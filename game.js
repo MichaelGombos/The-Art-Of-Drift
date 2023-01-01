@@ -1,4 +1,8 @@
 import {
+  replayOutput,
+  getRunning
+} from "./main.js"
+import{
   character,
   characterSprite,
   ghostCharacter,
@@ -6,17 +10,17 @@ import {
   stats,
   timeHeader,
   map,
-  mapGrid,
-  replayOutput,
-  getRunning
-} from "./main.js"
+  mapGrid
+} from "./elements.js"
 import Car from "./car.js"
 import {
   displayDriftParticles,
   particles
 } from "./graphics.js"
-
 import replayArray from "./replay.js"
+
+
+console.log(characterSprite)
 
 // const ghostInput = 
 

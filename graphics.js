@@ -1,4 +1,4 @@
-import {map} from "./main.js"
+import {map} from "./elements.js"
 
 let particles = [];
 
