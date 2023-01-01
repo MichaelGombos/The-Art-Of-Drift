@@ -312,7 +312,8 @@ const placeCharacter = () => {
 
 
 }
-
+characterSprite.style.transform = `rotate(${car.getAngle().facing}deg)`;
+ghostCharacterSprite.style.transform = `rotate(${ghostCar.getAngle().facing}deg)`;
 const step = () => {
   placeCharacter();
   placeGhost(ghostStep);
