@@ -83,7 +83,6 @@ const Car = () => {
             }
 
             if (diff > 70) {
-
                 return (
                     angleLock = {
                     right: true,
@@ -111,10 +110,10 @@ const Car = () => {
                 diff = movingAngle - facingAngle;
             }
 
-            if (diff > 70) {
+            if (diff > 120) {
                 angleLock = {
                     right: false,
-                    left: false
+                    left: true
                 }
             } else {
                 if (angleLock.left) {
@@ -156,12 +155,22 @@ const Car = () => {
         } else if (Math.abs(angle.moving - facingAngle) < tireGrip) {
             angle.moving = angle.facing;
         }
-        //angle correct normal 
-        if (movingAngle > facingAngle) {
-            angle.moving =  angle.moving - tireGrip;
+        else if (movingAngle > facingAngle) {
+            if((Math.abs(angle.moving - facingAngle) > 180)){ //long way home fix 
+                angle.moving =  angle.moving + tireGrip;
+            }
+            else{
+                angle.moving =  angle.moving - tireGrip;
+            }
         }
         else if (movingAngle < facingAngle) {
-            angle.moving =  angle.moving + tireGrip;
+            if((Math.abs(angle.moving - facingAngle) > 180)){ //long way home fix 
+                angle.moving =  angle.moving - tireGrip;
+            }
+            else{
+                angle.moving =  angle.moving + tireGrip;
+
+            }
         }
 
     }
