@@ -18,8 +18,8 @@ const Car = () => {
 
     let speed = 0;
     let angle = {
-        moving: 270,
-        facing: 270,
+        moving: 0,
+        facing: 0,
     }
     let angleLock = {
         left: false,
@@ -310,13 +310,11 @@ const Car = () => {
             //walls
             if (collidingWithValue(1,"y",mapData,tilePixelCount)) {
                 newY = y;
-                console.log("y wall collision")
             }
 
             if (collidingWithValue(1,"x",mapData,tilePixelCount)) {
 
                 newX = x;
-                console.log("x wall collision")
             }
             //dirt
             if (collidingWithValue(2,"y",mapData,tilePixelCount) || collidingWithValue(2,"x",mapData,tilePixelCount)) {
@@ -377,7 +375,6 @@ const Car = () => {
 
                 newY = y + (speed * Math.sin(angle.moving * Math.PI / 180));
 
-                console.log("y bounce collision")
             }
 
             if (collidingWithValue(6,"x",mapData,tilePixelCount)) {
@@ -389,7 +386,6 @@ const Car = () => {
 
                 newX = x + (speed * Math.cos(angle.moving * Math.PI / 180));
 
-                console.log("x bounce collision")
             }
         }
 

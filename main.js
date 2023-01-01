@@ -33,7 +33,7 @@ const pauseGame = () => {
 const getRunning = () => {
     return running}
 
-step(); //Kick off the first step
+step(0); //Kick off the first step
 
 uploadButton.addEventListener("click", handleUpload);
 const replayOutput = document.querySelector("#replay-output")

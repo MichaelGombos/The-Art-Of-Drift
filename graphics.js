@@ -63,7 +63,7 @@ const displayDriftParticles = (x,y ,driftForce, onDirt,angle) => {
   //delete drift particle if more than 100
 
   setTimeout(() => {
-      if (particles.length > 500) {
+      if (particles.length > 4000) {
           if (particles[500]) {
               particles[0].element.remove();
               particles.shift();

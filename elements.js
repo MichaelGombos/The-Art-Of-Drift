@@ -25,7 +25,8 @@ const stats = {
     particleCount: document.querySelector("#particle-count")
 }
 
-const timeHeader = document.querySelector("#time-header")
+const timeHeader = document.querySelector("#time-header");
+const fpsText = document.querySelector("#fps");
 const map = document.querySelector(".map");
 const mapGrid = document.querySelector(".map-grid")
 const mapParticles = document.createElement("div");
@@ -42,6 +43,7 @@ export {
   ghostCharacterSprite,
   stats,
   timeHeader,
+  fpsText,
   map,
   mapGrid,
 }

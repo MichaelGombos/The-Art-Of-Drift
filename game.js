@@ -9,6 +9,7 @@ import{
   ghostCharacterSprite,
   stats,
   timeHeader,
+  fpsText,
   map,
   mapGrid
 } from "./elements.js"
@@ -28,6 +29,12 @@ const car = Car();
 const ghostCar = Car();
 let ghostStep = 0; //kind of like dubstep, but for ghosts. 
 let replayExport = []
+
+let secondsPassed = 0;
+let oldTimeStamp = 0;
+
+const times = []
+let fps = 0;
 
 const tilePixelCount = parseInt(
   getComputedStyle(document.documentElement).getPropertyValue('--tile-pixel-count')
@@ -314,14 +321,19 @@ const placeCharacter = () => {
 }
 characterSprite.style.transform = `rotate(${car.getAngle().facing}deg)`;
 ghostCharacterSprite.style.transform = `rotate(${ghostCar.getAngle().facing}deg)`;
-const step = () => {
+const step = (timeStamp) => {
+  const now = performance.now();
+  while (times.length > 0 && times[0] <= now - 1000) {
+    times.shift();
+  }
+  times.push(now);
+  fps = times.length;
+  fpsText.innerHTML = fps;
   placeCharacter();
   placeGhost(ghostStep);
   ghostStep++;
   if(getRunning()){
-    window.requestAnimationFrame(() => {
-        step();
-    })
+    window.requestAnimationFrame(step)
   }
 }
 
