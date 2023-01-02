@@ -59,10 +59,11 @@ const Pause = ({setter,setPrevious}) => {
       unPauseGame();
       }}>Return to game</button>
       <button onClick={() => {
-        setPrevious("main")
+        setPrevious("pause")
         setter("options");
       }}>Options</button>
       <button onClick={() => {
+        setPrevious("main")
         setter("main");
       }}>Back to main menu</button>
     </div>
@@ -89,8 +90,8 @@ const Main = ({setter,setPrevious}) => {
 }
 
 const Options = ({setter,previous}) => {
-  let [newEnableGhost, setNewEnableGhost] = useState(true);
-  let [newParticleLimit,setNewParticleLimit] = useState(500);
+  let [newEnableGhost, setNewEnableGhost] = useState(getEnableGhost());
+  let [newParticleLimit,setNewParticleLimit] = useState(getParticleLimit());
 
   return (
     <div className="menu options">
