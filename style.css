@@ -1,6 +1,6 @@
 :root {
   --pixel-size: 2px;
-  --tile-pixel-count: 1;
+  --tile-pixel-count: 2;
   --grid-cell: calc( var(--pixel-size) * var(--tile-pixel-count));
   --rows: 20;
   --columns: 20;
@@ -135,8 +135,8 @@ li{
   opacity: 1;
 }
 .character,.ghost {
-  width: calc( var(--grid-cell) * 4);
-  height: calc( var(--grid-cell) * 4);
+  width: calc( var(--grid-cell) * 2);
+  height: calc( var(--grid-cell) * 2);
   position: absolute;
   overflow:hidden;
   /* testing */
@@ -146,7 +146,7 @@ li{
 
 
  .character_spritesheet, .ghost_spritesheet{
-  z-index: 2;
+  z-index: 0;
   position: relative;
   background: url("./assets/car.svg") no-repeat no-repeat;
   background-position:center;
