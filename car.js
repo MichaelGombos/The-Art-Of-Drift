@@ -59,6 +59,8 @@ const Car = () => {
             moving: 0,
             facing: 0,
         }
+        lap = 0;
+        engineLock = false;
     }
     const compareFacingRelativeToMoving = (facingAngle, movingAngle) => { // 1 right 0 middle - 1l eft 
 

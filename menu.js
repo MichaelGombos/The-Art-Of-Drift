@@ -1,7 +1,7 @@
 import {pauseGame,unPauseGame,resetGame} from "./main.js"
 import {setParticleLimit,getParticleLimit} from "./graphics.js"
 import {setEnableGhost,getEnableGhost,generateMap,setMapData} from "./game.js"
-import {map1, map2} from "./map-data.js"
+import {freeplay, map1, map2} from "./map-data.js"
 import {replay1, replay2} from "./replay.js"
 
 console.log(map1)
@@ -36,6 +36,9 @@ const MapSelect = ({setter}) => { //generate map with mapData?
         resetGame();
         setter("hidden")
       }}>Map2</button>
+      <button onClick={() => {
+        setter("main");
+      }}>Back to main menu</button>
     </div>
   )
 }
@@ -72,6 +75,11 @@ const Main = ({setter,setPrevious}) => {
     <button onClick={() => {
       setter("map select");
     }}>Map Select</button>
+    <button onClick = {()=> {
+      setMapData(freeplay,[[]]);
+      resetGame();
+      setter("hidden")
+    }}>Free Play</button>
     <button onClick={() => {
       setter("options");
       setPrevious("main")
@@ -108,8 +116,8 @@ const Options = ({setter,previous}) => {
 
 const Menu = () => {
   let display;
-  const [type,setType] = useState('map select')
-  const [previousType,setPreviousType] = useState('map select')
+  const [type,setType] = useState('title')
+  const [previousType,setPreviousType] = useState('title')
   if(type == "hidden"){
     return <Hidden setter={setType}/>
 

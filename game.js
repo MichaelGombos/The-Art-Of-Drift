@@ -93,6 +93,7 @@ const resetCarValues = () => {
   car.resetValues()
   ghostCar.resetValues();
   ghostStep = 0;
+  seconds = 0;
 }
 const setMapData = (map,replay) => {
   mapData = {map:map,
@@ -171,7 +172,6 @@ const incrementSeconds = () => {
   }
 }
 const placeGhost = (stepCount) => {
-    console.log(mapData)
     let ghost_held_directions = mapData.replay[stepCount]
 
     if (ghost_held_directions) {
