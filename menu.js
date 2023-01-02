@@ -1,7 +1,8 @@
 import {pauseGame,unPauseGame,resetGame} from "./main.js"
 import {setParticleLimit,getParticleLimit} from "./graphics.js"
-import {setEnableGhost,getEnableGhost,generateMap} from "./game.js"
+import {setEnableGhost,getEnableGhost,generateMap,setMapData} from "./game.js"
 import {map1, map2} from "./map-data.js"
+import {replay1, replay2} from "./replay.js"
 
 console.log(map1)
 const {useState} = React
@@ -26,12 +27,12 @@ const MapSelect = ({setter}) => { //generate map with mapData?
     <div className="menu map-select">
       You gotta choose a map or sumn..
       <button onClick = {()=> {
-        generateMap(map1);
+        setMapData(map1,replay1);
         resetGame();
         setter("hidden")
       }}>Map1</button>
       <button onClick = {()=> {
-        generateMap(map2);
+        setMapData(map2,replay2);
         resetGame();
         setter("hidden")
       }}>Map2</button>

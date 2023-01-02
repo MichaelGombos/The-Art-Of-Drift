@@ -18,7 +18,6 @@ import {
   displayDriftParticles,
   particles
 } from "./graphics.js"
-import replayArray from "./replay.js"
 
 
 
@@ -57,7 +56,8 @@ const keys = {
   40: directions.down,
 }
 
-let mapData; //starting undefined 
+let mapData = {map:[[1]],
+replay:[[]]}; 
 let rows;
 let columns;
 let spawn = {};
@@ -93,6 +93,12 @@ const resetCarValues = () => {
   car.resetValues()
   ghostCar.resetValues();
   ghostStep = 0;
+}
+const setMapData = (map,replay) => {
+  mapData = {map:map,
+  replay:replay};
+    console.log(map)
+  generateMap(mapData.map)
 }
 const generateMap = (inputData) => {
   while (mapGrid.lastElementChild) {
@@ -133,7 +139,6 @@ const generateMap = (inputData) => {
       rows = mapGrid.childElementCount;
   }
 
-  mapData = inputData;
   document.documentElement.style.setProperty("--rows", rows);
   document.documentElement.style.setProperty("--columns", columns);
 
@@ -166,9 +171,8 @@ const incrementSeconds = () => {
   }
 }
 const placeGhost = (stepCount) => {
-
-    //CONTROLLER INPUT, USE STEPCOUNT INSTEAD.
-    let ghost_held_directions = replayArray[stepCount]
+    console.log(mapData)
+    let ghost_held_directions = mapData.replay[stepCount]
 
     if (ghost_held_directions) {
         //turn
@@ -196,7 +200,7 @@ const placeGhost = (stepCount) => {
     ghostCar.updateUnderSteering();
 
   if (ghostCar.getSpeed() != 0) {
-    ghostCar.collision(tilePixelCount, rows, columns, mapData)
+    ghostCar.collision(tilePixelCount, rows, columns, mapData.map)
       //friction
       ghostCar.applyFriction();
   }
@@ -288,7 +292,7 @@ const placeCharacter = () => {
 
 
   if (car.getSpeed() != 0) {
-      car.collision(tilePixelCount, rows, columns, mapData)
+      car.collision(tilePixelCount, rows, columns, mapData.map)
       //friction
       car.applyFriction();
   }
@@ -345,9 +349,10 @@ const step = () => {
   times.push(now);
   fps = times.length;
   fpsText.innerHTML = fps;
+  
   placeCharacter();
+
   if(enableGhost){
-    console.log()
     placeGhost(ghostStep);
     ghostStep++;
   }
@@ -383,5 +388,6 @@ export {
   step,
   resetCarValues,
   getEnableGhost,
-  setEnableGhost
+  setEnableGhost,
+  setMapData
 }
