@@ -19,7 +19,7 @@ const Hidden = ({setter}) => {
   )
 }
 
-const Pause = ({setter}) => {
+const Pause = ({setter,setPrevious}) => {
   return (
     <div className="menu">
       <button onClick={() => {
@@ -27,7 +27,7 @@ const Pause = ({setter}) => {
       unPauseGame();
       }}>Return to game</button>
       <button onClick={() => {
-        previous = type
+        setPrevious("main")
         setter("options");
       }}>Options</button>
       <button onClick={() => {
@@ -37,7 +37,7 @@ const Pause = ({setter}) => {
   )
 }
 
-const Main = ({setter}) => {
+const Main = ({setter,setPrevious}) => {
   return (
     <div className="menu main">
     <button onClick={() => {
@@ -45,14 +45,14 @@ const Main = ({setter}) => {
      resetGame();
     }}>Start Game</button>
     <button onClick={() => {
-      previous = type
       setter("options");
+      setPrevious("main")
     }}>Options</button>
   </div>
   )
 }
 
-const Options = ({setter}) => {
+const Options = ({setter,previous}) => {
   let [newEnableGhost, setNewEnableGhost] = useState(true);
   let [newParticleLimit,setNewParticleLimit] = useState(500);
 
@@ -81,20 +81,21 @@ const Options = ({setter}) => {
 const Menu = () => {
   let display;
   const [type,setType] = useState('main')
+  const [previousType,setPreviousType] = useState('main')
   if(type == "hidden"){
     return <Hidden setter={setType}/>
 
   }
   else if(type == "pause"){
 
-    return <Pause setter={setType}/>         
+    return <Pause setter={setType} setPrevious = {setPreviousType}/>         
   }
   else if(type == "main"){
     
-    return <Main setter ={setType}/>
+    return <Main setter ={setType} setPrevious = {setPreviousType}/>
   }
   else if(type == "options"){
-    return <div> Hello <Options setter ={setType}/> </div>
+    return <div> Hello <Options setter ={setType} previous = {previousType}/> </div>
   }
   else{
     display = <div>display buggin</div>
