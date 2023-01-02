@@ -96,7 +96,9 @@ li{
 
 .menu.title{
   background-color:rgb(95, 95, 95);
-
+}
+.menu.map-select{
+  background-color:rgb(61, 61, 61);
 }
 
 .menu-button{

@@ -1,7 +1,9 @@
 import {pauseGame,unPauseGame,resetGame} from "./main.js"
 import {setParticleLimit,getParticleLimit} from "./graphics.js"
-import {setEnableGhost,getEnableGhost} from "./game.js"
-console.log(pauseGame)
+import {setEnableGhost,getEnableGhost,generateMap} from "./game.js"
+import {map1, map2} from "./map-data.js"
+
+console.log(map1)
 const {useState} = React
 
 let previous = "main"
@@ -15,6 +17,24 @@ const Hidden = ({setter}) => {
       setter("pause");
       pauseGame();
       } }>Open menu</button>
+    </div>
+  )
+}
+
+const MapSelect = ({setter}) => { //generate map with mapData?
+  return (
+    <div className="menu map-select">
+      You gotta choose a map or sumn..
+      <button onClick = {()=> {
+        generateMap(map1);
+        resetGame();
+        setter("hidden")
+      }}>Map1</button>
+      <button onClick = {()=> {
+        generateMap(map2);
+        resetGame();
+        setter("hidden")
+      }}>Map2</button>
     </div>
   )
 }
@@ -49,9 +69,8 @@ const Main = ({setter,setPrevious}) => {
   return (
     <div className="menu main">
     <button onClick={() => {
-      setter("hidden");
-     resetGame();
-    }}>Start Game</button>
+      setter("map select");
+    }}>Map Select</button>
     <button onClick={() => {
       setter("options");
       setPrevious("main")
@@ -88,8 +107,8 @@ const Options = ({setter,previous}) => {
 
 const Menu = () => {
   let display;
-  const [type,setType] = useState('title')
-  const [previousType,setPreviousType] = useState('title')
+  const [type,setType] = useState('map select')
+  const [previousType,setPreviousType] = useState('map select')
   if(type == "hidden"){
     return <Hidden setter={setType}/>
 
@@ -107,6 +126,9 @@ const Menu = () => {
   }
   else if(type == "title"){
     return <Title setter ={setType}/> 
+  }
+  else if(type == "map select"){
+    return <MapSelect setter={setType}/> 
   }
   else{
     display = <div>display buggin</div>

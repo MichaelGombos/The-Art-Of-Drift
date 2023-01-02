@@ -1,5 +1,3 @@
-import mapImport from "./map-data.js"
-
 import {
     generateMap,
     incrementSeconds,
@@ -11,8 +9,6 @@ const uploadButton = document.querySelector("#upload");
 const mapInput = document.querySelector("#map-input")
 
 let running = false;
-
-generateMap(mapImport);
 
 setInterval(incrementSeconds, 1000)
 
