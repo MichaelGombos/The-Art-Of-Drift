@@ -1,4 +1,4 @@
-import {pauseGame,unPauseGame,resetGame} from "./main.js"
+import {pauseGame,unPauseGame,startGame,resetGame} from "./main.js"
 import {setParticleLimit,getParticleLimit} from "./graphics.js"
 import {setEnableGhost,getEnableGhost,generateMap,setMapData} from "./game.js"
 import {freeplay, map1, map2} from "./map-data.js"
@@ -18,6 +18,7 @@ const Hidden = ({setter}) => {
       setter("pause");
       pauseGame();
       } }>Open menu</button>
+      <button onClick = {() => {setTimeout(resetGame,100)}}>Reset</button>
     </div>
   )
 }
@@ -28,12 +29,12 @@ const MapSelect = ({setter}) => { //generate map with mapData?
       You gotta choose a map or sumn..
       <button onClick = {()=> {
         setMapData(map1,replay1);
-        resetGame();
+        startGame();
         setter("hidden")
       }}>Map1</button>
       <button onClick = {()=> {
         setMapData(map2,replay2);
-        resetGame();
+        startGame();
         setter("hidden")
       }}>Map2</button>
       <button onClick={() => {
@@ -78,7 +79,7 @@ const Main = ({setter,setPrevious}) => {
     }}>Map Select</button>
     <button onClick = {()=> {
       setMapData(freeplay,[[]]);
-      resetGame();
+      startGame();
       setter("hidden")
     }}>Free Play</button>
     <button onClick={() => {

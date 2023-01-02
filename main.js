@@ -2,7 +2,7 @@ import {
     generateMap,
     incrementSeconds,
     step,
-    resetCarValues
+    resetCarValues,
 } from "./game.js"
 
 const uploadButton = document.querySelector("#upload");
@@ -14,14 +14,16 @@ setInterval(incrementSeconds, 1000)
 
 const handleUpload = (e) => {
     generateMap(JSON.parse("[" + mapInput.value + "]")[0])
-
-
 }
 
 const resetGame = () => {
+    pauseGame();
+    setTimeout(startGame,20)
+}
+
+const startGame = () => {
     resetCarValues();
-    running = true;
-    step();
+    unPauseGame();
 }
 
 const unPauseGame = () => {
@@ -36,7 +38,6 @@ const pauseGame = () => {
 const getRunning = () => {
     return running}
 
-step(0); //Kick off the first step
 
 uploadButton.addEventListener("click", handleUpload);
 const replayOutput = document.querySelector("#replay-output")
@@ -46,6 +47,7 @@ export {
     replayOutput,
     getRunning,
     resetGame,
+    startGame,
     pauseGame,
     unPauseGame
 }

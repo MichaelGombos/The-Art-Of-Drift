@@ -20,6 +20,7 @@ import {
 } from "./graphics.js"
 
 
+let debug = 0;
 
 // const ghostInput = 
 
@@ -357,9 +358,10 @@ const step = () => {
     ghostStep++;
   }
   if(getRunning()){
-    window.requestAnimationFrame(() => step())
+    window.requestAnimationFrame(step)
   }
 }
+
 
 //listeners 
 
