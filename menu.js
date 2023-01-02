@@ -19,6 +19,14 @@ const Hidden = ({setter}) => {
   )
 }
 
+const Title = ({setter}) => {
+  return (
+    <div className="menu title" onClick= {() => setter("main")}>
+      CRUSTY DUSTERS<br/>
+      (click the screen to start)
+    </div>
+  )
+}
 const Pause = ({setter,setPrevious}) => {
   return (
     <div className="menu">
@@ -80,8 +88,8 @@ const Options = ({setter,previous}) => {
 
 const Menu = () => {
   let display;
-  const [type,setType] = useState('main')
-  const [previousType,setPreviousType] = useState('main')
+  const [type,setType] = useState('title')
+  const [previousType,setPreviousType] = useState('title')
   if(type == "hidden"){
     return <Hidden setter={setType}/>
 
@@ -95,7 +103,10 @@ const Menu = () => {
     return <Main setter ={setType} setPrevious = {setPreviousType}/>
   }
   else if(type == "options"){
-    return <div> Hello <Options setter ={setType} previous = {previousType}/> </div>
+    return <Options setter ={setType} previous = {previousType}/>
+  }
+  else if(type == "title"){
+    return <Title setter ={setType}/> 
   }
   else{
     display = <div>display buggin</div>

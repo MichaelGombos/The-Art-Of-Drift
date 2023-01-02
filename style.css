@@ -94,6 +94,11 @@ li{
   background-color:grey;
 }
 
+.menu.title{
+  background-color:rgb(95, 95, 95);
+
+}
+
 .menu-button{
   position:absolute;
   z-index:1;
