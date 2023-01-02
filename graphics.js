@@ -1,7 +1,7 @@
 import {map} from "./elements.js"
 
 let particles = [];
-let particleLimit = 10;
+let particleLimit = 100;
 //graphics 
 const createDriftParticle = (x, y, driftForce, angle) => {
   let particle = {
@@ -63,9 +63,9 @@ const displayDriftParticles = (x,y ,driftForce, onDirt,angle) => {
   //delete drift particle if more than 100
 
       if (particles.length > particleLimit) {
-          if (particles[particleLimit] && particles[particleLimit-1]) {
+          if (particles[particleLimit] && particles[particleLimit+1]) {
               particles[0].element.remove();
-              particles[0].element.remove();
+              particles[1].element.remove();
               particles.shift();
               particles.shift();
           }
