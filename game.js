@@ -222,15 +222,19 @@ const placeGhost = (stepCount) => {
   const bottomLimit = (rows * tilePixelCount) - carSize;
   if (ghostCar.getX() < leftLimit) {
     ghostCar.setX(leftLimit);
+    ghostCar.reduceSpeed()
   }
   if (ghostCar.getX() > rightLimit) {
     ghostCar.setX(rightLimit);
+    ghostCar.reduceSpeed()
   }
   if (ghostCar.getY() < topLimit) {
     ghostCar.setY(topLimit);
+    ghostCar.reduceSpeed()
   }
   if (ghostCar.getY() > bottomLimit) {
     ghostCar.setY(bottomLimit);
+    ghostCar.reduceSpeed()
   }
 
   ghostCharacter.style.transform = `translate3d( ${ghostCar.getX()*pixelSize}px, ${ghostCar.getY()*pixelSize}px, 0 )`;
@@ -314,15 +318,19 @@ const placeCharacter = () => {
   const bottomLimit = (rows * tilePixelCount) - carSize;
   if (car.getX() < leftLimit) {
       car.setX(leftLimit);
+      car.reduceSpeed()
   }
   if (car.getX() > rightLimit) {
       car.setX(rightLimit);
+      car.reduceSpeed()
   }
   if (car.getY() < topLimit) {
       car.setY(topLimit);
+      car.reduceSpeed()
   }
   if (car.getY() > bottomLimit) {
       car.setY(bottomLimit);
+      car.reduceSpeed()
   }
   // console.log(x);
 

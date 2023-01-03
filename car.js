@@ -62,6 +62,11 @@ const Car = () => {
         lap = 0;
         engineLock = false;
     }
+
+    const reduceSpeed = () => { //wall/border
+        speed = speed/1.05; 
+    }
+
     const compareFacingRelativeToMoving = (facingAngle, movingAngle) => { // 1 right 0 middle - 1l eft 
 
         let difference = facingAngle - movingAngle;
@@ -317,11 +322,12 @@ const Car = () => {
 
             //walls
             if (collidingWithValue(1,"y",mapData,tilePixelCount)) {
+                reduceSpeed()
                 newY = y;
             }
 
             if (collidingWithValue(1,"x",mapData,tilePixelCount)) {
-
+                reduceSpeed()
                 newX = x;
             }
             //dirt
@@ -428,6 +434,7 @@ const Car = () => {
         applyFriction,
         turn,
         accelerate,
+        reduceSpeed,
         collision
     }
 }
