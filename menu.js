@@ -1,11 +1,11 @@
-import {pauseGame,unPauseGame,startGame,resetGame} from "./main.js"
+import {getRunning,pauseGame,unPauseGame,startGame,resetGame} from "./main.js"
 import {setParticleLimit,getParticleLimit} from "./graphics.js"
 import {setEnableGhost,getEnableGhost,generateMap,setMapData} from "./game.js"
 import {freeplay, map1, map2} from "./map-data.js"
 import {replay1, replay2} from "./replay.js"
 
 console.log(map1)
-const {useState} = React
+const {useState, componentDidMount} = React
 
 let previous = "main"
 'use strict';
@@ -13,7 +13,7 @@ let previous = "main"
 const e = React.createElement;
 const Hidden = ({setter}) => {
   return (
-    <div className="menu-button ">
+    <div className="menu-button " >
       <button  onClick={() => {
       setter("pause");
       pauseGame();
@@ -116,9 +116,8 @@ const Options = ({setter,previous}) => {
 
 }
 
-const Menu = () => {
+const Menu = ({type, setType}) => {
   let display;
-  const [type,setType] = useState('title')
   const [previousType,setPreviousType] = useState('title')
   if(type == "hidden"){
     return <Hidden setter={setType}/>
@@ -149,13 +148,43 @@ const Menu = () => {
 }
 
 class MenuOverlay extends React.Component {
-  constructor(props) {
-    super(props);
+  
+  onKeyPressed = () => (e) => {
+    if(e.key == "r"){
+      if(this.state.type == "hidden"){
+        setTimeout(resetGame,100)
+      }
+    } 
+    else if(e.key == "p"){
+      if(this.state.type == "hidden"){
+        this.handleTypeChange("pause");
+        pauseGame();
+      }
+      else if(this.state.type == "pause"){
+        this.handleTypeChange("hidden");
+        unPauseGame();
+      }
+  
+    }
   }
 
+  componentDidMount() {    window.addEventListener('keydown', this.onKeyPressed().bind(this) )  }
+  
+  
+  constructor(props) {
+    super(props);
+    this.state = {
+      type: "title"
+    }
+  }
+  handleTypeChange = (type) => {
+    this.setState( {type: type})
+  } 
+  getCurrent = () => {
+    return this.state;
+  }
 
-
-  render() {return <Menu />}
+  render() {return <Menu type={this.state.type} setType={this.handleTypeChange}/>}
 }
 
 const domContainer = document.querySelector('.menu-container');

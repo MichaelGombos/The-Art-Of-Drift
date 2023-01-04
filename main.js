@@ -8,6 +8,8 @@ import {
 const uploadButton = document.querySelector("#upload");
 const mapInput = document.querySelector("#map-input")
 
+
+
 let running = false;
 
 setInterval(incrementSeconds, 1000)
@@ -42,6 +44,7 @@ const getRunning = () => {
 uploadButton.addEventListener("click", handleUpload);
 const replayOutput = document.querySelector("#replay-output")
 
+  
 
 export {
     replayOutput,
