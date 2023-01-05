@@ -20,6 +20,7 @@ import {
 } from "./graphics.js"
 
 
+
 let debug = 0;
 
 // const ghostInput = 
@@ -160,6 +161,7 @@ const checkGameOver = (currentLap, maxLaps) => {
 
       //paste replay array to export.
       replayOutput.innerText =  "[" + replayExport.map(frame => "\n[" + frame.map(command => "\"" + command + "\"" ) + "]") + "\n]";;
+      window.changeMenu("finish")
   }
 }
 

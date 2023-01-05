@@ -101,6 +101,10 @@ li{
   background-color:rgb(61, 61, 61);
 }
 
+.menu.finish{
+  background-color:#00ffd968;
+}
+
 .menu-button{
   position:absolute;
   z-index:1;

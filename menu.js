@@ -1,16 +1,35 @@
-import {getRunning,pauseGame,unPauseGame,startGame,resetGame} from "./main.js"
+import {pauseGame,unPauseGame,startGame,resetGame} from "./main.js"
 import {setParticleLimit,getParticleLimit} from "./graphics.js"
-import {setEnableGhost,getEnableGhost,generateMap,setMapData} from "./game.js"
+import {setEnableGhost,getEnableGhost,setMapData} from "./game.js"
 import {freeplay, map1, map2} from "./map-data.js"
 import {replay1, replay2} from "./replay.js"
 
 console.log(map1)
-const {useState, componentDidMount} = React
+const {useState} = React
 
 let previous = "main"
 'use strict';
 
 const e = React.createElement;
+
+const Finish = ({setter}) => {
+  return (
+    <div className="menu finish" >
+      <h1>Finish!</h1>
+
+      <button onClick={() => {
+        setTimeout(resetGame,100)
+        setter("hidden")
+      }}>Restart Race</button>
+
+      <button onClick={() => {
+        setter("main");
+      }}>Back to main menu</button>
+
+    </div>
+  )
+}
+
 const Hidden = ({setter}) => {
   return (
     <div className="menu-button " >
@@ -140,6 +159,9 @@ const Menu = ({type, setType}) => {
   else if(type == "map select"){
     return <MapSelect setter={setType}/> 
   }
+  else if(type == "finish"){
+    return <Finish setter={setType}/> 
+  }
   else{
     display = <div>display buggin</div>
   }
@@ -148,7 +170,6 @@ const Menu = ({type, setType}) => {
 }
 
 class MenuOverlay extends React.Component {
-  
   onKeyPressed = () => (e) => {
     if(e.key == "r"){
       if(this.state.type == "hidden"){
@@ -168,22 +189,21 @@ class MenuOverlay extends React.Component {
     }
   }
 
-  componentDidMount() {    window.addEventListener('keydown', this.onKeyPressed().bind(this) )  }
+  componentDidMount() {   
+    }
   
   
   constructor(props) {
     super(props);
     this.state = {
-      type: "title"
+      type: "main"
     }
+    window.changeMenu = this.handleTypeChange;
   }
   handleTypeChange = (type) => {
     this.setState( {type: type})
   } 
-  getCurrent = () => {
-    return this.state;
-  }
-
+  ref = React.createRef();
   render() {return <Menu type={this.state.type} setType={this.handleTypeChange}/>}
 }
 
