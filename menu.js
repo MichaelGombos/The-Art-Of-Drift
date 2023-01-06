@@ -42,20 +42,41 @@ const Hidden = ({setter}) => {
   )
 }
 
-const MapSelect = ({setter}) => { //generate map with mapData?
+const MapSelect = ({setter}) => { 
+  let [difficulty, setDifficulty] = useState("easy");
+
   return (
     <div className="menu map-select">
-      You gotta choose a map or sumn..
-      <button onClick = {()=> {
-        setMapData(map1,replay1);
-        startGame();
-        setter("hidden")
-      }}>Map1</button>
-      <button onClick = {()=> {
-        setMapData(map2,replay2);
-        startGame();
-        setter("hidden")
-      }}>Map2</button>
+      GL ,':') HF
+      <label htmlFor="difficulty">Difficulty</label>
+      <select name="cars" id="cars" onChange ={(e)=> setDifficulty(e.target.value)}>
+        <option value="easy">silver</option>
+        <option value="normal">gold</option>
+        <option value="hard">author</option>
+      </select>
+      <div className="map-options">
+        <div className="map-option">
+          <h3>Map 1</h3>
+          <button onClick = {()=> {
+          setMapData(map1,replay1[difficulty]);
+          startGame();
+          setter("hidden")
+          }}>Select</button>
+        </div>
+
+
+        <div className="map-option">
+          <h3>Map 2</h3>
+          <button onClick = {()=> {
+          setMapData(map2,replay2[difficulty]);
+          startGame();
+          setter("hidden")
+          }}>Select</button>
+        </div>
+      </div>
+
+      
+
       <button onClick={() => {
         setter("main");
       }}>Back to main menu</button>
@@ -196,7 +217,7 @@ class MenuOverlay extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      type: "main"
+      type: "map select"
     }
     window.changeMenu = this.handleTypeChange;
   }
