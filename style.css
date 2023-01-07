@@ -279,3 +279,19 @@ textarea{
 .hidden{
   display:none;
 }
+
+#map-canvas{
+  position:absolute;
+  bottom:0;
+  z-index:4;
+  width:150px;
+  height:150px;
+}
+
+#player-canvas{
+  position:absolute;
+  bottom:0;
+  z-index:4;
+  width:150px;
+  height:150px;
+}

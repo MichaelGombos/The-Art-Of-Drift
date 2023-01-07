@@ -31,17 +31,23 @@
 
 
          <!-- later there can be stats overlay, and minimap here too  -->
+         <div id="mini-map">
+            <canvas id="map-canvas" width="350" height="350"></canvas>
+            <canvas id="player-canvas" width="350" height="350"></canvas>
+         </div>
+         
          <div class="camera">
             <div class="map pixel-art">
                <div class="map-grid"> 
                </div>
-               <div class="character" facing="down" walking="true" angle="0">
-                  <div class="character_spritesheet pixel-art"></div>
-               </div>
-   
                <div class="ghost" facing="down" walking="true" angle="0">
                   <div class="ghost_spritesheet pixel-art"></div>
                </div>
+               <div class="character" facing="down" walking="true" angle="0">
+                  <div class="character_spritesheet pixel-art"></div>
+               </div>
+               
+
             </div>
          </div>
       </div>
@@ -80,6 +86,6 @@
 <script src="main.js"  data-module="main" type="module" ></script>
 <script src="game.js" data-type="module"   type="text/babel"></script>
 <script src="menu.js" data-type="module"   type="text/babel"></script>
-
+<script src="mini-map.js" type="module"></script>
 
 </body>

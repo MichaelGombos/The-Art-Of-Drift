@@ -4,7 +4,6 @@ import {setEnableGhost,getEnableGhost,setMapData} from "./game.js"
 import {freeplay, map1, map2} from  "./map-data.js"
 import {replay1, replay2} from "./replay.js"
 
-console.log(map1)
 const {useState} = React
 
 let previous = "main"
@@ -217,7 +216,7 @@ class MenuOverlay extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      type: "title"
+      type: "map select"
     }
     window.changeMenu = this.handleTypeChange;
   }

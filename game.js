@@ -19,7 +19,7 @@ import {
   particles
 } from "./graphics.js"
 
-
+import {generateMiniMap,updateMiniMapPlayers} from "./mini-map.js"
 
 let debug = 0;
 
@@ -82,6 +82,8 @@ const setEnableGhost = (check) => {
 }
 const getEnableGhost = () => {return enableGhost}
 
+const getTilePixelCount = () => {return tilePixelCount}
+
 const updateCarSpawnPosition = () => {
   car.setX(spawn.x * tilePixelCount)
   car.setY(spawn.y * tilePixelCount)
@@ -100,11 +102,15 @@ const resetCarValues = () => {
   console.log(replayExport);
 }
 const setMapData = (map,replay) => {
-  mapData = {map:map,
-  replay:replay};
-    console.log(map)
+  mapData = {
+    map:map,
+    replay:replay
+  };
   generateMap(mapData.map)
+  generateMiniMap(mapData.map)
 }
+const getMapData = () => {return mapData}
+
 const generateMap = (inputData) => {
   while (mapGrid.lastElementChild) {
       mapGrid.removeChild(mapGrid.lastElementChild);
@@ -363,7 +369,7 @@ const step = () => {
   fpsText.innerHTML = fps;
   
   placeCharacter();
-
+  updateMiniMapPlayers(car,ghostCar);
   if(enableGhost){
     placeGhost(ghostStep);
     ghostStep++;
@@ -396,6 +402,8 @@ document.addEventListener("keyup", (e) => {
 
 export {
   generateMap,
+  getTilePixelCount,
+  getMapData,
   checkGameOver,
   incrementSeconds,
   step,

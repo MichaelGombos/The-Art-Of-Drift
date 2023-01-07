@@ -30,11 +30,9 @@ const fpsText = document.querySelector("#fps");
 const map = document.querySelector(".map");
 const mapGrid = document.querySelector(".map-grid")
 const mapParticles = document.createElement("div");
-
-
-
-
 const game = document.querySelector("#game");
+const mapCanvas = document.querySelector("#map-canvas")
+const playerCanvas = document.querySelector("#player-canvas")
 
 export {
   character,
@@ -46,4 +44,6 @@ export {
   fpsText,
   map,
   mapGrid,
+  mapCanvas,
+  playerCanvas
 }
