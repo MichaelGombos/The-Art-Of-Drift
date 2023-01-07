@@ -1,7 +1,7 @@
 import {pauseGame,unPauseGame,startGame,resetGame} from "./main.js"
 import {setParticleLimit,getParticleLimit} from "./graphics.js"
 import {setEnableGhost,getEnableGhost,setMapData} from "./game.js"
-import {freeplay, map1, map2} from "./map-data.js"
+import {freeplay, map1, map2} from  "./map-data.js"
 import {replay1, replay2} from "./replay.js"
 
 console.log(map1)
@@ -18,7 +18,7 @@ const Finish = ({setter}) => {
       <h1>Finish!</h1>
 
       <button onClick={() => {
-        setTimeout(resetGame,100)
+        resetGame();
         setter("hidden")
       }}>Restart Race</button>
 
@@ -59,7 +59,7 @@ const MapSelect = ({setter}) => {
           <h3>Map 1</h3>
           <button onClick = {()=> {
           setMapData(map1,replay1[difficulty]);
-          startGame();
+          resetGame();
           setter("hidden")
           }}>Select</button>
         </div>
@@ -69,7 +69,7 @@ const MapSelect = ({setter}) => {
           <h3>Map 2</h3>
           <button onClick = {()=> {
           setMapData(map2,replay2[difficulty]);
-          startGame();
+          resetGame();
           setter("hidden")
           }}>Select</button>
         </div>
