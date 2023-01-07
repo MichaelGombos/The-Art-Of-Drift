@@ -217,7 +217,7 @@ class MenuOverlay extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      type: "map select"
+      type: "title"
     }
     window.changeMenu = this.handleTypeChange;
   }

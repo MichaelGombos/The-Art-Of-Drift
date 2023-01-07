@@ -96,6 +96,8 @@ const resetCarValues = () => {
   ghostCar.resetValues();
   ghostStep = 0;
   seconds = 0;
+  replayExport = [];
+  console.log(replayExport);
 }
 const setMapData = (map,replay) => {
   mapData = {map:map,
@@ -290,7 +292,6 @@ const placeCharacter = () => {
   }
 
   replayExport.push([...held_directions])
-
   car.updateAngleLock()
   car.stabalizeDriftForce();
   car.stabalizeAngle()
