@@ -56,6 +56,11 @@ const keys = {
   37: directions.left,
   39: directions.right,
   40: directions.down,
+  87: directions.up,
+  65: directions.left,
+  68: directions.right,
+  83: directions.down
+
 }
 
 let mapData = {map:[[1]],
@@ -383,6 +388,7 @@ const step = () => {
 //listeners 
 
 document.addEventListener("keydown", (e) => {
+
   const dir = keys[e.which];
   if (dir == "up" || dir == "down") {
       e.preventDefault();
