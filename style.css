@@ -125,14 +125,14 @@ li{
   image-rendering: pixelated;
   /* background-image: url("https://fxfactory.com/downloads/docs/noiseindustries/fxfactorypro/Thumbnails/Checkerboard.jpg"); */
   background-size: 100%;
-  width: calc(var(--rows) * var(--grid-cell)); 
-  height: calc(var(--columns) * var(--grid-cell));
+  width: calc(var(--columns) * var(--grid-cell)); 
+  height: calc(var(--rows) * var(--grid-cell));
   position: relative;
 }
 
 .map-grid{
-  width: calc(var(--rows) * var(--grid-cell)); 
-  height: calc(var(--columns) * var(--grid-cell));
+  width: calc(var(--columns) * var(--grid-cell)); 
+  height: calc(var(--rows) * var(--grid-cell));
   display:flex;
   position: absolute;
   background-image: url("https://images.unsplash.com/photo-1670607615489-ccb0b75fa748?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80");
