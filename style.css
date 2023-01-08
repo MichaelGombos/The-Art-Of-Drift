@@ -84,7 +84,7 @@ li{
   align-items: center;
   justify-content: center;
   position:absolute;
-  z-index:1;
+  z-index:2;
   width: calc(var(--pixel-size) * 160);
   height: calc(var(--pixel-size) * 144);
   background-color:rgba(0, 128, 0, 0.407);
@@ -280,18 +280,20 @@ textarea{
   display:none;
 }
 
+#mini-map{
+  position:absolute;
+  bottom:-1px;
+  z-index:1;
+}
+
 #map-canvas{
   position:absolute;
-  bottom:0;
-  z-index:4;
+  z-index:-1;
   width:150px;
   height:150px;
 }
 
 #player-canvas{
-  position:absolute;
-  bottom:0;
-  z-index:4;
   width:150px;
   height:150px;
 }

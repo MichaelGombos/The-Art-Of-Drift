@@ -209,8 +209,7 @@ class MenuOverlay extends React.Component {
     }
   }
 
-  componentDidMount() {   
-    }
+  componentDidMount() {   window.addEventListener('keydown', this.onKeyPressed().bind(this) )    }
   
   
   constructor(props) {

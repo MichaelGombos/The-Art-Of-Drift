@@ -1,7 +1,6 @@
 import {mapCanvas,playerCanvas} from "./elements.js"
 import {getMapData,getTilePixelCount} from "./game.js"
 //just for now
-import { map1} from "./map-data.js";
 const mapCtx = mapCanvas.getContext("2d");
 const playerCtx = playerCanvas.getContext("2d");
 
@@ -26,14 +25,13 @@ const generateMiniMap = (mapData) => {
   mapCtx.globalCompositeOperation='source-over';
 
 }
-generateMiniMap(map1);
+
 
 const updateMiniMapPlayers = (player,ghost) => {
   playerCanvas.width = mapCanvas.width;
   playerCanvas.height = mapCanvas.width;
 
   playerCtx.clearRect(0,0,playerCanvas.width,playerCanvas.height);
-  console.log(player)
 
   playerCtx.fillStyle = "red"
   playerCtx.fillRect(player.getX()/getTilePixelCount(),player.getY()/getTilePixelCount(),5,5);
