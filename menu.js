@@ -8,8 +8,27 @@ const {useState} = React
 
 let previous = "main"
 'use strict';
-
+const commands = {
+  up: "up",
+  down: "down",
+  left: "left",
+  right: "right",
+  select: "select"
+}
+const navKeys = {
+  "ArrowUp": commands.up,
+  "ArrowLeft": commands.left,
+  "ArrowRight": commands.right,
+  "ArrowDown": commands.down,
+  "w": commands.up,
+  "a": commands.left,
+  "d": commands.down,
+  "s": commands.right,
+  "Enter": commands.select
+}
 const e = React.createElement;
+
+
 
 const Finish = ({setter}) => {
   return (
@@ -48,11 +67,11 @@ const MapSelect = ({setter}) => {
     <div className="menu map-select">
       GL ,':') HF
       <label htmlFor="difficulty">Difficulty</label>
-      <select name="cars" id="cars" onChange ={(e)=> setDifficulty(e.target.value)}>
-        <option value="easy">silver</option>
-        <option value="normal">gold</option>
-        <option value="hard">author</option>
-      </select>
+      <div name="difficulty" id="difficulty">
+        <button value="easy" className={difficulty == "easy" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>silver</button>
+        <button value="normal" className={difficulty == "normal" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)} >gold</button>
+        <button value="hard" className={difficulty == "hard" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>author</button>
+      </div>
       <div className="map-options">
         <div className="map-option">
           <h3>Map 1</h3>
@@ -137,7 +156,10 @@ const Options = ({setter,previous}) => {
     <div className="menu options">
     <h2>options</h2>
     <label htmlFor="ghost-selector">Enable Ghost Car  </label>
-    <input type="checkbox" id="ghost-selector" value="on" checked={newEnableGhost} onChange={(e) => {setNewEnableGhost(e.target.checked)}}></input>
+    <button  
+    onClick={(e) => {setNewEnableGhost(!newEnableGhost)}} 
+    className={newEnableGhost ? "set" : "none"}>{newEnableGhost ? "disable ghost car" : "enable ghost car"}</button>
+
     <label htmlFor="particle-selector">Particle Limit ({newParticleLimit})</label>
     <input type="range" min="10" max="2000" value={newParticleLimit}  className="slider" id="particle-selector" onChange={(e) => {setNewParticleLimit(e.target.value)}}/>
     <button onClick={() => {
@@ -190,13 +212,68 @@ const Menu = ({type, setType}) => {
 }
 
 class MenuOverlay extends React.Component {
+  
+  constructor(props) {
+    super(props);
+    this.state = {
+      type: "main",
+      navIndex: null
+    }
+    window.changeMenu = this.handleTypeChange;
+  }
+  handleTypeChange = (type) => {
+    this.setState( {type: type})
+  } 
+  navigateMenu = (event) => {
+    if(this.state.type != "hidden"){
+      let menuList = Array.from(document.querySelector(".menu").querySelectorAll("button,select ,input"));
+
+      let firstButton = menuList[0]
+      let lastButton = menuList[menuList.length-1];
+      let lastIndex = menuList.length-1;
+      if(this.state.navIndex == null){
+        this.setState ({navIndex:0})
+        firstButton.focus();
+      }
+      else{
+        if(navKeys[event.key] == "up"){
+          if(document.activeElement == firstButton){ 
+            this.setState ({navIndex:lastIndex})
+            lastButton.focus();
+          }
+          else{
+            let previousButton = menuList[this.state.navIndex-1];
+            this.setState ({navIndex:this.state.navIndex-1})
+            previousButton.focus();
+          }
+        }
+        else if(navKeys[event.key] == "down"){
+          if(document.activeElement == lastButton){ 
+            this.setState ({navIndex:0})
+            firstButton.focus();
+          }
+          else{
+            let nextButton = menuList[this.state.navIndex+1]
+            this.setState ({navIndex:this.state.navIndex+1})
+            nextButton.focus();
+          }
+        }
+        else if(navKeys[event.key] == "select"){
+          
+          this.setState ({navIndex:null})
+        }
+      }
+    }
+    
+  }
+
   onKeyPressed = () => (e) => {
     if(e.key == "r"){
       if(this.state.type == "hidden"){
         setTimeout(resetGame,100)
       }
     } 
-    else if(e.key == "p"){
+    else if(e.key == "p" || e.key == "Escape"){
       if(this.state.type == "hidden"){
         this.handleTypeChange("pause");
         pauseGame();
@@ -205,23 +282,18 @@ class MenuOverlay extends React.Component {
         this.handleTypeChange("hidden");
         unPauseGame();
       }
-  
     }
+    else if(Object.keys(navKeys).includes(e.key)){
+      this.navigateMenu(e);
+    }
+    
   }
 
   componentDidMount() {   window.addEventListener('keydown', this.onKeyPressed().bind(this) )    }
   
   
-  constructor(props) {
-    super(props);
-    this.state = {
-      type: "map select"
-    }
-    window.changeMenu = this.handleTypeChange;
-  }
-  handleTypeChange = (type) => {
-    this.setState( {type: type})
-  } 
+
+
   ref = React.createRef();
   render() {return <Menu type={this.state.type} setType={this.handleTypeChange}/>}
 }
