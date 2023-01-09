@@ -21,6 +21,10 @@ const Car = () => {
         moving: 0,
         facing: 0,
     }
+    let angleLock = {
+        left: false,
+        right: false
+    }
     let engineLock = false;
 
     const tireGrip = 2;
@@ -40,6 +44,7 @@ const Car = () => {
     const getX = () => {return x}
     const getY = () => {return y}
     const getSpeed = () => {return speed}
+    const getAngleLock = () => {return angleLock}
     const getEngineLock =() => {return engineLock}
     const getUnderSteering =() => {return underSteering}
     const getOnDirt = () => {return onDirt}
@@ -76,7 +81,73 @@ const Car = () => {
         }
     }
 
+    const updateAngleLock = () => {
 
+        const direction = compareFacingRelativeToMoving(angle.facing, angle.moving)
+        const facingAngle = angle.facing;
+        const movingAngle = angle.moving;
+
+        let diff;
+        if (direction == 1) { //facing is right of moving Angle
+            if (facingAngle - movingAngle < 0) {
+                diff = facingAngle + 360 - movingAngle;
+            } else {
+                diff = facingAngle - movingAngle;
+            }
+
+            if (diff > 120) {
+                return (
+                    angleLock = {
+                    right: true,
+                    left: false
+                })
+            } else {
+                if (angleLock.right) {
+                    angleLock = {
+                        right: false,
+                        left: angleLock.left
+                    }
+                } else {
+                    angleLock = {
+                        right: false,
+                        left: false
+                    }
+                }
+
+            }
+
+        } else if (direction == -1) { //facing is left of moving angle
+            if (movingAngle - facingAngle < 0) {
+                diff = movingAngle + 360 - facingAngle;
+            } else {
+                diff = movingAngle - facingAngle;
+            }
+
+            if (diff > 120) {
+                angleLock = {
+                    right: false,
+                    left: true
+                }
+            } else {
+                if (angleLock.left) {
+                    angleLock = {
+                        right: angleLock.right,
+                        left: false
+                    }
+                } else {
+                    angleLock = {
+                        right: false,
+                        left: false
+                    }
+                }
+            }
+        } else {
+            angleLock = {
+                right: false,
+                left: false
+            }
+        }
+    }
 
     const stabalizeDriftForce = () => {
 
@@ -119,18 +190,27 @@ const Car = () => {
 
     const updateUnderSteering = () => {
         switch (true) {
-            case (Math.abs(speed) > 0 && Math.abs(speed) < 1.5):
-                underSteering = 1
-            case (Math.abs(speed) > 1.5 && Math.abs(speed) < 2.5):
-                underSteering = .9
-            case (Math.abs(speed) > 2.5 && Math.abs(speed) < 4):
-                underSteering = .7
-            case (Math.abs(speed) > 4 && Math.abs(speed) < 5):
+            case (Math.abs(speed) >= 0 && Math.abs(speed) < .25):
                 underSteering = .5
+                break;
+            case (Math.abs(speed) > .25 && Math.abs(speed) < 1.5):
+                underSteering = 1
+                break;
+            case (Math.abs(speed) > 1.5 && Math.abs(speed) < 2.5):
+                underSteering = .95
+                break;
+            case (Math.abs(speed) > 2.5 && Math.abs(speed) < 4):
+                underSteering = .9
+                break;
+            case (Math.abs(speed) > 4 && Math.abs(speed) < 5):
+                underSteering = .85
+                break;
             case (Math.abs(speed) > 5 && Math.abs(speed) < 7):
-                underSteering = .4
+                underSteering = .8
+                break;
             case (Math.abs(speed) > 7):
-                underSteering = .3
+                underSteering = .75
+                break;
             default:
                 underSteering = 1;
                 break;
@@ -184,7 +264,7 @@ const Car = () => {
     const turn = (direction) => {
 
         //compareAngles 
-        if (direction === "right") {
+        if (direction === "right" && !angleLock.right) {
             if (driftForce <= 1.4) {
                 driftForce += .1;
             } else if (driftForce > 1.4 && driftForce < 5) {
@@ -201,7 +281,7 @@ const Car = () => {
             if (angle.moving > 360) {
                 angle.moving = angle.moving - 360;
             }
-        } else if (direction === "left") {
+        } else if (direction === "left" && !angleLock.left) {
             if (driftForce <= 1.4) {
                 driftForce += .1;
             } else if (driftForce > 1.4 && driftForce < 5) {
@@ -363,6 +443,7 @@ const Car = () => {
         getX,
         getY,
         getSpeed,
+        getAngleLock,
         getEngineLock,
         getUnderSteering,
         getOnDirt,
@@ -372,6 +453,7 @@ const Car = () => {
         setEngineLock,
         //functions
         resetValues,
+        updateAngleLock,
         stabalizeDriftForce,
         stabalizeAngle,
         updateUnderSteering,
