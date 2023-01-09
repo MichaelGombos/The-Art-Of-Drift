@@ -196,8 +196,13 @@ const placeGhost = (stepCount) => {
         if (speed != 0) {
             if (ghost_held_directions.includes(directions.right)) {
                 ghostCar.turn("right");
+                ghostCar.setTurning(true)
             } else if (ghost_held_directions.includes(directions.left)) {
                 ghostCar.turn("left");
+                ghostCar.setTurning(true)
+            }
+            else{
+              ghostCar.setTurning(false)
             }
             ghostCharacterSprite.style.transform = `rotate(${ghostCar.getAngle().facing}deg)`;
         }
