@@ -18,6 +18,10 @@ const stats = {
     },
     driftForce: document.querySelector("#drift-force"),
     underSteering: document.querySelector("#under-steer"),
+    angleLock: {
+        left: document.querySelector("#lock-left"),
+        right: document.querySelector("#lock-right")
+    },
     particleCount: document.querySelector("#particle-count")
 }
 
@@ -30,6 +34,7 @@ const game = document.querySelector("#game");
 const mapCanvas = document.querySelector("#map-canvas")
 const playerCanvas = document.querySelector("#player-canvas")
 const camera = document.querySelector(".camera")
+
 export {
   character,
   characterSprite,

@@ -211,6 +211,7 @@ const placeGhost = (stepCount) => {
   
     }
 
+    ghostCar.updateAngleLock()
     ghostCar.stabalizeDriftForce();
     ghostCar.stabalizeAngle()
     ghostCar.updateUnderSteering();
@@ -267,6 +268,8 @@ const placeCharacter = () => {
   stats.angle.moving.innerHTML = car.getAngle().moving.toFixed(2);
   stats.driftForce.innerHTML = car.getDriftForce().toFixed(2);
   stats.underSteering.innerHTML = car.getUnderSteering().toFixed(2);
+  stats.angleLock.left.innerHTML = car.getAngleLock().left;
+  stats.angleLock.right.innerHTML = car.getAngleLock().right;
   stats.particleCount.innerHTML = particles.length;
 
 
@@ -301,6 +304,7 @@ const placeCharacter = () => {
   }
 
   replayExport.push([...held_directions])
+  car.updateAngleLock()
   car.stabalizeDriftForce();
   car.stabalizeAngle()
   car.updateUnderSteering();
@@ -345,7 +349,6 @@ const placeCharacter = () => {
   }
   // console.log(x);
 
-  console.log(camera);
   const camera_left = pixelSize * camera.clientWidth/8;
   const camera_top = pixelSize * camera.clientHeight/8;
 
