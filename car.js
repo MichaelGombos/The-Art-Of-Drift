@@ -36,6 +36,7 @@ const Car = () => {
         up: false,
         down: false
     };
+    let turning = false;
     //getters
     const getMaxLaps = () => {return maxLaps}
     const getLap = () => {return lap}
@@ -52,6 +53,7 @@ const Car = () => {
     const setX = (value) => {x = value}
     const setY = (value) => {y = value}
     const setEngineLock = (value) => {engineLock = value}
+    const setTurning = (value) => {turning = value}
 
     const resetValues = () => {
         speed = 0;
@@ -191,7 +193,7 @@ const Car = () => {
     const updateUnderSteering = () => {
         switch (true) {
             case (Math.abs(speed) >= 0 && Math.abs(speed) < .25):
-                underSteering = .5
+                underSteering = .9
                 break;
             case (Math.abs(speed) > .25 && Math.abs(speed) < 1.5):
                 underSteering = 1
@@ -233,8 +235,17 @@ const Car = () => {
         checkGameOver(lap, maxLaps)
     }
 
-    //car controls
-    
+    //car controls  
+
+    const engageBrakes = () => {
+        speed -= acceleration * 3;
+        if(turning){
+            if(driftForce < 3){
+                driftForce = 3;
+            }
+            driftForce += .3;
+        }
+    }    
     const accelerate = ( forward) => {
         if (Math.abs(speed) <= maxSpeed && !engineLock) {
             if (forward) {
@@ -244,8 +255,12 @@ const Car = () => {
                 }
                 if (diff < 90 || diff > 270) { //we are facing forwards
                     speed += acceleration;
-                } else { // backwards
+                }
+                else { // backwards
+                    
                     speed -= acceleration;
+                
+                    
                 }
             } else {
                 let diff = angle.facing - angle.moving;
@@ -253,9 +268,15 @@ const Car = () => {
                     diff += 360;
                 }
                 if (diff < 90) { //we are facing forwards
-                    speed -= acceleration;
+                    if(speed > 0){
+                        engageBrakes()
+                    }
+                    else{
+                        speed -= acceleration/1.2;
+                    }
+                    
                 } else { // backwards
-                    speed += acceleration;
+                    speed += acceleration / 5;
                 }
             }
         }
@@ -451,6 +472,7 @@ const Car = () => {
         setX,
         setY,
         setEngineLock,
+        setTurning,
         //functions
         resetValues,
         updateAngleLock,

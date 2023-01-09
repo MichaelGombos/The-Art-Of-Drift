@@ -288,8 +288,13 @@ const placeCharacter = () => {
       if (speed != 0) {
           if (held_directions.includes(directions.right)) {
               car.turn("right");
+              car.setTurning(true)
           } else if (held_directions.includes(directions.left)) {
               car.turn("left");
+              car.setTurning(true)
+          }
+          else{
+            car.setTurning(false)
           }
           characterSprite.style.transform = `rotate(${car.getAngle().facing}deg)`;
       }
