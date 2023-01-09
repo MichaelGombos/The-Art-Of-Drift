@@ -5,8 +5,9 @@ const mapCtx = mapCanvas.getContext("2d");
 const playerCtx = playerCanvas.getContext("2d");
 
 const generateMiniMap = (mapData) => { 
-  mapCanvas.width = mapData.length;
-  mapCanvas.height = mapData[0].length;
+  mapCanvas.width = mapData[0].length;
+  mapCanvas.height = mapData.length;
+
   mapCtx.globalCompositeOperation='destination-over';
 
   for(let rowIndex in mapData){
@@ -29,7 +30,7 @@ const generateMiniMap = (mapData) => {
 
 const updateMiniMapPlayers = (player,ghost) => {
   playerCanvas.width = mapCanvas.width;
-  playerCanvas.height = mapCanvas.width;
+  playerCanvas.height = mapCanvas.height;
 
   playerCtx.clearRect(0,0,playerCanvas.width,playerCanvas.height);
 

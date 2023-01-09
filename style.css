@@ -285,18 +285,18 @@ textarea{
 #mini-map{
   position:absolute;
   bottom:-1px;
+  right: 150px;
   z-index:1;
 }
 
 #map-canvas{
-  position:absolute;
   z-index:-1;
-  width:150px;
-  height:150px;
 }
 
-#player-canvas{
-  width:150px;
+#player-canvas,#map-canvas{
+  position:absolute;
+  bottom: 50px;
+  width:auto;
   height:150px;
 }
 
