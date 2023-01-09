@@ -300,15 +300,32 @@ const Car = () => {
     }
 
     const collidingWithValue = (value,axis,mapData,tilePixelCount) =>{
-        let newX = x + (speed * Math.cos(angle.moving * Math.PI / 180));
-        let newY = y + (speed * Math.sin(angle.moving * Math.PI / 180));
 
-        if(axis == "y"){
-            return mapData[Math.floor(newY / tilePixelCount)][Math.floor(x / tilePixelCount)] == value || mapData[Math.ceil(newY / tilePixelCount)][Math.ceil(x / tilePixelCount)] == value
+
+        let count = 0;
+        let speedSteps = []
+        if(speed > 4){
+            for(let i = speed; i >= 4;  i-=4){
+                count++;
+            }
+            for(let c = 1; c <= count; c++){
+                speedSteps.push(c * 4); //tile size
+            }
+            
         }
-        else if (axis == "x"){
-            return mapData[Math.floor(y / tilePixelCount)][Math.floor(newX / tilePixelCount)] == value || mapData[Math.ceil(y / tilePixelCount)][Math.ceil(newX / tilePixelCount)] == value
+        speedSteps.push(speed);
+
+        for(let speedStep of speedSteps){
+            let newX = x + (speedStep * Math.cos(angle.moving * Math.PI / 180));
+            let newY = y + (speedStep * Math.sin(angle.moving * Math.PI / 180));
+            if(axis == "y"){
+                return mapData[Math.floor(newY / tilePixelCount)][Math.floor(x / tilePixelCount)] == value || mapData[Math.ceil(newY / tilePixelCount)][Math.ceil(x / tilePixelCount)] == value
+            }
+            else if (axis == "x"){
+                return mapData[Math.floor(y / tilePixelCount)][Math.floor(newX / tilePixelCount)] == value || mapData[Math.ceil(y / tilePixelCount)][Math.ceil(newX / tilePixelCount)] == value
+            }
         }
+
     }
 
 

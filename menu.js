@@ -145,7 +145,7 @@ const Main = ({setter,setPrevious}) => {
       setter("map select");
     }}>Map Select</button>
     <button onClick = {()=> {
-      setMapData(freeplay,[[]]);
+      setMapData(test,[[]]);
       startGame();
       setter("hidden")
     }}>Free Play</button>
