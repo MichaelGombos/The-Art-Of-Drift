@@ -18,10 +18,6 @@ const stats = {
     },
     driftForce: document.querySelector("#drift-force"),
     underSteering: document.querySelector("#under-steer"),
-    angleLock: {
-        left: document.querySelector("#lock-left"),
-        right: document.querySelector("#lock-right")
-    },
     particleCount: document.querySelector("#particle-count")
 }
 
