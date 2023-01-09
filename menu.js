@@ -2,7 +2,7 @@ import {pauseGame,unPauseGame,startGame,resetGame} from "./main.js"
 import {setParticleLimit,getParticleLimit} from "./graphics.js"
 import {setEnableGhost,getEnableGhost,setMapData} from "./game.js"
 import {freeplay, test, map1, map2, map3, map4, map5} from  "./map-data.js"
-import {replay1, replay2} from "./replay.js"
+import {replay1, replay2, replay3, replay4, replay5} from "./replay.js"
 
 const {useState} = React
 
@@ -73,8 +73,9 @@ const MapSelect = ({setter}) => {
         <button value="hard" className={difficulty == "hard" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>author</button>
       </div>
       <div className="map-options">
+        <h2>Maps</h2>
         <div className="map-option">
-          <h3>Map 1</h3>
+          <h3>Taste of texas</h3>
           <button onClick = {()=> {
           setMapData(map1,replay1[difficulty]);
           resetGame();
@@ -84,7 +85,7 @@ const MapSelect = ({setter}) => {
 
 
         <div className="map-option">
-          <h3>Map 2</h3>
+          <h3>Smile :D</h3>
           <button onClick = {()=> {
           setMapData(map2,replay2[difficulty]);
           resetGame();
@@ -93,27 +94,27 @@ const MapSelect = ({setter}) => {
         </div>
 
         <div className="map-option">
-          <h3>Map 3</h3>
+          <h3>Eye of the drift holder</h3>
           <button onClick = {()=> {
-          setMapData(map3,[[]]);
+          setMapData(map3,replay3[difficulty]);
           resetGame();
           setter("hidden")
           }}>Select</button>
         </div>
 
         <div className="map-option">
-          <h3>Map 4</h3>
+          <h3>Da lyne</h3>
           <button onClick = {()=> {
-          setMapData(map4,[[]]);
+          setMapData(map4,replay4[difficulty]);
           resetGame();
           setter("hidden")
           }}>Select</button>
         </div>
 
         <div className="map-option">
-          <h3>Map 5</h3>
+          <h3>Hatchet Raceway</h3>
           <button onClick = {()=> {
-          setMapData(map5,[[]]);
+          setMapData(map5,replay5[difficulty]);
           resetGame();
           setter("hidden")
           }}>Select</button>

@@ -102,10 +102,17 @@ li{
 .menu.map-select{
   background-color:rgb(61, 61, 61);
 }
+.menu.map-select .map-options, 
+.menu.map-select .map-option{
+  display:flex;
+  flex-direction:column;
+  align-items: center;
+}
 
 .menu.finish{
   background-color:#00ffd968;
 }
+
 
 .menu-button{
   position:absolute;

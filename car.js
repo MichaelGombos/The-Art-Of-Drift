@@ -8,7 +8,7 @@ import {createDirtParticle, createDriftParticle,displayDriftParticles,particles}
 const Car = () => {
     const acceleration = .030;
     const friction = .008;
-    const maxSpeed = 20;
+    const maxSpeed = 10;
     const maxLaps = 5;
     let lap = 0;
     let driftForce = 1;
