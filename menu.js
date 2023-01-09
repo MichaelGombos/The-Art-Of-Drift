@@ -1,7 +1,7 @@
 import {pauseGame,unPauseGame,startGame,resetGame} from "./main.js"
 import {setParticleLimit,getParticleLimit} from "./graphics.js"
 import {setEnableGhost,getEnableGhost,setMapData} from "./game.js"
-import {freeplay, test, map1, map2, map3} from  "./map-data.js"
+import {freeplay, test, map1, map2, map3, map4, map5} from  "./map-data.js"
 import {replay1, replay2} from "./replay.js"
 
 const {useState} = React
@@ -22,8 +22,8 @@ const navKeys = {
   "ArrowDown": commands.down,
   "w": commands.up,
   "a": commands.left,
-  "d": commands.down,
-  "s": commands.right,
+  "s": commands.down,
+  "d": commands.right,
   "Enter": commands.select
 }
 const e = React.createElement;
@@ -96,6 +96,24 @@ const MapSelect = ({setter}) => {
           <h3>Map 3</h3>
           <button onClick = {()=> {
           setMapData(map3,[[]]);
+          resetGame();
+          setter("hidden")
+          }}>Select</button>
+        </div>
+
+        <div className="map-option">
+          <h3>Map 4</h3>
+          <button onClick = {()=> {
+          setMapData(map4,[[]]);
+          resetGame();
+          setter("hidden")
+          }}>Select</button>
+        </div>
+
+        <div className="map-option">
+          <h3>Map 5</h3>
+          <button onClick = {()=> {
+          setMapData(map5,[[]]);
           resetGame();
           setter("hidden")
           }}>Select</button>
