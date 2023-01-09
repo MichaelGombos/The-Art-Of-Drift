@@ -11,7 +11,8 @@ import{
   timeHeader,
   fpsText,
   map,
-  mapGrid
+  mapGrid,
+  camera
 } from "./elements.js"
 import Car from "./car.js"
 import {
@@ -344,8 +345,9 @@ const placeCharacter = () => {
   }
   // console.log(x);
 
-  const camera_left = pixelSize * 70;
-  const camera_top = pixelSize * 70;
+  console.log(camera);
+  const camera_left = pixelSize * camera.clientWidth/8;
+  const camera_top = pixelSize * camera.clientHeight/8;
 
   map.style.transform = `translate3d( ${-car.getX()*pixelSize+camera_left}px, ${-car.getY()*pixelSize+camera_top}px, 0 )`;
 

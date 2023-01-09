@@ -29,7 +29,7 @@ const mapParticles = document.createElement("div");
 const game = document.querySelector("#game");
 const mapCanvas = document.querySelector("#map-canvas")
 const playerCanvas = document.querySelector("#player-canvas")
-
+const camera = document.querySelector(".camera")
 export {
   character,
   characterSprite,
@@ -41,5 +41,6 @@ export {
   map,
   mapGrid,
   mapCanvas,
-  playerCanvas
+  playerCanvas,
+  camera
 }
