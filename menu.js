@@ -158,20 +158,38 @@ const Pause = ({setter,setPrevious}) => {
 }
 
 const Main = ({setter,setPrevious}) => {
+  let [hover,setHover] = useState("map-select")
+  console.log(hover);
   return (
-    <div className="menu main">
-    <button onClick={() => {
-      setter("map select");
-    }}>Map Select</button>
-    <button onClick = {()=> {
-      setMapData(freeplay,[[]]);
-      startGame();
-      setter("hidden")
-    }}>Free Play</button>
-    <button onClick={() => {
-      setter("options");
-      setPrevious("main")
-    }}>Options</button>
+  <div className="menu main">
+    <div className="wrapper">
+      <div>
+        <h2>Main Menu</h2>
+      <nav>
+      <button onClick={() => setter("map select") }
+      onMouseEnter={() =>setHover("map-select")}>Map Select</button>
+      <button onClick = {()=> {
+        setMapData(freeplay,[[]]);
+        startGame();
+        setter("hidden")
+      }}
+      onMouseEnter={() =>setHover("free-play")}
+      >Free Play</button>
+      <a href="https://michaelgombos.github.io/browser-driving-map-creator/"> <button onMouseEnter={() =>setHover("map-maker")}>Map Maker</button> </a>
+      <a href="https://github.com/MichaelGombos/browser-driving-demo"> <button onMouseEnter={() =>setHover("github")}>Github</button> </a>
+      <button onClick={() => {
+        setter("options");
+        setPrevious("main")
+      }}
+      onMouseEnter={() =>setHover("settings")}
+      >Options</button>
+    </nav>
+      </div>
+
+      <div className="menu-splash-wrapper">
+        <img className={`menu-splash menu-splash-${hover}`} src={`./assets/menu/${hover}.svg`}></img>
+      </div>
+    </div>
   </div>
   )
 }

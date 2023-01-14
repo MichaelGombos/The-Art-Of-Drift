@@ -58,6 +58,22 @@ ul{
 li{
   list-style: none;
 }
+
+button{
+  border:none;
+  padding:10px 27px;
+}
+
+button:hover, button:focus{
+  background-color:rgb(202, 202, 202);
+  font-weight:bold;
+}
+
+button:active:hover{
+  background-color:orange;
+  color:white;
+}
+
 .stats{
   display: flex;
   flex-direction:column;
@@ -96,6 +112,58 @@ li{
   background-color:grey;
 }
 
+.menu.main .wrapper{
+  display:flex;
+  gap:100px;
+  width:1000px;
+  flex-direction:row;
+  align-items: center;
+}
+
+.menu.main div{
+  display:flex;
+  flex-direction:column;
+  align-items: flex-start;
+  width: 25%;
+}
+
+.menu.main nav{
+  display:flex;
+  flex-direction:column;
+  width:100%;
+  gap:20px;
+}
+.menu.main nav button{
+  text-align: left;
+}
+.menu.main nav a, .menu.main nav button{
+  width:100%;
+}
+.menu.main .menu-splash-wrapper{
+  width: 75%;
+  height:500px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+.menu.main .menu-splash{
+  width:100%;
+}
+.menu.main .menu-splash.menu-splash-map-select{
+  width:90%;
+}
+.menu.main .menu-splash.menu-splash-map-maker{
+  width:70%;
+}
+.menu.main .menu-splash.menu-splash-github{
+  width:80%;
+}
+.menu.main .menu-splash.menu-splash-settings{
+  width:70%;
+}
+
+
+
 .menu.title{
   background-color:rgb(95, 95, 95);
 }
@@ -108,6 +176,13 @@ li{
   flex-direction:column;
   align-items: center;
 }
+
+menu.map-select button:focus{
+  background-color:rgb(1, 9, 116);
+  color:white;
+  outline:none;
+}
+
 
 .menu.finish{
   background-color:#00ffd968;
@@ -307,19 +382,9 @@ textarea{
   height:150px;
 }
 
-button{
-  border:none;
-  padding:5px 10px;
-  border-radius:3px;
-}
 .set{
   background-color:rgb(0, 97, 181);
   color:white;
   font-weight:bold;
 }
 
-button:focus{
-  background-color:rgb(1, 9, 116);
-  color:white;
-  outline:none;
-}
