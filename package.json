@@ -1,13 +1,13 @@
 {
-  "homepage" : "https://michaelgombos.github.io/browser-driving-demo/",
-  "name": "modulebundlerbrowserdrivingdemo",
+  "homepage" : "https://michaelgombos.github.io/browser-driving-demo",
+  "name": "browser-driving-demo",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --mode development --open --hot",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d dist",
     "build": "webpack --mode production"
   },
   "keywords": [],
