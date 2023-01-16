@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-import {pauseGame} from "../../game/main.js"
+import {pauseGame,resetGame} from "../../game/main.js"
 
 const Hidden = ({setter}) => {
   return (
