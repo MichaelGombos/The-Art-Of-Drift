@@ -9,7 +9,6 @@ const uploadButton = document.querySelector("#upload");
 const mapInput = document.querySelector("#map-input")
 
 
-
 let running = false;
 
 setInterval(incrementSeconds, 1000)

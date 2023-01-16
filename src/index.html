@@ -1,0 +1,87 @@
+<head>
+  <base href="/"> 
+  <link href="style.css" type="text/html">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+  
+  </head>
+  <body tabindex="-1">
+  
+  
+     <ul class="stats">
+        <li>FPS <span id="fps">0</span></li>
+        <br>
+        <li><span id="time-header" class="current">TIME</span> <span id="time">0</span></li>
+        <li>LAP <span id="lap">0</span></li>
+        <li>X <span id="x">0</span></li>
+        <li>Y <span id="y">0</span></li>
+        <li>SPEED <span id="speed">0</span></li>
+        <li>MOVING ANGLE <span id="moving">0</span></li>
+        <li>FACING ANGLE <span id="facing">0</span></li>
+        <li>DRIFT FORCE <span id="drift-force">0</span></li>
+        <li>UNDER STEERING <span id="under-steer">0</span></li>
+        <li>LEFT LOCK <span id="lock-left">False</span></li>
+        <li>RIGHT LOCK <span id="lock-right">False</span></li>
+        <li>PARTICLE COUNT <span id="particle-count">0</span></li>
+     </ul>
+     <main>
+        <div id="game">
+           <div id="menu-container"></div>
+  
+  
+           <!-- later there can be stats overlay, and minimap here too  -->
+           <div id="mini-map">
+              <canvas id="map-canvas" width="350" height="350"></canvas>
+              <canvas id="player-canvas" width="350" height="350"></canvas>
+           </div>
+           
+           <div class="camera">
+              <div class="map pixel-art">
+                 <div class="map-grid"> 
+                 </div>
+                 <div class="ghost" facing="down" walking="true" angle="0">
+                    <div class="ghost_spritesheet pixel-art"></div>
+                 </div>
+                 <div class="character" facing="down" walking="true" angle="0">
+                    <div class="character_spritesheet pixel-art"></div>
+                 </div>
+                 
+  
+              </div>
+           </div>
+        </div>
+  
+  
+        <div id="import">
+           Import your own map Below
+           <button id="upload">Import</button>
+           <textarea id="map-input">
+           </textarea>
+        </div>
+  
+        <div id="replay">
+           Once you finish, your replay array will be printed below:
+           <!-- <button id="copy-replay">Copy</button> -->
+           <textarea id="replay-output">
+           </textarea>
+        </div>
+     </main>
+  
+  
+  <!-- jsx   -->
+  <!-- <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script> -->
+  
+  <!-- Load React. -->
+  <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+  <!-- <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script> -->
+  
+  
+  <!-- <script src="main.js"  data-module="main" type="module" ></script>
+  <script src="game.js" data-type="module"   type="text/babel"></script>
+  <script src="/gui/gui.js" data-type="module"   type="text/babel"></script>
+  <script src="mini-map.js" type="module"></script> -->
+  
+  </body>

@@ -207,7 +207,6 @@ menu.map-select button:focus{
 
 .map {
   image-rendering: pixelated;
-  /* background-image: url("https://fxfactory.com/downloads/docs/noiseindustries/fxfactorypro/Thumbnails/Checkerboard.jpg"); */
   background-size: 100%;
   width: calc(var(--columns) * var(--grid-cell)); 
   height: calc(var(--rows) * var(--grid-cell));
@@ -219,7 +218,6 @@ menu.map-select button:focus{
   height: calc(var(--rows) * var(--grid-cell));
   display:flex;
   position: absolute;
-  background-image: url("https://images.unsplash.com/photo-1670607615489-ccb0b75fa748?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80");
   opacity: 1;
 }
 .character,.ghost {
@@ -236,7 +234,9 @@ menu.map-select button:focus{
  .character_spritesheet, .ghost_spritesheet{
   z-index: 0;
   position: relative;
-  background: url("./assets/car.svg") no-repeat no-repeat;
+
+  background:  no-repeat no-repeat;
+
   background-position:center;
   background-size: 100%;
   width: 100%;
@@ -304,12 +304,10 @@ menu.map-select button:focus{
   background-color:#71c9ff;
 }
 .finish-up{
-  background-image:url("./assets/arrow.svg");
   background-color:#73ff71;
 
 }
 .finish-down{
-  background-image:url("./assets/arrow.svg");
   transform: rotate(180deg);
    background-color:#ff29e2;
 }

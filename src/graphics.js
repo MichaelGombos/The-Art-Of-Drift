@@ -1,4 +1,17 @@
-import {map} from "./elements.js"
+import {map,  characterSprite, ghostCharacterSprite} from "./elements.js"
+const arrow = require("./assets/arrow.svg");
+const car = require("./assets/car.svg");
+
+
+//style finish line
+const styleFinishCell = (element) => {
+    element.style.backgroundImage = `url('${arrow.default}')`
+}
+
+//style cars
+const styleCar = (element) => {
+    element.style.backgroundImage = `url('${car.default}')`
+}
 
 let particles = [];
 let particleLimit = 100;
@@ -81,4 +94,4 @@ const getParticleLimit = () => {
     return particleLimit;
 }
 
-export {createDirtParticle, createDriftParticle,displayDriftParticles,setParticleLimit,getParticleLimit, particles}
+export {createDirtParticle, createDriftParticle,displayDriftParticles,setParticleLimit,getParticleLimit, particles, styleFinishCell, styleCar}

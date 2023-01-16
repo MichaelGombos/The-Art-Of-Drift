@@ -1,8 +1,27 @@
-import {pauseGame,unPauseGame,startGame,resetGame} from "./main.js"
-import {setParticleLimit,getParticleLimit} from "./graphics.js"
-import {setEnableGhost,getEnableGhost,setMapData} from "./game.js"
-import {freeplay, test, map1, map2, map3, map4, map5} from  "./map-data.js"
-import {replay1, replay2, replay3, replay4, replay5} from "./replay.js"
+import {pauseGame,unPauseGame,startGame,resetGame} from "../main.js"
+import {setParticleLimit,getParticleLimit} from "../graphics.js"
+import {setEnableGhost,getEnableGhost,setMapData} from "../game.js"
+import {freeplay, test, map1, map2, map3, map4, map5} from  "../map-data.js"
+import {replay1, replay2, replay3, replay4, replay5} from "../replay.js"
+
+import React, {Component} from 'react';
+
+//menu assets
+import menuFreePlay from "../assets/menu/free-play.svg"
+import menuGithub from "../assets/menu/github.svg"
+import menuMapmaker from "../assets/menu/map-maker.svg"
+import menuMapSelect from "../assets/menu/map-select.svg"
+import menuSettings from "../assets/menu/settings.svg"
+
+const graphics = {
+  "free-play" : menuFreePlay,
+  "github" : menuGithub,
+  "map-maker" : menuMapmaker,
+  "map-select" : menuMapSelect,
+  "settings" : menuSettings
+}
+
+// import Finish from "./pages/finish.js"
 
 const {useState} = React
 
@@ -133,7 +152,7 @@ const MapSelect = ({setter}) => {
 const Title = ({setter}) => {
   return (
     <div className="menu title" onClick= {() => setter("main")}>
-      CRUSTY DUSTERS<br/>
+      Skrrrt Tzu : The art of Drift.<br/>
       (click the screen to start)
     </div>
   )
@@ -159,7 +178,6 @@ const Pause = ({setter,setPrevious}) => {
 
 const Main = ({setter,setPrevious}) => {
   let [hover,setHover] = useState("map-select")
-  console.log(hover);
   return (
   <div className="menu main">
     <div className="wrapper">
@@ -187,7 +205,7 @@ const Main = ({setter,setPrevious}) => {
       </div>
 
       <div className="menu-splash-wrapper">
-        <img className={`menu-splash menu-splash-${hover}`} src={`./assets/menu/${hover}.svg`}></img>
+        <img className={`menu-splash menu-splash-${hover}`} src={graphics[hover]}></img>
       </div>
     </div>
   </div>
@@ -207,7 +225,7 @@ const Options = ({setter,previous}) => {
     className={newEnableGhost ? "set" : "none"}>{newEnableGhost ? "disable ghost car" : "enable ghost car"}</button>
 
     <label htmlFor="particle-selector">Particle Limit ({newParticleLimit})</label>
-    <input type="range" min="10" max="2000" value={newParticleLimit}  className="slider" id="particle-selector" onChange={(e) => {setNewParticleLimit(e.target.value)}}/>
+    <input type="range" min="0" max="2000" value={newParticleLimit}  className="slider" id="particle-selector" onChange={(e) => {setNewParticleLimit(e.target.value)}}/>
     <button onClick={() => {
       setter(previous);
       setEnableGhost(newEnableGhost);
@@ -257,7 +275,7 @@ const Menu = ({type, setType}) => {
   return display;
 }
 
-class MenuOverlay extends React.Component {
+class GUI extends Component {
   
   constructor(props) {
     super(props);
@@ -344,6 +362,9 @@ class MenuOverlay extends React.Component {
   render() {return <Menu type={this.state.type} setType={this.handleTypeChange}/>}
 }
 
-const domContainer = document.querySelector('.menu-container');
-const root = ReactDOM.createRoot(domContainer);
-root.render(e(MenuOverlay));
+// const domContainer = document.querySelector('#menu-container');
+// const root = ReactDOM.createRoot(domContainer);
+// root.render(e(GUI));
+
+export default GUI;
+

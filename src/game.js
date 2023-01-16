@@ -17,7 +17,9 @@ import{
 import Car from "./car.js"
 import {
   displayDriftParticles,
-  particles
+  particles,
+  styleFinishCell,
+  styleCar
 } from "./graphics.js"
 
 import {generateMiniMap,updateMiniMapPlayers} from "./mini-map.js"
@@ -99,6 +101,9 @@ const updateCarSpawnPosition = () => {
 }
 
 const resetCarValues = () => {
+  styleCar(characterSprite);
+  styleCar(ghostCharacterSprite);
+  
   updateCarSpawnPosition();
   car.resetValues()
   ghostCar.resetValues();
@@ -142,8 +147,10 @@ const generateMap = (inputData) => {
               spawn.y = rowIndex;
           } else if (cell == 4) {
               mapCell.classList.add("finish-up");
+              styleFinishCell(mapCell)
           } else if (cell == 5) {
               mapCell.classList.add("finish-down");
+              styleFinishCell(mapCell)
           } else if (cell == 6) {
               mapCell.classList.add("bumper");
           }
@@ -155,6 +162,7 @@ const generateMap = (inputData) => {
       mapGrid.appendChild(mapRow);
       rows = mapGrid.childElementCount;
   }
+
 
   document.documentElement.style.setProperty("--rows", rows);
   document.documentElement.style.setProperty("--columns", columns);
