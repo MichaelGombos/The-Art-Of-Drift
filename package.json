@@ -3,7 +3,7 @@
   "name": "browser-driving-demo",
   "version": "1.0.0",
   "repository": {
-    "url" : "git+https://github.com/MichaelGombos/browser-driving-demo.git"
+    "url": "git+https://github.com/MichaelGombos/browser-driving-demo.git"
   },
   "description": "",
   "main": "index.js",
@@ -11,7 +11,7 @@
     "start": "webpack-dev-server --mode development --open --hot",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "build": "webpack --mode production"
+    "build": "webpack --mode=development"
   },
   "keywords": [],
   "author": "",
@@ -30,6 +30,7 @@
     "file-loader": "^6.2.0",
     "gh-pages": "^4.0.0",
     "html-webpack-plugin": "^5.5.0",
+    "push-dir": "^0.4.1",
     "style-loader": "^3.3.1",
     "svg-inline-loader": "^0.8.2",
     "svg-url-loader": "^8.0.0",
