@@ -1,7 +1,10 @@
 {
-  "homepage": ".",
+  "homepage": "https://michaelgombos.github.io/browser-driving-demo/",
   "name": "browser-driving-demo",
   "version": "1.0.0",
+  "repository": {
+    "url" : "git+https://github.com/MichaelGombos/browser-driving-demo.git"
+  },
   "description": "",
   "main": "index.js",
   "scripts": {
