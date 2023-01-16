@@ -1,6 +1,6 @@
 import {map,  characterSprite, ghostCharacterSprite} from "./elements.js"
-const arrow = require("./assets/arrow.svg");
-const car = require("./assets/car.svg");
+const arrow = require("../assets/arrow.svg");
+const car = require("../assets/car.svg");
 
 
 //style finish line

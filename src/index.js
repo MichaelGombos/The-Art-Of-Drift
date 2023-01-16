@@ -2,7 +2,7 @@ import React from "react";
 import * as ReactDOMClient from 'react-dom/client';
 
 import "./style.css"
-import "./main.js"
+import "./game/main.js"
 import GUI from "./gui/gui.js";
 
 const container = document.getElementById("menu-container");

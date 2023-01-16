@@ -1,8 +1,8 @@
-import {pauseGame,unPauseGame,startGame,resetGame} from "../main.js"
-import {setParticleLimit,getParticleLimit} from "../graphics.js"
-import {setEnableGhost,getEnableGhost,setMapData} from "../game.js"
-import {freeplay, test, map1, map2, map3, map4, map5} from  "../map-data.js"
-import {replay1, replay2, replay3, replay4, replay5} from "../replay.js"
+import {pauseGame,unPauseGame,startGame,resetGame} from "../game/main.js"
+import {setParticleLimit,getParticleLimit} from "../game/graphics.js"
+import {setEnableGhost,getEnableGhost,setMapData} from "../game/game.js"
+import {freeplay, test, map1, map2, map3, map4, map5} from  "../game/map-data.js"
+import {replay1, replay2, replay3, replay4, replay5} from "../game/replay.js"
 
 import React, {Component} from 'react';
 
