@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {resetGame} from "../../game/main.js"
 import {setMapData,setEnableGhost,getEnableGhost} from "../../game/game.js"
 import { maps} from  "../../game/map-data.js"
 import { replays } from "../../game/replay.js"
+import { drawCanvasMap } from '../../game/graphics.js';
 
 const mapNames = [
   "Taste of texas",
@@ -71,10 +72,18 @@ const MapDetail = ({setter,screenSetter, mapIndex}) => {
   let [newEnableGhost, setNewEnableGhost] = useState(getEnableGhost());
   let [difficulty, setDifficulty] = useState("easy");
 
+  useEffect(() => {
+    const mapPreviewCanvas = document.getElementById("map-preview");
+    const mapPreviewContext = mapPreviewCanvas.getContext("2d")
+    mapPreviewCanvas.width = maps[mapIndex][0].length;
+    mapPreviewCanvas.height = maps[mapIndex].length;
+    drawCanvasMap(mapPreviewContext, maps[mapIndex])
+  })
+
   return(
     <div className="menu map-select">
       <h1>{mapNames[mapIndex]}</h1>
-
+      <canvas id="map-preview"></canvas> //yeah this where the map gone go 
       <button  
       onClick={(e) => {setNewEnableGhost(!newEnableGhost)}} 
       className={newEnableGhost ? "set" : "none"}>Click to {newEnableGhost ? "disable ghost car" : "enable ghost car"}</button>
