@@ -1,30 +1,16 @@
 import {mapCanvas,playerCanvas} from "./elements.js"
 import {getMapData,getTilePixelCount} from "./game.js"
+import {drawCanvasMap} from "./graphics.js"
 //just for now
 const mapCtx = mapCanvas.getContext("2d");
 const playerCtx = playerCanvas.getContext("2d");
+
 
 const generateMiniMap = (mapData) => { 
   mapCanvas.width = mapData[0].length;
   mapCanvas.height = mapData.length;
 
-  mapCtx.globalCompositeOperation='destination-over';
-
-  for(let rowIndex in mapData){
-    for(let cellIndex in mapData[rowIndex]){
-      if(mapData[rowIndex][cellIndex] == 0){
-        mapCtx.fillStyle = "white"
-        mapCtx.fillRect(cellIndex,rowIndex,1,1);
-      }
-      else if(mapData[rowIndex][cellIndex] == 4 ||
-        mapData[rowIndex][cellIndex] == 5 ){
-        mapCtx.fillStyle = "grey"
-        mapCtx.fillRect(cellIndex,rowIndex,3,3);
-      }
-    }
-  }
-  mapCtx.globalCompositeOperation='source-over';
-
+  drawCanvasMap(mapCtx,mapData)
 }
 
 

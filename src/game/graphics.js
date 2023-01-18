@@ -87,6 +87,25 @@ const displayDriftParticles = (x,y ,driftForce, onDirt,angle) => {
 
 }
 
+const drawCanvasMap = (context,mapData) => {
+    context.globalCompositeOperation='destination-over';
+  
+    for(let rowIndex in mapData){
+      for(let cellIndex in mapData[rowIndex]){
+        if(mapData[rowIndex][cellIndex] == 0){
+          context.fillStyle = "white"
+          context.fillRect(cellIndex,rowIndex,1,1);
+        }
+        else if(mapData[rowIndex][cellIndex] == 4 ||
+          mapData[rowIndex][cellIndex] == 5 ){
+          context.fillStyle = "grey"
+          context.fillRect(cellIndex,rowIndex,3,3);
+        }
+      }
+    }
+    context.globalCompositeOperation='source-over';
+  }
+
 const setParticleLimit = (limit) => {
     particleLimit = limit;
 }
@@ -94,4 +113,4 @@ const getParticleLimit = () => {
     return particleLimit;
 }
 
-export {createDirtParticle, createDriftParticle,displayDriftParticles,setParticleLimit,getParticleLimit, particles, styleFinishCell, styleCar}
+export {createDirtParticle, createDriftParticle,displayDriftParticles,setParticleLimit,getParticleLimit, particles, styleFinishCell, styleCar, drawCanvasMap}
