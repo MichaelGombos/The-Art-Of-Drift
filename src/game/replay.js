@@ -20,34 +20,31 @@ import map5Hard from "./replays/map5/hard/replay.js"
 
 const freeplay = [[]]
 
-const replay1 = {
+const replays = [ {
   easy: map1Easy,
   normal: map1Normal,
   hard: map1Hard
-}
-
-const replay2 = {
+},
+ {
   easy: map2Easy,
   normal: map2Normal,
   hard: map2Hard
-}
-
-const replay3 = {
+},
+{
   easy: map3Easy,
   normal: map3Normal,
   hard: map3Hard
-}
-
-const replay4 = {
+},
+{
   easy: map4Easy,
   normal: map4Normal,
   hard: map4Hard
-}
-
-const replay5 = {
+},
+ {
   easy: map5Easy,
   normal: map5Normal,
   hard: map5Hard
 }
+]
 
-export {replay1, replay2, replay3, replay4, replay5};
+export {replays};

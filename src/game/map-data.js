@@ -6,4 +6,6 @@ import map3 from "./maps/map3.js"
 import map4 from "./maps/map4.js"
 import map5 from "./maps/map5.js"
 
-export {freeplay,test,map1,map2,map3, map4, map5};
+let maps = [map1,map2,map3,map4,map5]
+
+export {freeplay,test,maps};
