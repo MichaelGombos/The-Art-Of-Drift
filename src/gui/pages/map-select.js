@@ -5,74 +5,92 @@ import {setMapData} from "../../game/game.js"
 import { maps} from  "../../game/map-data.js"
 import { replays } from "../../game/replay.js"
 
+const mapNames = [
+  "Taste of texas",
+  "Smile :D",
+  "Eye of the drift holder",
+  "Da lyne",
+  "Hatchet raceway"
+]
+
 const {useState} = React
 
 const MapSelect = ({setter}) => { 
-  let [difficulty, setDifficulty] = useState("easy");
+  let [mapSelectScreen, setMapSelectScreen] = useState("list"); //list or detail 
+  let [index,setIndex] = useState(0);
+
+  console.log(index);
+  if(mapSelectScreen == "list"){
+    return (
+      <MapList setter ={setter} screenSetter={setMapSelectScreen} setMapIndex={setIndex}/>
+    )
+  }
+  else if(mapSelectScreen == "detail"){
+    return(
+      <MapDetail setter ={setter} screenSetter={setMapSelectScreen} mapIndex={index}></MapDetail>
+    )
+  }
+
+}
+
+const MapList = ({setter,screenSetter,setMapIndex}) => {
+
+
+  let listElements = []; 
+
+  for(let i = 0; i < maps.length; i++){
+    listElements.push(
+      <div className="map-option" key={mapNames[i]}>
+        <h3>{mapNames[i]}</h3>
+        <button onClick = {()=> {
+        setMapIndex(i)
+        screenSetter("detail")
+        }}>Select</button>
+     </div>
+    )
+  }
 
   return (
     <div className="menu map-select">
-      GL ,':') HF
+    GL ,':') HF YOOOS
+
+    <div className="map-options">
+      <h2>Maps</h2>
+      {listElements}
+    </div>
+
+    <button onClick={() => {
+      setter("main");
+    }}>Back to main menu</button>
+  </div>
+  )
+
+}
+
+const MapDetail = ({setter,screenSetter, mapIndex}) => {
+
+
+  let [difficulty, setDifficulty] = useState("easy");
+
+  return(
+    <div className="menu map-select">
+      <h1>{mapNames[mapIndex]}</h1>
+
       <label htmlFor="difficulty">Difficulty</label>
       <div name="difficulty" id="difficulty">
-        <button value="easy" className={difficulty == "easy" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>silver</button>
-        <button value="normal" className={difficulty == "normal" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)} >gold</button>
-        <button value="hard" className={difficulty == "hard" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>author</button>
-      </div>
-      <div className="map-options">
-        <h2>Maps</h2>
-        <div className="map-option">
-          <h3>Taste of texas</h3>
-          <button onClick = {()=> {
-          setMapData(maps[0],replays[0][difficulty]);
-          resetGame();
-          setter("hidden")
-          }}>Select</button>
-        </div>
-
-
-        <div className="map-option">
-          <h3>Smile :D</h3>
-          <button onClick = {()=> {
-          setMapData(maps[1],replays[1][difficulty]);
-          resetGame();
-          setter("hidden")
-          }}>Select</button>
-        </div>
-
-        <div className="map-option">
-          <h3>Eye of the drift holder</h3>
-          <button onClick = {()=> {
-          setMapData(maps[2],replays[2][difficulty]);
-          resetGame();
-          setter("hidden")
-          }}>Select</button>
-        </div>
-
-        <div className="map-option">
-          <h3>Da lyne</h3>
-          <button onClick = {()=> {
-          setMapData(maps[3],replays[3][difficulty]);
-          resetGame();
-          setter("hidden")
-          }}>Select</button>
-        </div>
-
-        <div className="map-option">
-          <h3>Hatchet Raceway</h3>
-          <button onClick = {()=> {
-          setMapData(maps[4],replays[4][difficulty]);
-          resetGame();
-          setter("hidden")
-          }}>Select</button>
-        </div>
+       <button value="easy" className={difficulty == "easy" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>silver</button>
+       <button value="normal" className={difficulty == "normal" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)} >gold</button>
+       <button value="hard" className={difficulty == "hard" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>author</button>
       </div>
 
-      
-
-      <button onClick={() => {
-        setter("main");
-      }}>Back to main menu</button>
+      <button onClick = {()=> {
+      setMapData(maps[mapIndex],replays[mapIndex][difficulty]);
+      resetGame();
+      setter("hidden")
+      }}>P L A Y</button>
+      <button onClick = {()=> {
+      screenSetter("list")
+      }}>Back</button>
     </div>
   )
 }
