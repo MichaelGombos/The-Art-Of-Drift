@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {resetGame} from "../../game/main.js"
-import {setMapData} from "../../game/game.js"
+import {setMapData,setEnableGhost,getEnableGhost} from "../../game/game.js"
 import { maps} from  "../../game/map-data.js"
 import { replays } from "../../game/replay.js"
 
@@ -68,16 +68,18 @@ const MapList = ({setter,screenSetter,setMapIndex}) => {
 }
 
 const MapDetail = ({setter,screenSetter, mapIndex}) => {
-
-
+  let [newEnableGhost, setNewEnableGhost] = useState(getEnableGhost());
   let [difficulty, setDifficulty] = useState("easy");
 
   return(
     <div className="menu map-select">
       <h1>{mapNames[mapIndex]}</h1>
 
+      <button  
+      onClick={(e) => {setNewEnableGhost(!newEnableGhost)}} 
+      className={newEnableGhost ? "set" : "none"}>Click to {newEnableGhost ? "disable ghost car" : "enable ghost car"}</button>
       <label htmlFor="difficulty">Difficulty</label>
-      <div name="difficulty" id="difficulty">
+      <div name="difficulty" id="difficulty" className={newEnableGhost ? "enabled" : "disabled"}>
        <button value="easy" className={difficulty == "easy" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>silver</button>
        <button value="normal" className={difficulty == "normal" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)} >gold</button>
        <button value="hard" className={difficulty == "hard" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>author</button>
@@ -85,8 +87,9 @@ const MapDetail = ({setter,screenSetter, mapIndex}) => {
 
       <button onClick = {()=> {
       setMapData(maps[mapIndex],replays[mapIndex][difficulty]);
+      setEnableGhost(newEnableGhost);
       resetGame();
-      setter("hidden")
+      setter("hidden");
       }}>P L A Y</button>
       <button onClick = {()=> {
       screenSetter("list")
