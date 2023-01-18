@@ -53,7 +53,7 @@ const MapList = ({setter,screenSetter,setMapIndex}) => {
 
   return (
     <div className="menu map-select">
-    GL ,':') HF YOOOS
+    GL ,':') HF 
 
     <div className="map-options">
       <h2>Maps</h2>
@@ -83,7 +83,7 @@ const MapDetail = ({setter,screenSetter, mapIndex}) => {
   return(
     <div className="menu map-select">
       <h1>{mapNames[mapIndex]}</h1>
-      <canvas id="map-preview"></canvas> //yeah this where the map gone go 
+      <canvas id="map-preview"></canvas>
       <button  
       onClick={(e) => {setNewEnableGhost(!newEnableGhost)}} 
       className={newEnableGhost ? "set" : "none"}>Click to {newEnableGhost ? "disable ghost car" : "enable ghost car"}</button>

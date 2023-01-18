@@ -197,9 +197,26 @@ button:active:hover{
 
 
 .menu.finish{
-  background-color:#00ffd968;
+  background-color:transparent;
 }
 
+.menu.finish .finish-container{
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  padding:50px 10%;
+  
+  height: 50%;
+  width: 80%;
+
+  background: rgb(0,0,0);
+  background: linear-gradient(270deg, rgba(0,0,0,0.4318321078431373) 0%, rgba(57,57,57,0.5438769257703081) 13%, rgba(41,41,41,0.748358718487395) 43%, rgba(37,37,37,0.944437149859944) 88%);
+}
+
+.menu.finish .finish-container nav{
+  display:flex;
+  flex-direction:row;
+}
 
 .menu-button{
   position:absolute;

@@ -90,6 +90,8 @@ const setEnableGhost = (check) => {
 }
 const getEnableGhost = () => {return enableGhost}
 
+const getTimeString = () => {return timeString}
+
 const getTilePixelCount = () => {return tilePixelCount}
 
 const updateCarSpawnPosition = () => {
@@ -428,6 +430,7 @@ document.addEventListener("keyup", (e) => {
 export {
   generateMap,
   getTilePixelCount,
+  getTimeString,
   getMapData,
   checkGameOver,
   incrementSeconds,
