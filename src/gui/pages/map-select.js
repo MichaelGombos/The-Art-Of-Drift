@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import {resetGame} from "../../game/main.js"
-import {setMapData,setEnableGhost,getEnableGhost} from "../../game/game.js"
+import {setMapData,setEnableGhost,getEnableGhost,setGameMapIndex} from "../../game/game.js"
 import { maps} from  "../../game/map-data.js"
 import { replays } from "../../game/replay.js"
 import { drawCanvasMap } from '../../game/graphics.js';
@@ -23,7 +23,7 @@ const MapSelect = ({setter}) => {
   console.log(index);
   if(mapSelectScreen == "list"){
     return (
-      <MapList setter ={setter} screenSetter={setMapSelectScreen} setMapIndex={setIndex}/>
+      <MapList setter ={setter} screenSetter={setMapSelectScreen} setGUIMapIndex={setIndex}/>
     )
   }
   else if(mapSelectScreen == "detail"){
@@ -34,7 +34,7 @@ const MapSelect = ({setter}) => {
 
 }
 
-const MapList = ({setter,screenSetter,setMapIndex}) => {
+const MapList = ({setter,screenSetter,setGUIMapIndex}) => {
 
 
   let listElements = []; 
@@ -44,7 +44,8 @@ const MapList = ({setter,screenSetter,setMapIndex}) => {
       <div className="map-option" key={mapNames[i]}>
         <h3>{mapNames[i]}</h3>
         <button onClick = {()=> {
-        setMapIndex(i)
+        setGUIMapIndex(i)
+        setGameMapIndex(i)
         screenSetter("detail")
         }}>Select</button>
      </div>

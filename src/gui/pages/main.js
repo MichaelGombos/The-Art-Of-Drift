@@ -34,7 +34,7 @@ const Main = ({setter,setPrevious}) => {
       <button onClick={() => setter("map select") }
       onMouseEnter={() =>setHover("map-select")}>Map Select</button>
       <button onClick = {()=> {
-        setMapData(freeplay,[[]]);
+        setMapData(test,[[]]);
         startGame();
         setter("hidden")
       }}

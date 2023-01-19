@@ -24,6 +24,8 @@ import {
 
 import {generateMiniMap,updateMiniMapPlayers} from "./mini-map.js"
 
+import {maps} from "./map-data.js"
+
 let debug = 0;
 
 // const ghostInput = 
@@ -37,6 +39,9 @@ let secondsPassed = 0;
 let oldTimeStamp = 0;
 
 const times = []
+
+let mapIndex;
+
 let fps = 0;
 
 const tilePixelCount = parseInt(
@@ -84,10 +89,17 @@ let timeString = "00:00:00";
 let enableGhost = true;
 
 // functions
+const setGameMapIndex = (index) => {
+  mapIndex = index;
+}
+
 const setEnableGhost = (check) => {
   enableGhost = check;
   check ? ghostCharacter.classList.remove("hidden") : ghostCharacter.classList.add("hidden")
 }
+
+const getGameMapIndex = () => {return mapIndex}
+
 const getEnableGhost = () => {return enableGhost}
 
 const getTimeString = () => {return timeString}
@@ -181,7 +193,6 @@ const checkGameOver = (currentLap, maxLaps) => {
       timeHeader.innerText = "FINAL TIME";
       timeHeader.classList.remove("current");
       timeHeader.classList.add("final")
-
 
       //paste replay array to export.
       replayOutput.innerText =  "[" + replayExport.map(frame => "\n[" + frame.map(command => "\"" + command + "\"" ) + "]") + "\n]";;
@@ -438,5 +449,7 @@ export {
   resetCarValues,
   getEnableGhost,
   setEnableGhost,
+  setGameMapIndex,
+  getGameMapIndex,
   setMapData
 }
