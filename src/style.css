@@ -169,9 +169,16 @@ button:active:hover{
 .menu.main .menu-splash.menu-splash-settings{
   width:70%;
 }
-
+.menu.options.from-main{
+  background-color:grey;
+}
 .menu.options .delete-save{
   background-color: rgb(255 168 168);
+}
+.menu.options .disabled{
+  background-color: rgb(79, 79, 79);
+  color: gray;
+  font-weight: normal;
 }
 
 .menu.options .exit-save{
