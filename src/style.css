@@ -95,6 +95,14 @@ button:active:hover{
   width:100%;
   position:relative;
 }
+.column{
+  display:flex;
+  flex-direction:column;
+}
+.row{
+  display:flex;
+  flex-direction:row;
+}
 .menu{
   display:flex;
   flex-direction:column;
@@ -179,9 +187,48 @@ button:active:hover{
 }
 
 .menu.map-select .map-info{
-  display:flex;
-  flex-direction:row;
   gap:30px;
+}
+
+.menu.map-select .map-info ul{
+  gap: 20px;
+}
+
+.menu.map-select .map-info li{
+  gap:10px;
+  align-items: center;
+}
+
+.map-info li p{
+  color: rgb(189, 189, 189);
+  margin:0;
+  font-weight:normal;
+}
+
+.medal{
+  height:10px;
+  width:10px;
+  border-radius:50px;
+  background-color:rgb(93, 93, 93);
+  border:1px solid rgb(189, 189, 189);;
+}
+
+li.gold-unlocked p,
+li.silver-unlocked p,
+li.bronze-unlocked p
+{
+  color:white;
+  font-weight:bold;
+}
+
+li.gold-unlocked .medal{
+  background-color:gold;
+}
+li.silver-unlocked .medal{
+  background-color:silver;
+}
+li.bronze-unlocked .medal{
+  background-color:rgb(208, 123, 63);
 }
 
 .menu.map-select .map-options, 

@@ -85,6 +85,12 @@ const MapDetail = ({setter,screenSetter, mapIndex}) => {
   let [difficulty, setDifficulty] = useState("easy");
   const pb = localStorage.getItem(`pb${mapIndex}`);
 
+  const medals = {
+    gold : pb < replays[mapIndex].hard.time,
+    silver : pb < replays[mapIndex].normal.time,
+    bronze : pb < replays[mapIndex].easy.time
+  }
+
   useEffect(() => {
     const mapPreviewCanvas = document.getElementById("map-preview");
     const mapPreviewContext = mapPreviewCanvas.getContext("2d")
@@ -96,14 +102,14 @@ const MapDetail = ({setter,screenSetter, mapIndex}) => {
   return(
     <div className="menu map-select">
       <h1>{mapNames[mapIndex]}</h1>
-      <div className="map-info">
+      <div className="map-info row">
         <canvas id="map-preview"></canvas>
         <div className="player-stats">
           <h3>BEST TIME {pb || "UNSET"}</h3>
-          <ul>
-            <li>gold : {replays[mapIndex].hard.time}</li>
-            <li>silver : {replays[mapIndex].normal.time}</li>
-            <li>bronze : {replays[mapIndex].easy.time}</li>
+          <ul className="column">
+            <li className={`row ${medals.gold ? "gold-unlocked" : null}`}><div className={`medal`}></div><p>gold : {replays[mapIndex].hard.time}</p></li>
+            <li className={`row ${medals.silver ? "silver-unlocked" : null}`}><div className={`medal`}></div><p>silver : {replays[mapIndex].normal.time}</p></li>
+            <li className={`row ${medals.bronze ? "bronze-unlocked" : null}`}><div className={`medal`}></div><p>bronze : {replays[mapIndex].easy.time}</p></li>
           </ul>
         </div>
       </div>
@@ -112,9 +118,10 @@ const MapDetail = ({setter,screenSetter, mapIndex}) => {
       className={newEnableGhost ? "set" : "none"}>Click to {newEnableGhost ? "disable ghost car" : "enable ghost car"}</button>
       <label htmlFor="difficulty">Difficulty</label>
       <div name="difficulty" id="difficulty" className={newEnableGhost ? "enabled" : "disabled"}>
-       <button value="easy" className={difficulty == "easy" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>silver</button>
-       <button value="normal" className={difficulty == "normal" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)} >gold</button>
-       <button value="hard" className={difficulty == "hard" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>author</button>
+       <button value="easy" className={difficulty == "easy" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>bronze</button>
+       <button value="normal" className={difficulty == "normal" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)} >silver</button>
+       <button value="hard" className={difficulty == "hard" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>gold</button>
+       {/* TODO {<button value="author" className={difficulty == "author" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>author</button>} */}
        {localStorage.getItem(`pbReplay${mapIndex}`) ? <button value="personalBest" className={difficulty == "personalBest" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>personal best</button> : null}
       </div>
 
