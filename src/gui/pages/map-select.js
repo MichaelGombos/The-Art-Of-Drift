@@ -16,6 +16,15 @@ const mapNames = [
 
 const {useState} = React
 
+const setMap = (index,difficulty) => {
+  if(difficulty == "personalBest"){
+    setMapData(maps[index],JSON.parse(localStorage.getItem(`pbReplay${index}`)))
+  }
+  else{ 
+    setMapData(maps[index],replays[index][difficulty])
+  }
+}
+
 const MapSelect = ({setter}) => { 
   let [mapSelectScreen, setMapSelectScreen] = useState("list"); //list or detail 
   let [index,setIndex] = useState(0);
@@ -95,10 +104,11 @@ const MapDetail = ({setter,screenSetter, mapIndex}) => {
        <button value="easy" className={difficulty == "easy" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>silver</button>
        <button value="normal" className={difficulty == "normal" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)} >gold</button>
        <button value="hard" className={difficulty == "hard" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>author</button>
+       {localStorage.getItem(`pbReplay${mapIndex}`) ? <button value="personalBest" className={difficulty == "personalBest" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>personal best</button> : null}
       </div>
 
       <button onClick = {()=> {
-      setMapData(maps[mapIndex],replays[mapIndex][difficulty]);
+      setMap(mapIndex,difficulty);
       setEnableGhost(newEnableGhost);
       resetGame();
       setter("hidden");

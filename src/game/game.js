@@ -98,6 +98,8 @@ const setEnableGhost = (check) => {
   check ? ghostCharacter.classList.remove("hidden") : ghostCharacter.classList.add("hidden")
 }
 
+const getReplayArray = () => {return replayExport}
+
 const getGameMapIndex = () => {return mapIndex}
 
 const getEnableGhost = () => {return enableGhost}
@@ -451,5 +453,6 @@ export {
   setEnableGhost,
   setGameMapIndex,
   getGameMapIndex,
+  getReplayArray,
   setMapData
 }

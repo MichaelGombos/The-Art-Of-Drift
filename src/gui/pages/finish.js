@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { getTimeString, getGameMapIndex } from '../../game/game.js';
+import { getTimeString, getGameMapIndex, getReplayArray } from '../../game/game.js';
 
 import {resetGame} from "../../game/main.js"
 
@@ -7,6 +7,7 @@ let newBest = false;
 const checkBest = (index, oldPB) => {
   if(getTimeString() < oldPB || !oldPB){
     localStorage.setItem(`pb${index}`,getTimeString())
+    localStorage.setItem(`pbReplay${index}`,JSON.stringify(getReplayArray()))
     return true;
   }
   else{
