@@ -177,6 +177,13 @@ button:active:hover{
 .menu.map-select{
   background-color:rgb(61, 61, 61);
 }
+
+.menu.map-select .map-info{
+  display:flex;
+  flex-direction:row;
+  gap:30px;
+}
+
 .menu.map-select .map-options, 
 .menu.map-select .map-option{
   display:flex;

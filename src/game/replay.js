@@ -20,30 +20,77 @@ import map5Hard from "./replays/map5/hard/replay.js"
 
 const freeplay = [[]]
 
-const replays = [ {
-  easy: map1Easy,
-  normal: map1Normal,
-  hard: map1Hard
+const replays = [ 
+{
+  easy: {
+    replay: map1Easy,
+    time: "00:00:28"
+  },
+  normal: {
+    replay: map1Normal,
+    time: "00:00:25"
+  }
+  ,
+  hard: {
+    replay: map1Hard,
+    time: "00:00:18"
+  }
 },
  {
-  easy: map2Easy,
-  normal: map2Normal,
-  hard: map2Hard
+  easy: {
+    replay: map2Easy,
+    time: "00:00:19"
+  },
+  normal: {
+    replay: map2Normal,
+    time: "00:00:16"
+  },
+  hard: {
+    replay: map2Hard,
+    time: "00:00:14"
+  }
 },
 {
-  easy: map3Easy,
-  normal: map3Normal,
-  hard: map3Hard
+  easy: {
+    replay: map3Easy,
+    time: "00:00:22"
+  },
+  normal: {
+    replay: map3Normal,
+    time: "00:00:14"
+  },
+  hard: {
+    replay: map3Hard,
+    time: "00:00:13"
+  }
 },
 {
-  easy: map4Easy,
-  normal: map4Normal,
-  hard: map4Hard
+  easy: {
+    replay: map4Easy,
+    time: "00:00:37"
+  },
+  normal: {
+    replay: map4Normal,
+    time: "00:00:25"
+  },
+  hard: {
+    replay: map4Hard,
+    time: "00:00:24"
+  }
 },
  {
-  easy: map5Easy,
-  normal: map5Normal,
-  hard: map5Hard
+  easy: {
+    replay: map5Easy,
+    time: "00:00:34"
+  },
+  normal: {
+    replay: map5Normal,
+    time: "00:00:30"
+  },
+  hard: {
+    replay: map5Hard,
+    time: "00:00:27"
+  }
 }
 ]
 

@@ -5,6 +5,7 @@ import {setMapData,setEnableGhost,getEnableGhost,setGameMapIndex} from "../../ga
 import { maps} from  "../../game/map-data.js"
 import { replays } from "../../game/replay.js"
 import { drawCanvasMap } from '../../game/graphics.js';
+import { map } from '../../game/elements.js';
 
 const mapNames = [
   "Taste of texas",
@@ -21,7 +22,8 @@ const setMap = (index,difficulty) => {
     setMapData(maps[index],JSON.parse(localStorage.getItem(`pbReplay${index}`)))
   }
   else{ 
-    setMapData(maps[index],replays[index][difficulty])
+    console.log(replays[index][difficulty])
+    setMapData(maps[index],replays[index][difficulty]["replay"])
   }
 }
 
@@ -94,8 +96,17 @@ const MapDetail = ({setter,screenSetter, mapIndex}) => {
   return(
     <div className="menu map-select">
       <h1>{mapNames[mapIndex]}</h1>
-      <canvas id="map-preview"></canvas>
-      <h3>BEST TIME {pb || "UNSET"}</h3>
+      <div className="map-info">
+        <canvas id="map-preview"></canvas>
+        <div className="player-stats">
+          <h3>BEST TIME {pb || "UNSET"}</h3>
+          <ul>
+            <li>gold : {replays[mapIndex].hard.time}</li>
+            <li>silver : {replays[mapIndex].normal.time}</li>
+            <li>bronze : {replays[mapIndex].easy.time}</li>
+          </ul>
+        </div>
+      </div>
       <button  
       onClick={(e) => {setNewEnableGhost(!newEnableGhost)}} 
       className={newEnableGhost ? "set" : "none"}>Click to {newEnableGhost ? "disable ghost car" : "enable ghost car"}</button>
