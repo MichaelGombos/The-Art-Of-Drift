@@ -1,20 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useMemo } from 'react';
 import { getTimeString, getGameMapIndex } from '../../game/game.js';
 
 import {resetGame} from "../../game/main.js"
 
 let newBest = false;
-
+const checkBest = (index, oldPB) => {
+  if(getTimeString() < oldPB || !oldPB){
+    localStorage.setItem(`pb${index}`,getTimeString())
+    return true;
+  }
+  else{
+    return false;
+  }
+}
 const Finish = ({setter}) => {
   let mapIndex = getGameMapIndex();
   let oldPB = localStorage.getItem(`pb${mapIndex}`);
-  
-  useEffect(() => {
-    if(getTimeString() < oldPB || !oldPB){
-      localStorage.setItem(`pb${mapIndex}`,getTimeString())
-      newBest = true;
-    }
-  })
+
+  useMemo(() => {
+      newBest = checkBest(mapIndex, oldPB);
+  }, [])
 
   return (
     <div className="menu finish" >
