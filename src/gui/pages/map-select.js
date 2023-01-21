@@ -22,7 +22,6 @@ const setMap = (index,difficulty) => {
     setMapData(maps[index],JSON.parse(localStorage.getItem(`pbReplay${index}`)))
   }
   else{ 
-    console.log(replays[index][difficulty])
     setMapData(maps[index],replays[index][difficulty]["replay"])
   }
 }
@@ -31,7 +30,6 @@ const MapSelect = ({setter}) => {
   let [mapSelectScreen, setMapSelectScreen] = useState("list"); //list or detail 
   let [index,setIndex] = useState(0);
 
-  console.log(index);
   if(mapSelectScreen == "list"){
     return (
       <MapList setter ={setter} screenSetter={setMapSelectScreen} setGUIMapIndex={setIndex}/>
@@ -85,10 +83,11 @@ const MapDetail = ({setter,screenSetter, mapIndex}) => {
   let [difficulty, setDifficulty] = useState("easy");
   const pb = localStorage.getItem(`pb${mapIndex}`);
 
-  const medals = {
-    gold : pb < replays[mapIndex].hard.time,
-    silver : pb < replays[mapIndex].normal.time,
-    bronze : pb < replays[mapIndex].easy.time
+  const medals = {  
+    author: pb <= replays[mapIndex].author.time,
+    gold : pb <= replays[mapIndex].hard.time,
+    silver : pb <= replays[mapIndex].normal.time,
+    bronze : pb <= replays[mapIndex].easy.time
   }
 
   useEffect(() => {
@@ -107,6 +106,7 @@ const MapDetail = ({setter,screenSetter, mapIndex}) => {
         <div className="player-stats">
           <h3>BEST TIME {pb || "UNSET"}</h3>
           <ul className="column">
+            {medals.gold ? <li className={`row ${medals.author ? "author-unlocked" : null}`}><div className={`medal`}></div><p>author : {replays[mapIndex].author.time}</p></li> : null}
             <li className={`row ${medals.gold ? "gold-unlocked" : null}`}><div className={`medal`}></div><p>gold : {replays[mapIndex].hard.time}</p></li>
             <li className={`row ${medals.silver ? "silver-unlocked" : null}`}><div className={`medal`}></div><p>silver : {replays[mapIndex].normal.time}</p></li>
             <li className={`row ${medals.bronze ? "bronze-unlocked" : null}`}><div className={`medal`}></div><p>bronze : {replays[mapIndex].easy.time}</p></li>
@@ -121,7 +121,7 @@ const MapDetail = ({setter,screenSetter, mapIndex}) => {
        <button value="easy" className={difficulty == "easy" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>bronze</button>
        <button value="normal" className={difficulty == "normal" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)} >silver</button>
        <button value="hard" className={difficulty == "hard" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>gold</button>
-       {/* TODO {<button value="author" className={difficulty == "author" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>author</button>} */}
+       {medals.bronze ?<button value="author" className={difficulty == "author" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>author</button> : null}
        {localStorage.getItem(`pbReplay${mapIndex}`) ? <button value="personalBest" className={difficulty == "personalBest" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>personal best</button> : null}
       </div>
 
