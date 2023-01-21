@@ -19,16 +19,17 @@ const Options = ({setter,previous}) => {
 
     <label htmlFor="particle-selector">Particle Limit ({newParticleLimit})</label>
     <input type="range" min="0" max="2000" value={newParticleLimit}  className="slider" id="particle-selector" onChange={(e) => {setNewParticleLimit(e.target.value)}}/>
-    <button onClick={() => {
-      setter(previous);
-      setEnableGhost(newEnableGhost);
-      setParticleLimit(newParticleLimit);
-    }}>Save and exit</button>
+    <button className="delete-save" onClick={localStorage.clear()}>Clear game data</button>
     <button onClick={() => {
       setter(previous);
       setNewEnableGhost(getEnableGhost());
       setNewParticleLimit(getParticleLimit());
     }}>Exit without saving</button>
+    <button className="exit-save"onClick={() => {
+      setter(previous);
+      setEnableGhost(newEnableGhost);
+      setParticleLimit(newParticleLimit);
+    }}>Save and exit</button>
   </div>
   )
 
