@@ -14,7 +14,7 @@ import{
   mapGrid,
   camera
 } from "./elements.js"
-import Car from "./car.js"
+import createCar from "./car.js"
 import {
   displayDriftParticles,
   particles,
@@ -30,8 +30,8 @@ let debug = 0;
 
 // const ghostInput = 
 
-let car = Car();
-let ghostCar = Car();
+let car = createCar(false);
+let ghostCar = createCar(true);
 let ghostStep = 0; //kind of like dubstep, but for ghosts. 
 let replayExport = []
 

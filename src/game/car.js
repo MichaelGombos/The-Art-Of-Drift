@@ -5,7 +5,7 @@ import {
 import {createDirtParticle, createDriftParticle,displayDriftParticles,particles} from "./graphics.js"
 
 //defines car physics 
-const Car = () => {
+const createCar = (isGhost) => {
     const acceleration = .030;
     const friction = .008;
     const maxSpeed = 10;
@@ -400,7 +400,7 @@ const Car = () => {
                 if (onFinish.up == true) {
                     //exiting the finish line 
                     onFinish.up = false;
-                    if (newY < y) {
+                    if (newY < y && !isGhost) {
                         increaseLaps();
                     } else {
                         // lap--;
@@ -416,7 +416,7 @@ const Car = () => {
                 if (onFinish.down == true) {
                     //exiting the finish line 
                     onFinish.down = false;
-                    if (newY > y) {
+                    if (newY > y && !isGhost) {
                         increaseLaps();
                     } else {
                         // lap--;
@@ -488,4 +488,4 @@ const Car = () => {
 }
 
 
-export default Car;
+export default createCar;
