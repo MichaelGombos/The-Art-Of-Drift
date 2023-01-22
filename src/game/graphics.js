@@ -106,6 +106,11 @@ const displayDriftParticles = (x,y ,driftForce, onDirt,angle) => {
 
 }
 
+const clearParticles = () => {
+  particles = [];
+  mapParticles.textContent = '';
+}
+console.log(clearParticles)
 const drawCanvasMap = (context,mapData) => {
     context.globalCompositeOperation='destination-over';
   
@@ -132,4 +137,4 @@ const getParticleLimit = () => {
     return particleLimit;
 }
 
-export {createDirtParticle, createDriftParticle,displayDriftParticles,setParticleLimit,getParticleLimit, particles, styleFinishCell, styleCar, drawCanvasMap}
+export {createDirtParticle, createDriftParticle,clearParticles, displayDriftParticles,setParticleLimit,getParticleLimit, particles, styleFinishCell, styleCar, drawCanvasMap}

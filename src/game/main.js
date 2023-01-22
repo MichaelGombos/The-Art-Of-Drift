@@ -5,6 +5,10 @@ import {
     resetCarValues,
 } from "./game.js"
 
+import{
+    clearParticles
+} from "./graphics.js"
+
 const uploadButton = document.querySelector("#upload");
 const mapInput = document.querySelector("#map-input")
 
@@ -24,6 +28,7 @@ const resetGame = () => {
 
 const startGame = () => {
     resetCarValues();
+    clearParticles();
     unPauseGame();
 }
 
