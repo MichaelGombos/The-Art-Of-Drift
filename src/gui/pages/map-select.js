@@ -7,13 +7,19 @@ import { replays } from "../../game/replay.js"
 import { drawCanvasMap } from '../../game/graphics.js';
 
 const mapNames = [
-  "Taste of texas",
-  "Smile :D",
-  "Eye of the drift holder",
-  "Da lyne",
-  "Hatchet raceway",
-  "maMap6",
-  "mappy7"
+  "Laying tracks",
+  "Staging cars",
+  "Adrift by strategem",
+  "Technical drift positions",
+  "Horsepower",
+  "Slipline & speed",
+  "Manouvering",
+  "v8 nation tactics",
+  "The ralley in march",
+  "Hydroplane",
+  "The 9 non-first places",
+  "The attack by tire",
+  "The speeds of high"
 ]
 
 const {useState} = React
@@ -52,12 +58,11 @@ const MapList = ({setter,screenSetter,setGUIMapIndex}) => {
   for(let i = 0; i < maps.length; i++){
     listElements.push(
       <div className="map-option" key={mapNames[i]}>
-        <h3>{mapNames[i]}</h3>
         <button onClick = {()=> {
         setGUIMapIndex(i)
         setGameMapIndex(i)
         screenSetter("detail")
-        }}>Select</button>
+        }}>#{[i+1]} {mapNames[i]}</button>
      </div>
     )
   }
@@ -66,8 +71,8 @@ const MapList = ({setter,screenSetter,setGUIMapIndex}) => {
     <div className="menu map-select">
     GL ,':') HF 
 
+    <h2>Maps</h2>
     <div className="map-options">
-      <h2>Maps</h2>
       {listElements}
     </div>
 

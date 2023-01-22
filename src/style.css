@@ -249,11 +249,18 @@ li.bronze-unlocked .medal{
   background-color:rgb(208, 123, 63);
 }
 
-.menu.map-select .map-options, 
-.menu.map-select .map-option{
-  display:flex;
-  flex-direction:column;
-  align-items: center;
+.menu.map-select .map-options{
+  width:70%;
+  display:grid;
+  grid-auto-flow: column;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(7, 1fr);
+  gap:5px 10px;
+}
+
+.menu.map-select .map-options button{
+  width:100%;
+  text-align: left;
 }
 
 .menu.map-select button:focus{
