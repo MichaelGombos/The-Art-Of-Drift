@@ -15,7 +15,7 @@ const mapInput = document.querySelector("#map-input")
 
 let running = false;
 
-setInterval(incrementSeconds, 1000)
+setInterval(incrementSeconds, 50)
 
 const handleUpload = (e) => {
     generateMap(JSON.parse("[" + mapInput.value + "]")[0])

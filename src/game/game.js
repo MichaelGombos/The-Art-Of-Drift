@@ -50,7 +50,12 @@ const tilePixelCount = parseInt(
 const carSize = tilePixelCount;
 const held_directions = []; //State of which arrow keys we are holding down
 
-
+let originTime = 0;
+let currentTime = 0;
+let elapsedTime = 0;
+let pauseBuffers = [];
+let pauseBuffer = 0;
+let lastRunTime = 0;
 
 /* Direction key state */
 const directions = {
@@ -120,6 +125,11 @@ const updateCarSpawnPosition = () => {
 }
 
 const resetCarValues = () => {
+  elapsedTime = 0;
+  pauseBuffer = 0;
+  pauseBuffers = [0];
+  originTime = performance.now();
+  lastRunTime = performance.now();
   styleCar(characterSprite);
   styleCar(ghostCharacterSprite);
   
@@ -129,7 +139,6 @@ const resetCarValues = () => {
   ghostStep = 0;
   seconds = 0;
   replayExport = [];
-  console.log(replayExport);
 }
 const setMapData = (map,replay) => {
   mapData = {
@@ -205,13 +214,53 @@ const checkGameOver = (currentLap, maxLaps) => {
   }
 }
 
+function msToTime(s) {
+
+  // Pad to 2 or 3 digits, default is 2
+  function pad(n, z) {
+    z = z || 2;
+    return ('00' + n).slice(-z);
+  }
+
+  var ms = s % 1000;
+  s = (s - ms) / 1000;
+  var secs = s % 60;
+  s = (s - secs) / 60;
+  var mins = s % 60;
+  var hrs = (s - mins) / 60;
+
+  return pad(hrs) + ':' + pad(mins) + ':' + pad(secs) + '.' + pad(ms, 3);
+}
 
 const incrementSeconds = () => {
-  if (!car.getEngineLock()) {
-      seconds += 1;
-      var date = new Date(0);
-      date.setSeconds(seconds); // specify value for SECONDS here
-      timeString = date.toISOString().substring(11, 19);
+  //get current running time by getting current time, then comparing to start time
+  currentTime = performance.now();
+  elapsedTime = currentTime - originTime;
+
+
+  if (getRunning() && !car.getEngineLock()) {
+      
+      //push pause buffer, then reset it. 
+      
+      if(pauseBuffer){
+        pauseBuffers.push(pauseBuffer);
+        pauseBuffer = 0;
+      }
+      
+      elapsedTime -= pauseBuffers.reduce((buffer, reduce) => buffer+reduce);
+      
+      //Setting aside old time logic for now
+      // seconds += 1;
+      // var date = new Date(0);
+      // date.setSeconds(seconds); 
+      // timeString = date.toISOString().substring(11, 22);
+
+      timeString = msToTime(elapsedTime)
+
+      lastRunTime = currentTime;
+  }{ 
+    pauseBuffer = currentTime - lastRunTime;
+    //increase pauseBuffer
   }
 }
 const placeGhost = (stepCount) => {
@@ -392,8 +441,6 @@ const placeCharacter = () => {
       car.setY(bottomLimit);
       car.reduceSpeed()
   }
-  // console.log(x);
-
   const camera_left = pixelSize * camera.clientWidth/8;
   const camera_top = pixelSize * camera.clientHeight/8;
 
@@ -434,7 +481,6 @@ const step = () => {
 //listeners 
 
 document.addEventListener("keydown", (e) => {
-  console.log("KEYDOWN", e.which)
   const dir = keys[e.which];
   if (dir == "up" || dir == "down") {
       e.preventDefault();

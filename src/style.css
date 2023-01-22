@@ -78,6 +78,7 @@ button:active:hover{
   display: flex;
   flex-direction:column;
   gap:5px;
+  width:20%;
 }
 .stats span{
   font-weight: lighter;
@@ -466,7 +467,10 @@ textarea{
 }
 
 
-
+#time{
+  width:85px;
+  text-align: right;
+}
 #time-header.current{
   font-weight:bold;
   color:rgb(255, 225, 0);

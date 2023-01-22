@@ -19,7 +19,6 @@ let particleLimit = 1000;
 const createDriftParticle = (carX, carY, driftForce, carAngle) => {
   let newParticles = []
   let particle = (xDif,yDif,sizeMultiplier,angleModifier,className) => {
-    console.log("class",className)
       let x = carX + xDif;
       let y = carY + yDif;
       let size = driftForce * sizeMultiplier;
@@ -59,7 +58,6 @@ const createDriftParticle = (carX, carY, driftForce, carAngle) => {
   }
   // also make cloud
   if (driftForce >= 4) {
-    console.log("OK I PUSHED")
     particles.push(smokeParticle);
     mapParticles.appendChild(smokeParticle.element)
   }
@@ -97,8 +95,6 @@ const displayDriftParticles = (x,y ,driftForce, onDirt,angle) => {
             for(let i = 0;  i < 8; i++){
               domParticles[i].remove();
               particles.shift();
-              console.log(particles)
-              console.log(domParticles)
             }              
           }
       }
@@ -110,7 +106,6 @@ const clearParticles = () => {
   particles = [];
   mapParticles.textContent = '';
 }
-console.log(clearParticles)
 const drawCanvasMap = (context,mapData) => {
     context.globalCompositeOperation='destination-over';
   
