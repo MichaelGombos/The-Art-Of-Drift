@@ -1,8 +1,8 @@
-import {map,  characterSprite, ghostCharacterSprite} from "./elements.js"
+import {map, mapParticles, characterSprite, ghostCharacterSprite} from "./elements.js"
 const arrow = require("../assets/arrow.svg");
 const car = require("../assets/car.svg");
 
-
+map.appendChild(mapParticles);
 //style finish line
 const styleFinishCell = (element) => {
     element.style.backgroundImage = `url('${arrow.default}')`
@@ -14,39 +14,55 @@ const styleCar = (element) => {
 }
 
 let particles = [];
-let particleLimit = 100;
+let particleLimit = 1000;
 //graphics 
-const createDriftParticle = (x, y, driftForce, angle) => {
-  let particle = {
-      x: x,
-      y: y,
-      size: driftForce * 10,
-      element: document.createElement("div"),
-      angle: null
+const createDriftParticle = (carX, carY, driftForce, carAngle) => {
+  let newParticles = []
+  let particle = (xDif,yDif,sizeMultiplier,angleModifier,className) => {
+    console.log("class",className)
+      let x = carX + xDif;
+      let y = carY + yDif;
+      let size = driftForce * sizeMultiplier;
+      let element = document.createElement("div")
+      let angle = carAngle.facing + angleModifier
+      element.classList.add("particle");
+      element.classList.add(className);
+      if(className == "skid-mark"){
+        element.style.width = 11;
+        element.style.height = 3;
+      }
+      else{
+        element.style.width = size;
+        element.style.height = size;
+      }
+      return {x,y,size,element,angle}
   }
 
-  // skidMark vs cloud
-  if (driftForce < 2) {
-      particle.angle = angle.facing;
-      particle.element.classList.add("skid-mark");
-  } else if (driftForce >= 2) {
-      particle.x = x + Math.floor(Math.random() * 10) - 5;
-      particle.y = y + Math.floor(Math.random() * 10) - 5;
-      particle.size = driftForce * 15;
-      particle.angle = angle.moving + Math.floor(Math.random() * 50) - 25;
-      particle.element.classList.add("cloud");
+  let skidParticles = [
+    particle(1,2,3,0,"skid-mark"), 
+    particle(1,-2,3,0,"skid-mark"), 
+    particle(-1,2,3,0,"skid-mark"),
+    particle(-1,-2,3,0,"skid-mark")
+  ] 
+
+  let smokeParticle = particle(
+  Math.floor(Math.random() * 3 * driftForce), 
+  Math.floor(Math.random() * 3 * driftForce),
+  4,
+  carAngle.moving + Math.floor(Math.random() * 50) - 25,
+  "cloud");
+
+  
+  for(let skidParticle of skidParticles ){
+    particles.push(skidParticle);
+    mapParticles.appendChild(skidParticle.element)
   }
-
-  particle.element.classList.add("particle");
-  particle.element.style.width = particle.size;
-  particle.element.style.height = particle.size;
-
-  particles.push(particle);
-
-  let index = particles.length - 1;
-  map.appendChild(particle.element)
-
-
+  // also make cloud
+  if (driftForce >= 4) {
+    console.log("OK I PUSHED")
+    particles.push(smokeParticle);
+    mapParticles.appendChild(smokeParticle.element)
+  }
 }
 
 const createDirtParticle = (x, y) => {
@@ -64,23 +80,26 @@ const createDirtParticle = (x, y) => {
   particle.element.classList.add("dirt");
 
   particles.push(particle);
-  map.appendChild(particle.element)
+  mapParticles.appendChild(particle.element)
 }
 const displayDriftParticles = (x,y ,driftForce, onDirt,angle) => {
+  let domParticles = Array.from(mapParticles.children) 
+
   if (driftForce > 1.5 && !onDirt) {
-      const particleX = x - ((10) * Math.cos(angle.moving * Math.PI / 180));
-      const particleY = y - ((10) * Math.sin(angle.moving * Math.PI / 180));
+      const particleX = x - ((.8) * Math.cos(angle.moving * Math.PI / 180));
+      const particleY = y - ((.8) * Math.sin(angle.moving * Math.PI / 180));
       createDriftParticle(particleX, particleY, driftForce, angle);
   }
-
+ 
   //delete drift particle if more than 100
-
-      if (particles.length > particleLimit) {
-          if (particles[particleLimit] && particles[particleLimit+1]) {
-              particles[0].element.remove();
-              particles[1].element.remove();
+      if (domParticles.length > particleLimit) {
+          {
+            for(let i = 0;  i < 8; i++){
+              domParticles[i].remove();
               particles.shift();
-              particles.shift();
+              console.log(particles)
+              console.log(domParticles)
+            }              
           }
       }
   

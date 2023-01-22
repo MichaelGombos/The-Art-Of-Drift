@@ -58,8 +58,11 @@ const directions = {
   down: "down",
   left: "left",
   right: "right",
+  shift: "shift"
 }
 const keys = {
+  16: directions.shift,
+  32: directions.down,
   38: directions.up,
   37: directions.left,
   39: directions.right,
@@ -213,10 +216,16 @@ const incrementSeconds = () => {
 }
 const placeGhost = (stepCount) => {
     let ghost_held_directions = mapData.replay[stepCount]
-
+    
     if (ghost_held_directions) {
-        //turn
+        
+        
+        
         if (speed != 0) {
+          if (ghost_held_directions.includes(directions.shift)) {
+            ghostCar.engageDrift()
+          }
+          //turn
             if (ghost_held_directions.includes(directions.right)) {
                 ghostCar.turn("right");
                 ghostCar.setTurning(true)
@@ -285,7 +294,6 @@ const placeGhost = (stepCount) => {
 
 }
 const placeCharacter = () => {
-
   //update stats
   stats.time.innerHTML = timeString;
   stats.lap.innerHTML = `${car.getLap()}/${car.getMaxLaps()}`;
@@ -312,8 +320,12 @@ const placeCharacter = () => {
 
   
   if (held_directions.length > 0) {
-      //turn
+      
       if (speed != 0) {
+          if (held_directions.includes(directions.shift)) {
+              car.engageDrift()
+          }
+          //turn
           if (held_directions.includes(directions.right)) {
               car.turn("right");
               car.setTurning(true)
@@ -422,7 +434,7 @@ const step = () => {
 //listeners 
 
 document.addEventListener("keydown", (e) => {
-
+  console.log("KEYDOWN", e.which)
   const dir = keys[e.which];
   if (dir == "up" || dir == "down") {
       e.preventDefault();

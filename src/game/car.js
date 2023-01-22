@@ -6,12 +6,13 @@ import {createDirtParticle, createDriftParticle,displayDriftParticles,particles}
 
 //defines car physics 
 const createCar = (isGhost) => {
-    const acceleration = .030;
-    const friction = .008;
-    const maxSpeed = 10;
+    const acceleration = .015;
+    const friction = .003;
+    const maxSpeed = 7;
     const maxLaps = 5;
     let lap = 0;
     let driftForce = 1;
+    let turnTime = 0;
 
     let x = 0;
     let y = 0;
@@ -27,7 +28,7 @@ const createCar = (isGhost) => {
     }
     let engineLock = false;
 
-    const tireGrip = 2;
+    const tireGrip = 1.5;
     let turningSpeed = 5;
     let underSteering = 1;
     
@@ -53,7 +54,10 @@ const createCar = (isGhost) => {
     const setX = (value) => {x = value}
     const setY = (value) => {y = value}
     const setEngineLock = (value) => {engineLock = value}
-    const setTurning = (value) => {turning = value}
+    const setTurning = (value) => {
+        value ? turnTime++ : turnTime = 0;
+        turning = value;
+    }
 
     const resetValues = () => {
         speed = 0;
@@ -88,6 +92,12 @@ const createCar = (isGhost) => {
         const direction = compareFacingRelativeToMoving(angle.facing, angle.moving)
         const facingAngle = angle.facing;
         const movingAngle = angle.moving;
+
+        return (
+            angleLock = {
+            right: false,
+            left: false
+        })
 
         let diff;
         if (direction == 1) { //facing is right of moving Angle
@@ -155,8 +165,12 @@ const createCar = (isGhost) => {
 
         if (speed < 1.5 || driftForce <= 1.05) {
             driftForce =  1;
-        } else if (driftForce > 1.05) {
-            driftForce -= .05;
+        } 
+        else if (driftForce > 7){
+            driftForce = 7;
+        }
+        else if (driftForce > 1.05) {
+            driftForce -= .075;
         }
     }
 
@@ -193,25 +207,25 @@ const createCar = (isGhost) => {
     const updateUnderSteering = () => {
         switch (true) {
             case (Math.abs(speed) >= 0 && Math.abs(speed) < .25):
-                underSteering = .9
+                underSteering = 1
                 break;
             case (Math.abs(speed) > .25 && Math.abs(speed) < 1.5):
                 underSteering = 1
                 break;
             case (Math.abs(speed) > 1.5 && Math.abs(speed) < 2.5):
-                underSteering = .95
+                underSteering = 1
                 break;
-            case (Math.abs(speed) > 2.5 && Math.abs(speed) < 4):
-                underSteering = .9
+            case (Math.abs(speed) > 2.5 && Math.abs(speed) < 3.5):
+                underSteering = 1
                 break;
-            case (Math.abs(speed) > 4 && Math.abs(speed) < 5):
-                underSteering = .85
+            case (Math.abs(speed) > 3.5 && Math.abs(speed) < 4):
+                underSteering = 1
                 break;
-            case (Math.abs(speed) > 5 && Math.abs(speed) < 7):
+            case (Math.abs(speed) > 4 && Math.abs(speed) < 4.5):
                 underSteering = .8
                 break;
-            case (Math.abs(speed) > 7):
-                underSteering = .75
+            case (Math.abs(speed) > 4.5):
+                underSteering = .9
                 break;
             default:
                 underSteering = 1;
@@ -220,7 +234,7 @@ const createCar = (isGhost) => {
     }
 
     const applyFriction = () => {
-        if (Math.abs(speed) < 0.025) {
+        if (Math.abs(speed) < 0.003) {
             speed = 0;
         } else if (speed > 0) {
             speed -= friction;
@@ -238,59 +252,55 @@ const createCar = (isGhost) => {
     //car controls  
 
     const engageBrakes = () => {
-        speed -= acceleration * 3;
-        if(turning){
-            if(driftForce < 3){
-                driftForce = 3;
+        speed -= acceleration * 5;
+        if(speed > 3){
+            if(driftForce < 1){
+                driftForce = 1;
             }
-            driftForce += .3;
+            driftForce += .065;
         }
     }    
+
+    const engageDrift = () => {
+        if(turning){
+            driftForce += .075;
+        }
+    }
     const accelerate = ( forward) => {
         if (Math.abs(speed) <= maxSpeed && !engineLock) {
             if (forward) {
-                let diff = angle.facing - angle.moving;
-                if (diff < 0) {
-                    diff += 360;
+                speed += acceleration;
+            } 
+            else {
+                if(speed > 0){
+                    engageBrakes()
                 }
-                if (diff < 90 || diff > 270) { //we are facing forwards
-                    speed += acceleration;
-                }
-                else { // backwards
-                    
-                    speed -= acceleration;
-                
-                    
-                }
-            } else {
-                let diff = angle.facing - angle.moving;
-                if (diff < 0) {
-                    diff += 360;
-                }
-                if (diff < 90) { //we are facing forwards
-                    if(speed > 0){
-                        engageBrakes()
-                    }
-                    else{
-                        speed -= acceleration/1.2;
-                    }
-                    
-                } else { // backwards
-                    speed += acceleration / 5;
+                else{
+                    speed -= acceleration/1.2;
                 }
             }
         }
     }
 
     const turn = (direction) => {
-
         //compareAngles 
+        
         if (direction === "right" && !angleLock.right) {
-            if (driftForce <= 1.4) {
-                driftForce += .1;
-            } else if (driftForce > 1.4 && driftForce < 5) {
-                driftForce += 0.075;
+            if(turnTime < 15){
+                if (driftForce <= 1.3) {
+                    driftForce += .1;
+                } else if (driftForce > 1.3 && driftForce < 5) {
+                    driftForce += 0.2;
+                }
             }
+            else{
+                if (driftForce <= 1.7) {
+                    driftForce += .1;
+                } else if (driftForce > 1.7 && driftForce < 5) {
+                    driftForce += 0.055;
+                }
+            }
+
             //turn
             angle.facing += turningSpeed * underSteering;
             angle.moving += turningSpeed / driftForce;
@@ -303,10 +313,19 @@ const createCar = (isGhost) => {
                 angle.moving = angle.moving - 360;
             }
         } else if (direction === "left" && !angleLock.left) {
-            if (driftForce <= 1.4) {
-                driftForce += .1;
-            } else if (driftForce > 1.4 && driftForce < 5) {
-                driftForce += 0.075;
+            if(turnTime < 15){
+                if (driftForce <= 1.3) {
+                    driftForce += .1;
+                } else if (driftForce > 1.3 && driftForce < 5) {
+                    driftForce += 0.2;
+                }
+            }
+            else{
+                if (driftForce <= 1.7) {
+                    driftForce += .1;
+                } else if (driftForce > 1.7 && driftForce < 5) {
+                    driftForce += 0.055;
+                }
             }
 
             //turn
@@ -384,10 +403,10 @@ const createCar = (isGhost) => {
                     speed = speed / 1.03;
                     createDirtParticle(x, y);
                 }
-                //different drift max in dirt
-                if (driftForce < 8) {
-                    driftForce += .2;
-                }
+                // if(turning){
+                //     driftForce += .05;
+                // }
+
 
             } else {
                 onDirt = false;
@@ -480,6 +499,7 @@ const createCar = (isGhost) => {
         stabalizeAngle,
         updateUnderSteering,
         applyFriction,
+        engageDrift,
         turn,
         accelerate,
         reduceSpeed,

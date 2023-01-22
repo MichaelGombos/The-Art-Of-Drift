@@ -44,6 +44,7 @@ export {
   timeHeader,
   fpsText,
   map,
+  mapParticles,
   mapGrid,
   mapCanvas,
   playerCanvas,

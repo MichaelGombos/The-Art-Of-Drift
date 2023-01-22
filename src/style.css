@@ -387,7 +387,7 @@ li.bronze-unlocked .medal{
 }
 
 .particle.skid-mark{
-  background-color:rgb(33, 33, 33);
+  background-color:#e69501;
   max-height:20px;
   max-width:20px;
 }
