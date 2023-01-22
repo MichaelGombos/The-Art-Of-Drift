@@ -13,7 +13,8 @@ const mapNames = [
   "Eye of the drift holder",
   "Da lyne",
   "Hatchet raceway",
-  "maMap6"
+  "maMap6",
+  "mappy7"
 ]
 
 const {useState} = React
