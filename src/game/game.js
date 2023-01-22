@@ -18,13 +18,11 @@ import createCar from "./car.js"
 import {
   displayDriftParticles,
   particles,
-  styleFinishCell,
-  styleCar
+  styleCar,
+  styleFinishCell
 } from "./graphics.js"
 
 import {generateMiniMap,updateMiniMapPlayers} from "./mini-map.js"
-
-import {maps} from "./map-data.js"
 
 let debug = 0;
 
@@ -76,8 +74,9 @@ const keys = {
   65: directions.left,
   68: directions.right,
   83: directions.down
-
 }
+
+const tileTypes = ['road', 'wall', 'dirt', 'spawn', 'finish-up', 'finish-down', 'bumper', 'check-point-left-road', 'check-point-right-road', 'check-point-left-dirt', 'check-point-right-dirt']
 
 let mapData = {map:[[1]],
 replay:[[]]}; 
@@ -163,24 +162,16 @@ const generateMap = (inputData) => {
           let mapCell = document.createElement("div");
           let cell = row[cellDataIndex];
           mapCell.classList.add("cell");
-          if (cell == 0) {
-              mapCell.classList.add("road");
-          } else if (cell == 1) {
-              mapCell.classList.add("wall");
-          } else if (cell == 2) {
-              mapCell.classList.add("dirt");
-          } else if (cell == 3) {
-              mapCell.classList.add("spawn");
+
+          if(cell >= 0 && cell < tileTypes.length){
+            mapCell.classList.add(tileTypes[cell])
+            if(cell == 3){
               spawn.x = cellDataIndex;
               spawn.y = rowIndex;
-          } else if (cell == 4) {
-              mapCell.classList.add("finish-up");
+            }
+            else if(cell == 4 || cell == 5 ){ //|| cell >= 7 && cell <= 10 
               styleFinishCell(mapCell)
-          } else if (cell == 5) {
-              mapCell.classList.add("finish-down");
-              styleFinishCell(mapCell)
-          } else if (cell == 6) {
-              mapCell.classList.add("bumper");
+            }
           }
           //put cell into row
           mapRow.appendChild(mapCell);
@@ -194,7 +185,7 @@ const generateMap = (inputData) => {
 
   document.documentElement.style.setProperty("--rows", rows);
   document.documentElement.style.setProperty("--columns", columns);
-
+  console.log()
   updateCarSpawnPosition();
 
 }

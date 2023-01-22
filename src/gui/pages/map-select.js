@@ -5,7 +5,6 @@ import {setMapData,setEnableGhost,getEnableGhost,setGameMapIndex} from "../../ga
 import { maps} from  "../../game/map-data.js"
 import { replays } from "../../game/replay.js"
 import { drawCanvasMap } from '../../game/graphics.js';
-import { map } from '../../game/elements.js';
 
 const mapNames = [
   "Taste of texas",

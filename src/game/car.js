@@ -11,6 +11,7 @@ const createCar = (isGhost) => {
     const maxSpeed = 7;
     const maxLaps = 5;
     let lap = 0;
+    let checkPointLap = 0;
     let driftForce = 1;
     let turnTime = 0;
 
@@ -36,6 +37,10 @@ const createCar = (isGhost) => {
     let onFinish = {
         up: false,
         down: false
+    };
+    let onCheckPoint = {
+        left: false,
+        right: false
     };
     let turning = false;
     //getters
@@ -243,9 +248,15 @@ const createCar = (isGhost) => {
         }
     }
 
-    const increaseLaps = () => {
-        lap++;
+    const increaseCheckPointLaps = () => {
+        checkPointLap++;
+    }
 
+    const increaseLaps = () => {
+        if(checkPointLap >= 2){
+            lap++;
+            checkPointLap = 0
+        }
         checkGameOver(lap, maxLaps)
     }
 
@@ -437,6 +448,41 @@ const createCar = (isGhost) => {
                     onFinish.down = false;
                     if (newY > y && !isGhost) {
                         increaseLaps();
+                    } else {
+                        // lap--;
+                    }
+
+                }
+                onFinish.down == false;
+            }
+            //checkpoint tiles 
+
+            if (collidingWithValue(7,"x",mapData,tilePixelCount) || 
+            collidingWithValue(9,"x",mapData,tilePixelCount)) { //checkPoint left
+                onCheckPoint.left = true;
+            } else {
+                if (onCheckPoint.left == true) {
+                    //exiting the finish line 
+                    onCheckPoint.left = false;
+                    if (newX < x && !isGhost) {
+                        increaseCheckPointLaps();
+                    } else {
+                        // lap--;
+                    }
+
+                }
+                onFinish.up == false;
+            }
+
+            if (collidingWithValue(8,"x",mapData,tilePixelCount) || 
+            collidingWithValue(10,"x",mapData,tilePixelCount)) { //checkPoint right
+                onCheckPoint.right = true;
+            } else {
+                if (onCheckPoint.right == true) {
+                    //exiting the finish line 
+                    onCheckPoint.right = false;
+                    if (newX > x && !isGhost) {
+                        increaseCheckPointLaps();
                     } else {
                         // lap--;
                     }

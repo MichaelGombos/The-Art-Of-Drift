@@ -433,12 +433,38 @@ li.bronze-unlocked .medal{
   background-color:#73ff71;
 
 }
+.arrow::after{  
+  display:inline-block;
+  width:100%;
+  height:100%;
+  content: "";
+  background-image: var(--arrow);
+  opacity: .4;
+}
 .finish-down{
   transform: rotate(180deg);
    background-color:#ff29e2;
 }
+
 .bumper{
   background-color:#0027d2;
+}
+
+.check-point-left-road{
+  background-color: rgb(210, 136, 0);
+  transform: rotate(180deg);
+}
+.check-point-right-road{
+  background-color: rgb(210, 136, 0);
+  transform: rotate(90deg);
+}
+.check-point-left-dirt{
+  background-color:rgb(101, 59, 19);
+  transform: rotate(180deg);
+}
+.check-point-right-dirt{
+  transform: rotate(90deg);
+  background-color:rgb(101, 59, 19);
 }
 
 .map-grid{
