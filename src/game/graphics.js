@@ -1,8 +1,8 @@
-import {map, mapParticles, characterSprite, ghostCharacterSprite} from "./elements.js"
+import {map, mapParticles, ghostCharacter, characterSprite, ghostCharacterSprite} from "./elements.js"
 const arrow = require("../assets/arrow.svg");
 const car = require("../assets/car.svg");
 
-map.appendChild(mapParticles);
+map.insertBefore(mapParticles , ghostCharacter);
 //style finish line
 const styleFinishCell = (element) => {
     element.style.backgroundImage = `url('${arrow.default}')`
