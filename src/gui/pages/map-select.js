@@ -10,7 +10,7 @@ const mapNames = [
   "Laying tracks",
   "Staging cars",
   "Adrift by strategem",
-  "Technical drift positions",
+  "Tactical drift positions",
   "Horsepower",
   "Slipline & speed",
   "Manouvering",

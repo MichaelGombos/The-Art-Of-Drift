@@ -69,74 +69,74 @@ const replays = [
 {
   easy: {
     replay: map1Easy,
-    time: "00:00:28"
+    time: "00:01:02.099"
   },
   normal: {
     replay: map1Normal,
-    time: "00:00:25"
+    time: "00:00:40.506"
   }
   ,
   hard: {
     replay: map1Hard,
-    time: "00:00:18"
+    time: "00:00:32.120"
   },
-  author: { //TODO author replay
+  author: { 
     replay: map1Author,
-    time: "00:00:10"
+    time: "00:00:28.648"
   }
 },
  {
   easy: {
     replay: map2Easy,
-    time: "00:00:19"
+    time: "00:00:57.506"
   },
   normal: {
     replay: map2Normal,
-    time: "00:00:16"
+    time: "00:00:46.116"
   },
   hard: {
     replay: map2Hard,
-    time: "00:00:14"
+    time: "00:00:31.703"
   },
   author: {
     replay: map2Author,
-    time: "00:00:10"
+    time: "00:00:30.297"
   }
 },
 {
   easy: {
     replay: map3Easy,
-    time: "00:00:22"
+    time: "00:00:45.802"
   },
   normal: {
     replay: map3Normal,
-    time: "00:00:14"
+    time: "00:00:35.965"
   },
   hard: {
     replay: map3Hard,
-    time: "00:00:13"
+    time: "00:00:33.099"
   },
   author: {
     replay: map3Author,
-    time: "00:00:10"
+    time: "00:00:31.035"
   }
 },
 {
   easy: {
     replay: map4Easy,
-    time: "00:00:37"
+    time: "00:00:50.977"
   },
   normal: {
     replay: map4Normal,
-    time: "00:00:25"
+    time: "00:00:46.297"
   },
   hard: {
     replay: map4Hard,
-    time: "00:00:24"
+    time: "00:00:40.099"
   },
   author: {
     replay: map4Author,
-    time: "00:00:10"
+    time: "00:00:36.901"
   }
 },
  {

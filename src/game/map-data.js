@@ -14,16 +14,16 @@ import map11 from "./maps/map11.js"
 import map12 from "./maps/map12.js"
 import map13 from "./maps/map13.js"
 
-let maps = [
+let allMaps = [
   {
     data: map1,
     spawnAngle : 335,
-    lapCount:5,
+    lapCount:4,
   },
   {
     data:map2,
     spawnAngle : 295,
-    lapCount:2
+    lapCount:3
   }
   ,
   {
@@ -33,8 +33,8 @@ let maps = [
   },
   {
     data:map4,
-    spawnAngle : 90,
-    lapCount:5
+    spawnAngle : 290,
+    lapCount:3
   },
   {
     data:map5,
@@ -82,5 +82,7 @@ let maps = [
     lapCount:5
   }
 ]
+
+let maps = allMaps.slice(0,4)
 
 export {freeplay,test,maps};

@@ -56,6 +56,11 @@ let pauseBuffers = [];
 let pauseBuffer = 0;
 let lastRunTime = 0;
 
+let startTime = 0;
+let endTime = 0;
+let timeChunk = 0;
+let timeChunks = []
+
 /* Direction key state */
 const directions = {
   up: "up",
@@ -91,7 +96,7 @@ let pixelSize = parseInt(
 );
 let gridCellSize = pixelSize * tilePixelCount;
 
-let seconds = 0;
+let milliseconds = 0;
 let timeString = "00:00:00";
 
 let enableGhost = true;
@@ -145,7 +150,7 @@ const resetCarValues = () => {
 
   updateCarSpawnPosition();
   ghostStep = 0;
-  seconds = 0;
+  milliseconds = 0;
   replayExport = [];
 }
 const setMapData = (map,replay) => {
@@ -195,7 +200,6 @@ const generateMap = (inputData) => {
 
   document.documentElement.style.setProperty("--rows", rows);
   document.documentElement.style.setProperty("--columns", columns);
-  console.log()
   updateCarSpawnPosition();
 
 }
@@ -233,10 +237,9 @@ function msToTime(s) {
   return pad(hrs) + ':' + pad(mins) + ':' + pad(secs) + '.' + pad(ms, 3);
 }
 
-const incrementSeconds = () => {
+const updateTimer = () => {
   //get current running time by getting current time, then comparing to start time
-  currentTime = performance.now();
-  elapsedTime = currentTime - originTime;
+
 
 
   if (getRunning() && !car.getEngineLock()) {
@@ -250,15 +253,13 @@ const incrementSeconds = () => {
       
       elapsedTime -= pauseBuffers.reduce((buffer, reduce) => buffer+reduce);
       
-      //Setting aside old time logic for now
-      // seconds += 1;
-      // var date = new Date(0);
-      // date.setSeconds(seconds); 
-      // timeString = date.toISOString().substring(11, 22);
+      
 
+      //real time
       timeString = msToTime(elapsedTime)
-
       lastRunTime = currentTime;
+      // game time
+      // timeString = msToTime(timeChunks.reduce((chunk,reducer) => chunk + reducer)*10)
   }{ 
     pauseBuffer = currentTime - lastRunTime;
     //increase pauseBuffer
@@ -267,14 +268,11 @@ const incrementSeconds = () => {
 const placeGhost = (stepCount) => {
     let ghost_held_directions = mapData.replay[stepCount]
     
-    if (ghost_held_directions) {
-        
-        
-        
+    if (ghost_held_directions && ghost_held_directions.length > 0) {
         if (speed != 0) {
-          if (ghost_held_directions.includes(directions.shift)) {
-            ghostCar.engageDrift()
-          }
+            if (ghost_held_directions.includes(directions.shift)) {
+              ghostCar.engageDrift()
+            }
           //turn
             if (ghost_held_directions.includes(directions.right)) {
                 ghostCar.turn("right");
@@ -399,6 +397,7 @@ const placeCharacter = () => {
   }
 
   replayExport.push([...held_directions])
+  // console.log(replayExport);
   car.updateAngleLock()
   car.stabalizeDriftForce();
   car.stabalizeAngle()
@@ -459,6 +458,11 @@ const placeCharacter = () => {
 // TODO characterSprite.style.transform = `rotate(${car.getAngle().facing}deg)`;
 // ghostCharacterSprite.style.transform = `rotate(${ghostCar.getAngle().facing}deg)`;
 const step = () => {
+
+
+  currentTime = performance.now();
+  elapsedTime = currentTime - originTime;
+  
   const now = performance.now();
   while (times.length > 0 && times[0] <= now - 1000) {
     times.shift();
@@ -505,7 +509,7 @@ export {
   getTimeString,
   getMapData,
   checkGameOver,
-  incrementSeconds,
+  updateTimer,
   step,
   resetCarValues,
   getEnableGhost,

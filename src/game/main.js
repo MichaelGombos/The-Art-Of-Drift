@@ -1,6 +1,6 @@
 import {
     generateMap,
-    incrementSeconds,
+    updateTimer,
     step,
     resetCarValues,
 } from "./game.js"
@@ -15,7 +15,7 @@ const mapInput = document.querySelector("#map-input")
 
 let running = false;
 
-setInterval(incrementSeconds, 50)
+setInterval(updateTimer, 10)
 
 const handleUpload = (e) => {
     generateMap(JSON.parse("[" + mapInput.value + "]")[0])
