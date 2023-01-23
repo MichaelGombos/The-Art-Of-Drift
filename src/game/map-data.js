@@ -14,6 +14,73 @@ import map11 from "./maps/map11.js"
 import map12 from "./maps/map12.js"
 import map13 from "./maps/map13.js"
 
-let maps = [map1,map2,map3,map4,map5,map6,map7,map8,map9,map10,map11,map12,map13]
+let maps = [
+  {
+    data: map1,
+    spawnAngle : 335,
+    lapCount:5,
+  },
+  {
+    data:map2,
+    spawnAngle : 295,
+    lapCount:2
+  }
+  ,
+  {
+    data:map3,
+    spawnAngle : 305,
+    lapCount:2
+  },
+  {
+    data:map4,
+    spawnAngle : 90,
+    lapCount:5
+  },
+  {
+    data:map5,
+    spawnAngle : 90,
+    lapCount:5
+  },
+  {
+    data:map6,
+    spawnAngle : 90,
+    lapCount:5
+  },
+  {
+    data:map7,
+    spawnAngle : 90,
+    lapCount:5
+  },
+  {
+    data:map8,
+    spawnAngle : 90,
+    lapCount:5
+  },
+  {
+    data:map9,
+    spawnAngle : 90,
+    lapCount:5
+  },
+  {
+    data:map10,
+    spawnAngle : 90,
+    lapCount:5
+  },
+  {
+    data:map11,
+    spawnAngle : 90,
+    lapCount:5
+  },
+  {
+    data:map12,
+    spawnAngle : 90,
+    lapCount:5
+  },
+  {
+    data:map13,
+    spawnAngle : 90,
+    lapCount:5
+  }
+]
 
 export {freeplay,test,maps};

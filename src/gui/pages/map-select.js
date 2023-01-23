@@ -99,9 +99,9 @@ const MapDetail = ({setter,screenSetter, mapIndex}) => {
   useEffect(() => {
     const mapPreviewCanvas = document.getElementById("map-preview");
     const mapPreviewContext = mapPreviewCanvas.getContext("2d")
-    mapPreviewCanvas.width = maps[mapIndex][0].length;
-    mapPreviewCanvas.height = maps[mapIndex].length;
-    drawCanvasMap(mapPreviewContext, maps[mapIndex])
+    mapPreviewCanvas.width = maps[mapIndex].data[0].length;
+    mapPreviewCanvas.height = maps[mapIndex].data.length;
+    drawCanvasMap(mapPreviewContext, maps[mapIndex].data)
   })
 
   return(

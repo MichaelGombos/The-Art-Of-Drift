@@ -21,7 +21,7 @@ import {
   styleCar,
   styleFinishCell
 } from "./graphics.js"
-
+import {maps} from "./map-data.js"
 import {generateMiniMap,updateMiniMapPlayers} from "./mini-map.js"
 
 let debug = 0;
@@ -31,6 +31,7 @@ let debug = 0;
 let car = createCar(false);
 let ghostCar = createCar(true);
 let ghostStep = 0; //kind of like dubstep, but for ghosts. 
+let maxLaps = undefined;
 let replayExport = []
 
 let secondsPassed = 0;
@@ -116,14 +117,21 @@ const getTimeString = () => {return timeString}
 const getTilePixelCount = () => {return tilePixelCount}
 
 const updateCarSpawnPosition = () => {
+  characterSprite.style.transform = `rotate(${maps[mapIndex].spawnAngle}deg)`;
+  ghostCharacterSprite.style.transform = `rotate(${maps[mapIndex].spawnAngle}deg)`;
+
+  car.setAngle(maps[mapIndex].spawnAngle,maps[mapIndex].spawnAngle)
   car.setX(spawn.x * tilePixelCount)
   car.setY(spawn.y * tilePixelCount)
-
+  ghostCar.setAngle(maps[mapIndex].spawnAngle,maps[mapIndex].spawnAngle)
   ghostCar.setX(spawn.x * tilePixelCount)
   ghostCar.setY(spawn.y * tilePixelCount)
+
 }
 
 const resetCarValues = () => {
+
+   
   elapsedTime = 0;
   pauseBuffer = 0;
   pauseBuffers = [0];
@@ -132,16 +140,18 @@ const resetCarValues = () => {
   styleCar(characterSprite);
   styleCar(ghostCharacterSprite);
   
-  updateCarSpawnPosition();
   car.resetValues()
   ghostCar.resetValues();
+
+  updateCarSpawnPosition();
   ghostStep = 0;
   seconds = 0;
   replayExport = [];
 }
 const setMapData = (map,replay) => {
+  maxLaps = map.lapCount;
   mapData = {
-    map:map,
+    map:map.data,
     replay:replay
   };
   generateMap(mapData.map)
@@ -190,7 +200,7 @@ const generateMap = (inputData) => {
 
 }
 
-const checkGameOver = (currentLap, maxLaps) => {
+const checkGameOver = (currentLap) => {
   if (currentLap >= maxLaps) {
       car.setEngineLock(true); //disbales acceleration
       ghostCar.setEngineLock(true); //disbales acceleration
@@ -336,7 +346,7 @@ const placeGhost = (stepCount) => {
 const placeCharacter = () => {
   //update stats
   stats.time.innerHTML = timeString;
-  stats.lap.innerHTML = `${car.getLap()}/${car.getMaxLaps()}`;
+  stats.lap.innerHTML = `${car.getLap()}/${maxLaps}`;
   stats.x.innerHTML = car.getX().toFixed(2);
   stats.y.innerHTML = car.getY().toFixed(2);
   stats.speed.innerHTML = car.getSpeed().toFixed(2);
@@ -446,8 +456,8 @@ const placeCharacter = () => {
 
 
 }
-characterSprite.style.transform = `rotate(${car.getAngle().facing}deg)`;
-ghostCharacterSprite.style.transform = `rotate(${ghostCar.getAngle().facing}deg)`;
+// TODO characterSprite.style.transform = `rotate(${car.getAngle().facing}deg)`;
+// ghostCharacterSprite.style.transform = `rotate(${ghostCar.getAngle().facing}deg)`;
 const step = () => {
   const now = performance.now();
   while (times.length > 0 && times[0] <= now - 1000) {

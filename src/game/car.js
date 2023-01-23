@@ -63,6 +63,9 @@ const createCar = (isGhost) => {
         value ? turnTime++ : turnTime = 0;
         turning = value;
     }
+    const setAngle = (moving,facing) => {
+        angle = {moving,facing}
+    }
 
     const resetValues = () => {
         speed = 0;
@@ -71,6 +74,7 @@ const createCar = (isGhost) => {
             facing: 0,
         }
         lap = 0;
+        checkPointLap = 0;
         engineLock = false;
     }
 
@@ -538,6 +542,7 @@ const createCar = (isGhost) => {
         setY,
         setEngineLock,
         setTurning,
+        setAngle,
         //functions
         resetValues,
         updateAngleLock,
