@@ -122,13 +122,15 @@ const getTimeString = () => {return timeString}
 const getTilePixelCount = () => {return tilePixelCount}
 
 const updateCarSpawnPosition = () => {
-  characterSprite.style.transform = `rotate(${maps[mapIndex].spawnAngle}deg)`;
-  ghostCharacterSprite.style.transform = `rotate(${maps[mapIndex].spawnAngle}deg)`;
+  if(maps[mapIndex]){
+    characterSprite.style.transform = `rotate(${maps[mapIndex].spawnAngle}deg)`;
+    ghostCharacterSprite.style.transform = `rotate(${maps[mapIndex].spawnAngle}deg)`;
 
-  car.setAngle(maps[mapIndex].spawnAngle,maps[mapIndex].spawnAngle)
+    car.setAngle(maps[mapIndex].spawnAngle,maps[mapIndex].spawnAngle)
+    ghostCar.setAngle(maps[mapIndex].spawnAngle,maps[mapIndex].spawnAngle)
+  }
   car.setX(spawn.x * tilePixelCount)
   car.setY(spawn.y * tilePixelCount)
-  ghostCar.setAngle(maps[mapIndex].spawnAngle,maps[mapIndex].spawnAngle)
   ghostCar.setX(spawn.x * tilePixelCount)
   ghostCar.setY(spawn.y * tilePixelCount)
 

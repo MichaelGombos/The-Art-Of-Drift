@@ -1,5 +1,5 @@
-import freeplay from "./maps/freeplay.js"
-import test from "./maps/test.js"
+import mapfreeplay from "./maps/freeplay.js"
+import maptest from "./maps/test.js"
 import map1 from "./maps/map1.js"
 import map2 from "./maps/map2.js"
 import map3 from "./maps/map3.js"
@@ -13,6 +13,20 @@ import map10 from "./maps/map10.js"
 import map11 from "./maps/map11.js"
 import map12 from "./maps/map12.js"
 import map13 from "./maps/map13.js"
+
+let freeplay =
+  {
+    data: mapfreeplay,
+    spawnAngle : 0,
+    lapCount:4,
+  }
+
+let test =
+  {
+    data: maptest,
+    spawnAngle : 90,
+    lapCount:4,
+  }
 
 let allMaps = [
   {
