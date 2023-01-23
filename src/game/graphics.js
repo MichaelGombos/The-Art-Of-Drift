@@ -17,7 +17,6 @@ let particles = [];
 let particleLimit = 1000;
 //graphics 
 const createDriftParticle = (carX, carY, driftForce, carAngle) => {
-  let newParticles = []
   let particle = (xDif,yDif,sizeMultiplier,angleModifier,className) => {
       let x = carX + xDif;
       let y = carY + yDif;
@@ -27,7 +26,7 @@ const createDriftParticle = (carX, carY, driftForce, carAngle) => {
       element.classList.add("particle");
       element.classList.add(className);
       if(className == "skid-mark"){
-        element.style.width = 11;
+        element.style.width = 8;
         element.style.height = 3;
       }
       else{
@@ -38,10 +37,10 @@ const createDriftParticle = (carX, carY, driftForce, carAngle) => {
   }
 
   let skidParticles = [
-    particle(1,2,3,0,"skid-mark"), 
-    particle(1,-2,3,0,"skid-mark"), 
-    particle(-1,2,3,0,"skid-mark"),
-    particle(-1,-2,3,0,"skid-mark")
+    particle(2,2,3,0,"skid-mark"), 
+    particle(2,-2,3,0,"skid-mark"), 
+    particle(-2,2,3,0,"skid-mark"),
+    particle(-2,-2,3,0,"skid-mark")
   ] 
 
   let smokeParticle = particle(
@@ -84,9 +83,7 @@ const displayDriftParticles = (x,y ,driftForce, onDirt,angle) => {
   let domParticles = Array.from(mapParticles.children) 
 
   if (driftForce > 1.5 && !onDirt) {
-      const particleX = x - ((.8) * Math.cos(angle.moving * Math.PI / 180));
-      const particleY = y - ((.8) * Math.sin(angle.moving * Math.PI / 180));
-      createDriftParticle(particleX, particleY, driftForce, angle);
+      createDriftParticle(x, y, driftForce, angle);
   }
  
   //delete drift particle if more than 100

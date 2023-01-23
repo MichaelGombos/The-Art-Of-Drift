@@ -357,9 +357,8 @@ li.bronze-unlocked .medal{
   width: calc( var(--grid-cell) * 2);
   height: calc( var(--grid-cell) * 2);
   position: absolute;
-  overflow:hidden;
-  /* testing */
-  border: 1px solid white;
+/* 
+  border: 1px solid white; */
 }
 
 
@@ -367,7 +366,8 @@ li.bronze-unlocked .medal{
  .character_spritesheet, .ghost_spritesheet{
   z-index: 0;
   position: relative;
-
+  bottom:50%;
+  right:50%;
   background:  no-repeat no-repeat;
 
   background-position:center;
@@ -377,8 +377,8 @@ li.bronze-unlocked .medal{
 
 
 }
-.ghost_spritesheet{
-  background-color:rgba(255, 255, 255, 0.449);
+.ghost_spritesheet{ 
+  opacity: 1;
 }
 @keyframes particle-fade {
   from{opacity:1;}
@@ -395,7 +395,7 @@ li.bronze-unlocked .medal{
 }
 
 .particle.skid-mark{
-  background-color:#e69501;
+  background-color:#787878;
   max-height:20px;
   max-width:20px;
 }
@@ -422,15 +422,15 @@ li.bronze-unlocked .medal{
 }
 
 .road{
-  background-color:orange;
+  background-color: darkgrey;
 }
 
 .wall{
-  background-color:red;
+  background-color:#cdffc5;
 }
 
 .dirt{
-  background-color:rgb(131, 76, 25);
+  background-color: rgb(3 119 0);
 }
 
 .spawn{
@@ -458,20 +458,16 @@ li.bronze-unlocked .medal{
 }
 
 .check-point-left-road{
-  background-color: rgb(210, 136, 0);
-  transform: rotate(180deg);
+  background-color: #8a8a8a;
 }
 .check-point-right-road{
-  background-color: rgb(210, 136, 0);
-  transform: rotate(90deg);
+  background-color: #8a8a8a;
 }
 .check-point-left-dirt{
-  background-color:rgb(101, 59, 19);
-  transform: rotate(180deg);
+  background-color:rgb(2 89 0);
 }
 .check-point-right-dirt{
-  transform: rotate(90deg);
-  background-color:rgb(101, 59, 19);
+  background-color:rgb(2 89 0);
 }
 
 .map-grid{
