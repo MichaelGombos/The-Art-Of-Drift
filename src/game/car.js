@@ -6,9 +6,9 @@ import {createDirtParticle, createDriftParticle,displayDriftParticles,particles}
 
 //defines car physics 
 const createCar = (isGhost) => {
-    const acceleration = .015;
+    const acceleration = .014;
     const friction = .003;
-    const maxSpeed = 7;
+    const maxSpeed = 8;
     const maxLaps = 5;
     let lap = 0;
     let checkPointLap = 0;
@@ -29,8 +29,8 @@ const createCar = (isGhost) => {
     }
     let engineLock = false;
 
-    const tireGrip = 1.5;
-    let turningSpeed = 5;
+    const tireGrip = 1.1;
+    let turningSpeed = 4;
     let underSteering = 1;
     
     let onDirt = false;
@@ -173,7 +173,7 @@ const createCar = (isGhost) => {
     const stabalizeDriftForce = () => {
 
         if (speed < 1.5 || driftForce <= 1.05) {
-            driftForce =  1;
+            driftForce = 1;
         } 
         else if (driftForce > 7){
             driftForce = 7;
@@ -219,22 +219,22 @@ const createCar = (isGhost) => {
                 underSteering = 1
                 break;
             case (Math.abs(speed) > .25 && Math.abs(speed) < 1.5):
-                underSteering = 1
+                underSteering = .9
                 break;
             case (Math.abs(speed) > 1.5 && Math.abs(speed) < 2.5):
-                underSteering = 1
-                break;
-            case (Math.abs(speed) > 2.5 && Math.abs(speed) < 3.5):
-                underSteering = 1
-                break;
-            case (Math.abs(speed) > 3.5 && Math.abs(speed) < 4):
-                underSteering = 1
-                break;
-            case (Math.abs(speed) > 4 && Math.abs(speed) < 4.5):
                 underSteering = .8
                 break;
+            case (Math.abs(speed) > 2.5 && Math.abs(speed) < 3.5):
+                underSteering = .7
+                break;
+            case (Math.abs(speed) > 3.5 && Math.abs(speed) < 4):
+                underSteering = .7
+                break;
+            case (Math.abs(speed) > 4 && Math.abs(speed) < 4.5):
+                underSteering = .6
+                break;
             case (Math.abs(speed) > 4.5):
-                underSteering = .9
+                underSteering = .6
                 break;
             default:
                 underSteering = 1;
@@ -277,13 +277,20 @@ const createCar = (isGhost) => {
     }    
 
     const engageDrift = () => {
-        if(turning){
-            driftForce += .075;
+        if(driftForce < 3){
+            driftForce += .1;
         }
+        if(driftForce > 3){
+            driftForce += .50;
+        }
+        
     }
     const accelerate = ( forward) => {
         if (Math.abs(speed) <= maxSpeed && !engineLock) {
             if (forward) {
+                if(speed < maxSpeed/4){
+                    speed += acceleration * 2;
+                }
                 speed += acceleration;
             } 
             else {
@@ -317,7 +324,12 @@ const createCar = (isGhost) => {
             }
 
             //turn
-            angle.facing += turningSpeed * underSteering;
+            if(driftForce > 3){
+                angle.facing += turningSpeed; //ignore understeering on drift
+            }
+            else{
+                angle.facing += turningSpeed * underSteering;
+            }
             angle.moving += turningSpeed / driftForce;
 
             //degree correction
@@ -343,8 +355,12 @@ const createCar = (isGhost) => {
                 }
             }
 
-            //turn
-            angle.facing -= turningSpeed * underSteering;
+            if(driftForce > 3){
+                angle.facing -= turningSpeed; //ignore understeering on drift
+            }
+            else{
+                angle.facing -= turningSpeed * underSteering;
+            }
             angle.moving -= turningSpeed / driftForce;
 
             //degree correction
@@ -415,7 +431,7 @@ const createCar = (isGhost) => {
             if (collidingWithValue(2,"y",mapData,tilePixelCount) || collidingWithValue(2,"x",mapData,tilePixelCount)) {
                 onDirt = true;
                 if (speed > 1) {
-                    speed = speed / 1.03;
+                    speed = speed / 1.05;
                     createDirtParticle(x, y);
                 }
                 // if(turning){
