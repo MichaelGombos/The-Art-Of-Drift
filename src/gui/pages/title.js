@@ -2,7 +2,7 @@ import React from 'react';
 
 const Title = ({setter}) => {
   return (
-    <div className="menu title" onClick= {() => setter("main")}>
+    <div className="menu title" onClick= {() => setter("enter-name")}>
       The art of Drift<br/>
       (click the screen to start)
     </div>

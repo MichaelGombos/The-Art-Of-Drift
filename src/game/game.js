@@ -489,9 +489,13 @@ const step = () => {
 
 document.addEventListener("keydown", (e) => {
   const dir = keys[e.which];
-  if (dir == "up" || dir == "down") {
+  //check if current focus isn't an input
+  if(document.activeElement.tagName != "INPUT"){
+    if (dir == "up" || dir == "down") {
       e.preventDefault();
+    }
   }
+
   if (dir && held_directions.indexOf(dir) === -1) {
       held_directions.unshift(dir)
   }

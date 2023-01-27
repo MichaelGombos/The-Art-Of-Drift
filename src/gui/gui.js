@@ -6,6 +6,7 @@ import {freeplay, test, map1, map2, map3, map4, map5} from  "../game/map-data.js
 import {replay1, replay2, replay3, replay4, replay5} from "../game/replay.js"
 
 //pages
+import EnterName from "./pages/enter-name.js"
 import Finish from "./pages/finish.js"
 import Hidden from "./pages/hidden.js"
 import MapSelect from "./pages/map-select.js"
@@ -67,6 +68,9 @@ const Menu = ({type, setType}) => {
   else if(type == "finish"){
     return <Finish setter={setType}/> 
   }
+  else if(type == "enter-name"){
+    return <EnterName setter={setType}/> 
+  }
   else{
     display = <div>display buggin</div>
   }
@@ -88,7 +92,7 @@ class GUI extends Component {
     this.setState( {type: type})
   } 
   navigateMenu = (event) => {
-    if(this.state.type != "hidden"){
+    if(this.state.type != "hidden" &&  document.activeElement.tagName != "INPUT"  ){
       let menuList = Array.from(document.querySelector(".menu").querySelectorAll("button,select ,input"));
 
       let firstButton = menuList[0]
