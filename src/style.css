@@ -537,7 +537,18 @@ textarea{
   height:150px;
 }
 
-#map-preview{
+.preview-wrapper{
+  width:200px;
   height:200px;
 }
+#map-preview{
+  width:100%;
+}
 
+#leaderboard .column{
+  gap:5px;
+}
+#leaderboard li{
+  font-weight:normal;
+  font-size:12px;
+}

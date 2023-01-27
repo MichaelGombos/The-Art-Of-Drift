@@ -1,10 +1,28 @@
-import React, { useEffect } from 'react';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
+
+import { useCollectionData } from 'react-firebase-hooks/firestore';
+
+import React, { useState , useEffect } from 'react';
 
 import {resetGame} from "../../game/main.js"
 import {setMapData,setEnableGhost,getEnableGhost,setGameMapIndex} from "../../game/game.js"
 import { maps} from  "../../game/map-data.js"
 import { replays } from "../../game/replay.js"
 import { drawCanvasMap } from '../../game/graphics.js';
+import { map } from '../../game/elements.js';
+
+firebase.initializeApp({
+  apiKey: "AIzaSyDTGF6K4sLCAszEdJlBZsbFahZiFr-zkA8",
+  authDomain: "the-art-of-drift.firebaseapp.com",
+  projectId: "the-art-of-drift",
+  storageBucket: "the-art-of-drift.appspot.com",
+  messagingSenderId: "469347431957",
+  appId: "1:469347431957:web:35dbf2311619fad7f6801c",
+  measurementId: "G-68K0WQF6PS"
+})
+
+const firestore = firebase.firestore();
 
 const mapNames = [
   "Laying tracks",
@@ -22,7 +40,6 @@ const mapNames = [
   "The speeds of high"
 ]
 
-const {useState} = React
 
 const setMap = (index,difficulty) => {
   if(difficulty == "personalBest"){
@@ -85,6 +102,12 @@ const MapList = ({setter,screenSetter,setGUIMapIndex}) => {
 }
 
 const MapDetail = ({setter,screenSetter, mapIndex}) => {
+  //firebase
+  const leaderboardRef = firestore.collection("leaderboards").doc("desktop").collection(`map${mapIndex+1}`)
+  const query = leaderboardRef.orderBy('time').limit(10);
+
+  const leaderBoardTimes = useCollectionData(query, {idField : 'id'})[0]
+
   let [newEnableGhost, setNewEnableGhost] = useState(getEnableGhost());
   let [difficulty, setDifficulty] = useState("easy");
   const pb = localStorage.getItem(`pb${mapIndex}`);
@@ -108,14 +131,25 @@ const MapDetail = ({setter,screenSetter, mapIndex}) => {
     <div className="menu map-select">
       <h1>{mapNames[mapIndex]}</h1>
       <div className="map-info row">
-        <canvas id="map-preview"></canvas>
         <div className="player-stats">
-          <h3>BEST TIME {pb || "UNSET"}</h3>
+          <h3>LOCAL BEST: {pb || "UNSET"}</h3>
           <ul className="column">
             {medals.gold ? <li className={`row ${medals.author ? "author-unlocked" : null}`}><div className={`medal`}></div><p>author : {replays[mapIndex].author.time}</p></li> : null}
             <li className={`row ${medals.gold ? "gold-unlocked" : null}`}><div className={`medal`}></div><p>gold : {replays[mapIndex].hard.time}</p></li>
             <li className={`row ${medals.silver ? "silver-unlocked" : null}`}><div className={`medal`}></div><p>silver : {replays[mapIndex].normal.time}</p></li>
             <li className={`row ${medals.bronze ? "bronze-unlocked" : null}`}><div className={`medal`}></div><p>bronze : {replays[mapIndex].easy.time}</p></li>
+          </ul>
+        </div>
+        <div className='preview-wrapper'>
+          <canvas id="map-preview"></canvas>
+        </div>
+        <div id="leaderboard">
+          <h3>GLOBAL LEADERBOARD</h3>
+          <ul className="column">
+            {leaderBoardTimes && leaderBoardTimes.map((racerInfo,index) => {
+              console.log(leaderBoardTimes)
+              return( <li key={racerInfo.playerName}>#{index + 1} {racerInfo.time} {racerInfo.playerName} </li>)
+            })}
           </ul>
         </div>
       </div>
