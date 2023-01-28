@@ -272,9 +272,6 @@ const placeGhost = (stepCount) => {
     
     if (ghost_held_directions && ghost_held_directions.length > 0) {
         if (speed != 0) {
-            if (ghost_held_directions.includes(directions.shift)) {
-              ghostCar.engageDrift()
-            }
           //turn
             if (ghost_held_directions.includes(directions.right)) {
                 ghostCar.turn("right");
@@ -301,6 +298,7 @@ const placeGhost = (stepCount) => {
     ghostCar.updateAngleLock()
     ghostCar.stabalizeDriftForce();
     ghostCar.stabalizeAngle()
+    ghostCar.updateTireGrip();
     ghostCar.updateUnderSteering();
 
   if (ghostCar.getSpeed() != 0) {
@@ -308,13 +306,6 @@ const placeGhost = (stepCount) => {
       //friction
       ghostCar.applyFriction();
   }
-
-  
-  
-  //understeering
-
-
-
 
   //Limits (gives the illusion of walls)
   //set the right and bottom limit to the image size in the dom
@@ -372,9 +363,6 @@ const placeCharacter = () => {
   if (held_directions.length > 0) {
       
       if (speed != 0) {
-          if (held_directions.includes(directions.shift)) {
-              car.engageDrift()
-          }
           //turn
           if (held_directions.includes(directions.right)) {
               car.turn("right");
@@ -403,6 +391,7 @@ const placeCharacter = () => {
   car.updateAngleLock()
   car.stabalizeDriftForce();
   car.stabalizeAngle()
+  car.updateTireGrip();
   car.updateUnderSteering();
   displayDriftParticles(car.getX(), car.getY(), car.getDriftForce(), car.getOnDirt(), car.getAngle());
 
