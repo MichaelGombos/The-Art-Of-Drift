@@ -172,7 +172,7 @@ const createCar = (isGhost) => {
     }
 
     const stabalizeDriftForce = () => {
-        if (speed < 1.5 || driftForce <= 1.05) {
+        if (speed < 2 || driftForce <= 1.05) {
             driftForce = 1;
         } 
         else if (driftForce > 7){

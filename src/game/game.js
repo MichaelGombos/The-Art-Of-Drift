@@ -67,10 +67,9 @@ const directions = {
   down: "down",
   left: "left",
   right: "right",
-  shift: "shift"
 }
 const keys = {
-  16: directions.shift,
+  16: directions.down,
   32: directions.down,
   38: directions.up,
   37: directions.left,

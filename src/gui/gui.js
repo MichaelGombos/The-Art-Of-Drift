@@ -83,7 +83,7 @@ class GUI extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      type: "main",
+      type: "title",
       navIndex: null
     }
     window.changeMenu = this.handleTypeChange;
