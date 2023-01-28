@@ -204,6 +204,13 @@ button:active:hover{
   gap:30px;
 }
 
+.menu.map-select .map-info > div{
+  width: 200px;
+}
+.menu.map-select .map-info > div p{
+  font-size: 12px;
+}
+
 .menu.map-select .map-info ul{
   gap: 20px;
 }

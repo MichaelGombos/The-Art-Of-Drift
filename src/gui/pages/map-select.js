@@ -132,7 +132,7 @@ const MapDetail = ({setter,screenSetter, mapIndex}) => {
       <h1>{mapNames[mapIndex]}</h1>
       <div className="map-info row">
         <div className="player-stats">
-          <h3>LOCAL BEST: {pb || "UNSET"}</h3>
+          <h4>Personal Best: {pb || "UNSET"}</h4>
           <ul className="column">
             {medals.gold ? <li className={`row ${medals.author ? "author-unlocked" : null}`}><div className={`medal`}></div><p>author : {replays[mapIndex].author.time}</p></li> : null}
             <li className={`row ${medals.gold ? "gold-unlocked" : null}`}><div className={`medal`}></div><p>gold : {replays[mapIndex].hard.time}</p></li>
@@ -144,7 +144,7 @@ const MapDetail = ({setter,screenSetter, mapIndex}) => {
           <canvas id="map-preview"></canvas>
         </div>
         <div id="leaderboard">
-          <h3>GLOBAL LEADERBOARD</h3>
+          <h4>Global Leaderboard</h4>
           <ul className="column">
             {leaderBoardTimes && leaderBoardTimes.map((racerInfo,index) => {
               console.log(leaderBoardTimes)
