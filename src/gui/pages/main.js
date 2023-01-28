@@ -20,7 +20,7 @@ const graphics = {
 }
 
 const {useState} = React
-localStorage.setItem("playerName","local racer")
+
 
 
 const Main = ({setter,setPrevious}) => {

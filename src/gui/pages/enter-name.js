@@ -15,7 +15,7 @@ const EnterName = ({setter}) => {
     <div className="menu enter-name" onClick= {() => setter("enter-name")}>
       <p>If you were a racer... what would your name be?</p>
       <form onSubmit={setLocalName}>
-        <input value = {nameValue} onChange={(e) => setNameValue(e.target.value)}/>
+        <input value = {nameValue} onChange={(e) => setNameValue(e.target.value)} required pattern=".*\S+.*" />
         <button type="submit">Enter</button>
       </form>
     </div>
