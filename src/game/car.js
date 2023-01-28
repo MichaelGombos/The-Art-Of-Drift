@@ -413,12 +413,17 @@ const createCar = (isGhost) => {
             let newX = x + (speedStep * Math.cos(angle.moving * Math.PI / 180));
             let newY = y + (speedStep * Math.sin(angle.moving * Math.PI / 180));
             if(axis == "y"){
-                return mapData[Math.floor(newY / tilePixelCount)][Math.floor(x / tilePixelCount)] == value
+                if(mapData[Math.floor(newY / tilePixelCount)][Math.floor(x / tilePixelCount)] == value){
+                    return true;
+                }
             }
             else if (axis == "x"){
-                return mapData[Math.floor(y / tilePixelCount)][Math.floor(newX / tilePixelCount)] == value 
+                if(mapData[Math.floor(y / tilePixelCount)][Math.floor(newX / tilePixelCount)] == value){
+                    return true;
+                }
             }
         }
+        return false;
 
     }
 
