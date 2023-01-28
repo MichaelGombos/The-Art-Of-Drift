@@ -14,6 +14,7 @@ import Title from "./pages/title.js"
 import Pause from "./pages/pause.js"
 import Main from "./pages/main.js"
 import Options from "./pages/options.js"
+import Leaderboards from "./pages/leaderboards.js"
 
 import React, {Component} from 'react';
 
@@ -70,6 +71,9 @@ const Menu = ({type, setType}) => {
   }
   else if(type == "enter-name"){
     return <EnterName setter={setType}/> 
+  }
+  else if(type == "leaderboards"){
+    return <Leaderboards setter={setType}/>
   }
   else{
     display = <div>display buggin</div>

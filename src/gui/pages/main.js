@@ -10,13 +10,15 @@ import menuGithub from "../../assets/menu/github.svg"
 import menuMapmaker from "../../assets/menu/map-maker.svg"
 import menuMapSelect from "../../assets/menu/map-select.svg"
 import menuSettings from "../../assets/menu/settings.svg"
+import menuLeaderboard from "../../assets/menu/leaderboard.svg"
 
 const graphics = {
   "free-play" : menuFreePlay,
   "github" : menuGithub,
   "map-maker" : menuMapmaker,
   "map-select" : menuMapSelect,
-  "settings" : menuSettings
+  "settings" : menuSettings,
+  "leaderboard": menuLeaderboard
 }
 
 const {useState} = React
@@ -33,6 +35,8 @@ const Main = ({setter,setPrevious}) => {
       <nav>
       <button onClick={() => setter("map select") }
       onMouseEnter={() =>setHover("map-select")}>Map Select</button>
+      <button onClick={() => setter("leaderboards")}
+      onMouseEnter={() => setHover("leaderboard")}>leaderboards</button>
       <button onClick = {()=> {
         setMapData(freeplay,[[]]);
         startGame();
@@ -50,7 +54,6 @@ const Main = ({setter,setPrevious}) => {
       >Options</button>
     </nav>
       </div>
-
       <div className="menu-splash-wrapper">
         <img className={`menu-splash menu-splash-${hover}`} src={graphics[hover]}></img>
       </div>

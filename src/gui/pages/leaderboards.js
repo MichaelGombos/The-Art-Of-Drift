@@ -5,12 +5,10 @@ import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 import React, { useState , useEffect } from 'react';
 
-import {resetGame} from "../../game/main.js"
-import {setMapData,setEnableGhost,getEnableGhost,setGameMapIndex} from "../../game/game.js"
+import {setGameMapIndex} from "../../game/game.js"
 import { maps} from  "../../game/map-data.js"
 import { replays } from "../../game/replay.js"
 import { drawCanvasMap } from '../../game/graphics.js';
-import { map } from '../../game/elements.js';
 
 firebase.initializeApp({
   apiKey: "AIzaSyDTGF6K4sLCAszEdJlBZsbFahZiFr-zkA8",
@@ -41,16 +39,8 @@ const mapNames = [
 ]
 
 
-const setMap = (index,difficulty) => {
-  if(difficulty == "personalBest"){
-    setMapData(maps[index],JSON.parse(localStorage.getItem(`pbReplay${index}`)))
-  }
-  else{ 
-    setMapData(maps[index],replays[index][difficulty]["replay"])
-  }
-}
 
-const MapSelect = ({setter}) => { 
+const Leaderboards = ({setter}) => { 
   let [mapSelectScreen, setMapSelectScreen] = useState("list"); //list or detail 
   let [index,setIndex] = useState(0);
 
@@ -61,7 +51,7 @@ const MapSelect = ({setter}) => {
   }
   else if(mapSelectScreen == "detail"){
     return(
-      <MapDetail setter ={setter} screenSetter={setMapSelectScreen} mapIndex={index}></MapDetail>
+      <Leaderboard setter ={setter} screenSetter={setMapSelectScreen} mapIndex={index}></Leaderboard>
     )
   }
 
@@ -86,9 +76,7 @@ const MapList = ({setter,screenSetter,setGUIMapIndex}) => {
 
   return (
     <div className="menu map-select">
-    GL ,':') HF 
-
-    <h2>Maps</h2>
+    <h2>LEADERBOARDS</h2>
     <div className="map-options">
       {listElements}
     </div>
@@ -100,15 +88,13 @@ const MapList = ({setter,screenSetter,setGUIMapIndex}) => {
   )
 }
 
-const MapDetail = ({setter,screenSetter, mapIndex}) => {
+const Leaderboard = ({setter,screenSetter, mapIndex}) => {
   //firebase
   const leaderboardRef = firestore.collection("leaderboards").doc("desktop").collection(`map${mapIndex+1}`)
-  const query = leaderboardRef.orderBy('time').limit(10);
+  const query = leaderboardRef.orderBy('time');
 
   const leaderBoardTimes = useCollectionData(query, {idField : 'id'})[0]
 
-  let [newEnableGhost, setNewEnableGhost] = useState(getEnableGhost());
-  let [difficulty, setDifficulty] = useState("easy");
   const pb = localStorage.getItem(`pb${mapIndex}`);
 
   const medals = {  
@@ -127,17 +113,11 @@ const MapDetail = ({setter,screenSetter, mapIndex}) => {
   })
 
   return(
-    <div className="menu map-select">
+    <div className="menu leaderboard">
       <h1>{mapNames[mapIndex]}</h1>
-      <div className="map-info row">
+      <div className="map-info">
         <div className="player-stats">
           <h4>Personal Best: {pb || "UNSET"}</h4>
-          <ul className="column">
-            {medals.gold ? <li className={`row ${medals.author ? "author-unlocked" : null}`}><div className={`medal`}></div><p>author : {replays[mapIndex].author.time}</p></li> : null}
-            <li className={`row ${medals.gold ? "gold-unlocked" : null}`}><div className={`medal`}></div><p>gold : {replays[mapIndex].hard.time}</p></li>
-            <li className={`row ${medals.silver ? "silver-unlocked" : null}`}><div className={`medal`}></div><p>silver : {replays[mapIndex].normal.time}</p></li>
-            <li className={`row ${medals.bronze ? "bronze-unlocked" : null}`}><div className={`medal`}></div><p>bronze : {replays[mapIndex].easy.time}</p></li>
-          </ul>
         </div>
         <div className='preview-wrapper'>
           <canvas id="map-preview"></canvas>
@@ -152,24 +132,6 @@ const MapDetail = ({setter,screenSetter, mapIndex}) => {
           </ul>
         </div>
       </div>
-      <button  
-      onClick={(e) => {setNewEnableGhost(!newEnableGhost)}} 
-      className={newEnableGhost ? "set" : "none"}>Click to {newEnableGhost ? "disable ghost car" : "enable ghost car"}</button>
-      <label htmlFor="difficulty">Difficulty</label>
-      <div name="difficulty" id="difficulty" className={newEnableGhost ? "enabled" : "disabled"}>
-       <button value="easy" className={difficulty == "easy" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>bronze</button>
-       <button value="normal" className={difficulty == "normal" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)} >silver</button>
-       <button value="hard" className={difficulty == "hard" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>gold</button>
-       {medals.bronze ?<button value="author" className={difficulty == "author" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>author</button> : null}
-       {localStorage.getItem(`pbReplay${mapIndex}`) ? <button value="personalBest" className={difficulty == "personalBest" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>personal best</button> : null}
-      </div>
-
-      <button onClick = {()=> {
-      setMap(mapIndex,difficulty);
-      setEnableGhost(newEnableGhost);
-      resetGame();
-      setter("hidden");
-      }}>P L A Y</button>
       <button onClick = {()=> {
       screenSetter("list")
       }}>Back</button>
@@ -177,4 +139,4 @@ const MapDetail = ({setter,screenSetter, mapIndex}) => {
   )
 }
 
-export default MapSelect;
+export default Leaderboards;
