@@ -115,6 +115,9 @@ const Leaderboard = ({setter,screenSetter, mapIndex}) => {
   return(
     <div className="menu leaderboard">
       <h1>{mapNames[mapIndex]}</h1>
+      <button onClick = {()=> {
+      screenSetter("list")
+      }}>Back</button>
       <div className="map-info">
         <div className="player-stats">
           <h4>Personal Best: {pb || "UNSET"}</h4>
@@ -132,9 +135,6 @@ const Leaderboard = ({setter,screenSetter, mapIndex}) => {
           </ul>
         </div>
       </div>
-      <button onClick = {()=> {
-      screenSetter("list")
-      }}>Back</button>
     </div>
   )
 }
