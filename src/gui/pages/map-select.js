@@ -12,6 +12,11 @@ import { replays } from "../../game/replay.js"
 import { drawCanvasMap } from '../../game/graphics.js';
 import { map } from '../../game/elements.js';
 
+import playIcon from '../../assets/map-select/play.svg';
+import playIconLight from '../../assets/map-select/play-light.svg';
+import watchIcon from '../../assets/map-select/watch.svg';
+import watchIconLight from '../../assets/map-select/watch-light.svg';
+
 firebase.initializeApp({
   apiKey: "AIzaSyDTGF6K4sLCAszEdJlBZsbFahZiFr-zkA8",
   authDomain: "the-art-of-drift.firebaseapp.com",
@@ -103,7 +108,7 @@ const MapList = ({setter,screenSetter,setGUIMapIndex}) => {
 const MapDetail = ({setter,screenSetter, mapIndex}) => {
   //firebase
   const leaderboardRef = firestore.collection("leaderboards").doc("desktop").collection(`map${mapIndex+1}`)
-  const query = leaderboardRef.orderBy('time').limit(10);
+  const query = leaderboardRef.orderBy('time').limit(5);
 
   const leaderBoardTimes = useCollectionData(query, {idField : 'id'})[0]
 
@@ -126,10 +131,22 @@ const MapDetail = ({setter,screenSetter, mapIndex}) => {
     drawCanvasMap(mapPreviewContext, maps[mapIndex].data)
   })
 
+  const handleWatchReplay = (replay) => () => {
+    setMapData(maps[mapIndex],JSON.parse(replay));
+    resetGame(true);
+    setter("hidden");
+  }
+
+  const handleRaceAgainst = (replay) => () => {
+    setMapData(maps[mapIndex],JSON.parse(replay));
+    resetGame();
+    setter("hidden");
+  }
+
   return(
     <div className="menu map-select">
       <h1>{mapNames[mapIndex]}</h1>
-      <div className="map-info row">
+      <div className="map-info">
         <div className="player-stats">
           <h4>Personal Best: {pb || "UNSET"}</h4>
           <ul className="column">
@@ -143,11 +160,18 @@ const MapDetail = ({setter,screenSetter, mapIndex}) => {
           <canvas id="map-preview"></canvas>
         </div>
         <div id="leaderboard">
-          <h4>Global Leaderboard</h4>
+          <h4>Top 5 Worldwide</h4>
           <ul className="column">
             {leaderBoardTimes && leaderBoardTimes.map((racerInfo,index) => {
               console.log(leaderBoardTimes)
-              return( <li key={racerInfo.playerName}>#{index + 1} {racerInfo.time} {racerInfo.playerName} </li>)
+              return( <li  key={racerInfo.playerName}>
+                        <div className="time-info">#{index + 1} {racerInfo.time} {racerInfo.playerName}</div> 
+                        <div className="time-menu">{racerInfo.playerInputs && 
+                        <> 
+                          <button onClick={handleWatchReplay(racerInfo.playerInputs)}><img src={watchIcon}/></button> 
+                          <button onClick={handleRaceAgainst(racerInfo.playerInputs)}><img src={playIcon}/></button>
+                        </>}</div>
+                      </li>)
             })}
           </ul>
         </div>

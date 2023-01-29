@@ -207,11 +207,37 @@ button:active:hover{
 }
 
 .menu.map-select .map-info{
+  display:grid;
+  grid-template-columns: min-content 200px min-content;
+  justify-content: center;
+  grid-auto-flow: row;
   gap:30px;
+  width:100%;
+}
+
+
+.menu.map-select .player-stats{
+  width:200px;
+}
+.menu.map-select #leaderboard{
+  width: 250px;
+}
+.menu.map-select #leaderboard li{
+ display:flex;
+  justify-content: space-between;
+}
+.menu.map-select #leaderboard li .time-menu{
+  display:flex;
+ }
+.menu.map-select #leaderboard li button{
+  padding:5px;
+}
+.menu.map-select #leaderboard li button img{
+  width:10px;
+  height:10px;
 }
 
 .menu.map-select .map-info > div{
-  width: 200px;
 }
 .menu.map-select .map-info > div p{
   font-size: 12px;
