@@ -19,7 +19,6 @@
   }
 }
 
-
 html, body {
   height: 100%;
   font-size:14px;
@@ -46,6 +45,9 @@ nav{
   display:flex;
   flex-direction:column;
   gap:10px;
+}
+button{
+  color: var(--bg);
 }
 a{
   color:white;
@@ -306,6 +308,19 @@ li.bronze-unlocked .medal{
 .menu.leaderboard .map-info .preview-wrapper{
   width:150px;
   height:fit-content;
+}
+
+.menu.leaderboard #leaderboard li{
+  display:flex;
+  justify-content: space-between;
+  gap:20px;
+}
+
+
+.menu.leaderboard #leaderboard button{
+  padding:2px 10px;
+  background-color: rgb(64, 255, 0);
+  width:120px;
 }
 
 

@@ -143,8 +143,10 @@ const Leaderboard = ({setter,screenSetter, mapIndex}) => {
           <ul className="column">
             {leaderBoardTimes && leaderBoardTimes.map((racerInfo,index) => {
               console.log(leaderBoardTimes)
-              return( <li key={racerInfo.playerName}>#{index + 1} {racerInfo.time} {racerInfo.playerName} 
-              {racerInfo.playerInputs && <> <button onClick={handleWatchReplay(racerInfo.playerInputs)}>watch replay</button> <button onClick={handleRaceAgainst(racerInfo.playerInputs)}>race against</button> </>}</li>)
+              return( <li  key={racerInfo.playerName}>
+                <div className="time-info">#{index + 1} {racerInfo.time} {racerInfo.playerName}</div> 
+                <div className="time-menu">{racerInfo.playerInputs && <> <button onClick={handleWatchReplay(racerInfo.playerInputs)}>watch replay</button> <button onClick={handleRaceAgainst(racerInfo.playerInputs)}>race against</button>    </>}</div>
+              </li>)
             })}
           </ul>
         </div>
