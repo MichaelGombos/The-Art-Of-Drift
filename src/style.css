@@ -5,7 +5,6 @@
   --rows: 20;
   --columns: 20;
   --bg: #242424;
-  
   color:white;
 }
 @media( min-width: 700px ) {
@@ -27,6 +26,7 @@ html, body {
 }
 
 body {
+  margin:0;
   background: var(--bg);
   display: flex;
   flex-direction:row;
@@ -36,7 +36,7 @@ body {
 }
 
 main{
-  width:80%;
+  width:100%;
   display:flex;
   flex-direction:column;
   align-items: center;
@@ -403,6 +403,14 @@ li.bronze-unlocked .medal{
   right:0;
 }
 
+.stats
+{
+  position:absolute;
+  z-index:1;
+  left:35;
+  top:35;
+  font-size:12px;
+}
 .camera {
   height:100vh;
   width: 100%;

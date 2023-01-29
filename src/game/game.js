@@ -99,7 +99,7 @@ let gridCellSize = pixelSize * tilePixelCount;
 let milliseconds = 0;
 let timeString = "00:00:00";
 
-let enableGhost = true;
+let enableGhost = false;
 
 // functions
 const setGameMapIndex = (index) => {
@@ -110,6 +110,7 @@ const setEnableGhost = (check) => {
   enableGhost = check;
   check ? ghostCharacter.classList.remove("hidden") : ghostCharacter.classList.add("hidden")
 }
+
 
 const getReqAnim = () => {return reqAnim}
 
@@ -122,6 +123,24 @@ const getEnableGhost = () => {return enableGhost}
 const getTimeString = () => {return timeString}
 
 const getTilePixelCount = () => {return tilePixelCount}
+
+const getStats = () => {
+  return {
+    fps : fps,
+    time: timeString,
+    lap:  `${car.getLap()}/${maxLaps}`,
+    x: car.getX().toFixed(2),
+    y: car.getY().toFixed(2),
+    speed: car.getSpeed().toFixed(2),
+    facingAngle : car.getAngle().facing.toFixed(2),
+    movingAngle : car.getAngle().moving.toFixed(2),
+    driftForce : car.getDriftForce().toFixed(2),
+    underSteering : car.getUnderSteering().toFixed(2),
+    angleLockLeft : car.getAngleLock().left,
+    angleLockRight : car.getAngleLock().right,
+    particleCount : particles.length
+  }
+}
 
 const updateCarSpawnPosition = () => {
   if(maps[mapIndex]){
@@ -213,13 +232,14 @@ const checkGameOver = (currentLap) => {
       car.setEngineLock(true); //disbales acceleration
       ghostCar.setEngineLock(true); //disbales acceleration
 
-      timeHeader.innerText = "FINAL TIME";
-      timeHeader.classList.remove("current");
-      timeHeader.classList.add("final")
+      window.updateGameOver(true)
 
       //paste replay array to export.
       replayOutput.innerText =  "[" + replayExport.map(frame => "\n[" + frame.map(command => "\"" + command + "\"" ) + "]") + "\n]";;
       window.changeMenu("finish")
+  }
+  else{
+    window.updateGameOver(false)
   }
 }
 
@@ -276,7 +296,7 @@ const placeGhost = (stepCount) => {
       car.setY(ghostCar.getY());
     }
     if (ghost_held_directions && ghost_held_directions.length > 0) {
-        if (speed != 0) {
+        if (ghostCar.getSpeed() != 0) {
           //turn
             if (ghost_held_directions.includes(directions.right)) {
                 ghostCar.turn("right");
@@ -339,21 +359,10 @@ const placeGhost = (stepCount) => {
   ghostCharacter.style.transform = `translate3d( ${ghostCar.getX()*pixelSize}px, ${ghostCar.getY()*pixelSize}px, 0 )`;
 
 }
-const placeCharacter = () => {
-  //update stats
-  stats.time.innerHTML = timeString;
-  stats.lap.innerHTML = `${car.getLap()}/${maxLaps}`;
-  stats.x.innerHTML = car.getX().toFixed(2);
-  stats.y.innerHTML = car.getY().toFixed(2);
-  stats.speed.innerHTML = car.getSpeed().toFixed(2);
-  stats.angle.facing.innerHTML = car.getAngle().facing.toFixed(2);
-  stats.angle.moving.innerHTML = car.getAngle().moving.toFixed(2);
-  stats.driftForce.innerHTML = car.getDriftForce().toFixed(2);
-  stats.underSteering.innerHTML = car.getUnderSteering().toFixed(2);
-  stats.angleLock.left.innerHTML = car.getAngleLock().left;
-  stats.angleLock.right.innerHTML = car.getAngleLock().right;
-  stats.particleCount.innerHTML = particles.length;
 
+
+const placeCharacter = () => {
+  window.updateStats && window.updateStats(getStats());
 
   pixelSize = parseInt(
       getComputedStyle(document.documentElement).getPropertyValue('--pixel-size')
@@ -367,7 +376,7 @@ const placeCharacter = () => {
   
   if (held_directions.length > 0) {
       
-      if (speed != 0) {
+      if (car.getSpeed() != 0) {
           //turn
           if (held_directions.includes(directions.right)) {
               car.turn("right");
@@ -465,7 +474,6 @@ const step = () => {
   }
   times.push(now);
   fps = times.length;
-  fpsText.innerHTML = fps;
   
   placeCharacter();
   updateMiniMapPlayers(car,ghostCar);
@@ -514,6 +522,7 @@ export {
   updateTimer,
   step,
   resetCarValues,
+  getStats,
   getEnableGhost,
   setEnableGhost,
   setGameMapIndex,
