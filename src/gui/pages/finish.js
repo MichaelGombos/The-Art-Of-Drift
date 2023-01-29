@@ -22,13 +22,14 @@ const firestore = firebase.firestore();
 
 let newBest = false;
 
-const sendTime = async(mapIndex,time,pName) => {
+const sendTime = async(mapIndex,time,pName,replay) => {
   //firebase
   const leaderboardPlayerRef = firestore.collection("leaderboards").doc("desktop").collection(`map${mapIndex+1}`).doc(pName)
 
   await leaderboardPlayerRef.set({
     time: time,
     playerName : pName,
+    playerInputs: replay,
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
   })
 }
@@ -39,7 +40,7 @@ const checkBest = (index, oldPB) => {
     localStorage.setItem(`pb${index}`,getTimeString())
     localStorage.setItem(`pbReplay${index}`,JSON.stringify(getReplayArray()))
 
-    sendTime(index, getTimeString(), localStorage.getItem("playerName"))
+    sendTime(index, getTimeString(), localStorage.getItem("playerName"), localStorage.getItem(`pbReplay${index}`))
     return true;
   }
   else{

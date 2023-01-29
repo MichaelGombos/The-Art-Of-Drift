@@ -202,7 +202,6 @@ const createCar = (isGhost) => {
         let movingAngle = angle.moving;
         let facingAngle = angle.facing;
 
-        console.log("AM I TRYING TO RUN??" + angle.moving, angle.facing)
         if (speed == 0) {
             angle.moving = angle.facing;
         } 

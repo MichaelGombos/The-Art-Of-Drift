@@ -5,7 +5,8 @@ import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 import React, { useState , useEffect } from 'react';
 
-import {setGameMapIndex} from "../../game/game.js"
+import { resetGame } from '../../game/main.js';
+import {setGameMapIndex, setMapData} from "../../game/game.js"
 import { maps} from  "../../game/map-data.js"
 import { replays } from "../../game/replay.js"
 import { drawCanvasMap } from '../../game/graphics.js';
@@ -97,6 +98,16 @@ const Leaderboard = ({setter,screenSetter, mapIndex}) => {
 
   const pb = localStorage.getItem(`pb${mapIndex}`);
 
+  const handleWatchReplay = () => {
+    
+  }
+
+  const handleRaceAgainst = (replay) => () => {
+    setMapData(maps[mapIndex],JSON.parse(replay));
+    resetGame();
+    setter("hidden");
+  }
+
   const medals = {  
     author: pb <= replays[mapIndex].author.time,
     gold : pb <= replays[mapIndex].hard.time,
@@ -130,7 +141,8 @@ const Leaderboard = ({setter,screenSetter, mapIndex}) => {
           <ul className="column">
             {leaderBoardTimes && leaderBoardTimes.map((racerInfo,index) => {
               console.log(leaderBoardTimes)
-              return( <li key={racerInfo.playerName}>#{index + 1} {racerInfo.time} {racerInfo.playerName} </li>)
+              return( <li key={racerInfo.playerName}>#{index + 1} {racerInfo.time} {racerInfo.playerName} 
+              {racerInfo.playerInputs && <> <button onClick={handleWatchReplay(racerInfo.playerInputs)}>watch replay</button> <button onClick={handleRaceAgainst(racerInfo.playerInputs)}>race against</button> </>}</li>)
             })}
           </ul>
         </div>

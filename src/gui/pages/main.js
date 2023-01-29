@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {startGame} from "../../game/main.js"
+import {resetGame, startGame} from "../../game/main.js"
 import {setMapData} from "../../game/game.js"
 import {freeplay, test} from  "../../game/map-data.js"
 
@@ -31,7 +31,7 @@ const Main = ({setter,setPrevious}) => {
   <div className="menu main">
     <div className="wrapper">
       <div>
-        <h2>Main Menu</h2>
+        <h4>Welcome, {localStorage.getItem("playerName")}</h4>
       <nav>
       <button onClick={() => setter("map select") }
       onMouseEnter={() =>setHover("map-select")}>Map Select</button>
@@ -39,7 +39,7 @@ const Main = ({setter,setPrevious}) => {
       onMouseEnter={() => setHover("leaderboard")}>leaderboards</button>
       <button onClick = {()=> {
         setMapData(freeplay,[[]]);
-        startGame();
+        resetGame();
         setter("hidden")
       }}
       onMouseEnter={() =>setHover("free-play")}
