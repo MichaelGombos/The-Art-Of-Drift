@@ -132,12 +132,14 @@ const MapDetail = ({setter,screenSetter, mapIndex}) => {
   })
 
   const handleWatchReplay = (replay) => () => {
+    setEnableGhost(true);
     setMapData(maps[mapIndex],JSON.parse(replay));
     resetGame(true);
     setter("hidden");
   }
 
   const handleRaceAgainst = (replay) => () => {
+    setEnableGhost(true);
     setMapData(maps[mapIndex],JSON.parse(replay));
     resetGame();
     setter("hidden");
