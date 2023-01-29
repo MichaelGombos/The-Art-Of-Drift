@@ -55,6 +55,7 @@ let elapsedTime = 0;
 let pauseBuffers = [];
 let pauseBuffer = 0;
 let lastRunTime = 0;
+let reqAnim;
 
 let startTime = 0;
 let endTime = 0;
@@ -110,6 +111,8 @@ const setEnableGhost = (check) => {
   check ? ghostCharacter.classList.remove("hidden") : ghostCharacter.classList.add("hidden")
 }
 
+const getReqAnim = () => {return reqAnim}
+
 const getReplayArray = () => {return replayExport}
 
 const getGameMapIndex = () => {return mapIndex}
@@ -135,7 +138,7 @@ const updateCarSpawnPosition = () => {
 
 }
 
-const resetCarValues = () => {
+const resetCarValues = (inSpectateMode) => {
 
    
   elapsedTime = 0;
@@ -146,7 +149,7 @@ const resetCarValues = () => {
   styleCar(characterSprite);
   styleCar(ghostCharacterSprite);
   
-  car.resetValues()
+  car.resetValues(inSpectateMode)
   ghostCar.resetValues();
 
   updateCarSpawnPosition();
@@ -268,7 +271,10 @@ const updateTimer = () => {
 }
 const placeGhost = (stepCount) => {
     let ghost_held_directions = mapData.replay[stepCount]
-    
+    if(car.getInSpectateMode()){
+      car.setX(ghostCar.getX());
+      car.setY(ghostCar.getY());
+    }
     if (ghost_held_directions && ghost_held_directions.length > 0) {
         if (speed != 0) {
           //turn
@@ -468,7 +474,8 @@ const step = () => {
     ghostStep++;
   }
   if(getRunning()){
-    window.requestAnimationFrame(step)
+    reqAnim = window.requestAnimationFrame(step)
+    return;
   }
 }
 
@@ -499,6 +506,7 @@ document.addEventListener("keyup", (e) => {
 
 export {
   generateMap,
+  getReqAnim,
   getTilePixelCount,
   getTimeString,
   getMapData,

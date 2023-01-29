@@ -141,7 +141,7 @@ class GUI extends Component {
   onKeyPressed = () => (e) => {
     if(e.key == "r"){
       if(this.state.type == "hidden"){
-        setTimeout(resetGame,100)
+        setTimeout(resetGame,20)
       }
     } 
     else if(e.key == "p" || e.key == "Escape"){

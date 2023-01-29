@@ -1,5 +1,6 @@
 import {
     generateMap,
+    getReqAnim,
     updateTimer,
     step,
     resetCarValues,
@@ -21,24 +22,29 @@ const handleUpload = (e) => {
     generateMap(JSON.parse("[" + mapInput.value + "]")[0])
 }
 
-const resetGame = () => {
+const resetGame = (inSpectateMode) => {
     pauseGame();
-    setTimeout(startGame,20)
+    setTimeout(startGame(inSpectateMode),20)
 }
 
-const startGame = () => {
-    resetCarValues();
+const startGame = (inSpectateMode) => {
+
+    window.cancelAnimationFrame(getReqAnim());
+    resetCarValues(inSpectateMode);
     clearParticles();
     unPauseGame();
 }
 
 const unPauseGame = () => {
-    running = true;
-    step();
+    if(!running){
+        running = true;
+        step();
+    }
 }
 
 const pauseGame = () => {
     running = false;
+    return;
 }
 
 const getRunning = () => {

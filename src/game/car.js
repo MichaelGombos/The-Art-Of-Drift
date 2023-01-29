@@ -2,6 +2,8 @@ import {
     checkGameOver
 } from "./game.js";
 
+import { characterSprite } from "./elements.js";
+
 import {createDirtParticle, createDriftParticle,displayDriftParticles,particles} from "./graphics.js"
 
 //defines car physics 
@@ -43,8 +45,11 @@ const createCar = (isGhost) => {
         left: false,
         right: false
     };
+
+    let isSpectating;
     let turning = false;
     //getters
+    const getInSpectateMode = () => {return isSpectating}
     const getMaxLaps = () => {return maxLaps}
     const getLap = () => {return lap}
     const getAngle = () => {return angle}
@@ -68,7 +73,22 @@ const createCar = (isGhost) => {
         angle = {moving,facing}
     }
 
-    const resetValues = () => {
+    const resetValues = (inSpectateMode) => {
+
+        if(!isGhost){
+            if(inSpectateMode){
+                //do that ghost car shit!
+                characterSprite.style.opacity = 0;
+                engineLock = true;
+                isSpectating = true;
+            }
+            else if (!inSpectateMode){
+                characterSprite.style.opacity = 1;
+                engineLock = false;
+                isSpectating = false;
+            }
+        }
+
         speed = 0;
         angle = {
             moving: 0,
@@ -76,7 +96,6 @@ const createCar = (isGhost) => {
         }
         lap = 0;
         checkPointLap = 0;
-        engineLock = false;
     }
 
     const reduceSpeed = () => { //wall/border
@@ -560,6 +579,7 @@ const createCar = (isGhost) => {
     
     return {
         //getters
+        getInSpectateMode,
         getMaxLaps,
         getLap,
         getAngle,

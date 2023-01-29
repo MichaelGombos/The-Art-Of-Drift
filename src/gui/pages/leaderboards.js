@@ -98,8 +98,10 @@ const Leaderboard = ({setter,screenSetter, mapIndex}) => {
 
   const pb = localStorage.getItem(`pb${mapIndex}`);
 
-  const handleWatchReplay = () => {
-    
+  const handleWatchReplay = (replay) => () => {
+    setMapData(maps[mapIndex],JSON.parse(replay));
+    resetGame(true);
+    setter("hidden");
   }
 
   const handleRaceAgainst = (replay) => () => {

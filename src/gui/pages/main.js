@@ -39,7 +39,7 @@ const Main = ({setter,setPrevious}) => {
       onMouseEnter={() => setHover("leaderboard")}>leaderboards</button>
       <button onClick = {()=> {
         setMapData(freeplay,[[]]);
-        resetGame();
+        startGame();
         setter("hidden")
       }}
       onMouseEnter={() =>setHover("free-play")}

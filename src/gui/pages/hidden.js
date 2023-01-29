@@ -10,7 +10,7 @@ const Hidden = ({setter}) => {
       setter("pause");
       pauseGame();
       } }>Open menu</button>
-      <button onClick = {() => {setTimeout(resetGame,100)}}>Reset</button>
+      <button onClick = {() => {setTimeout(resetGame,1)}}>Reset</button>
     </div>
   )
 }
