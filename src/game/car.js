@@ -82,11 +82,14 @@ const createCar = (isGhost) => {
                 engineLock = true;
                 isSpectating = true;
             }
-            else if (!inSpectateMode){
+            else{
                 characterSprite.style.opacity = 1;
                 engineLock = false;
                 isSpectating = false;
             }
+        }
+        else if(isGhost){
+            engineLock = false;
         }
 
         speed = 0;
