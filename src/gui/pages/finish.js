@@ -2,8 +2,8 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 
 import React, { useMemo } from 'react';
-import { getTimeString, getGameMapIndex, getReplayArray } from '../../game/game.js';
-
+import { setMapData, getTimeString, getGameMapIndex, getReplayArray, setEnableGhost } from '../../game/game.js';
+import { maps } from '../../game/map-data.js';
 import {resetGame} from "../../game/main.js"
 
 firebase.initializeApp({
@@ -18,7 +18,9 @@ firebase.initializeApp({
 
 const firestore = firebase.firestore();
 
-
+const racePB = (index) => {
+ setMapData(maps[index],JSON.parse(localStorage.getItem(`pbReplay${index}`)))
+}
 
 let newBest = false;
 
@@ -74,6 +76,15 @@ const Finish = ({setter}) => {
             resetGame();
             setter("hidden")
           }}>Restart Race</button>
+
+          {newBest && 
+          <button onClick = {()=> {
+            racePB(mapIndex,localStorage.getItem(`pbReplay${mapIndex}`));
+            setEnableGhost(true);
+            resetGame();
+            setter("hidden");
+            }}>Race New Best</button>
+          }
 
           <button onClick={() => {
             setter("map select");
