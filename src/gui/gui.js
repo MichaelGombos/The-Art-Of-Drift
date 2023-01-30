@@ -13,7 +13,7 @@ import MapSelect from "./pages/map-select.js"
 import Title from "./pages/title.js"
 import Pause from "./pages/pause.js"
 import Main from "./pages/main.js"
-import Options from "./pages/options.js"
+import Settings from "./pages/settings.js"
 import Leaderboards from "./pages/leaderboards.js"
 
 import React, {Component} from 'react';
@@ -59,8 +59,8 @@ const Menu = ({type, setType}) => {
     
     return <Main setter ={setType} setPrevious = {setPreviousType}/>
   }
-  else if(type == "options"){
-    return <Options setter ={setType} previous = {previousType} showStats={isStatsHidden} setShowStats={setIsStatsHidden}/>
+  else if(type == "settings"){
+    return <Settings setter ={setType} previous = {previousType} showStats={isStatsHidden} setShowStats={setIsStatsHidden}/>
   }
   else if(type == "title"){
     return <Title setter ={setType}/> 

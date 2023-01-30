@@ -47,11 +47,11 @@ const Main = ({setter,setPrevious}) => {
       <a href="https://michaelgombos.github.io/browser-driving-map-creator/"> <button onMouseEnter={() =>setHover("map-maker")}>Map Maker</button> </a>
       <a href="https://github.com/MichaelGombos/browser-driving-demo"> <button onMouseEnter={() =>setHover("github")}>Github</button> </a>
       <button onClick={() => {
-        setter("options");
+        setter("settings");
         setPrevious("main")
       }}
       onMouseEnter={() =>setHover("settings")}
-      >Options</button>
+      >Settings</button>
     </nav>
       </div>
       <div className="menu-splash-wrapper">

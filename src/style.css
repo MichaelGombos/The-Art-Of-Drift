@@ -176,6 +176,23 @@ button:active:hover{
 .menu.main .menu-splash.menu-splash-leaderboard{
   height:70%;
 }
+
+.menu.options .settings-wrapper{
+  display:flex;
+  flex-direction: column;
+  gap:20px;
+  width:450px;
+}
+
+.menu.options {
+}
+.menu.options button{
+  width:100%;
+  text-align: start;
+}
+.menu.options input{
+  width:100%;
+}
 .menu.options.from-main{
   background-color:grey;
 }

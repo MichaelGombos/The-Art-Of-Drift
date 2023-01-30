@@ -12,8 +12,8 @@ const Pause = ({setter,setPrevious}) => {
       }}>Return to game</button>
       <button onClick={() => {
         setPrevious("pause")
-        setter("options");
-      }}>Options</button>
+        setter("settings");
+      }}>Settings</button>
       <button onClick={() => {
         setPrevious("main")
         setter("main");
