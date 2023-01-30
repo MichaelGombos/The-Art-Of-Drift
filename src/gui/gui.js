@@ -45,8 +45,10 @@ const navKeys = {
 const Menu = ({type, setType}) => {
   let display;
   const [previousType,setPreviousType] = useState('title')
+  const [isStatsHidden,setIsStatsHidden] = useState(true);
+
   if(type == "hidden"){
-    return <Hidden setter={setType}/>
+    return <Hidden setter={setType} showStats={isStatsHidden} />
 
   }
   else if(type == "pause"){
@@ -58,7 +60,7 @@ const Menu = ({type, setType}) => {
     return <Main setter ={setType} setPrevious = {setPreviousType}/>
   }
   else if(type == "options"){
-    return <Options setter ={setType} previous = {previousType}/>
+    return <Options setter ={setType} previous = {previousType} showStats={isStatsHidden} setShowStats={setIsStatsHidden}/>
   }
   else if(type == "title"){
     return <Title setter ={setType}/> 

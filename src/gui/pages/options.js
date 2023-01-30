@@ -5,7 +5,7 @@ import {setParticleLimit,getParticleLimit} from "../../game/graphics.js"
 
 const {useState} = React
 
-const Options = ({setter,previous}) => {
+const Options = ({setter,previous, showStats, setShowStats}) => {
   let [newEnableGhost, setNewEnableGhost] = useState(getEnableGhost());
   let [newParticleLimit,setNewParticleLimit] = useState(getParticleLimit());
   let [gameDataSafeteyNet,setGameDataSafeteyNet] = useState(3);
@@ -13,6 +13,8 @@ const Options = ({setter,previous}) => {
   return (
     <div className={`menu options ${previous == "main" ? "from-main" : null}`}>
     <h2>options</h2>
+
+    <button className={showStats ? "set" : ""} onClick={() =>setShowStats(!showStats)}>{showStats ? "Disable Full Stats HUD" : "Enable Full Stats HUD"}</button>
     <label htmlFor="ghost-selector">Enable Ghost Car  </label>
     <button  
     onClick={(e) => {setNewEnableGhost(!newEnableGhost)}} 
