@@ -171,7 +171,6 @@ const resetCarValues = (inSpectateMode) => {
   
   car.resetValues(inSpectateMode)
   ghostCar.resetValues();
-  nameGhost('');
 
   updateCarSpawnPosition();
   ghostStep = 0;
@@ -179,6 +178,7 @@ const resetCarValues = (inSpectateMode) => {
   replayExport = [];
 }
 const setMapData = (map,replay) => {
+  nameGhost('');
   maxLaps = map.lapCount;
   mapData = {
     map:map.data,
