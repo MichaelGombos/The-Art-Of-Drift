@@ -1,4 +1,4 @@
-import {map, mapParticles, ghostCharacter, characterSprite, ghostCharacterSprite} from "./elements.js"
+import {map, mapParticles, ghostCharacter, characterSprite, ghostCharacterSprite, ghostCharacterNameTag} from "./elements.js"
 const arrow = require("../assets/arrow.svg");
 const car = require("../assets/car.svg");
 
@@ -11,6 +11,14 @@ const styleFinishCell = (element) => {
 //style cars
 const styleCar = (element) => {
     element.style.backgroundImage = `url('${car.default}')`
+}
+
+const nameGhost = (name) => {
+  ghostCharacterNameTag.innerHTML = name;
+}
+
+const colorCar = () => {
+
 }
 
 let particles = [];
@@ -129,4 +137,4 @@ const getParticleLimit = () => {
     return particleLimit;
 }
 
-export {createDirtParticle, createDriftParticle,clearParticles, displayDriftParticles,setParticleLimit,getParticleLimit, particles, styleFinishCell, styleCar, drawCanvasMap}
+export {createDirtParticle, createDriftParticle,clearParticles, displayDriftParticles,setParticleLimit,getParticleLimit, particles, styleFinishCell, styleCar, nameGhost, drawCanvasMap}

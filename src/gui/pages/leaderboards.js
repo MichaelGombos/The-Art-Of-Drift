@@ -9,7 +9,7 @@ import { resetGame } from '../../game/main.js';
 import {setGameMapIndex, setMapData, setEnableGhost} from "../../game/game.js"
 import { maps} from  "../../game/map-data.js"
 import { replays } from "../../game/replay.js"
-import { drawCanvasMap } from '../../game/graphics.js';
+import { drawCanvasMap , nameGhost} from '../../game/graphics.js';
 
 firebase.initializeApp({
   apiKey: "AIzaSyDTGF6K4sLCAszEdJlBZsbFahZiFr-zkA8",
@@ -98,17 +98,19 @@ const Leaderboard = ({setter,screenSetter, mapIndex}) => {
 
   const pb = localStorage.getItem(`pb${mapIndex}`);
 
-  const handleWatchReplay = (replay) => () => {
-    setMapData(maps[mapIndex],JSON.parse(replay));
+  const handleWatchReplay = (replay,name) => () => {
     setEnableGhost(true);
+    setMapData(maps[mapIndex],JSON.parse(replay));
     resetGame(true);
+    nameGhost(name);
     setter("hidden");
   }
 
-  const handleRaceAgainst = (replay) => () => {
-    setMapData(maps[mapIndex],JSON.parse(replay));
+  const handleRaceAgainst = (replay,name) => () => {
     setEnableGhost(true);
+    setMapData(maps[mapIndex],JSON.parse(replay));
     resetGame();
+    nameGhost(name);
     setter("hidden");
   }
 
@@ -147,7 +149,7 @@ const Leaderboard = ({setter,screenSetter, mapIndex}) => {
               console.log(leaderBoardTimes)
               return( <li  key={racerInfo.playerName}>
                 <div className="time-info">#{index + 1} {racerInfo.time} {racerInfo.playerName}</div> 
-                <div className="time-menu">{racerInfo.playerInputs && <> <button onClick={handleWatchReplay(racerInfo.playerInputs)}>watch replay</button> <button onClick={handleRaceAgainst(racerInfo.playerInputs)}>race against</button>    </>}</div>
+                <div className="time-menu">{racerInfo.playerInputs && <> <button onClick={handleWatchReplay(racerInfo.playerInputs, racerInfo.playerName)}>watch replay</button> <button onClick={handleRaceAgainst(racerInfo.playerInputs, racerInfo.playerName)}>race against</button>    </>}</div>
               </li>)
             })}
           </ul>

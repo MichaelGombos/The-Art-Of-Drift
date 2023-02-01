@@ -461,6 +461,15 @@ li.bronze-unlocked .medal{
   border: 1px solid white; */
 }
 
+.driver-name{
+  font-weight:normal;
+  font-size:10px;
+  position:absolute;
+  white-space: nowrap;
+  bottom:15px;
+  transform: translate(-50%, -50%);
+}
+
 
 
  .character_spritesheet, .ghost_spritesheet{

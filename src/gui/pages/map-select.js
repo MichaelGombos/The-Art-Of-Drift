@@ -9,7 +9,7 @@ import {resetGame} from "../../game/main.js"
 import {setMapData,setEnableGhost,getEnableGhost,setGameMapIndex} from "../../game/game.js"
 import { maps} from  "../../game/map-data.js"
 import { replays } from "../../game/replay.js"
-import { drawCanvasMap } from '../../game/graphics.js';
+import { drawCanvasMap, nameGhost } from '../../game/graphics.js';
 import { map } from '../../game/elements.js';
 
 import playIcon from '../../assets/map-select/play.svg';
@@ -45,13 +45,24 @@ const mapNames = [
   "The speeds of high"
 ]
 
+const ghostNames = {
+  easy : "Bronze",
+  normal : "Silver",
+  hard : "Gold",
+  author : "Author"
+}
 
-const setMap = (index,difficulty) => {
+
+
+const setMap = (index,difficulty) => { //sets map returns ghost name
   if(difficulty == "personalBest"){
     setMapData(maps[index],JSON.parse(localStorage.getItem(`pbReplay${index}`)))
+
+    return ("personal best");
   }
   else{ 
     setMapData(maps[index],replays[index][difficulty]["replay"])
+    return (ghostNames[difficulty] + " medal");
   }
 }
 
@@ -131,17 +142,27 @@ const MapDetail = ({setter,screenSetter, mapIndex}) => {
     drawCanvasMap(mapPreviewContext, maps[mapIndex].data)
   })
 
-  const handleWatchReplay = (replay) => () => {
-    setEnableGhost(true);
-    setMapData(maps[mapIndex],JSON.parse(replay));
-    resetGame(true);
+  const handleRaceLocal = (index,difficulty) =>{
+    let ghostName = setMap(index,difficulty);
+    setEnableGhost(newEnableGhost);
+    resetGame();
+    nameGhost(ghostName)
     setter("hidden");
   }
 
-  const handleRaceAgainst = (replay) => () => {
+  const handleWatchReplay = (replay,name) => () => {
+    setEnableGhost(true);
+    setMapData(maps[mapIndex],JSON.parse(replay));
+    resetGame(true);
+    nameGhost(name);
+    setter("hidden");
+  }
+
+  const handleRaceAgainst = (replay,name) => () => {
     setEnableGhost(true);
     setMapData(maps[mapIndex],JSON.parse(replay));
     resetGame();
+    nameGhost(name);
     setter("hidden");
   }
 
@@ -170,8 +191,8 @@ const MapDetail = ({setter,screenSetter, mapIndex}) => {
                         <div className="time-info">#{index + 1} {racerInfo.time} {racerInfo.playerName}</div> 
                         <div className="time-menu">{racerInfo.playerInputs && 
                         <> 
-                          <button onClick={handleWatchReplay(racerInfo.playerInputs)}><img src={watchIcon}/></button> 
-                          <button onClick={handleRaceAgainst(racerInfo.playerInputs)}><img src={playIcon}/></button>
+                          <button onClick={handleWatchReplay(racerInfo.playerInputs, racerInfo.playerName)}><img src={watchIcon}/></button> 
+                          <button onClick={handleRaceAgainst(racerInfo.playerInputs, racerInfo.playerName)}><img src={playIcon}/></button>
                         </>}</div>
                       </li>)
             })}
@@ -191,10 +212,7 @@ const MapDetail = ({setter,screenSetter, mapIndex}) => {
       </div>
 
       <button onClick = {()=> {
-      setMap(mapIndex,difficulty);
-      setEnableGhost(newEnableGhost);
-      resetGame();
-      setter("hidden");
+      handleRaceLocal(mapIndex,difficulty);
       }}>P L A Y</button>
       <button onClick = {()=> {
       screenSetter("list")

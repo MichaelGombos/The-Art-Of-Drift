@@ -5,6 +5,7 @@ const characterSprite = document.querySelector(".character_spritesheet")
 
 const ghostCharacter = document.querySelector(".ghost");
 const ghostCharacterSprite = document.querySelector(".ghost_spritesheet")
+const ghostCharacterNameTag = document.querySelector(".ghost .driver-name")
 
 const stats = {
     time: document.querySelector("#time"),
@@ -40,6 +41,7 @@ export {
   characterSprite,
   ghostCharacter,
   ghostCharacterSprite,
+  ghostCharacterNameTag,
   stats,
   timeHeader,
   fpsText,

@@ -24,7 +24,7 @@ const handleUpload = (e) => {
 
 const resetGame = (inSpectateMode) => {
     pauseGame();
-    setTimeout(startGame(inSpectateMode),20)
+    setTimeout(startGame(inSpectateMode),1)
 }
 
 const startGame = (inSpectateMode) => {

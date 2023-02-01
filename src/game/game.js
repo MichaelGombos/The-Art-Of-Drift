@@ -19,7 +19,8 @@ import {
   displayDriftParticles,
   particles,
   styleCar,
-  styleFinishCell
+  styleFinishCell,
+  nameGhost
 } from "./graphics.js"
 import {maps} from "./map-data.js"
 import {generateMiniMap,updateMiniMapPlayers} from "./mini-map.js"
@@ -170,6 +171,7 @@ const resetCarValues = (inSpectateMode) => {
   
   car.resetValues(inSpectateMode)
   ghostCar.resetValues();
+  nameGhost('');
 
   updateCarSpawnPosition();
   ghostStep = 0;
