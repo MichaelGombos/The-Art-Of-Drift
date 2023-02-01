@@ -19,7 +19,6 @@ const Stats = ({showStats}) => {
 
     window.updateStats = refreshStats;
     window.updateGameOver = refreshGameOver;
-    console.log(showStats)
     return (
       <ul className="stats">
         <li>FPS <span id="fps">{stats.fps}</span></li>
