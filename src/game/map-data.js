@@ -72,22 +72,22 @@ let allMaps = [
   },
   {
     data:map9,
-    spawnAngle : 90,
+    spawnAngle : 270,
     lapCount:5
   },
   {
     data:map10,
-    spawnAngle : 90,
+    spawnAngle : 315,
     lapCount:5
   },
   {
     data:map11,
-    spawnAngle : 90,
+    spawnAngle : 138,
     lapCount:5
   },
   {
     data:map12,
-    spawnAngle : 90,
+    spawnAngle : 270,
     lapCount:5
   },
   {
@@ -97,6 +97,6 @@ let allMaps = [
   }
 ]
 
-let maps = allMaps.slice(0,8)
+let maps = allMaps.slice(0,12)
 
 export {freeplay,test,maps};
