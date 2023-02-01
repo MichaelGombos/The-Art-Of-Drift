@@ -6,7 +6,7 @@ import { useCollectionData } from 'react-firebase-hooks/firestore';
 import React, { useState , useEffect } from 'react';
 
 import { resetGame } from '../../game/main.js';
-import {setGameMapIndex, setMapData} from "../../game/game.js"
+import {setGameMapIndex, setMapData, setEnableGhost} from "../../game/game.js"
 import { maps} from  "../../game/map-data.js"
 import { replays } from "../../game/replay.js"
 import { drawCanvasMap } from '../../game/graphics.js';
@@ -100,12 +100,14 @@ const Leaderboard = ({setter,screenSetter, mapIndex}) => {
 
   const handleWatchReplay = (replay) => () => {
     setMapData(maps[mapIndex],JSON.parse(replay));
+    setEnableGhost(true);
     resetGame(true);
     setter("hidden");
   }
 
   const handleRaceAgainst = (replay) => () => {
     setMapData(maps[mapIndex],JSON.parse(replay));
+    setEnableGhost(true);
     resetGame();
     setter("hidden");
   }
