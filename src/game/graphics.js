@@ -2,6 +2,14 @@ import {map, mapParticles, ghostCharacter, characterSprite, ghostCharacterSprite
 const arrow = require("../assets/arrow.svg");
 const car = require("../assets/car.svg");
 
+const ghostColors = {
+  easy : "sepia(56%) saturate(3169%) hue-rotate(337deg) brightness(85%) contrast(100%)",
+  normal : "saturate(7169%) brightness(65%) contrast(101%)",
+  hard : "sepia(46%) saturate(2500.8%) hue-rotate(354deg) brightness(105%) contrast(97%)",
+  author : "sepia(46%) saturate(7169%) hue-rotate(67deg) brightness(85%) contrast(101%)",
+  personalBest : "opacity(.75)"
+}
+
 map.insertBefore(mapParticles , ghostCharacter);
 //style finish line
 const styleFinishCell = (element) => {
@@ -17,8 +25,13 @@ const nameGhost = (name) => {
   ghostCharacterNameTag.innerHTML = name;
 }
 
-const colorCar = () => {
+const colorPlayerCar = () => {
+  //TODO set+grab this from local storage
+}
 
+const colorGhostCar = (color) => {
+
+  ghostCharacterSprite.style.filter = ghostColors[color];
 }
 
 let particles = [];
@@ -137,4 +150,4 @@ const getParticleLimit = () => {
     return particleLimit;
 }
 
-export {createDirtParticle, createDriftParticle,clearParticles, displayDriftParticles,setParticleLimit,getParticleLimit, particles, styleFinishCell, styleCar, nameGhost, drawCanvasMap}
+export {createDirtParticle, createDriftParticle,clearParticles, displayDriftParticles,setParticleLimit,getParticleLimit, particles, styleFinishCell, styleCar, colorGhostCar,colorPlayerCar, nameGhost, drawCanvasMap}

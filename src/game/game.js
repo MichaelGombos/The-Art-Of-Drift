@@ -20,7 +20,8 @@ import {
   particles,
   styleCar,
   styleFinishCell,
-  nameGhost
+  nameGhost,
+  colorGhostCar
 } from "./graphics.js"
 import {maps} from "./map-data.js"
 import {generateMiniMap,updateMiniMapPlayers} from "./mini-map.js"
@@ -179,6 +180,8 @@ const resetCarValues = (inSpectateMode) => {
 }
 const setMapData = (map,replay) => {
   nameGhost('');
+  // colorGhostCar('');
+
   maxLaps = map.lapCount;
   mapData = {
     map:map.data,

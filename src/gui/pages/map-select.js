@@ -9,7 +9,7 @@ import {resetGame} from "../../game/main.js"
 import {setMapData,setEnableGhost,getEnableGhost,setGameMapIndex} from "../../game/game.js"
 import { maps} from  "../../game/map-data.js"
 import { replays } from "../../game/replay.js"
-import { drawCanvasMap, nameGhost } from '../../game/graphics.js';
+import { colorGhostCar, drawCanvasMap, nameGhost } from '../../game/graphics.js';
 import { map } from '../../game/elements.js';
 
 import playIcon from '../../assets/map-select/play.svg';
@@ -51,7 +51,6 @@ const ghostNames = {
   hard : "Gold",
   author : "Author"
 }
-
 
 
 const setMap = (index,difficulty) => { //sets map returns ghost name
@@ -147,6 +146,7 @@ const MapDetail = ({setter,screenSetter, mapIndex}) => {
     setEnableGhost(newEnableGhost);
     resetGame();
     nameGhost(ghostName)
+    colorGhostCar(difficulty);
     setter("hidden");
   }
 
