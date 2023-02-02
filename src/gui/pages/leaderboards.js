@@ -9,7 +9,7 @@ import { resetGame } from '../../game/main.js';
 import {setGameMapIndex, setMapData, setEnableGhost} from "../../game/game.js"
 import { maps} from  "../../game/map-data.js"
 import { replays } from "../../game/replay.js"
-import { drawCanvasMap , nameGhost} from '../../game/graphics.js';
+import { drawCanvasMap , nameGhost, colorGhostCar, colorPlayerCar} from '../../game/graphics.js';
 
 firebase.initializeApp({
   apiKey: "AIzaSyDTGF6K4sLCAszEdJlBZsbFahZiFr-zkA8",
@@ -98,19 +98,22 @@ const Leaderboard = ({setter,screenSetter, mapIndex}) => {
 
   const pb = localStorage.getItem(`pb${mapIndex}`);
 
-  const handleWatchReplay = (replay,name) => () => {
+  const handleWatchReplay = (replay,name,color) => () => {
     setEnableGhost(true);
     setMapData(maps[mapIndex],JSON.parse(replay));
     resetGame(true);
     nameGhost(name);
+    colorGhostCar(color)
     setter("hidden");
   }
 
-  const handleRaceAgainst = (replay,name) => () => {
+  const handleRaceAgainst = (replay,name,color) => () => {
     setEnableGhost(true);
     setMapData(maps[mapIndex],JSON.parse(replay));
     resetGame();
     nameGhost(name);
+    colorGhostCar(color)
+    colorPlayerCar()
     setter("hidden");
   }
 
@@ -149,7 +152,7 @@ const Leaderboard = ({setter,screenSetter, mapIndex}) => {
               console.log(leaderBoardTimes)
               return( <li  key={racerInfo.playerName}>
                 <div className="time-info">#{index + 1} {racerInfo.time} {racerInfo.playerName}</div> 
-                <div className="time-menu">{racerInfo.playerInputs && <> <button onClick={handleWatchReplay(racerInfo.playerInputs, racerInfo.playerName)}>watch replay</button> <button onClick={handleRaceAgainst(racerInfo.playerInputs, racerInfo.playerName)}>race against</button>    </>}</div>
+                <div className="time-menu">{racerInfo.playerInputs && <> <button onClick={handleWatchReplay(racerInfo.playerInputs, racerInfo.playerName, racerInfo.playerColor)}>watch replay</button> <button onClick={handleRaceAgainst(racerInfo.playerInputs, racerInfo.playerName, racerInfo.playerColor)}>race against</button>    </>}</div>
               </li>)
             })}
           </ul>

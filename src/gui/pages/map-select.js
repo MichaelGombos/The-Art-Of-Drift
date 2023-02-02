@@ -9,7 +9,7 @@ import {resetGame} from "../../game/main.js"
 import {setMapData,setEnableGhost,getEnableGhost,setGameMapIndex} from "../../game/game.js"
 import { maps} from  "../../game/map-data.js"
 import { replays } from "../../game/replay.js"
-import { colorGhostCar, drawCanvasMap, nameGhost } from '../../game/graphics.js';
+import { colorGhostCar, colorPlayerCar, drawCanvasMap, nameGhost } from '../../game/graphics.js';
 import { map } from '../../game/elements.js';
 
 import playIcon from '../../assets/map-select/play.svg';
@@ -147,22 +147,26 @@ const MapDetail = ({setter,screenSetter, mapIndex}) => {
     resetGame();
     nameGhost(ghostName)
     colorGhostCar(difficulty);
+    colorPlayerCar()
     setter("hidden");
   }
 
-  const handleWatchReplay = (replay,name) => () => {
+  const handleWatchReplay = (replay,name,color) => () => {
     setEnableGhost(true);
     setMapData(maps[mapIndex],JSON.parse(replay));
     resetGame(true);
     nameGhost(name);
+    colorGhostCar(color)
     setter("hidden");
   }
 
-  const handleRaceAgainst = (replay,name) => () => {
+  const handleRaceAgainst = (replay,name,color) => () => {
     setEnableGhost(true);
     setMapData(maps[mapIndex],JSON.parse(replay));
     resetGame();
     nameGhost(name);
+    colorGhostCar(color)
+    colorPlayerCar()
     setter("hidden");
   }
 
@@ -191,8 +195,8 @@ const MapDetail = ({setter,screenSetter, mapIndex}) => {
                         <div className="time-info">#{index + 1} {racerInfo.time} {racerInfo.playerName}</div> 
                         <div className="time-menu">{racerInfo.playerInputs && 
                         <> 
-                          <button onClick={handleWatchReplay(racerInfo.playerInputs, racerInfo.playerName)}><img src={watchIcon}/></button> 
-                          <button onClick={handleRaceAgainst(racerInfo.playerInputs, racerInfo.playerName)}><img src={playIcon}/></button>
+                          <button onClick={handleWatchReplay(racerInfo.playerInputs, racerInfo.playerName, racerInfo.playerColor)}><img src={watchIcon}/></button> 
+                          <button onClick={handleRaceAgainst(racerInfo.playerInputs, racerInfo.playerName, racerInfo.playerColor)}><img src={playIcon}/></button>
                         </>}</div>
                       </li>)
             })}

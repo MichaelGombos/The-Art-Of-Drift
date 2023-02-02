@@ -180,8 +180,7 @@ const resetCarValues = (inSpectateMode) => {
 }
 const setMapData = (map,replay) => {
   nameGhost('');
-  // colorGhostCar('');
-
+  
   maxLaps = map.lapCount;
   mapData = {
     map:map.data,

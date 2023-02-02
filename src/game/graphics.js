@@ -3,11 +3,23 @@ const arrow = require("../assets/arrow.svg");
 const car = require("../assets/car.svg");
 
 const ghostColors = {
+  personalBest : "opacity(.75)",
   easy : "sepia(56%) saturate(3169%) hue-rotate(337deg) brightness(85%) contrast(100%)",
   normal : "saturate(7169%) brightness(65%) contrast(101%)",
   hard : "sepia(46%) saturate(2500.8%) hue-rotate(354deg) brightness(105%) contrast(97%)",
   author : "sepia(46%) saturate(7169%) hue-rotate(67deg) brightness(85%) contrast(101%)",
-  personalBest : "opacity(.75)"
+
+}
+
+const playerColors = {
+  red : "sepia(57%) saturate(6608%) hue-rotate(289deg) brightness(90%) contrast(103%)",
+  orange : "sepia(65%) saturate(2950%) hue-rotate(304deg) brightness(110%) contrast(103%)",
+  yellow : "sepia(47%) saturate(7150%) hue-rotate(25deg) brightness(173%) contrast(100%)",
+  green : "sepia(47%) saturate(7150%) hue-rotate(70deg) brightness(113%) contrast(100%)",
+  blue : "sepia(47%) saturate(7150%) hue-rotate(157deg) brightness(86%) contrast(97%)",
+  purple : "sepia(47%) saturate(7151%) hue-rotate(259deg) brightness(106%) contrast(99%)",
+  white : "",
+  black : "saturate(3169%) hue-rotate(337deg) brightness(36%) contrast(100%)"
 }
 
 map.insertBefore(mapParticles , ghostCharacter);
@@ -26,12 +38,16 @@ const nameGhost = (name) => {
 }
 
 const colorPlayerCar = () => {
-  //TODO set+grab this from local storage
+  characterSprite.style.filter = playerColors[localStorage.getItem("playerColor")];
 }
 
 const colorGhostCar = (color) => {
-
-  ghostCharacterSprite.style.filter = ghostColors[color];
+  if(ghostColors[color]){
+    ghostCharacterSprite.style.filter = ghostColors[color];
+  }
+  else if(playerColors[color]){
+    ghostCharacterSprite.style.filter = playerColors[color]
+  }
 }
 
 let particles = [];
@@ -150,4 +166,4 @@ const getParticleLimit = () => {
     return particleLimit;
 }
 
-export {createDirtParticle, createDriftParticle,clearParticles, displayDriftParticles,setParticleLimit,getParticleLimit, particles, styleFinishCell, styleCar, colorGhostCar,colorPlayerCar, nameGhost, drawCanvasMap}
+export {createDirtParticle, createDriftParticle,clearParticles, displayDriftParticles,setParticleLimit,getParticleLimit, particles, styleFinishCell, styleCar, colorGhostCar,colorPlayerCar, nameGhost, drawCanvasMap, playerColors}
