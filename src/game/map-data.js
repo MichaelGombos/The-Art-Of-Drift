@@ -97,5 +97,20 @@ let maps = [
   }
 ]
 
+const mapNames = [
+  "Laying tracks",
+  "Staging cars",
+  "Adrift by strategem",
+  "Tactical drift positions",
+  "Horsepower",
+  "Slipline & speed",
+  "Manouvering",
+  "v8 nation tactics",
+  "The ralley in march",
+  "Hydroplane",
+  "The 9 non-first places",
+  "The attack by tire",
+  "The speeds of high"
+]
 
-export {freeplay,test,maps};
+export {freeplay,test,maps, mapNames};

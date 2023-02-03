@@ -23,7 +23,7 @@ const EnterName = ({setter}) => {
       <div className={`color-picker-border ${key == color ? "active" : ""}`}>
 
       </div>
-      <div style={{filter : playerColors[key]}} 
+      <div style={key == "red" ? {backgroundColor : "#ff5f5f"} : {filter : playerColors[key]} } 
       className='color-picker'
       onClick={() => setColor(key)}
       >

@@ -12,7 +12,7 @@ const ghostColors = {
 }
 
 const playerColors = {
-  red : "sepia(57%) saturate(6608%) hue-rotate(289deg) brightness(90%) contrast(103%)",
+  red : "sepia(60%) saturate(2088%) hue-rotate(310deg) brightness(90%) contrast(152%)",
   orange : "sepia(65%) saturate(2950%) hue-rotate(304deg) brightness(110%) contrast(103%)",
   yellow : "sepia(47%) saturate(7150%) hue-rotate(25deg) brightness(173%) contrast(100%)",
   green : "sepia(47%) saturate(7150%) hue-rotate(70deg) brightness(113%) contrast(100%)",

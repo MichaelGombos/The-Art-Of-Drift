@@ -7,9 +7,11 @@ import React, { useState , useEffect } from 'react';
 
 import { resetGame } from '../../game/main.js';
 import {setGameMapIndex, setMapData, setEnableGhost} from "../../game/game.js"
-import { maps} from  "../../game/map-data.js"
+import { maps , mapNames} from  "../../game/map-data.js"
 import { replays } from "../../game/replay.js"
 import { drawCanvasMap , nameGhost, colorGhostCar, colorPlayerCar} from '../../game/graphics.js';
+
+import MapList from '../components/map-list.js';
 
 firebase.initializeApp({
   apiKey: "AIzaSyDTGF6K4sLCAszEdJlBZsbFahZiFr-zkA8",
@@ -22,24 +24,6 @@ firebase.initializeApp({
 })
 
 const firestore = firebase.firestore();
-
-const mapNames = [
-  "Laying tracks",
-  "Staging cars",
-  "Adrift by strategem",
-  "Tactical drift positions",
-  "Horsepower",
-  "Slipline & speed",
-  "Manouvering",
-  "v8 nation tactics",
-  "The ralley in march",
-  "Hydroplane",
-  "The 9 non-first places",
-  "The attack by tire",
-  "The speeds of high"
-]
-
-
 
 const Leaderboards = ({setter}) => { 
   let [mapSelectScreen, setMapSelectScreen] = useState("list"); //list or detail 
@@ -56,37 +40,6 @@ const Leaderboards = ({setter}) => {
     )
   }
 
-}
-
-const MapList = ({setter,screenSetter,setGUIMapIndex}) => {
-
-
-  let listElements = []; 
-
-  for(let i = 0; i < maps.length; i++){
-    listElements.push(
-      <div className="map-option" key={mapNames[i]}>
-        <button onClick = {()=> {
-        setGUIMapIndex(i)
-        setGameMapIndex(i)
-        screenSetter("detail")
-        }}>#{[i+1]} {mapNames[i]}</button>
-     </div>
-    )
-  }
-
-  return (
-    <div className="menu map-select">
-    <h2>LEADERBOARDS</h2>
-    <div className="map-options">
-      {listElements}
-    </div>
-
-    <button onClick={() => {
-      setter("main");
-    }}>Back to main menu</button>
-  </div>
-  )
 }
 
 const Leaderboard = ({setter,screenSetter, mapIndex}) => {
