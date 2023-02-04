@@ -1,13 +1,15 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import {playerColors} from "../../game/graphics.js"
 
 const {useState} = React
 
 
-const EnterName = ({setter}) => {
+const EnterName = () => {
   const [nameValue, setNameValue] = useState('')
   const [color , setColor] = useState('')
+  const navigate = useNavigate();
 
   const setLocalInfo = (e) => {
     e.preventDefault();
@@ -15,7 +17,7 @@ const EnterName = ({setter}) => {
     color ? localStorage.setItem("playerColor",color) : localStorage.setItem("playerColor","white")
     setNameValue('')
     setColor('')
-    setter("main")
+    navigate("/main")
   }
   const colorPickers = Object.keys(playerColors).map((key) => {
     return (    
@@ -36,7 +38,7 @@ const EnterName = ({setter}) => {
   console.log(Object.keys(playerColors))
 
   return (
-    <div className="menu enter-name" onClick= {() => setter("enter-name")}>
+    <div className="menu enter-name">
       <form onSubmit={setLocalInfo}>
 
         <p>If you were a racer... what would your name be?</p>

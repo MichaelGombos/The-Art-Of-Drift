@@ -1,22 +1,24 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import {unPauseGame} from "../../game/main.js"
 
-const Pause = ({setter,setPrevious}) => {
+const Pause = ({setPrevious}) => {
+  const navigate = useNavigate();
+
   return (
     <div className="menu">
       <button onClick={() => {
-        setter("hidden");
+        navigate("/hidden");
       unPauseGame();
       }}>Return to game</button>
       <button onClick={() => {
         setPrevious("pause")
-        setter("settings");
+        navigate("/settings");
       }}>Settings</button>
       <button onClick={() => {
-        setPrevious("main")
-        setter("main");
+        navigate("/main");
       }}>Back to main menu</button>
     </div>
   )

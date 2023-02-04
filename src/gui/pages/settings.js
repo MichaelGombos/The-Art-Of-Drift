@@ -1,11 +1,13 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import {setEnableGhost,getEnableGhost} from "../../game/game.js"
 import {setParticleLimit,getParticleLimit} from "../../game/graphics.js"
 
 const {useState} = React
 
-const Settings = ({setter,previous, showStats, setShowStats}) => {
+const Settings = ({previous , showStats, setShowStats}) => {
+  const navigate = useNavigate();
   let [newEnableGhost, setNewEnableGhost] = useState(getEnableGhost());
   let [newParticleLimit,setNewParticleLimit] = useState(getParticleLimit());
   let [gameDataSafeteyNet,setGameDataSafeteyNet] = useState(3);
@@ -30,12 +32,12 @@ const Settings = ({setter,previous, showStats, setShowStats}) => {
           }
         }}>{gameDataSafeteyNet > 0 ? `Click ${gameDataSafeteyNet} times to delete game data` : "game Data deleted ):"}</button>
         <button onClick={() => {
-          setter(previous);
+          navigate(-1);
           setNewEnableGhost(getEnableGhost());
           setNewParticleLimit(getParticleLimit());
         }}>Exit without saving</button>
         <button className="exit-save"onClick={() => {
-          setter(previous);
+          navigate(-1);
           setEnableGhost(newEnableGhost);
           setParticleLimit(newParticleLimit);
         }}>Save and exit</button>

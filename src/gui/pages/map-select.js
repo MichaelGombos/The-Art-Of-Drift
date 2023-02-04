@@ -18,6 +18,7 @@ import watchIcon from '../../assets/map-select/watch.svg';
 import watchIconLight from '../../assets/map-select/watch-light.svg';
 
 import MapList from '../components/map-list.js';
+import { useNavigate } from 'react-router-dom';
 
 firebase.initializeApp({
   apiKey: "AIzaSyDTGF6K4sLCAszEdJlBZsbFahZiFr-zkA8",
@@ -51,18 +52,18 @@ const setMap = (index,difficulty) => { //sets map returns ghost name
   }
 }
 
-const MapSelect = ({setter}) => { 
+const MapSelect = () => { 
   let [mapSelectScreen, setMapSelectScreen] = useState("list"); //list or detail 
   let [index,setIndex] = useState(0);
 
   if(mapSelectScreen == "list"){
     return (
-      <MapList setter ={setter} screenSetter={setMapSelectScreen} setGUIMapIndex={setIndex}/>
+      <MapList  screenSetter={setMapSelectScreen} setGUIMapIndex={setIndex}/>
     )
   }
   else if(mapSelectScreen == "detail"){
     return(
-      <MapDetail setter ={setter} screenSetter={setMapSelectScreen} mapIndex={index}></MapDetail>
+      <MapDetail screenSetter={setMapSelectScreen} mapIndex={index}></MapDetail>
     )
   }
 
@@ -70,7 +71,8 @@ const MapSelect = ({setter}) => {
 
 
 
-const MapDetail = ({setter,screenSetter, mapIndex}) => {
+const MapDetail = ({screenSetter, mapIndex}) => {
+  const navigate = useNavigate();
   //firebase
   const leaderboardRef = firestore.collection("leaderboards").doc("desktop").collection(`map${mapIndex+1}`)
   const query = leaderboardRef.orderBy('time').limit(5);
@@ -103,7 +105,7 @@ const MapDetail = ({setter,screenSetter, mapIndex}) => {
     nameGhost(ghostName)
     colorGhostCar(difficulty);
     colorPlayerCar()
-    setter("hidden");
+    navigate("/hidden");
   }
 
   const handleWatchReplay = (replay,name,color) => () => {
@@ -112,7 +114,7 @@ const MapDetail = ({setter,screenSetter, mapIndex}) => {
     resetGame(true);
     nameGhost(name);
     colorGhostCar(color)
-    setter("hidden");
+    navigate("/hidden");
   }
 
   const handleRaceAgainst = (replay,name,color) => () => {
@@ -122,7 +124,7 @@ const MapDetail = ({setter,screenSetter, mapIndex}) => {
     nameGhost(name);
     colorGhostCar(color)
     colorPlayerCar()
-    setter("hidden");
+    navigate("/hidden");
   }
 
   return(

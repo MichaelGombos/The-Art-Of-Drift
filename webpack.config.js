@@ -10,12 +10,14 @@ module.exports = {
     filename : "bundle.js",
     publicPath: '/'
   },
-
   plugins: [
     new HTMLWebpackPlugin({
       template: './src/index.html'
     })
   ],
+  devServer: {
+    historyApiFallback: true
+  },
 
   module : {
     rules: [

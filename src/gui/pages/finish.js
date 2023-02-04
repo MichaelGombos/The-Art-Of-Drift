@@ -5,6 +5,7 @@ import React, { useMemo } from 'react';
 import { setMapData, getTimeString, getGameMapIndex, getReplayArray, setEnableGhost } from '../../game/game.js';
 import { maps } from '../../game/map-data.js';
 import {resetGame} from "../../game/main.js"
+import { useNavigate } from 'react-router-dom';
 
 firebase.initializeApp({
   apiKey: "AIzaSyDTGF6K4sLCAszEdJlBZsbFahZiFr-zkA8",
@@ -53,6 +54,7 @@ const checkBest = (index, oldPB) => {
 
 
 const Finish = ({setter}) => {
+  const navigate = useNavigate();
 
   let mapIndex = getGameMapIndex();
   let oldPB = localStorage.getItem(`pb${mapIndex}`);
@@ -75,7 +77,7 @@ const Finish = ({setter}) => {
         <nav>
           <button onClick={() => {
             resetGame();
-            setter("hidden")
+            navigate("/hidden")
           }}>Restart Race</button>
 
           {newBest && 
@@ -83,12 +85,12 @@ const Finish = ({setter}) => {
             racePB(mapIndex,localStorage.getItem(`pbReplay${mapIndex}`));
             setEnableGhost(true);
             resetGame();
-            setter("hidden");
+            navigate("/hidden");
             }}>Race New Best</button>
           }
 
           <button onClick={() => {
-            setter("map select");
+            navigate("/map-select");
           }}>Map Select</button>
         </nav>
       </div>

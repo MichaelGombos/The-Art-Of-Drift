@@ -240,7 +240,7 @@ const checkGameOver = (currentLap) => {
 
       //paste replay array to export.
       replayOutput.innerText =  "[" + replayExport.map(frame => "\n[" + frame.map(command => "\"" + command + "\"" ) + "]") + "\n]";;
-      window.changeMenu("finish")
+      window.changeGUIScreen("/finish")
   }
   else{
     window.updateGameOver(false)

@@ -1,9 +1,5 @@
 //game functions
 import {pauseGame,unPauseGame,startGame,resetGame} from "../game/main.js"
-import {setParticleLimit,getParticleLimit} from "../game/graphics.js"
-import {setEnableGhost,getEnableGhost,setMapData} from "../game/game.js"
-import {freeplay, test, map1, map2, map3, map4, map5} from  "../game/map-data.js"
-import {replay1, replay2, replay3, replay4, replay5} from "../game/replay.js"
 
 //pages
 import EnterName from "./pages/enter-name.js"
@@ -16,8 +12,9 @@ import Main from "./pages/main.js"
 import Settings from "./pages/settings.js"
 import Leaderboards from "./pages/leaderboards.js"
 
-import React, {Component} from 'react';
-
+import React, {Component, useEffect} from 'react';
+import { Route, Routes, useNavigate} from "react-router-dom";
+import Freeplay from "../game/maps/freeplay.js"
 
 const {useState} = React
 
@@ -46,57 +43,39 @@ const Menu = ({type, setType}) => {
   let display;
   const [previousType,setPreviousType] = useState('title')
   const [isStatsHidden,setIsStatsHidden] = useState(true);
+  const navigate = useNavigate();
+  window.changeGUIScreen = navigate;
 
-  if(type == "hidden"){
-    return <Hidden setter={setType} showStats={isStatsHidden} />
+  useEffect(() => {
+    if(location.pathname != "/main")
+    navigate("/")
+  }, [])
 
-  }
-  else if(type == "pause"){
-
-    return <Pause setter={setType} setPrevious = {setPreviousType}/>         
-  }
-  else if(type == "main"){
-    
-    return <Main setter ={setType} setPrevious = {setPreviousType}/>
-  }
-  else if(type == "settings"){
-    return <Settings setter ={setType} previous = {previousType} showStats={isStatsHidden} setShowStats={setIsStatsHidden}/>
-  }
-  else if(type == "title"){
-    return <Title setter ={setType}/> 
-  }
-  else if(type == "map select"){
-    return <MapSelect setter={setType}/> 
-  }
-  else if(type == "finish"){
-    return <Finish setter={setType}/> 
-  }
-  else if(type == "enter-name"){
-    return <EnterName setter={setType}/> 
-  }
-  else if(type == "leaderboards"){
-    return <Leaderboards setter={setType}/>
-  }
-  else{
-    display = <div>display buggin</div>
-  }
-
-  return display;
+  return (
+    <Routes>
+      <Route path="/" element={<Title/>}/>
+      <Route path="/enter-name" element={<EnterName/>}/>
+      <Route path="/main" element={<Main setPrevious={setPreviousType}/>}/>
+      <Route path="/map-select" element={<MapSelect/>} />
+      <Route path="/leaderboards" element={<Leaderboards/>} />
+      <Route path="/settings" element={<Settings previous={previousType} showStats={isStatsHidden} setShowStats={setIsStatsHidden} />} />
+      <Route path="/hidden" element={<Hidden  showStats={isStatsHidden} />}/>
+      <Route path="/pause" element={<Pause setPrevious={setPreviousType} />}/>
+      <Route path="/finish" element={<Finish/>}/>
+    </Routes>
+  )
 }
 
 class GUI extends Component {
-  
+
   constructor(props) {
     super(props);
     this.state = {
       type: "enter-name",
       navIndex: null
     }
-    window.changeMenu = this.handleTypeChange;
   }
-  handleTypeChange = (type) => {
-    this.setState( {type: type})
-  } 
+
   navigateMenu = (event) => {
     if(this.state.type != "hidden" &&  document.activeElement.tagName != "INPUT"  ){
       let menuList = Array.from(document.querySelector(".menu").querySelectorAll("button,select ,input"));

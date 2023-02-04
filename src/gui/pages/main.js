@@ -11,6 +11,7 @@ import menuMapmaker from "../../assets/menu/map-maker.svg"
 import menuMapSelect from "../../assets/menu/map-select.svg"
 import menuSettings from "../../assets/menu/settings.svg"
 import menuLeaderboard from "../../assets/menu/leaderboard.svg"
+import { useNavigate } from 'react-router-dom';
 
 const graphics = {
   "free-play" : menuFreePlay,
@@ -25,29 +26,31 @@ const {useState} = React
 
 
 
-const Main = ({setter,setPrevious}) => {
+const Main = ({setPrevious}) => {
   let [hover,setHover] = useState("map-select")
+  const navigate = useNavigate();
+
   return (
   <div className="menu main">
     <div className="wrapper">
       <div>
         <h4>Welcome, {localStorage.getItem("playerName")}</h4>
       <nav>
-      <button onClick={() => setter("map select") }
+      <button onClick={() => navigate("/map-select") }
       onMouseEnter={() =>setHover("map-select")}>Map Select</button>
-      <button onClick={() => setter("leaderboards")}
+      <button onClick={() => navigate("/leaderboards")}
       onMouseEnter={() => setHover("leaderboard")}>leaderboards</button>
       <button onClick = {()=> {
         setMapData(freeplay,[[]]);
         startGame();
-        setter("hidden")
+        navigate("/hidden")
       }}
       onMouseEnter={() =>setHover("free-play")}
       >Free Play</button>
-      <a href="https://michaelgombos.github.io/browser-driving-map-creator/"> <button onMouseEnter={() =>setHover("map-maker")}>Map Maker</button> </a>
-      <a href="https://github.com/MichaelGombos/browser-driving-demo"> <button onMouseEnter={() =>setHover("github")}>Github</button> </a>
+      <a href="https://michaelgombos.github.io/browser-driving-map-creator/" target="_blank"> <button onMouseEnter={() =>setHover("map-maker")}>Map Maker</button> </a>
+      <a href="https://github.com/MichaelGombos/browser-driving-demo" target="_blank"> <button onMouseEnter={() =>setHover("github")}>Github</button> </a>
       <button onClick={() => {
-        setter("settings");
+        navigate("/settings");
         setPrevious("main")
       }}
       onMouseEnter={() =>setHover("settings")}

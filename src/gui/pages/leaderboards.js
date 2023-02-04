@@ -12,6 +12,7 @@ import { replays } from "../../game/replay.js"
 import { drawCanvasMap , nameGhost, colorGhostCar, colorPlayerCar} from '../../game/graphics.js';
 
 import MapList from '../components/map-list.js';
+import { useNavigate } from 'react-router-dom';
 
 firebase.initializeApp({
   apiKey: "AIzaSyDTGF6K4sLCAszEdJlBZsbFahZiFr-zkA8",
@@ -25,24 +26,25 @@ firebase.initializeApp({
 
 const firestore = firebase.firestore();
 
-const Leaderboards = ({setter}) => { 
+const Leaderboards = () => { 
   let [mapSelectScreen, setMapSelectScreen] = useState("list"); //list or detail 
   let [index,setIndex] = useState(0);
 
   if(mapSelectScreen == "list"){
     return (
-      <MapList setter ={setter} screenSetter={setMapSelectScreen} setGUIMapIndex={setIndex}/>
+      <MapList screenSetter={setMapSelectScreen} setGUIMapIndex={setIndex}/>
     )
   }
   else if(mapSelectScreen == "detail"){
     return(
-      <Leaderboard setter ={setter} screenSetter={setMapSelectScreen} mapIndex={index}></Leaderboard>
+      <Leaderboard screenSetter={setMapSelectScreen} mapIndex={index}></Leaderboard>
     )
   }
 
 }
 
-const Leaderboard = ({setter,screenSetter, mapIndex}) => {
+const Leaderboard = ({screenSetter, mapIndex}) => {
+  const navigate = useNavigate();
   //firebase
   const leaderboardRef = firestore.collection("leaderboards").doc("desktop").collection(`map${mapIndex+1}`)
   const query = leaderboardRef.orderBy('time');
@@ -57,7 +59,7 @@ const Leaderboard = ({setter,screenSetter, mapIndex}) => {
     resetGame(true);
     nameGhost(name);
     colorGhostCar(color)
-    setter("hidden");
+    navigate("/hidden");
   }
 
   const handleRaceAgainst = (replay,name,color) => () => {
@@ -67,7 +69,7 @@ const Leaderboard = ({setter,screenSetter, mapIndex}) => {
     nameGhost(name);
     colorGhostCar(color)
     colorPlayerCar()
-    setter("hidden");
+    navigate("/hidden");
   }
 
   const medals = {  

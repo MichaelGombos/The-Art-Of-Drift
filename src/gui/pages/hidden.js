@@ -4,6 +4,7 @@ import React from 'react';
 import {pauseGame,resetGame} from "../../game/main.js"
 import { getStats , checkGameOver} from '../../game/game.js';
 import { useState  } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Stats = ({showStats}) => {
     const [stats, setStats ] = useState({})
@@ -44,12 +45,14 @@ const Stats = ({showStats}) => {
     )
 }
 
-const Hidden = ({setter,showStats,setShowStats}) => {
+const Hidden = ({showStats}) => {
+  const navigate = useNavigate();
+
   return (
     <>
         <div className="menu-button " >
           <button  onClick={() => {
-          setter("pause");
+          navigate("/pause");
           pauseGame();
           } }>Open menu</button>
           <button onClick = {() => {setTimeout(resetGame,1)}}>Reset</button>

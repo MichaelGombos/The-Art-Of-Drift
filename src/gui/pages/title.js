@@ -1,13 +1,14 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Title = ({setter}) => {
   return (
-    <div className="menu title" onClick= {() => {
+    <Link className="menu title" to= {
       
-      localStorage.getItem("playerName") ? setter("main") : setter("enter-name")}}>
+      localStorage.getItem("playerName") ? "/main" : "/enter-name"}>
       The art of Drift<br/>
       (click the screen to start)
-    </div>
+    </Link>
   )
 }
 

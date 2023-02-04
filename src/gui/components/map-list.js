@@ -2,11 +2,13 @@ import {setGameMapIndex} from "../../game/game.js";
 import { maps , mapNames} from  "../../game/map-data.js";
 
 import React, { useState , useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 
 
 
-const MapList = ({setter,screenSetter,setGUIMapIndex}) => {
+const MapList = ({screenSetter,setGUIMapIndex}) => {
   let listElements = []; 
+  const navigate = useNavigate()
 
   for(let i = 0; i < maps.length; i++){
     listElements.push(
@@ -30,7 +32,7 @@ const MapList = ({setter,screenSetter,setGUIMapIndex}) => {
     </div>
 
     <button onClick={() => {
-      setter("main");
+      navigate("/main");
     }}>Back to main menu</button>
   </div>
   )
