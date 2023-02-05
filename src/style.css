@@ -205,6 +205,11 @@ button:active:hover{
   font-weight: normal;
 }
 
+.disabled{
+  background-color: rgb(79, 79, 79);
+  color: gray;
+  font-weight: normal;
+}
 .menu.options .exit-save{
   background-color: rgb(175 255 179);
  }

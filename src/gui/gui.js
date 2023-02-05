@@ -1,5 +1,5 @@
 //game functions
-import {pauseGame,unPauseGame,startGame,resetGame} from "../game/main.js"
+import {pauseGame,unPauseGame,resetGame} from "../game/main.js"
 
 //pages
 import EnterName from "./pages/enter-name.js"
@@ -15,7 +15,6 @@ import Invited from "./pages/invited.js"
 
 import React, {Component, useEffect} from 'react';
 import { Route, Routes, useNavigate, Navigate} from "react-router-dom";
-import Freeplay from "../game/maps/freeplay.js"
 import InvitedPreview from "./pages/invited-preview.js"
 
 const {useState} = React
@@ -126,7 +125,6 @@ class GUI extends Component {
 
 
   onKeyPressed = () => (e) => {
-    console.log("I SEE YOU", e.key)
     if(e.key == "r"){
       if(location.pathname == "/hidden"){
         setTimeout(resetGame,20)

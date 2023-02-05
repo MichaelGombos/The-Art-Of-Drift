@@ -1,7 +1,7 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { setMapData, getTimeString, getGameMapIndex, getReplayArray, setEnableGhost } from '../../game/game.js';
 import { maps } from '../../game/map-data.js';
 import {resetGame} from "../../game/main.js"
@@ -55,12 +55,16 @@ const checkBest = (index, oldPB) => {
 
 const Finish = ({setter}) => {
   const navigate = useNavigate();
+  const [inviteCopied, setInviteCopied] = useState(false);
+  const copyToClipboard = str => {
+    if (navigator && navigator.clipboard && navigator.clipboard.writeText)
+      return navigator.clipboard.writeText(str);
+    return Promise.reject('The Clipboard API is not available.');
+  };
 
+  let playerName = localStorage.getItem("playerName")
   let mapIndex = getGameMapIndex();
   let oldPB = localStorage.getItem(`pb${mapIndex}`);
-
-
-  
 
   useMemo(() => {
       newBest = checkBest(mapIndex, oldPB);
@@ -75,6 +79,9 @@ const Finish = ({setter}) => {
           <p>Your best: {localStorage.getItem(`pb${mapIndex}`)}</p>
         </div>
         <nav>
+          <button className = {inviteCopied && "disabled"}onClick={() => {
+            copyToClipboard(`http://www.theartofdrift.com/invited?racer=${playerName}&map=${mapIndex}`).then(setInviteCopied(true));
+          }}>{inviteCopied ? "Copied!" : "Copy Invite Link"}</button>
           <button onClick={() => {
             resetGame();
             navigate("/hidden")
