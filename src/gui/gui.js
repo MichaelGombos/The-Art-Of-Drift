@@ -11,10 +11,12 @@ import Pause from "./pages/pause.js"
 import Main from "./pages/main.js"
 import Settings from "./pages/settings.js"
 import Leaderboards from "./pages/leaderboards.js"
+import Invited from "./pages/invited.js"
 
 import React, {Component, useEffect} from 'react';
-import { Route, Routes, useNavigate} from "react-router-dom";
+import { Route, Routes, useNavigate, Navigate} from "react-router-dom";
 import Freeplay from "../game/maps/freeplay.js"
+import InvitedPreview from "./pages/invited-preview.js"
 
 const {useState} = React
 
@@ -47,7 +49,7 @@ const Menu = ({type, setType}) => {
   window.changeGUIScreen = navigate;
 
   useEffect(() => {
-    if(location.pathname != "/main")
+    if(!location.pathname.includes("/invited"))
     navigate("/")
   }, [])
 
@@ -62,6 +64,9 @@ const Menu = ({type, setType}) => {
       <Route path="/hidden" element={<Hidden  showStats={isStatsHidden} />}/>
       <Route path="/pause" element={<Pause setPrevious={setPreviousType} />}/>
       <Route path="/finish" element={<Finish/>}/>
+      <Route path="/invited" element={<Invited/>}/>
+      <Route path="/invited/preview" element={<InvitedPreview/>}/>
+      <Route element={<Navigate to="/"/>}/>
     </Routes>
   )
 }
@@ -119,26 +124,27 @@ class GUI extends Component {
     
   }
 
+
   onKeyPressed = () => (e) => {
+    console.log("I SEE YOU", e.key)
     if(e.key == "r"){
-      if(this.state.type == "hidden"){
+      if(location.pathname == "/hidden"){
         setTimeout(resetGame,20)
       }
     } 
     else if(e.key == "p" || e.key == "Escape"){
-      if(this.state.type == "hidden"){
-        this.handleTypeChange("pause");
+      if(location.pathname == "/hidden"){
+        window.changeGUIScreen("/pause");
         pauseGame();
       }
-      else if(this.state.type == "pause"){
-        this.handleTypeChange("hidden");
+      else if(location.pathname == "/pause"){
+        window.changeGUIScreen("/hidden");
         unPauseGame();
       }
     }
     else if(Object.keys(navKeys).includes(e.key)){
       this.navigateMenu(e);
     }
-    
   }
 
   componentDidMount() {   window.addEventListener('keydown', this.onKeyPressed().bind(this) )    }

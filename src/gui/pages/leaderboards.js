@@ -1,6 +1,5 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
-
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 import React, { useState , useEffect } from 'react';
