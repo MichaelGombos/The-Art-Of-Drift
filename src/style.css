@@ -1,12 +1,42 @@
+@import "font.css";
+
 :root {
   --pixel-size: 2px;
   --tile-pixel-count: 2;
   --grid-cell: calc( var(--pixel-size) * var(--tile-pixel-count));
   --rows: 20;
   --columns: 20;
-  --bg: #242424;
+
+  --shade-100: #3e3e3e;
+  --shade-0: #ffffff;
+  --primary-50: #fdf8f1;
+  --primary-100: #f9e6cf;
+  --primary-300: #f6ca9d;
+  --primary-500: #e69c69;
+  --primary-700: #bf6f4a;
+  --primary-900: #8a4836;
+  --secondary-500: #FFA800;
+  --danger-500: #ff2525;
+  --success-500: #27B510;
+
   color:white;
+
+  --ff-h: "DisrespectfulTee";
+  --ff-p: "NESCyrillic";
+
+  font-family: var(--ff-p);
+
+  --display-1: 68px;
+  --f-h1: 61px;
+  --f-h2: 49px;
+  --f-h3: 35px;
+  --f-p1: 30px;
+  --f-p2: 18px;
 }
+
+
+
+
 @media( min-width: 700px ) {
   :root {
      --pixel-size: 3px;
@@ -20,14 +50,11 @@
 
 html, body {
   height: 100%;
-  font-size:14px;
-  font-weight: bold;
-  font-family: 'Open Sans', sans-serif;
 }
 
 body {
   margin:0;
-  background: var(--bg);
+  background: var(--shade-100);
   display: flex;
   flex-direction:row;
   gap:20px;
@@ -47,7 +74,7 @@ nav{
   gap:10px;
 }
 button{
-  color: var(--bg);
+  color: var(--shade-100);
 }
 a{
   color:white;
@@ -75,6 +102,104 @@ button:active:hover{
   background-color:orange;
   color:white;
 }
+
+
+
+/* ------ new GUI CSS ------ */
+
+.display-1,.f-h1,.f-h2,.f-h3{
+  font-family: var(--ff-h);
+}
+.f-p1,.f-p2, button{
+  font-family: var(--ff-p);
+}
+
+.display-1{
+  font-size:var(--display-1);
+}
+
+.f-h1{
+  font-size:var(--f-h1)
+}
+
+.f-h2{
+  font-size:var(--f-h2)
+}
+
+.f-h3{
+  font-size:var(--f-h3)
+}
+
+.f-p1{
+  font-size:var(--f-p1)
+}
+
+.f-p2{
+  font-size:var(--f-p2)
+}
+
+.background{
+  z-index: -1;
+  width:100%;
+  height:100%;
+  overflow: hidden;
+  position: absolute;
+  image-rendering: pixelated;
+}
+
+.background div{
+  width:200%;
+  position:absolute;
+  display:flex;
+  flex-direction: row;
+  animation: marquee 25s linear infinite;
+}
+
+.background img{
+  height:100vh;
+  width:100%;
+}
+
+@keyframes marquee {
+  0% { left: 0; }
+  100% { left: -200%; }
+}
+
+/* -- title -- */
+.menu.title .game-title h1{
+  position:relative;
+}
+.menu.title .game-title .text-main{
+  position: relative;
+  z-index:1;
+}
+.menu.title .game-title .text-style{
+  position: absolute;
+  top:10px;
+  color: var(--shade-100);
+  z-index:0;
+  scale:1.05;
+  opacity: 0.3;
+  z-index:0;
+}
+
+
+.menu.title .game-title span{
+  display:block;
+}
+
+.menu.title .game-title p{
+  width:fit-content;
+}
+
+.menu.title .game-title{
+  position: absolute;
+  bottom: 106px;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+}
+/* ----------- gui css ----------- */
 
 .stats{
   display: flex;
@@ -469,6 +594,82 @@ li.bronze-unlocked .medal{
   top:35;
   font-size:12px;
 }
+
+#import{
+  display:flex;
+  flex-direction:column;
+  align-items: center;
+  gap:20px;
+  margin:20px;
+}
+textarea{
+  background-color:rgb(0, 0, 0);
+  color:white;
+
+  width:500px;
+  height:500px;
+}
+
+
+#time{
+  width:85px;
+  text-align: right;
+}
+#time-header.current{
+  font-weight:bold;
+  color:rgb(255, 225, 0);
+}
+
+#time-header.final{
+  font-weight:bold;
+  color:rgb(20, 255, 51);
+}
+
+#replay{
+  display:flex;
+  flex-direction:column;
+  align-items: center;
+}
+
+.hidden{
+  display:none;
+}
+
+#mini-map{
+  position:absolute;
+  bottom:-1px;
+  z-index:1;
+}
+
+#map-canvas{
+  z-index:-1;
+}
+
+#player-canvas,#map-canvas{
+  position:absolute;
+  bottom: 50px;
+  width:auto;
+  height:150px;
+}
+
+.preview-wrapper{
+  width:200px;
+  height:200px;
+}
+#map-preview{
+  width:100%;
+}
+
+#leaderboard .column{
+  gap:5px;
+}
+#leaderboard li{
+  font-weight:normal;
+  font-size:12px;
+}
+
+/* ----------- game css ----------- */
+
 .camera {
   height:100vh;
   width: 100%;
@@ -626,77 +827,4 @@ li.bronze-unlocked .medal{
 .row{
   display:flex;
   flex-direction:row;
-}
-
-#import{
-  display:flex;
-  flex-direction:column;
-  align-items: center;
-  gap:20px;
-  margin:20px;
-}
-textarea{
-  background-color:rgb(0, 0, 0);
-  color:white;
-
-  width:500px;
-  height:500px;
-}
-
-
-#time{
-  width:85px;
-  text-align: right;
-}
-#time-header.current{
-  font-weight:bold;
-  color:rgb(255, 225, 0);
-}
-
-#time-header.final{
-  font-weight:bold;
-  color:rgb(20, 255, 51);
-}
-
-#replay{
-  display:flex;
-  flex-direction:column;
-  align-items: center;
-}
-
-.hidden{
-  display:none;
-}
-
-#mini-map{
-  position:absolute;
-  bottom:-1px;
-  z-index:1;
-}
-
-#map-canvas{
-  z-index:-1;
-}
-
-#player-canvas,#map-canvas{
-  position:absolute;
-  bottom: 50px;
-  width:auto;
-  height:150px;
-}
-
-.preview-wrapper{
-  width:200px;
-  height:200px;
-}
-#map-preview{
-  width:100%;
-}
-
-#leaderboard .column{
-  gap:5px;
-}
-#leaderboard li{
-  font-weight:normal;
-  font-size:12px;
 }

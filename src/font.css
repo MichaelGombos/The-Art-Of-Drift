@@ -1,0 +1,15 @@
+@font-face {
+  font-family: 'NESCyrillic';
+  src: url('./fonts/NESCyrillic.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DisrespectfulTee';
+  src: url('./fonts/DisrespectfulTee.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
