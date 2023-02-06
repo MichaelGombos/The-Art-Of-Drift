@@ -35,13 +35,19 @@ const PlayerInfoForm = ({destination}) => {
   })
 
   return (
-    <form onSubmit={setLocalInfo}>
-      <p>{origin == "title" ? "If you were a racer... what would your name be?" : "Choose a name."}</p>
-      <input value = {nameValue} onChange={(e) => setNameValue(e.target.value)} required pattern=".*\S+.*" maxLength="15" />
-      <p>Select a car color</p>
-      <div className="color-pickers">
-        {colorPickers}
+    <form className='player-info' onSubmit={setLocalInfo}>
+      <div>
+        <p>{destination == "/main" ? "If you were a racer... what would your name be?" : "Choose a name."}</p>
+        <input value = {nameValue} onChange={(e) => setNameValue(e.target.value)} required pattern=".*\S+.*" maxLength="15" />
       </div>
+
+      <div>
+        <p>Select a car color</p>
+        <div className="color-pickers">
+          {colorPickers}
+        </div>
+      </div>
+
       <button type="submit">Continue</button>
     </form>
   )

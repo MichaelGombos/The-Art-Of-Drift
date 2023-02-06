@@ -31,7 +31,8 @@
   --f-h2: 49px;
   --f-h3: 35px;
   --f-p1: 30px;
-  --f-p2: 18px;
+  --f-p2: 25px;
+  --f-p3: 18px;
 }
 
 
@@ -90,7 +91,7 @@ li{
 
 button{
   border:none;
-  padding:10px 27px;
+  padding:13px 47px;
 }
 
 button:hover, button:focus{
@@ -110,7 +111,7 @@ button:active:hover{
 .display-1,.f-h1,.f-h2,.f-h3{
   font-family: var(--ff-h);
 }
-.f-p1,.f-p2, button{
+.f-p1,.f-p2, button, input{
   font-family: var(--ff-p);
 }
 
@@ -138,6 +139,13 @@ button:active:hover{
   font-size:var(--f-p2)
 }
 
+.f-p3{
+  font-size:var(--f-p3)
+}
+
+.text-color-primary-900{
+  color:var(--primary-900)
+}
 .background{
   z-index: -1;
   width:100%;
@@ -166,14 +174,14 @@ button:active:hover{
 }
 
 /* -- title -- */
-.menu.title .game-title h1{
+h1.brand{
   position:relative;
 }
-.menu.title .game-title .text-main{
+.brand .text-main{
   position: relative;
   z-index:1;
 }
-.menu.title .game-title .text-style{
+.brand .text-style{
   position: absolute;
   top:10px;
   color: var(--shade-100);
@@ -183,12 +191,11 @@ button:active:hover{
   z-index:0;
 }
 
-
-.menu.title .game-title span{
+.brand span{
   display:block;
 }
 
-.menu.title .game-title p{
+.brand p{
   width:fit-content;
 }
 
@@ -248,20 +255,13 @@ button:active:hover{
   background-color:grey;
 }
 
-.menu.main .wrapper{
+
+.menu.main > div{
   display:flex;
-  gap:100px;
-  width:1000px;
-  flex-direction:row;
+  flex-direction:column;
   align-items: center;
 }
 
-.menu.main div{
-  display:flex;
-  flex-direction:column;
-  align-items: flex-start;
-  width: 25%;
-}
 
 .menu.main nav{
   display:flex;
@@ -269,37 +269,8 @@ button:active:hover{
   width:100%;
   gap:20px;
 }
-.menu.main nav button{
-  text-align: left;
-}
 .menu.main nav a, .menu.main nav button{
   width:100%;
-}
-.menu.main .menu-splash-wrapper{
-  width: 75%;
-  height:500px;
-  display:flex;
-  justify-content: center;
-  align-items: center;
-}
-.menu.main .menu-splash{
-  width:100%;
-  height:100%;
-}
-.menu.main .menu-splash.menu-splash-map-select{
-  width:90%;
-}
-.menu.main .menu-splash.menu-splash-map-maker{
-  width:70%;
-}
-.menu.main .menu-splash.menu-splash-github{
-  width:80%;
-}
-.menu.main .menu-splash.menu-splash-settings{
-  width:70%;
-}
-.menu.main .menu-splash.menu-splash-leaderboard{
-  height:70%;
 }
 
 .menu.options .settings-wrapper{
@@ -343,11 +314,22 @@ button:active:hover{
   background-color:rgb(95, 95, 95);
 }
 
-.menu.enter-name form{
+form.player-info{
   display:flex;
   flex-direction: column;
   align-items: center;
-  gap:10px;
+  gap:50px;
+}
+
+form.player-info > div{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.menu.enter-name input{
+  text-align: center;
+  /* set font size innna minute doe */
 }
 
 .color-pickers{
