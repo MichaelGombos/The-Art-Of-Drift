@@ -103,7 +103,9 @@ button:active:hover{
   background-color:orange;
   color:white;
 }
-
+h1,h2,h3,h4,h5,h6,p{
+  margin:0;
+}
 
 
 /* ------ new GUI CSS ------ */
@@ -202,9 +204,17 @@ h1.brand{
 .menu.title .game-title{
   position: absolute;
   bottom: 106px;
+  gap:79px;
   display:flex;
   flex-direction: column;
   align-items: center;
+}
+/* -- map-list -- */
+button.md-btn{
+  width:520px;
+}
+button.wide-btn{
+  width:100%;
 }
 /* ----------- gui css ----------- */
 
@@ -248,11 +258,11 @@ h1.brand{
   z-index:2;
   width: 100%;
   height: 100%;
-  background-color: rgb(32 32 32 / 41%);
+  background-color: var(--shade-100)
 }
 
 .menu.main{
-  background-color:grey;
+  gap:50px;
 }
 
 
@@ -266,7 +276,6 @@ h1.brand{
 .menu.main nav{
   display:flex;
   flex-direction:column;
-  width:100%;
   gap:20px;
 }
 .menu.main nav a, .menu.main nav button{
@@ -290,7 +299,6 @@ h1.brand{
   width:100%;
 }
 .menu.options.from-main{
-  background-color:grey;
 }
 .menu.options .delete-save{
   background-color: rgb(255 168 168);
@@ -311,7 +319,6 @@ h1.brand{
  }
 
 .menu.title{
-  background-color:rgb(95, 95, 95);
 }
 
 form.player-info{
@@ -368,7 +375,6 @@ form.player-info > div{
 }
 
 .menu.map-select{
-  background-color:rgb(61, 61, 61);
 }
 
 .menu.map-select .map-info{
@@ -453,17 +459,22 @@ li.bronze-unlocked .medal{
   background-color:rgb(208, 123, 63);
 }
 
-.menu.map-select .map-options{
-  width:70%;
+.menu.map-list{
+  gap:50px;
+}
+
+.menu.map-list .map-options{
+  width:520px;
   display:grid;
   grid-auto-flow: column;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: repeat(7, 1fr);
-  gap:5px 10px;
+  gap:15px 52px;
 }
 
-.menu.map-select .map-options button{
+.menu.map-list .map-options button{
   width:100%;
+  padding:13px 27px;
   text-align: left;
 }
 

@@ -23,17 +23,16 @@ const MapList = ({screenSetter,setGUIMapIndex}) => {
   }
 
   return (
-    <div className="menu map-select">
-    GL ,':') HF 
+  <div className="menu map-list">
 
-    <h2>Maps</h2>
-    <div className="map-options">
-      {listElements}
-    </div>
+      <h2 className="f-h2">MAP LIST</h2>
+      <div className="map-options">
+        {listElements}
+      </div>
 
-    <button onClick={() => {
-      navigate("/main");
-    }}>Back to main menu</button>
+      <button className="md-btn"onClick={() => {
+        navigate("/main");
+      }}>Back to main menu</button>
   </div>
   )
 }

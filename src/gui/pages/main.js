@@ -34,26 +34,24 @@ const Main = ({setPrevious}) => {
 
   return (
   <div className="menu main">
-      <div>
-          <p className='text-color-primary-900 f-p2'>Welcome, {localStorage.getItem("playerName")}</p>
-        <nav>
-        <button onClick={() => navigate("/map-select") }>Map Select</button>
-        <button onClick={() => navigate("/leaderboards")}>leaderboards</button>
-        <button onClick = {()=> {
-          setMapData(freeplay,[[]]);
-          startGame();
-          navigate("/hidden")
-        }}
-        >Free Play</button>
-        <a href="https://michaelgombos.github.io/browser-driving-map-creator/" target="_blank"> <button >Map Maker</button> </a>
-        <a href="https://github.com/MichaelGombos/browser-driving-demo" target="_blank"> <button >Github</button> </a>
-        <button onClick={() => {
-          navigate("/settings");
-          setPrevious("main")
-        }}>Settings</button>
-      </nav>
-    </div>
-    <StackedBrandText size="f-h2" content="the art of drift"/>
+      <p className='text-color-primary-900 f-p2'>Welcome, {localStorage.getItem("playerName")}</p>
+      <nav>
+      <button onClick={() => navigate("/map-select") }>Map Select</button>
+      <button onClick={() => navigate("/leaderboards")}>leaderboards</button>
+      <button onClick = {()=> {
+        setMapData(freeplay,[[]]);
+        startGame();
+        navigate("/hidden")
+      }}
+      >Free Play</button>
+      <a href="https://michaelgombos.github.io/browser-driving-map-creator/" target="_blank"> <button >Map Maker</button> </a>
+      <a href="https://github.com/MichaelGombos/browser-driving-demo" target="_blank"> <button >Github</button> </a>
+      <button onClick={() => {
+        navigate("/settings");
+        setPrevious("main")
+      }}>Settings</button>
+    </nav>
+    <StackedBrandText size="f-h2" content="main menu"/>
 
     <ScrollingBackground/>
   </div>
