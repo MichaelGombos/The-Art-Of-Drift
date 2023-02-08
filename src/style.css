@@ -94,7 +94,7 @@ button{
   padding:13px 47px;
 }
 
-button:hover, button:focus{
+button:hover{
   background-color:rgb(202, 202, 202);
   font-weight:bold;
 }
@@ -112,6 +112,7 @@ h1,h2,h3,h4,h5,h6,p{
 
 .display-1,.f-h1,.f-h2,.f-h3{
   font-family: var(--ff-h);
+  font-weight:normal;
 }
 .f-p1,.f-p2, button, input{
   font-family: var(--ff-p);
@@ -377,21 +378,53 @@ form.player-info > div{
 .menu.map-select{
 }
 
+.menu.map-select .map-info-wrapper{
+  display: flex;
+  gap: 15px;
+  flex-direction: column;
+  width:630px;
+}
 .menu.map-select .map-info{
   display:grid;
-  grid-template-columns: min-content 200px min-content;
+  grid-template-columns: 1fr 330px;
+  /* flex-direction:row; */
+  align-items: center;
   justify-content: center;
-  grid-auto-flow: row;
   gap:30px;
+}
+
+.menu.map-select .preview-wrapper{
   width:100%;
 }
-
-
+#map-preview{
+  width:100%;
+}
 .menu.map-select .player-stats{
-  width:200px;
+  width:100%;
+}
+.player-stats ul{
+  gap:8px;
+}
+.player-stats .medal-row{
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.player-stats .medal-row.locked-text{
+  color: rgb(183, 183, 183);
+}
+.player-stats .medal-row > div{
+  display:flex;
+  align-items: center;
+  gap:8px;
+}
+.menu.map-select .player-stats button{
+  width:100px;
+  padding: 13px 0;
 }
 .menu.map-select #leaderboard{
-  width: 250px;
+  width: 50%;
 }
 .menu.map-select #leaderboard li{
  display:flex;
@@ -408,55 +441,15 @@ form.player-info > div{
   height:10px;
 }
 
-.menu.map-select .map-info > div{
-}
-.menu.map-select .map-info > div p{
-  font-size: 12px;
-}
-
-.menu.map-select .map-info ul{
-  gap: 20px;
+.menu.map-select .map-info-menu{
+  display:flex;
+  flex-direction: column;
+  gap:8px;
 }
 
-.menu.map-select .map-info li{
-  gap:10px;
-  align-items: center;
-}
-
-.map-info li p{
-  color: rgb(189, 189, 189);
-  margin:0;
-  font-weight:normal;
-}
-
-.medal{
-  height:10px;
-  width:10px;
-  border-radius:50px;
-  background-color:rgb(93, 93, 93);
-  border:1px solid rgb(189, 189, 189);;
-}
-
-li.author-unlocked p,
-li.gold-unlocked p,
-li.silver-unlocked p,
-li.bronze-unlocked p
-{
+.menu.map-select .map-info-menu .play-button{
+  background-color: var(--secondary-500);
   color:white;
-  font-weight:bold;
-}
-
-li.author-unlocked .medal{
-  background-color:green;
-}
-li.gold-unlocked .medal{
-  background-color:gold;
-}
-li.silver-unlocked .medal{
-  background-color:silver;
-}
-li.bronze-unlocked .medal{
-  background-color:rgb(208, 123, 63);
 }
 
 .menu.map-list{
@@ -478,7 +471,7 @@ li.bronze-unlocked .medal{
   text-align: left;
 }
 
-.menu.map-select button:focus{
+.menu.map-select button:active{
   background-color:rgb(1, 9, 116);
   color:white;
   outline:none;
@@ -645,13 +638,7 @@ textarea{
   height:150px;
 }
 
-.preview-wrapper{
-  width:200px;
-  height:200px;
-}
-#map-preview{
-  width:100%;
-}
+
 
 #leaderboard .column{
   gap:5px;

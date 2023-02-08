@@ -17,6 +17,15 @@ import playIconLight from '../../assets/map-select/play-light.svg';
 import watchIcon from '../../assets/map-select/watch.svg';
 import watchIconLight from '../../assets/map-select/watch-light.svg';
 
+
+import star from '../../assets/map-select/star.png';
+import lockedMedal from '../../assets/map-select/medal_locked.png';
+import authorMedal from '../../assets/map-select/medal_author.png';
+import goldMedal from '../../assets/map-select/medal_gold.png';
+import silverMedal from '../../assets/map-select/medal_silver.png';
+import bronzeMedal from '../../assets/map-select/medal_bronze.png';
+
+
 import MapList from '../components/map-list.js';
 import { useNavigate } from 'react-router-dom';
 
@@ -36,7 +45,18 @@ const ghostNames = {
   easy : "Bronze",
   normal : "Silver",
   hard : "Gold",
-  author : "Author"
+  author : "Author",
+  personalBest: "best time"
+}
+
+//assets
+const ghostMedals = {
+  personalBest : star,
+  easy : bronzeMedal,
+  normal : silverMedal,
+  hard : goldMedal,
+  author : authorMedal,
+  locked : lockedMedal
 }
 
 
@@ -48,6 +68,7 @@ const setMap = (index,difficulty) => { //sets map returns ghost name
   }
   else{ 
     setMapData(maps[index],replays[index][difficulty]["replay"])
+    console.log(difficulty, "here");
     return (ghostNames[difficulty] + " medal");
   }
 }
@@ -69,7 +90,38 @@ const MapSelect = () => {
 
 }
 
+const MedalRow = ({best, medal,currentDiff, setDiff,isGhostEnabled, setNewGhostEnabled, index}) => {
 
+  const unlockedMedals = {  
+    personalBest : true,
+    author: best <= replays[index].author.time,
+    hard : best <= replays[index].hard.time,
+    normal : best <= replays[index].normal.time,
+    easy : best <= replays[index].easy.time
+  }
+
+
+  
+  if(medal == "author" && !unlockedMedals.hard){
+    return "";
+  }
+  if(medal == "personalBest" && !best){
+    return "";
+  }
+  return (  
+    <li className={`medal-row ${unlockedMedals[medal] ? "" : "locked-text"}`}>
+      <div className="medal-type"> <img src={unlockedMedals[medal] ? ghostMedals[medal] : ghostMedals["locked"]}/> {ghostNames[medal]} </div> 
+      <div className="medal-menu"> 
+        {medal == "personalBest" ? best : replays[index][medal].time}
+      <button className={(currentDiff == medal && isGhostEnabled) ? "set" : ""} onClick={ () => {
+        setDiff(medal)
+        setNewGhostEnabled(true)
+      }
+      }>{currentDiff == medal && isGhostEnabled ? "Selected!" : "select"}</button>
+      </div>
+    </li>
+  )
+}
 
 const MapDetail = ({screenSetter, mapIndex}) => {
   const navigate = useNavigate();
@@ -83,12 +135,6 @@ const MapDetail = ({screenSetter, mapIndex}) => {
   let [difficulty, setDifficulty] = useState("easy");
   const pb = localStorage.getItem(`pb${mapIndex}`);
 
-  const medals = {  
-    author: pb <= replays[mapIndex].author.time,
-    gold : pb <= replays[mapIndex].hard.time,
-    silver : pb <= replays[mapIndex].normal.time,
-    bronze : pb <= replays[mapIndex].easy.time
-  }
 
   useEffect(() => {
     const mapPreviewCanvas = document.getElementById("map-preview");
@@ -127,57 +173,42 @@ const MapDetail = ({screenSetter, mapIndex}) => {
     navigate("/hidden");
   }
 
+
   return(
     <div className="menu map-select">
-      <h1>{mapNames[mapIndex]}</h1>
+      <h1 className="f-h3">{mapNames[mapIndex]}</h1>
+      <h4>Personal Best: {pb || "UNSET"}</h4>
+      <div className="map-info-wrapper">
       <div className="map-info">
-        <div className="player-stats">
-          <h4>Personal Best: {pb || "UNSET"}</h4>
-          <ul className="column">
-            {medals.gold ? <li className={`row ${medals.author ? "author-unlocked" : null}`}><div className={`medal`}></div><p>author : {replays[mapIndex].author.time}</p></li> : null}
-            <li className={`row ${medals.gold ? "gold-unlocked" : null}`}><div className={`medal`}></div><p>gold : {replays[mapIndex].hard.time}</p></li>
-            <li className={`row ${medals.silver ? "silver-unlocked" : null}`}><div className={`medal`}></div><p>silver : {replays[mapIndex].normal.time}</p></li>
-            <li className={`row ${medals.bronze ? "bronze-unlocked" : null}`}><div className={`medal`}></div><p>bronze : {replays[mapIndex].easy.time}</p></li>
-          </ul>
-        </div>
         <div className='preview-wrapper'>
           <canvas id="map-preview"></canvas>
         </div>
-        <div id="leaderboard">
-          <h4>Top 5 Worldwide</h4>
+        <div className="player-stats">
           <ul className="column">
-            {leaderBoardTimes && leaderBoardTimes.map((racerInfo,index) => {
-              console.log(leaderBoardTimes)
-              return( <li  key={racerInfo.playerName}>
-                        <div className="time-info">#{index + 1} {racerInfo.time} {racerInfo.playerName}</div> 
-                        <div className="time-menu">{racerInfo.playerInputs && 
-                        <> 
-                          <button onClick={handleWatchReplay(racerInfo.playerInputs, racerInfo.playerName, racerInfo.playerColor)}><img src={watchIcon}/></button> 
-                          <button onClick={handleRaceAgainst(racerInfo.playerInputs, racerInfo.playerName, racerInfo.playerColor)}><img src={playIcon}/></button>
-                        </>}</div>
-                      </li>)
-            })}
+          {/* const medalRow = ({medal,setDiff,setEnableGhost, index}) => { */}
+            <MedalRow medal="personalBest" best={pb} currentDiff={difficulty} setDiff={setDifficulty} isGhostEnabled={newEnableGhost} setNewGhostEnabled={setNewEnableGhost} index={mapIndex} />
+            <MedalRow medal="easy" best={pb} currentDiff={difficulty} setDiff={setDifficulty} isGhostEnabled={newEnableGhost} setNewGhostEnabled={setNewEnableGhost} index={mapIndex} />
+            <MedalRow medal="normal" best={pb} currentDiff={difficulty} setDiff={setDifficulty} isGhostEnabled={newEnableGhost} setNewGhostEnabled={setNewEnableGhost} index={mapIndex} />
+            <MedalRow medal="hard" best={pb} currentDiff={difficulty} setDiff={setDifficulty} isGhostEnabled={newEnableGhost} setNewGhostEnabled={setNewEnableGhost} index={mapIndex} />
+            <MedalRow medal="author" best={pb} currentDiff={difficulty} setDiff={setDifficulty} isGhostEnabled={newEnableGhost} setNewGhostEnabled={setNewEnableGhost} index={mapIndex} />
+
+
           </ul>
         </div>
       </div>
-      <button  
-      onClick={(e) => {setNewEnableGhost(!newEnableGhost)}} 
-      className={newEnableGhost ? "set" : "none"}>Click to {newEnableGhost ? "disable ghost car" : "enable ghost car"}</button>
-      <label htmlFor="difficulty">Difficulty</label>
-      <div name="difficulty" id="difficulty" className={newEnableGhost ? "enabled" : "disabled"}>
-       <button value="easy" className={difficulty == "easy" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>bronze</button>
-       <button value="normal" className={difficulty == "normal" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)} >silver</button>
-       <button value="hard" className={difficulty == "hard" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>gold</button>
-       {medals.bronze ?<button value="author" className={difficulty == "author" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>author</button> : null}
-       {localStorage.getItem(`pbReplay${mapIndex}`) ? <button value="personalBest" className={difficulty == "personalBest" ? "set" : "not"} onClick ={(e)=> setDifficulty(e.target.value)}>personal best</button> : null}
-      </div>
+      <div className="map-info-menu">
+        <button  
+        onClick={(e) => {setNewEnableGhost(!newEnableGhost)}} 
+        className={newEnableGhost ? "set" : "none"}>{newEnableGhost ? "disable ghost car" : "enable ghost car"}</button>
+        <button onClick = {()=> {
+        screenSetter("list")
+        }}>Back to map list</button>
 
-      <button onClick = {()=> {
-      handleRaceLocal(mapIndex,difficulty);
-      }}>P L A Y</button>
-      <button onClick = {()=> {
-      screenSetter("list")
-      }}>Back</button>
+        <button className="play-button f-h3" onClick = {()=> {
+        handleRaceLocal(mapIndex,difficulty);
+        }}>play</button>
+      </div>
+      </div>
     </div>
   )
 }

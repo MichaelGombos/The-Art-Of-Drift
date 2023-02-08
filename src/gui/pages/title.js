@@ -3,9 +3,6 @@ import { Link } from 'react-router-dom';
 import ScrollingBackground from '../components/scrolling-background';
 import StackedBrandText from "../components/stacked-brand-text";
 
-//just for now
-localStorage.clear();
-
 const Title = ({setter}) => {
   return (
     <Link className="menu title" to= {

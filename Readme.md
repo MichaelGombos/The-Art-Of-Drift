@@ -15,6 +15,9 @@ https://pashasmith.itch.io/post-apocalyptic-background
 credit to AntumDeluge for the medal icons
 https://opengameart.org/content/cc0-award-icons
 
+credit to Narik for the star icon
+https://soulofkiran.itch.io/pixel-art-animated-star 
+
 ## fonts
 
 credit to Jay Wright for the DisrespectfulTeenagerFade font
