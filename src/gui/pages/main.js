@@ -44,6 +44,10 @@ const Main = ({setPrevious}) => {
         navigate("/hidden")
       }}
       >Free Play</button>
+      <button onClick = {()=> {
+        navigate("/map-import")
+      }}
+      >map import</button>
       <a href="https://michaelgombos.github.io/browser-driving-map-creator/" target="_blank"> <button >Map Maker</button> </a>
       <a href="https://github.com/MichaelGombos/browser-driving-demo" target="_blank"> <button >Github</button> </a>
       <button onClick={() => {

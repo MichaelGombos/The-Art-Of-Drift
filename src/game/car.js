@@ -416,7 +416,6 @@ const createCar = (isGhost) => {
 
     const collidingWithValue = (value,axis,mapData,tilePixelCount) =>{
 
-
         let count = 0;
         let speedSteps = []
         if(speed > 4){

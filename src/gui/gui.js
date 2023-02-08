@@ -16,6 +16,7 @@ import Invited from "./pages/invited.js"
 import React, {Component, useEffect} from 'react';
 import { Route, Routes, useNavigate, Navigate} from "react-router-dom";
 import InvitedPreview from "./pages/invited-preview.js"
+import MapImport from "./pages/map-import.js"
 
 const {useState} = React
 
@@ -49,7 +50,7 @@ const Menu = ({type, setType}) => {
 
   useEffect(() => {
     if(!location.pathname.includes("/invited"))
-    navigate("/leaderboards")
+    navigate("/")
   }, [])
 
   return (
@@ -58,6 +59,7 @@ const Menu = ({type, setType}) => {
       <Route path="/enter-name" element={<EnterName/>}/>
       <Route path="/main" element={<Main setPrevious={setPreviousType}/>}/>
       <Route path="/map-select" element={<MapSelect/>} />
+      <Route path="/map-import" element={<MapImport/>} />
       <Route path="/leaderboards" element={<Leaderboards/>} />
       <Route path="/settings" element={<Settings previous={previousType} showStats={isStatsHidden} setShowStats={setIsStatsHidden} />} />
       <Route path="/hidden" element={<Hidden  showStats={isStatsHidden} />}/>
@@ -81,7 +83,8 @@ class GUI extends Component {
   }
 
   navigateMenu = (event) => {
-    if(this.state.type != "hidden" &&  document.activeElement.tagName != "INPUT"  ){
+    if(document.querySelector(".menu") && (this.state.type != "hidden" &&  document.activeElement.tagName != "INPUT"  )){
+
       let menuList = Array.from(document.querySelector(".menu").querySelectorAll("button,select ,input"));
 
       let firstButton = menuList[0]

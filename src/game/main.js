@@ -10,7 +10,6 @@ import{
     clearParticles
 } from "./graphics.js"
 
-const uploadButton = document.querySelector("#upload");
 const mapInput = document.querySelector("#map-input")
 
 
@@ -18,9 +17,9 @@ let running = false;
 
 setInterval(updateTimer, 10)
 
-const handleUpload = (e) => {
-    generateMap(JSON.parse("[" + mapInput.value + "]")[0])
-}
+// const handleUpload = (e) => {
+//     generateMap(JSON.parse("[" + mapInput.value + "]")[0])
+// }
 
 const resetGame = (inSpectateMode) => {
     pauseGame();
@@ -51,7 +50,7 @@ const getRunning = () => {
     return running}
 
 
-uploadButton.addEventListener("click", handleUpload);
+// uploadButton.addEventListener("click", handleUpload);
 const replayOutput = document.querySelector("#replay-output")
 
   
