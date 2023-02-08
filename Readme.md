@@ -1,6 +1,4 @@
-<p align="center">
-# The art of drift
-</p>
+<h1 align="center"> The art of drift </h1>
 
 ![The art of drift animated title](https://github.com/MichaelGombos/browser-driving-demo/blob/main/public/title.gif?raw=true)
 
