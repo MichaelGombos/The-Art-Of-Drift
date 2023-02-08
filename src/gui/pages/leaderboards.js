@@ -88,30 +88,42 @@ const Leaderboard = ({screenSetter, mapIndex}) => {
 
   return(
     <div className="menu leaderboard">
-      <h1>{mapNames[mapIndex]}</h1>
-      <button onClick = {()=> {
-      screenSetter("list")
-      }}>Back</button>
-      <div className="map-info">
+      <header >
+        <h2 className="">MAP <span className="text-color-secondary-500">{mapIndex+1}</span> {mapNames[mapIndex]}</h2>
+        <h1 className='f-h2'>LEADERBOARDS </h1>
+      </header>
+      <div className="leaderboard-info-wrapper">
+      <div className="leaderboard-info">
         <div className="player-stats">
-          <h4>Personal Best: {pb || "UNSET"}</h4>
+            <h4>YOUR BEST: <span className="text-color-secondary-500">{pb || "UNSET"}</span></h4>
         </div>
-        <div className='preview-wrapper'>
-          <canvas id="map-preview"></canvas>
-        </div>
-        <div id="leaderboard">
-          <h4>Global Leaderboard</h4>
-          <ul className="column">
-            {leaderBoardTimes && leaderBoardTimes.map((racerInfo,index) => {
-              console.log(leaderBoardTimes)
-              return( <li  key={racerInfo.playerName}>
-                <div className="time-info">#{index + 1} {racerInfo.time} {racerInfo.playerName}</div> 
-                <div className="time-menu">{racerInfo.playerInputs && <> <button onClick={handleWatchReplay(racerInfo.playerInputs, racerInfo.playerName, racerInfo.playerColor)}>watch replay</button> <button onClick={handleRaceAgainst(racerInfo.playerInputs, racerInfo.playerName, racerInfo.playerColor)}>race against</button>    </>}</div>
-              </li>)
-            })}
-          </ul>
+        <div className="map-info">
+          <div id="leaderboard">
+            <ul className="column">
+              <button onClick = {()=> {
+              screenSetter("list")
+              }}>Back</button>
+              {leaderBoardTimes && leaderBoardTimes.map((racerInfo,index) => {
+                console.log(leaderBoardTimes)
+                return( <li  key={racerInfo.playerName}>
+                  <div className="time-info">#{index + 1} {racerInfo.playerName}</div> 
+                  <div className="time-menu">
+                    {racerInfo.time} 
+                    <button className="bg-shade-0" onClick={handleWatchReplay(racerInfo.playerInputs, racerInfo.playerName, racerInfo.playerColor)}>watch replay</button> 
+                    <button className="bg-secondary-500 text-color-shade-0" onClick={handleRaceAgainst(racerInfo.playerInputs, racerInfo.playerName, racerInfo.playerColor)}>race against</button>
+                  </div>
+                </li>)
+              })}
+            </ul>
+          </div>
         </div>
       </div>
+      <div className='preview-wrapper'>
+          <canvas id="map-preview"></canvas>
+      </div>
+      </div>
+
+
     </div>
   )
 }

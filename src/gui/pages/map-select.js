@@ -177,7 +177,7 @@ const MapDetail = ({screenSetter, mapIndex}) => {
   return(
     <div className="menu map-select">
       <h1 className="f-h3">{mapNames[mapIndex]}</h1>
-      <h4>Personal Best: {pb || "UNSET"}</h4>
+      <h4>Personal Best: <span className="text-color-secondary-500">{pb || "UNSET"}</span></h4>
       <div className="map-info-wrapper">
       <div className="map-info">
         <div className='preview-wrapper'>
