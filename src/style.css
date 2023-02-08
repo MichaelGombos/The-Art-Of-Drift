@@ -149,6 +149,16 @@ h1,h2,h3,h4,h5,h6,p{
 .text-color-primary-900{
   color:var(--primary-900)
 }
+.text-color-shade-0{
+  color:var(--shade-0)
+}
+.bg-danger-500{
+  background-color: var(--danger-500);
+}
+.bg-success-500{
+  background-color: var(--success-500)
+}
+
 .background{
   z-index: -1;
   width:100%;
@@ -219,12 +229,18 @@ button.wide-btn{
 }
 /* ----------- gui css ----------- */
 
-.stats{
+.stats
+{
   display: flex;
   flex-direction:column;
   gap:5px;
-  width:20%;
+  position:absolute;
+  z-index:1;
+  left:35;
+  top:35;
+  font-size:12px;
 }
+
 .stats span{
   font-weight: lighter;
 }
@@ -283,15 +299,22 @@ button.wide-btn{
   width:100%;
 }
 
+.menu.options {
+}
+
 .menu.options .settings-wrapper{
   display:flex;
   flex-direction: column;
-  gap:20px;
+  align-items: center;
+  gap:10px;
   width:450px;
 }
 
-.menu.options {
+.menu.options .particle-limit{
+  width:100%;
+  accent-color: var(--secondary-500);
 }
+
 .menu.options button{
   width:100%;
   text-align: start;
@@ -567,19 +590,15 @@ form.player-info > div{
 }
 
 .menu-button{
+  display:flex;
+
   position:absolute;
   z-index:1;
   right:0;
+  padding:16px;
+  gap:16px;
 }
 
-.stats
-{
-  position:absolute;
-  z-index:1;
-  left:35;
-  top:35;
-  font-size:12px;
-}
 
 #import{
   display:flex;
@@ -723,7 +742,7 @@ textarea{
 }
 
 .particle.skid-mark{
-  background-color: rgb(200, 175, 133);;
+  background-color: var(--primary-700);
   max-height:20px;
   max-width:20px;
 }
@@ -736,7 +755,7 @@ textarea{
   animation-duration:1s;
 }
 .particle.dirt{
-  background-color: rgba(158, 139, 105, 0.413);
+  background-color: var(--primary-500);
   animation: particle-fade;
   animation-fill-mode: forwards;  
 
