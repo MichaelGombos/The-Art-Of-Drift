@@ -2,7 +2,7 @@
 This is a racing game with a public leaderboard.
 
 ## View this project below:
-https://michaelgombos.github.io/browser-driving-demo/
+https://TheArtOfDrift.com
 
 ## Graphics
 
