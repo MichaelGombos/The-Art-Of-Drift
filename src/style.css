@@ -55,7 +55,7 @@ html, body {
 
 body {
   margin:0;
-  background: var(--shade-100);
+  background: var(--primary-900);
   display: flex;
   flex-direction:row;
   gap:20px;
@@ -654,7 +654,6 @@ textarea{
   height:100vh;
   width: 100%;
   overflow: hidden;
-  background: #818181;
   position:relative;
 }
 
@@ -751,15 +750,15 @@ textarea{
 }
 
 .road{
-  background-color: rgb(229, 201, 153);
+  background-color: var(--primary-500)
 }
 
 .wall{
-  background-color: rgb(86 0 0)
+  background-color: var(--primary-900)
 }
 
 .dirt{
-  background-color: rgb(182 161 123);
+  background-color: var(--primary-700)
 }
 
 .spawn{
