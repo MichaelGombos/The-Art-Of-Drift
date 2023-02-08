@@ -49,7 +49,7 @@ const Menu = ({type, setType}) => {
 
   useEffect(() => {
     if(!location.pathname.includes("/invited"))
-    navigate("/")
+    navigate("/finish")
   }, [])
 
   return (

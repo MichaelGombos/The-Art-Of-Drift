@@ -73,7 +73,7 @@ const Finish = ({setter}) => {
   return (
     <div className="menu finish" >
       <div className="finish-container">
-        <h1>Finish!</h1>
+        <h1 className="f-h2">F I N I S H</h1>
         <div>
           <p>Your time: {getTimeString()} <span className="best-time">{newBest ? "NEW BEST" : null}</span></p>
           <p>Your best: {localStorage.getItem(`pb${mapIndex}`)}</p>
@@ -98,7 +98,7 @@ const Finish = ({setter}) => {
 
           <button onClick={() => {
             navigate("/map-select");
-          }}>Map Select</button>
+          }}>Back to map select</button>
         </nav>
       </div>
     </div>
