@@ -64,7 +64,7 @@ const createDriftParticle = (carX, carY, driftForce, carAngle) => {
       element.classList.add(className);
       if(className == "skid-mark"){
         element.style.width = 25;
-        element.style.height = 3;
+        element.style.height = 2+(driftForce-1);
       }
       else{
         element.style.width = size;

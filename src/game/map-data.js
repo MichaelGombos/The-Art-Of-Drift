@@ -83,7 +83,7 @@ let maps = [
   {
     data:map11,
     spawnAngle : 138,
-    lapCount:5
+    lapCount:3
   },
   {
     data:map12,
