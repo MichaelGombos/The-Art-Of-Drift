@@ -17,6 +17,7 @@ import React, {Component, useEffect} from 'react';
 import { Route, Routes, useNavigate, Navigate} from "react-router-dom";
 import InvitedPreview from "./pages/invited-preview.js"
 import MapImport from "./pages/map-import.js"
+import NotSupported from "./pages/not-supported.js"
 
 const {useState} = React
 
@@ -42,15 +43,33 @@ const navKeys = {
 }
 
 const Menu = ({type, setType}) => {
-  let display;
+  let isDeviceValid = true;
   const [previousType,setPreviousType] = useState('title')
   const [isStatsHidden,setIsStatsHidden] = useState(true);
   const navigate = useNavigate();
   window.changeGUIScreen = navigate;
 
+  const handleResize = () => {
+    if(window.innerWidth < 788){
+      isDeviceValid = false;
+      console.log("so??")
+      navigate("/not-supported")
+    }
+    else{
+      console.log("else", isDeviceValid)
+      if(!isDeviceValid){
+        console.log("if")
+        isDeviceValid = true;
+        navigate("/")
+      }
+    }
+  }
+
   useEffect(() => {
+    window.addEventListener('resize',handleResize)
     if(!location.pathname.includes("/invited"))
     navigate("/")
+    handleResize();
   }, [])
 
   return (
@@ -67,6 +86,7 @@ const Menu = ({type, setType}) => {
       <Route path="/finish" element={<Finish/>}/>
       <Route path="/invited" element={<Invited/>}/>
       <Route path="/invited/preview" element={<InvitedPreview/>}/>
+      <Route path="/not-supported" element={<NotSupported/>}/>
       <Route element={<Navigate to="/"/>}/>
     </Routes>
   )

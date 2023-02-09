@@ -224,6 +224,11 @@ h1.brand{
   width:fit-content;
 }
 
+.menu.not-supported h1{
+  padding:20px;
+  text-align: center;
+}
+
 .menu.title .game-title{
   position: absolute;
   bottom: 106px;
