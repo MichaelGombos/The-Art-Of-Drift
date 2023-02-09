@@ -15,10 +15,11 @@ const MapImport = () => {
       spawnAngle: 0,
       lapCount: 3
     }
+
+    setEnableGhost(false);
     setMapData(map)
     resetGame();
     colorPlayerCar();
-    setEnableGhost(false);
     navigate("/hidden");
   }
 
