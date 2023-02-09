@@ -1,6 +1,6 @@
 import React , {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { generateMap, setMapData } from '../../game/game';
+import { generateMap, setMapData, setEnableGhost } from '../../game/game';
 import { resetGame } from '../../game/main';
 import { colorPlayerCar } from '../../game/graphics';
 
@@ -18,6 +18,7 @@ const MapImport = () => {
     setMapData(map)
     resetGame();
     colorPlayerCar();
+    setEnableGhost(false);
     navigate("/hidden");
   }
 
