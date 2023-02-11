@@ -27,6 +27,38 @@ This game is played with wasd and the arrow keys to control the car. Shift, spac
 
 [NES Cyrillic by xbost](http://www.pentacom.jp/pentacom/bitfontmaker2/gallery/?id=2639)
 
+## Backlog
+
+### urgent
+- Fix time being different on slow machines vs fast
+- Update game to render using canvas
+- Update mapMaper to render using canvas
+- Redraw and scale up maps.
+- Add an email login system.
+
+### high priority
+
+- Add option to show/hide replay export
+- Rewrite map-data.js to have all map info in individual .js files.
+- Add settings im mapMaker to choose laps/spawn angle.
+- ^^update map maker tool to export all map information
+- Fix map preview bug with tall maps
+- Add “in spectate mode” for collision, so finish screen shows while watching a replay.
+- Fix the map5 checkpoint
+
+
+### nice to have
+
+- Package game into an exe
+- Show medal next to leaderboard times
+- Add state for new medal unlocks on finish, then animate them next time the map detail screen is visited
+- Add 321 countdown animation on game start
+- Add loading screens
+- Add Community Map List
+- Add community Map Leaderboard
+- Add tutorial level
+
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
