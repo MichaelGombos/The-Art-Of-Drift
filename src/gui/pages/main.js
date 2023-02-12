@@ -40,7 +40,7 @@ const Main = ({setPrevious}) => {
       <button onClick={() => navigate("/leaderboards")}>leaderboards</button>
       <button onClick = {()=> {
         setMapData(freeplay,[[]]);
-        startGame();
+        startGame(false);
         navigate("/hidden")
       }}
       >Free Play</button>

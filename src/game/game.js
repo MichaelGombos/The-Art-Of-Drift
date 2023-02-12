@@ -36,14 +36,10 @@ let ghostStep = 0; //kind of like dubstep, but for ghosts.
 let maxLaps = undefined;
 let replayExport = []
 
-let secondsPassed = 0;
-let oldTimeStamp = 0;
-
-const times = []
-
 let mapIndex;
 
-let fps = 0;
+let targetFps = 60;
+let currentFps = 0;
 
 const tilePixelCount = parseInt(
   getComputedStyle(document.documentElement).getPropertyValue('--tile-pixel-count')
@@ -51,18 +47,15 @@ const tilePixelCount = parseInt(
 const carSize = tilePixelCount;
 const held_directions = []; //State of which arrow keys we are holding down
 
-let originTime = 0;
-let currentTime = 0;
-let elapsedTime = 0;
 let pauseBuffers = [];
 let pauseBuffer = 0;
 let lastRunTime = 0;
 let reqAnim;
+let isPaused = true;
 
-let startTime = 0;
-let endTime = 0;
-let timeChunk = 0;
-let timeChunks = []
+
+let frameCount = 0;
+let fpsInterval, startTime, now, then, elapsed;
 
 /* Direction key state */
 const directions = {
@@ -113,6 +106,7 @@ const setEnableGhost = (check) => {
   check ? ghostCharacter.classList.remove("hidden") : ghostCharacter.classList.add("hidden")
 }
 
+const getTargetFps = () => {return targetFps}
 
 const getReqAnim = () => {return reqAnim}
 
@@ -128,7 +122,7 @@ const getTilePixelCount = () => {return tilePixelCount}
 
 const getStats = () => {
   return {
-    fps : fps,
+    fps : currentFps,
     time: timeString,
     lap:  `${car.getLap()}/${maxLaps}`,
     x: car.getX().toFixed(2),
@@ -161,12 +155,20 @@ const updateCarSpawnPosition = () => {
 
 const resetCarValues = (inSpectateMode) => {
 
-   
+  //previous method 
   elapsedTime = 0;
   pauseBuffer = 0;
   pauseBuffers = [0];
   originTime = performance.now();
   lastRunTime = performance.now();
+  
+  //other method
+  fpsInterval = 1000 / targetFps;
+  then = window.performance.now();
+  startTime = then;
+  console.log(startTime);
+
+
   styleCar(characterSprite);
   styleCar(ghostCharacterSprite);
   
@@ -265,34 +267,6 @@ function msToTime(s) {
   return pad(hrs) + ':' + pad(mins) + ':' + pad(secs) + '.' + pad(ms, 3);
 }
 
-const updateTimer = () => {
-  //get current running time by getting current time, then comparing to start time
-
-
-
-  if (getRunning() && !car.getEngineLock()) {
-      
-      //push pause buffer, then reset it. 
-      
-      if(pauseBuffer){
-        pauseBuffers.push(pauseBuffer);
-        pauseBuffer = 0;
-      }
-      
-      elapsedTime -= pauseBuffers.reduce((buffer, reduce) => buffer+reduce);
-      
-      
-
-      //real time
-      timeString = msToTime(elapsedTime)
-      lastRunTime = currentTime;
-      // game time
-      // timeString = msToTime(timeChunks.reduce((chunk,reducer) => chunk + reducer)*10)
-  }{ 
-    pauseBuffer = currentTime - lastRunTime;
-    //increase pauseBuffer
-  }
-}
 const placeGhost = (stepCount) => {
     let ghost_held_directions = mapData.replay[stepCount]
     if(car.getInSpectateMode()){
@@ -366,7 +340,7 @@ const placeGhost = (stepCount) => {
 
 
 const placeCharacter = () => {
-  window.updateStats && window.updateStats(getStats());
+  
 
   pixelSize = parseInt(
       getComputedStyle(document.documentElement).getPropertyValue('--pixel-size')
@@ -464,29 +438,54 @@ const placeCharacter = () => {
 
 
 }
-// TODO characterSprite.style.transform = `rotate(${car.getAngle().facing}deg)`;
-// ghostCharacterSprite.style.transform = `rotate(${ghostCar.getAngle().facing}deg)`;
-const step = () => {
 
+const setTargetFps = (target) => { targetFps = target}
 
-  currentTime = performance.now();
-  elapsedTime = currentTime - originTime;
-  
-  const now = performance.now();
-  while (times.length > 0 && times[0] <= now - 1000) {
-    times.shift();
-  }
-  times.push(now);
-  fps = times.length;
-  
-  placeCharacter();
-  updateMiniMapPlayers(car,ghostCar);
-  if(enableGhost){
-    placeGhost(ghostStep);
-    ghostStep++;
-  }
+const step = (newtime) => {
+  if(!getRunning()){
+    isPaused = true;
+    return;
+  } 
   if(getRunning()){
-    reqAnim = window.requestAnimationFrame(step)
+    if(isPaused){
+      pauseBuffer = (performance.now() - lastRunTime);
+      pauseBuffers.push(pauseBuffer);
+      pauseBuffer = 0;
+    }
+    isPaused = false;
+    //take last paused time, subtract from current time, push to paused array.
+
+
+    reqAnim = window.requestAnimationFrame(step);
+
+    now = newtime;
+    lastRunTime = now
+    elapsed = now - then;
+
+    // if enough time has elapsed, draw the next frame
+
+    if (elapsed > fpsInterval) {
+
+        // Get ready for next frame by setting then=now, but...
+        // Also, adjust for fpsInterval not being multiple of 16.67
+        then = now - (elapsed % fpsInterval);
+
+        //draw stuff
+        placeCharacter();
+        if(enableGhost){
+          placeGhost(ghostStep);
+          ghostStep++;
+        }
+        updateMiniMapPlayers(car,ghostCar);
+
+
+        let sinceStart = now-startTime;
+        currentFps = Math.round(1000 / (sinceStart / ++frameCount) * 100) / 100
+        timeString = msToTime(Math.round(sinceStart - pauseBuffers.reduce((buffer, reduce) => buffer+reduce)));
+        lastRunTime = performance.now()
+        window.updateStats && window.updateStats(getStats());
+    }
+
     return;
   }
 }
@@ -518,18 +517,19 @@ document.addEventListener("keyup", (e) => {
 
 export {
   generateMap,
+  getTargetFps,
   getReqAnim,
   getTilePixelCount,
   getTimeString,
   getMapData,
   checkGameOver,
-  updateTimer,
   step,
   resetCarValues,
   getStats,
   getEnableGhost,
   setEnableGhost,
   setGameMapIndex,
+  setTargetFps,
   getGameMapIndex,
   getReplayArray,
   setMapData

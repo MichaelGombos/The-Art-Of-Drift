@@ -15,7 +15,6 @@ const mapInput = document.querySelector("#map-input")
 
 let running = false;
 
-setInterval(updateTimer, 10)
 
 // const handleUpload = (e) => {
 //     generateMap(JSON.parse("[" + mapInput.value + "]")[0])
@@ -26,11 +25,11 @@ const resetGame = (inSpectateMode) => {
     setTimeout(startGame(inSpectateMode),1)
 }
 
-const startGame = (inSpectateMode) => {
+const startGame = (inSpectateMode, fps) => {
 
     window.cancelAnimationFrame(getReqAnim());
-    resetCarValues(inSpectateMode);
     clearParticles();
+    resetCarValues(inSpectateMode, fps);
     unPauseGame();
 }
 
