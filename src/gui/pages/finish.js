@@ -2,7 +2,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 
 import React, { useMemo, useState } from 'react';
-import { setMapData, getTimeString, getGameMapIndex, getReplayArray, setEnableGhost } from '../../game/game.js';
+import { setMapData, getTimeString, getGameMapIndex, getReplayArray, setEnableGhost, getInSpectateMode, getSpectateTime, setSpectateTime } from '../../game/game.js';
 import { maps } from '../../game/map-data.js';
 import {resetGame} from "../../game/main.js"
 import { useNavigate } from 'react-router-dom';
@@ -39,7 +39,7 @@ const sendTime = async(mapIndex,time,pName,replay,color) => {
 }
 
 const checkBest = (index, oldPB) => {
-  if(getTimeString() < oldPB || !oldPB){
+  if(!getInSpectateMode() && getTimeString() < oldPB || !oldPB){
     //post to localStorage and to Database
     localStorage.setItem(`pb${index}`,getTimeString())
     localStorage.setItem(`pbReplay${index}`,JSON.stringify(getReplayArray()))
@@ -69,24 +69,29 @@ const Finish = ({setter}) => {
   useMemo(() => {
       newBest = checkBest(mapIndex, oldPB);
   }, [])
-
   return (
     <div className="menu finish" >
       <div className="finish-container">
-        <h1 className="f-h2">F I N I S H</h1>
+        <h1 className="f-p1">Replay Over</h1>
         <div>
-          <p>Your time: {getTimeString()} <span className="best-time">{newBest ? "NEW BEST" : null}</span></p>
+          <p>{getInSpectateMode() ? `REPLAY TIME: ${getSpectateTime()}` : `YOUR TIME: ${getTimeString()} `}<span className="best-time">{newBest ? "NEW BEST" : null}</span></p>
           <p>Your best: {localStorage.getItem(`pb${mapIndex}`)}</p>
         </div>
         <nav>
-          <button className = {inviteCopied && "disabled"}onClick={() => {
-            copyToClipboard(`http://www.theartofdrift.com/invited?racer=${playerName}&map=${mapIndex}`).then(setInviteCopied(true));
-          }}>{inviteCopied ? "Copied!" : "Copy Invite Link"}</button>
+          {getInSpectateMode() ? 
+          <button onClick={() => {
+            resetGame(true);
+            navigate("/hidden");
+          }}>Watch Again</button>
+        : 
+        <button className = {inviteCopied && "disabled"}onClick={() => {
+          copyToClipboard(`http://www.theartofdrift.com/invited?racer=${playerName}&map=${mapIndex}`).then(setInviteCopied(true));
+        }}>{inviteCopied ? "Copied!" : "Copy Invite Link"}</button>}
+
           <button onClick={() => {
             resetGame();
             navigate("/hidden")
-          }}>Restart Race</button>
-
+          }}>Race Again</button>  
           {newBest && 
           <button onClick = {()=> {
             racePB(mapIndex,localStorage.getItem(`pbReplay${mapIndex}`));

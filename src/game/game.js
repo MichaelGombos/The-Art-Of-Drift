@@ -7,9 +7,6 @@ import{
   characterSprite,
   ghostCharacter,
   ghostCharacterSprite,
-  stats,
-  timeHeader,
-  fpsText,
   map,
   mapGrid,
   camera
@@ -21,7 +18,6 @@ import {
   styleCar,
   styleFinishCell,
   nameGhost,
-  colorGhostCar
 } from "./graphics.js"
 import {maps} from "./map-data.js"
 import {generateMiniMap,updateMiniMapPlayers} from "./mini-map.js"
@@ -38,7 +34,7 @@ let replayExport = []
 
 let mapIndex;
 
-let targetFps = 60;
+let targetFps = 144;
 let currentFps = 0;
 
 const tilePixelCount = parseInt(
@@ -52,6 +48,8 @@ let pauseBuffer = 0;
 let lastRunTime = 0;
 let reqAnim;
 let isPaused = true;
+let inSpectateMode;
+let spectateTime;
 
 
 let frameCount = 0;
@@ -118,7 +116,13 @@ const getEnableGhost = () => {return enableGhost}
 
 const getTimeString = () => {return timeString}
 
+const getReplayFinishTime = () => {return replayFinishTime};
+
 const getTilePixelCount = () => {return tilePixelCount}
+
+const getInSpectateMode = () => {return inSpectateMode}
+
+const getSpectateTime = () => {return spectateTime}
 
 const getStats = () => {
   return {
@@ -153,16 +157,19 @@ const updateCarSpawnPosition = () => {
 
 }
 
-const resetCarValues = (inSpectateMode) => {
+const setSpectateMode = (spectateMode) => {
+  inSpectateMode = spectateMode;
+}
+const setSpectateTime = (s) => {
+  spectateTime = s;
+}
+const resetCarValues = () => {
 
-  //previous method 
-  elapsedTime = 0;
   pauseBuffer = 0;
   pauseBuffers = [0];
-  originTime = performance.now();
   lastRunTime = performance.now();
   
-  //other method
+  frameCount = 0;
   fpsInterval = 1000 / targetFps;
   then = window.performance.now();
   startTime = then;
@@ -173,7 +180,7 @@ const resetCarValues = (inSpectateMode) => {
   styleCar(ghostCharacterSprite);
   
   car.resetValues(inSpectateMode)
-  ghostCar.resetValues();
+  ghostCar.resetValues(inSpectateMode);
 
   updateCarSpawnPosition();
   ghostStep = 0;
@@ -269,10 +276,11 @@ function msToTime(s) {
 
 const placeGhost = (stepCount) => {
     let ghost_held_directions = mapData.replay[stepCount]
-    if(car.getInSpectateMode()){
+    if(inSpectateMode){
       car.setX(ghostCar.getX());
       car.setY(ghostCar.getY());
     }
+    
     if (ghost_held_directions && ghost_held_directions.length > 0) {
         if (ghostCar.getSpeed() != 0) {
           //turn
@@ -527,10 +535,14 @@ export {
   resetCarValues,
   getStats,
   getEnableGhost,
+  getInSpectateMode,
+  getSpectateTime,
   setEnableGhost,
   setGameMapIndex,
   setTargetFps,
+  setSpectateMode,
   getGameMapIndex,
   getReplayArray,
-  setMapData
+  setMapData,
+  setSpectateTime
 }

@@ -74,18 +74,16 @@ const createCar = (isGhost) => {
     }
 
     const resetValues = (inSpectateMode) => {
-
+        isSpectating = inSpectateMode
         if(!isGhost){
             if(inSpectateMode){
                 //do that ghost car shit!
                 characterSprite.style.opacity = 0;
                 engineLock = true;
-                isSpectating = true;
             }
             else{
                 characterSprite.style.opacity = 1;
                 engineLock = false;
-                isSpectating = false;
             }
         }
         else if(isGhost){
@@ -489,8 +487,9 @@ const createCar = (isGhost) => {
                 if (onFinish.up == true) {
                     //exiting the finish line 
                     onFinish.up = false;
-                    if (newY < y && !isGhost) {
+                    if (newY < y && (!isGhost || isSpectating)) {
                         increaseLaps();
+                        console.log(lap);
                     } else {
                         // lap--;
                     }
@@ -505,7 +504,7 @@ const createCar = (isGhost) => {
                 if (onFinish.down == true) {
                     //exiting the finish line 
                     onFinish.down = false;
-                    if (newY > y && !isGhost) {
+                    if (newY > y && (!isGhost || isSpectating)) {
                         increaseLaps();
                     } else {
                         // lap--;
@@ -523,7 +522,7 @@ const createCar = (isGhost) => {
                 if (onCheckPoint.left == true) {
                     //exiting the finish line 
                     onCheckPoint.left = false;
-                    if (newX < x && !isGhost) {
+                    if (newX < x && (!isGhost || isSpectating)) {
                         increaseCheckPointLaps();
                     } else {
                         // lap--;
@@ -540,7 +539,7 @@ const createCar = (isGhost) => {
                 if (onCheckPoint.right == true) {
                     //exiting the finish line 
                     onCheckPoint.right = false;
-                    if (newX > x && !isGhost) {
+                    if (newX > x && (!isGhost || isSpectating)) {
                         increaseCheckPointLaps();
                     } else {
                         // lap--;

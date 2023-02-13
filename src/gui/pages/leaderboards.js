@@ -5,7 +5,7 @@ import { useCollectionData } from 'react-firebase-hooks/firestore';
 import React, { useState , useEffect } from 'react';
 
 import { resetGame } from '../../game/main.js';
-import {setGameMapIndex, setMapData, setEnableGhost} from "../../game/game.js"
+import {setGameMapIndex, setMapData, setEnableGhost, setSpectateTime} from "../../game/game.js"
 import { maps , mapNames} from  "../../game/map-data.js"
 import { replays } from "../../game/replay.js"
 import { drawCanvasMap , nameGhost, colorGhostCar, colorPlayerCar} from '../../game/graphics.js';
@@ -52,9 +52,10 @@ const Leaderboard = ({screenSetter, mapIndex}) => {
 
   const pb = localStorage.getItem(`pb${mapIndex}`);
 
-  const handleWatchReplay = (replay,name,color) => () => {
+  const handleWatchReplay = (replay,name,color,spectateTime) => () => {
     setEnableGhost(true);
     setMapData(maps[mapIndex],JSON.parse(replay));
+    setSpectateTime(spectateTime);
     resetGame(true);
     nameGhost(name);
     colorGhostCar(color)
@@ -109,7 +110,7 @@ const Leaderboard = ({screenSetter, mapIndex}) => {
                   <div className="time-info">#{index + 1} {racerInfo.playerName}</div> 
                   <div className="time-menu">
                     {racerInfo.time} 
-                    <button className="bg-shade-0" onClick={handleWatchReplay(racerInfo.playerInputs, racerInfo.playerName, racerInfo.playerColor)}>watch replay</button> 
+                    <button className="bg-shade-0" onClick={handleWatchReplay(racerInfo.playerInputs, racerInfo.playerName, racerInfo.playerColor,racerInfo.time)}>watch replay</button> 
                     <button className="bg-secondary-500 text-color-shade-0" onClick={handleRaceAgainst(racerInfo.playerInputs, racerInfo.playerName, racerInfo.playerColor)}>race against</button>
                   </div>
                 </li>)
