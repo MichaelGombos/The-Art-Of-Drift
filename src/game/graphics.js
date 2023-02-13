@@ -157,7 +157,58 @@ const drawCanvasMap = (context,mapData) => {
       }
     }
     context.globalCompositeOperation='source-over';
+}
+
+const drawCanvasMapColor = (context,mapData) => {
+  context.globalCompositeOperation='destination-over';
+  for(let rowIndex in mapData){
+    for(let cellIndex in mapData[rowIndex]){
+      console.log(mapData[rowIndex][cellIndex]);
+      switch(mapData[rowIndex][cellIndex]){
+        case (0): //road
+          context.fillStyle = "#e69c69";
+          break;
+        case (1): //wall
+          context.fillStyle = "#8a4836";
+          break;
+        case (2): // dirt
+          context.fillStyle = "#bf6f4a";
+          break;
+        case (3): //spawn
+          context.fillStyle = "#71c9ff";
+          break;
+        case (4): //finish-up
+          context.fillStyle = "#73ff71";
+          break;
+        case (5): //finish-down
+          context.fillStyle = "#ff29e2";
+          break;
+        case (6): //bumper
+          context.fillStyle = "#0027d2";
+          break;
+        case (7): //check-point-left-road
+          context.fillStyle = "#e69c69";
+          break;
+        case (8): //check-point-right-road
+          context.fillStyle = "#e69c69";
+          break;
+        case (9): //check-point-left-dirt
+          context.fillStyle = "#bf6f4a";
+          break;
+        case (10): //check-point-right-dirt
+          context.fillStyle = "#bf6f4a";
+          break;
+        default:
+          context.fillStyle = "white";
+          break;
+      }  
+      context.fillRect(cellIndex,rowIndex,3,3);
+    }
   }
+      
+
+  context.globalCompositeOperation='source-over';
+}
 
 const setParticleLimit = (limit) => {
     particleLimit = limit;
@@ -166,4 +217,4 @@ const getParticleLimit = () => {
     return particleLimit;
 }
 
-export {createDirtParticle, createDriftParticle,clearParticles, displayDriftParticles,setParticleLimit,getParticleLimit, particles, styleFinishCell, styleCar, colorGhostCar,colorPlayerCar, nameGhost, drawCanvasMap, playerColors}
+export {createDirtParticle, createDriftParticle,clearParticles, displayDriftParticles,setParticleLimit,getParticleLimit, particles, styleFinishCell, styleCar, colorGhostCar,colorPlayerCar, nameGhost, drawCanvasMap, drawCanvasMapColor, playerColors}

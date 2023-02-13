@@ -30,8 +30,7 @@ This game is played with wasd and the arrow keys to control the car. Shift, spac
 ## Backlog
 
 ### urgent
-- Fix time being different on slow machines vs fast
-- Update game to render using canvas
+
 - Update mapMaper to render using canvas
 - Redraw and scale up maps.
 - Add an email login system.
@@ -43,7 +42,6 @@ This game is played with wasd and the arrow keys to control the car. Shift, spac
 - Add settings im mapMaker to choose laps/spawn angle.
 - ^^update map maker tool to export all map information
 - Fix map preview bug with tall maps
-- Add “in spectate mode” for collision, so finish screen shows while watching a replay.
 - Fix the map5 checkpoint
 
 

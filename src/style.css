@@ -760,11 +760,14 @@ textarea{
   height: calc(var(--rows) * var(--grid-cell));
   position: relative;
 }
-
 .map-grid{
+  display:none !important;
+}
+#game-canvas{
+  z-index: 0;
+  image-rendering: pixelated;
   width: calc(var(--columns) * var(--grid-cell)); 
   height: calc(var(--rows) * var(--grid-cell));
-  display:flex;
   position: absolute;
   opacity: 1;
 }

@@ -9,6 +9,7 @@ import{
   ghostCharacterSprite,
   map,
   mapGrid,
+  gameCanvas,
   camera
 } from "./elements.js"
 import createCar from "./car.js"
@@ -18,6 +19,7 @@ import {
   styleCar,
   styleFinishCell,
   nameGhost,
+  drawCanvasMapColor,
 } from "./graphics.js"
 import {maps} from "./map-data.js"
 import {generateMiniMap,updateMiniMapPlayers} from "./mini-map.js"
@@ -204,33 +206,28 @@ const generateMap = (inputData) => {
   while (mapGrid.lastElementChild) {
       mapGrid.removeChild(mapGrid.lastElementChild);
   }
+  gameCanvas.width = inputData[0].length;
+  gameCanvas.height = inputData.length;
+
+  rows = inputData.length;
+  columns = inputData[0].length;
+  drawCanvasMapColor(gameCanvas.getContext("2d"),inputData);
 
   for (let rowIndex in inputData) {
-      let mapRow = document.createElement("div");
       let row = inputData[rowIndex];
-      mapRow.classList.add("row");
       for (let cellDataIndex in row) {
-          let mapCell = document.createElement("div");
           let cell = row[cellDataIndex];
-          mapCell.classList.add("cell");
 
           if(cell >= 0 && cell < tileTypes.length){
-            mapCell.classList.add(tileTypes[cell])
             if(cell == 3){
               spawn.x = cellDataIndex;
               spawn.y = rowIndex;
             }
             else if(cell == 4 || cell == 5 ){ //|| cell >= 7 && cell <= 10 
-              styleFinishCell(mapCell)
+              // styleFinishCell(mapCell)
             }
           }
-          //put cell into row
-          mapRow.appendChild(mapCell);
-          columns = mapRow.childElementCount;
       }
-      //put the row into the dom
-      mapGrid.appendChild(mapRow);
-      rows = mapGrid.childElementCount;
   }
 
 
