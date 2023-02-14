@@ -24,6 +24,8 @@ const racePB = (index) => {
 }
 
 let newBest = false;
+let playerTime;
+let spectateTime;
 
 const sendTime = async(mapIndex,time,pName,replay,color) => {
   //firebase
@@ -68,13 +70,16 @@ const Finish = ({setter}) => {
 
   useMemo(() => {
       newBest = checkBest(mapIndex, oldPB);
+      playerTime = getTimeString();
+      spectateTime = getSpectateTime();
   }, [])
   return (
     <div className="menu finish" >
       <div className="finish-container">
-        <h1 className="f-p1">Replay Over</h1>
+        {getInSpectateMode() ?  <h1 className="f-p1">Replay Over</h1> : <h1 className="f-h1">F I N I S H</h1>}
+       
         <div>
-          <p>{getInSpectateMode() ? `REPLAY TIME: ${getSpectateTime()}` : `YOUR TIME: ${getTimeString()} `}<span className="best-time">{newBest ? "NEW BEST" : null}</span></p>
+          <p>{getInSpectateMode() ? `REPLAY TIME: ${spectateTime}` : `YOUR TIME: ${playerTime} `}<span className="best-time">{newBest ? "NEW BEST" : null}</span></p>
           <p>Your best: {localStorage.getItem(`pb${mapIndex}`)}</p>
         </div>
         <nav>
