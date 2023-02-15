@@ -163,7 +163,6 @@ const drawCanvasMapColor = (context,mapData) => {
   context.globalCompositeOperation='destination-over';
   for(let rowIndex in mapData){
     for(let cellIndex in mapData[rowIndex]){
-      console.log(mapData[rowIndex][cellIndex]);
       switch(mapData[rowIndex][cellIndex]){
         case (0): //road
           context.fillStyle = "#e69c69";
