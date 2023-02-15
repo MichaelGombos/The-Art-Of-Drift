@@ -249,6 +249,8 @@ const createCar = (isGhost) => {
     }
 
     const updateUnderSteering = () => {
+        //we are not using this.
+        return;
         // switch (true) {
         //     case (Math.abs(speed) >= 0 && Math.abs(speed) < .25):
         //         underSteering = 1
