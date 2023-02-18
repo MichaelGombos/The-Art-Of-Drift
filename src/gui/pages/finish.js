@@ -1,11 +1,11 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 
-import React, { useMemo, useState } from 'react';
-import { setMapData, getTimeString, getGameMapIndex, getReplayArray, setEnableGhost, getInSpectateMode, getSpectateTime, setSpectateTime } from '../../game/game.js';
-import { maps } from '../../game/map-data.js';
-import {resetGame} from "../../game/main.js"
-import { useNavigate } from 'react-router-dom';
+import React, { useMemo } from 'react';
+import {  getTimeString, getGameMapIndex, getReplayArray,  getInSpectateMode, getSpectateTime } from '../../game/game.js';
+
+import FinishHeader from '../components/finish-header.js';
+import FinishNavigation from '../components/finish-navigation.js';
 
 firebase.initializeApp({
   apiKey: "AIzaSyDTGF6K4sLCAszEdJlBZsbFahZiFr-zkA8",
@@ -19,9 +19,6 @@ firebase.initializeApp({
 
 const firestore = firebase.firestore();
 
-const racePB = (index) => {
- setMapData(maps[index],JSON.parse(localStorage.getItem(`pbReplay${index}`)))
-}
 
 let newBest = false;
 let playerTime;
@@ -55,18 +52,9 @@ const checkBest = (index, oldPB) => {
 }
 
 
-const Finish = ({setter}) => {
-  const navigate = useNavigate();
-  const [inviteCopied, setInviteCopied] = useState(false);
-  const copyToClipboard = str => {
-    if (navigator && navigator.clipboard && navigator.clipboard.writeText)
-      return navigator.clipboard.writeText(str);
-    return Promise.reject('The Clipboard API is not available.');
-  };
-
-  let playerName = localStorage.getItem("playerName")
-  let mapIndex = getGameMapIndex();
-  let oldPB = localStorage.getItem(`pb${mapIndex}`);
+const Finish = () => {
+  const mapIndex = getGameMapIndex();
+  const oldPB = localStorage.getItem(`pb${mapIndex}`);
 
   useMemo(() => {
       newBest = checkBest(mapIndex, oldPB);
@@ -76,40 +64,8 @@ const Finish = ({setter}) => {
   return (
     <div className="menu finish" >
       <div className="finish-container">
-        {getInSpectateMode() ?  <h1 className="f-p1">Replay Over</h1> : <h1 className="f-h1">F I N I S H</h1>}
-       
-        <div>
-          <p>{getInSpectateMode() ? `REPLAY TIME: ${spectateTime}` : `YOUR TIME: ${playerTime} `}<span className="best-time">{newBest ? "NEW BEST" : null}</span></p>
-          <p>Your best: {localStorage.getItem(`pb${mapIndex}`)}</p>
-        </div>
-        <nav>
-          {getInSpectateMode() ? 
-          <button onClick={() => {
-            resetGame(true);
-            navigate("/hidden");
-          }}>Watch Again</button>
-        : 
-        <button className = {inviteCopied && "disabled"}onClick={() => {
-          copyToClipboard(`http://www.theartofdrift.com/invited?racer=${playerName}&map=${mapIndex}`).then(setInviteCopied(true));
-        }}>{inviteCopied ? "Copied!" : "Copy Invite Link"}</button>}
-
-          <button onClick={() => {
-            resetGame();
-            navigate("/hidden")
-          }}>Race Again</button>  
-          {newBest && 
-          <button onClick = {()=> {
-            racePB(mapIndex,localStorage.getItem(`pbReplay${mapIndex}`));
-            setEnableGhost(true);
-            resetGame();
-            navigate("/hidden");
-            }}>Race New Best</button>
-          }
-
-          <button onClick={() => {
-            navigate("/map-select");
-          }}>Back to map select</button>
-        </nav>
+        <FinishHeader spectateTime = {spectateTime} playerTime = {playerTime} newBest={newBest} mapIndex={mapIndex} />
+        <FinishNavigation newBest={newBest} mapIndex={mapIndex}/>
       </div>
     </div>
   )
