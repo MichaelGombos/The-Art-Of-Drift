@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { startGame} from "../../game/main.js"
 import {setMapData} from "../../game/game.js"
-import {freeplay } from  "../../game/map-data.js"
+import {freeplay, test } from  "../../game/map-data.js"
 
 const MainMenuNavigation = () => {
   const navigate = useNavigate();
@@ -19,6 +19,12 @@ const MainMenuNavigation = () => {
       navigate("/hidden")
     }}
     >Free Play</button>
+   <button onClick = {()=> {
+      setMapData(test,[[]]);
+      startGame(false);
+      navigate("/hidden")
+    }}
+    >Test Map</button>
     <button onClick = {()=> {
       navigate("/map-import")
     }}

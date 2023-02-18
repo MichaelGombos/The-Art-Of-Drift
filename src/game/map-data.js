@@ -24,8 +24,8 @@ let freeplay =
 let test =
   {
     data: maptest,
-    spawnAngle : 90,
-    lapCount:4,
+    spawnAngle : 40,
+    lapCount:1,
   }
 
 let maps = [

@@ -21,7 +21,7 @@ import {
   nameGhost,
   drawCanvasMapColor,
 } from "./graphics.js"
-import {maps} from "./map-data.js"
+import {maps, test} from "./map-data.js"
 import {generateMiniMap,updateMiniMapPlayers} from "./mini-map.js"
 
 let debug = 0;
@@ -151,6 +151,10 @@ const updateCarSpawnPosition = () => {
 
     car.setAngle(maps[mapIndex].spawnAngle,maps[mapIndex].spawnAngle)
     ghostCar.setAngle(maps[mapIndex].spawnAngle,maps[mapIndex].spawnAngle)
+  }
+  else{
+    characterSprite.style.transform = `rotate(${test.spawnAngle}deg)`
+    car.setAngle(test.spawnAngle,test.spawnAngle)
   }
   car.setX(spawn.x * tilePixelCount)
   car.setY(spawn.y * tilePixelCount)
