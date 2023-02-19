@@ -1,5 +1,5 @@
 import {mapCanvas,playerCanvas} from "./elements.js"
-import {getMapData,getTilePixelCount} from "./game.js"
+import {getTilePixelCount} from "./game.js"
 import {drawCanvasMap} from "./graphics.js"
 //just for now
 const mapCtx = mapCanvas.getContext("2d");

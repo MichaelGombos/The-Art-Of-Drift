@@ -272,6 +272,7 @@ button.wide-btn{
 
 #game{
   width:100%;
+  overflow:hidden;
   position:relative;
 }
 .column{

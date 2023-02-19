@@ -1,7 +1,7 @@
 import React from "react";
 
 import {resetGame} from "../../game/main.js"
-import {setMapData,setEnableGhost} from "../../game/game.js"
+import {setMapData,setEnableGhost, setSpectateMode} from "../../game/game.js"
 import { maps } from "../../game/map-data.js";
 import { replays } from "../../game/replay.js"
 import { colorGhostCar, colorPlayerCar, nameGhost } from '../../game/graphics.js';
@@ -31,6 +31,7 @@ const setMap = (index,difficulty) => { //sets map returns ghost name
 const handleRaceLocal = (index,difficulty,isGhostEnabled, navigate) =>{
   let ghostName = setMap(index,difficulty);
   setEnableGhost(isGhostEnabled);
+  setSpectateMode(false)
   resetGame();
   nameGhost(ghostName)
   colorGhostCar(difficulty);

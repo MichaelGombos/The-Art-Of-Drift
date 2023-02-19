@@ -1,4 +1,4 @@
-import {map, mapParticles, ghostCharacter, characterSprite, ghostCharacterSprite, ghostCharacterNameTag} from "./elements.js"
+import {map,camera, mapParticles, ghostCharacter, characterSprite, ghostCharacterSprite, ghostCharacterNameTag} from "./elements.js"
 const arrow = require("../assets/arrow.svg");
 const car = require("../assets/car.svg");
 
@@ -22,7 +22,14 @@ const playerColors = {
   black : "saturate(3169%) hue-rotate(337deg) brightness(36%) contrast(100%)"
 }
 
+
+
 map.insertBefore(mapParticles , ghostCharacter);
+
+const updateScale = (speed) => {
+  camera.style.scale = 1.2 - (Math.abs(speed)/40)
+}
+
 //style finish line
 const styleFinishCell = (element) => {
     element.style.backgroundImage = `url('${arrow.default}')`
@@ -201,11 +208,9 @@ const drawCanvasMapColor = (context,mapData) => {
           context.fillStyle = "white";
           break;
       }  
-      context.fillRect(cellIndex,rowIndex,3,3);
+      context.fillRect(cellIndex,rowIndex,1,1);
     }
   }
-      
-
   context.globalCompositeOperation='source-over';
 }
 
@@ -216,4 +221,4 @@ const getParticleLimit = () => {
     return particleLimit;
 }
 
-export {createDirtParticle, createDriftParticle,clearParticles, displayDriftParticles,setParticleLimit,getParticleLimit, particles, styleFinishCell, styleCar, colorGhostCar,colorPlayerCar, nameGhost, drawCanvasMap, drawCanvasMapColor, playerColors}
+export {createDirtParticle, createDriftParticle,clearParticles, displayDriftParticles,setParticleLimit,getParticleLimit, particles, styleFinishCell, styleCar, colorGhostCar,colorPlayerCar, nameGhost, drawCanvasMap, drawCanvasMapColor, updateScale, playerColors}

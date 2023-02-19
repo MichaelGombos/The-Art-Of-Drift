@@ -20,6 +20,7 @@ import {
   styleFinishCell,
   nameGhost,
   drawCanvasMapColor,
+  updateScale,
 } from "./graphics.js"
 import {maps, test} from "./map-data.js"
 import {generateMiniMap,updateMiniMapPlayers} from "./mini-map.js"
@@ -350,7 +351,7 @@ const placeGhost = (stepCount) => {
 
 const placeCharacter = () => {
   
-
+  updateScale(car.getSpeed())
   pixelSize = parseInt(
       getComputedStyle(document.documentElement).getPropertyValue('--pixel-size')
   );

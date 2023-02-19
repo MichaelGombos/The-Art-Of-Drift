@@ -1,18 +1,19 @@
 import React from "react"
 import { useNavigate } from 'react-router-dom';
 
+import { maps } from "../../game/map-data.js";
 import { resetGame } from '../../game/main.js';
-import {setMapData, setEnableGhost, setSpectateTime} from "../../game/game.js"
+import {setMapData, setEnableGhost, setSpectateTime, setSpectateMode} from "../../game/game.js"
 
 import { nameGhost, colorGhostCar, colorPlayerCar} from '../../game/graphics.js';
 
-const LeaderboardTime = ({racerInfo,index}) => {
+const LeaderboardTime = ({racerInfo,index,mapIndex}) => {
   const navigate = useNavigate();
 
   const handleWatchReplay = (replay,name,color,spectateTime) => () => {
     setEnableGhost(true);
     setMapData(maps[mapIndex],JSON.parse(replay));
-    setSpectateTime(spectateTime);
+    setSpectateMode(true);
     resetGame(true);
     nameGhost(name);
     colorGhostCar(color)
@@ -22,7 +23,8 @@ const LeaderboardTime = ({racerInfo,index}) => {
   const handleRaceAgainst = (replay,name,color) => () => {
     setEnableGhost(true);
     setMapData(maps[mapIndex],JSON.parse(replay));
-    resetGame();
+    setSpectateMode(false);
+    resetGame(false);
     nameGhost(name);
     colorGhostCar(color)
     colorPlayerCar()

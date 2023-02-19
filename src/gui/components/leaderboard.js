@@ -69,7 +69,7 @@ const Leaderboard = ({screenSetter, mapIndex}) => {
               screenSetter("list")
               }}>Back</button>
               {leaderBoardTimes && leaderBoardTimes.map((racerInfo,index) => {
-                return( <LeaderboardTime key={racerInfo.playerName} racerInfo={racerInfo} index={index}/>)
+                return( <LeaderboardTime key={racerInfo.playerName} racerInfo={racerInfo} index={index} mapIndex={mapIndex}/>)
               })}
             </ul>
           </div>

@@ -1,7 +1,5 @@
 import {
-    generateMap,
     getReqAnim,
-    updateTimer,
     step,
     resetCarValues,
 } from "./game.js"

@@ -4,7 +4,7 @@ import {
 
 import { characterSprite } from "./elements.js";
 
-import {createDirtParticle, createDriftParticle,displayDriftParticles,particles} from "./graphics.js"
+import {createDirtParticle} from "./graphics.js"
 
 //defines car physics 
 const createCar = (isGhost) => {
