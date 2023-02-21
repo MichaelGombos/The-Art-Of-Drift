@@ -8,9 +8,9 @@ import {createDirtParticle} from "./graphics.js"
 
 //defines car physics 
 const createCar = (isGhost) => {
-    const acceleration = .030;
+    const acceleration = .040;
     const friction = .003;
-    const maxSpeed = 8;
+    const maxSpeed = 15;
     const maxLaps = 5;
     let lap = 0;
     let checkPointLap = 0;
@@ -32,8 +32,8 @@ const createCar = (isGhost) => {
     }
     let engineLock = false;
 
-    let tireGrip = 1.5;
-    let turningSpeed = 4;
+    let tireGrip = 1.7;
+    let turningSpeed = 3.5;
     let underSteering = 1;
     
     let onDirt = false;
@@ -248,59 +248,57 @@ const createCar = (isGhost) => {
 
     }
 
-    const updateUnderSteering = () => {
-        //we are not using this.
-        return;
-        // switch (true) {
-        //     case (Math.abs(speed) >= 0 && Math.abs(speed) < .25):
-        //         underSteering = 1
-        //         break;
-        //     case (Math.abs(speed) > .25 && Math.abs(speed) < 1.5):
-        //         underSteering = .9
-        //         break;
-        //     case (Math.abs(speed) > 1.5 && Math.abs(speed) < 2.5):
-        //         underSteering = .8
-        //         break;
-        //     case (Math.abs(speed) > 2.5 && Math.abs(speed) < 3.5):
-        //         underSteering = .7
-        //         break;
-        //     case (Math.abs(speed) > 3.5 && Math.abs(speed) < 4):
-        //         underSteering = .7
-        //         break;
-        //     case (Math.abs(speed) > 4 && Math.abs(speed) < 4.5):
-        //         underSteering = .6
-        //         break;
-        //     case (Math.abs(speed) > 4.5):
-        //         underSteering = .6
-        //         break;
-        //     default:
-        //         underSteering = 1;
-        //         break;
-        // }
-    }
-
-        const updateTireGrip = () => {
+    const updateHandling = () => { //turning speed & tiregrip
         switch (true) {
-            case (Math.abs(speed) >= 0 && Math.abs(speed) < .25):
-                tireGrip = 1.55
+            case (Math.abs(speed) >= 0 && Math.abs(speed) < 1):
+                turningSpeed = 6
                 break;
-            case (Math.abs(speed) > .25 && Math.abs(speed) < 1.5):
-                tireGrip = 1.55
+            case (Math.abs(speed) > 1 && Math.abs(speed) < 2.5):
+                turningSpeed = 5.5
                 break;
-            case (Math.abs(speed) > 1.5 && Math.abs(speed) < 2.5):
-                tireGrip = 1.55
+            case (Math.abs(speed) > 2.5 && Math.abs(speed) < 4):
+                turningSpeed = 5
                 break;
-            case (Math.abs(speed) > 2.5 && Math.abs(speed) < 3.5):
-                tireGrip = 1.55
-                break;
-            case (Math.abs(speed) > 3.5 && Math.abs(speed) < 4):
-                tireGrip = 1.45
+            case (Math.abs(speed) > 4 && Math.abs(speed) < 5):
+                turningSpeed = 4.5
                 break;
             case (Math.abs(speed) > 4 && Math.abs(speed) < 4.5):
-                tireGrip = 1.4
+                turningSpeed = 4
+                break;
+            case (Math.abs(speed) > 4.5):
+                turningSpeed = 3.5
+                break;
+            case (Math.abs(speed) > 7):
+                turningSpeed = 3
+                break;
+            default:
+                turningSpeed = 10
+                break;
+        }
+        switch (true) {
+            case (Math.abs(speed) >= 0 && Math.abs(speed) < .25):
+                tireGrip = 2.5
+                break;
+            case (Math.abs(speed) > .25 && Math.abs(speed) < 1.5):
+                tireGrip = 2.1
+                break;
+            case (Math.abs(speed) > 1.5 && Math.abs(speed) < 2.5):
+                tireGrip = 1.9
+                break;
+            case (Math.abs(speed) > 2.5 && Math.abs(speed) < 3.5):
+                tireGrip = 1.7
+                break;
+            case (Math.abs(speed) > 3.5 && Math.abs(speed) < 4):
+                tireGrip = 1.7
+                break;
+            case (Math.abs(speed) > 4 && Math.abs(speed) < 4.5):
+                tireGrip = 1.7
                 break;
             case (Math.abs(speed) > 4.5):
                 tireGrip = 1.7
+                break;
+            case (Math.abs(speed) > 7):
+                tireGrip = 1
                 break;
             default:
                 tireGrip = 10
@@ -334,11 +332,15 @@ const createCar = (isGhost) => {
 
     const engageBrakes = () => {
         speed -= acceleration * 5;
-        if(speed > 3){
+        
+        if(speed > 7){
             if(driftForce < 1){
                 driftForce = 1;
             }
-            driftForce += .065;
+            driftForce += .099;
+        }
+        else{
+            driftForce -= .05;
         }
     }    
 
@@ -605,8 +607,7 @@ const createCar = (isGhost) => {
         updateAngleLock,
         stabalizeDriftForce,
         stabalizeAngle,
-        updateUnderSteering,
-        updateTireGrip,
+        updateHandling,
         applyFriction,
         turn,
         accelerate,

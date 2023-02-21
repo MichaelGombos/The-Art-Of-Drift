@@ -311,8 +311,7 @@ const placeGhost = (stepCount) => {
     ghostCar.updateAngleLock()
     ghostCar.stabalizeDriftForce();
     ghostCar.stabalizeAngle()
-    ghostCar.updateTireGrip();
-    ghostCar.updateUnderSteering();
+    ghostCar.updateHandling();
 
   if (ghostCar.getSpeed() != 0) {
     ghostCar.collision(tilePixelCount, rows, columns, mapData.map)
@@ -393,8 +392,7 @@ const placeCharacter = () => {
   car.updateAngleLock()
   car.stabalizeDriftForce();
   car.stabalizeAngle()
-  car.updateTireGrip();
-  car.updateUnderSteering();
+  car.updateHandling();
   displayDriftParticles(car.getX(), car.getY(), car.getDriftForce(), car.getOnDirt(), car.getAngle());
 
 
