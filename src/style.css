@@ -1,7 +1,7 @@
 @import "font.css";
 
 :root {
-  --pixel-size: 2px;
+  --pixel-size: 1px;
   --tile-pixel-count: 2;
   --grid-cell: calc( var(--pixel-size) * var(--tile-pixel-count));
   --rows: 20;
@@ -40,12 +40,12 @@
 
 @media( min-width: 700px ) {
   :root {
-     --pixel-size: 3px;
+     --pixel-size: 1.5px;
   }
 }
 @media( min-width: 1000px ) {
   :root {
-     --pixel-size: 4px;
+     --pixel-size: 2px;
   }
 }
 
@@ -773,8 +773,8 @@ textarea{
   opacity: 1;
 }
 .character,.ghost {
-  width: calc( var(--grid-cell) * 2);
-  height: calc( var(--grid-cell) * 2);
+  width: calc( var(--grid-cell) * 4);
+  height: calc( var(--grid-cell) * 4);
   position: absolute;
 /* 
   border: 1px solid white; */

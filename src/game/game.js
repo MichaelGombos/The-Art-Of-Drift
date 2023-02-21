@@ -434,8 +434,8 @@ const placeCharacter = () => {
       car.setY(bottomLimit);
       car.reduceSpeed()
   }
-  const camera_left = pixelSize * camera.clientWidth/8;
-  const camera_top = pixelSize * camera.clientHeight/8;
+  const camera_left = pixelSize * camera.clientWidth/4;
+  const camera_top = pixelSize * camera.clientHeight/4;
 
   map.style.transform = `translate3d( ${-car.getX()*pixelSize+camera_left}px, ${-car.getY()*pixelSize+camera_top}px, 0 )`;
 
