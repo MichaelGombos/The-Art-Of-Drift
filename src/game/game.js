@@ -1,5 +1,4 @@
 import {
-  replayOutput,
   getRunning
 } from "./main.js"
 import{
@@ -114,6 +113,8 @@ const getTargetFps = () => {return targetFps}
 const getReqAnim = () => {return reqAnim}
 
 const getReplayArray = () => {return replayExport}
+
+const getReplayString = () => {return "[" + replayExport.map(frame => "\n[" + frame.map(command => "\"" + command + "\"" ) + "]") + "\n]"}
 
 const getGameMapIndex = () => {return mapIndex}
 
@@ -250,9 +251,6 @@ const checkGameOver = (currentLap) => {
       ghostCar.setEngineLock(true); //disbales acceleration
 
       window.updateGameOver(true)
-
-      //paste replay array to export.
-      replayOutput.innerText =  "[" + replayExport.map(frame => "\n[" + frame.map(command => "\"" + command + "\"" ) + "]") + "\n]";;
       window.changeGUIScreen("/finish")
   }
   else{
@@ -461,8 +459,8 @@ const placeCharacter = () => {
       car.setY(bottomLimit);
       car.reduceSpeed()
   }
-  const camera_left = pixelSize * camera.clientWidth/4;
-  const camera_top = pixelSize * camera.clientHeight/4;
+  const camera_left = pixelSize * camera.clientWidth/2;
+  const camera_top = pixelSize * camera.clientHeight/2;
 
   map.style.transform = `translate3d( ${-car.getX()*pixelSize+camera_left}px, ${-car.getY()*pixelSize+camera_top}px, 0 )`;
 
@@ -572,6 +570,7 @@ export {
   setSpectateMode,
   getGameMapIndex,
   getReplayArray,
+  getReplayString,
   setMapData,
   setSpectateTime
 }

@@ -47,13 +47,8 @@ const getRunning = () => {
     return running}
 
 
-// uploadButton.addEventListener("click", handleUpload);
-const replayOutput = document.querySelector("#replay-output")
-
-  
 
 export {
-    replayOutput,
     getRunning,
     resetGame,
     startGame,

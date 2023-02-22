@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 
 import { maps } from '../../game/map-data.js';
-import { getInSpectateMode,setEnableGhost,setMapData } from "../../game/game";
+import { getInSpectateMode,getReplayString,setEnableGhost,setMapData } from "../../game/game";
 import { resetGame } from "../../game/main";
 
 const racePB = (index) => {
@@ -19,6 +19,7 @@ const FinishNavigation = ({newBest,mapIndex}) => {
 
   const navigate = useNavigate();
   const [inviteCopied, setInviteCopied] = useState(false);
+  const [replayCopied, setReplayCopied] = useState(false);
 
   return(
     <>
@@ -33,6 +34,9 @@ const FinishNavigation = ({newBest,mapIndex}) => {
             copyToClipboard(`http://www.theartofdrift.com/invited?racer=${playerName}&map=${mapIndex}`).then(setInviteCopied(true));
           }}>{inviteCopied ? "Copied!" : "Copy Invite Link"}</button>}
 
+          <button className = {replayCopied ? "disabled" : ""}onClick={() => {
+            copyToClipboard(getReplayString()).then(setReplayCopied(true));
+          }}>{inviteCopied ? "Copied!" : "Copy Replay String"}</button>
             <button onClick={() => {
               resetGame();
               navigate("/hidden")
