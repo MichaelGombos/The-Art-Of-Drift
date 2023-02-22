@@ -14,13 +14,16 @@ import Leaderboards from "./pages/leaderboards.js"
 import Invited from "./pages/invited.js"
 
 import React, {Component, useEffect} from 'react';
-import { Route, Routes, useNavigate, Navigate} from "react-router-dom";
+import { Route, Routes, useNavigate, Navigate, useLocation} from "react-router-dom";
 import InvitedPreview from "./pages/invited-preview.js"
 import MapImport from "./pages/map-import.js"
 import NotSupported from "./pages/not-supported.js"
 
 const {useState} = React
 
+let currentNavigationInterval = 0;
+let lastNavigationTime = performance.now();
+const validNavigationInterval = 250;
 let previous = "main"
 'use strict';
 const commands = {
@@ -42,23 +45,21 @@ const navKeys = {
   "Enter": commands.select
 }
 
-const Menu = ({type, setType}) => {
+const Menu = () => {
   let isDeviceValid = true;
   const [previousType,setPreviousType] = useState('title')
   const [isStatsHidden,setIsStatsHidden] = useState(true);
+  const location = useLocation();
   const navigate = useNavigate();
   window.changeGUIScreen = navigate;
 
   const handleResize = () => {
     if(window.innerWidth < 788){
       isDeviceValid = false;
-      console.log("so??")
       navigate("/not-supported")
     }
     else{
-      console.log("else", isDeviceValid)
       if(!isDeviceValid){
-        console.log("if")
         isDeviceValid = true;
         navigate("/")
       }
@@ -72,22 +73,27 @@ const Menu = ({type, setType}) => {
     handleResize();
   }, [])
 
+  useEffect(() => {
+    console.log('Location changed');
+    window.focusFirstButton ? window.focusFirstButton() : null;
+  }, [location])
+
   return (
     <Routes>
-      <Route path="/" element={<Title/>}/>
-      <Route path="/enter-name" element={<EnterName/>}/>
-      <Route path="/main" element={<Main setPrevious={setPreviousType}/>}/>
-      <Route path="/map-select" element={<MapSelect/>} />
-      <Route path="/map-import" element={<MapImport/>} />
-      <Route path="/leaderboards" element={<Leaderboards/>} />
-      <Route path="/settings" element={<Settings previous={previousType} showStats={isStatsHidden} setShowStats={setIsStatsHidden} />} />
-      <Route path="/hidden" element={<Hidden  showStats={isStatsHidden} />}/>
-      <Route path="/pause" element={<Pause setPrevious={setPreviousType} />}/>
-      <Route path="/finish" element={<Finish/>}/>
-      <Route path="/invited" element={<Invited/>}/>
-      <Route path="/invited/preview" element={<InvitedPreview/>}/>
-      <Route path="/not-supported" element={<NotSupported/>}/>
-      <Route element={<Navigate to="/"/>}/>
+      <Route  path="/" element={<Title/>}/>
+      <Route  path="/enter-name" element={<EnterName/>}/>
+      <Route  path="/main" element={<Main setPrevious={setPreviousType}/>}/>
+      <Route  path="/map-select" element={<MapSelect/>} />
+      <Route  path="/map-import" element={<MapImport/>} />
+      <Route  path="/leaderboards" element={<Leaderboards/>} />
+      <Route  path="/settings" element={<Settings previous={previousType} showStats={isStatsHidden} setShowStats={setIsStatsHidden} />} />
+      <Route  path="/hidden" element={<Hidden  showStats={isStatsHidden} />}/>
+      <Route  path="/pause" element={<Pause setPrevious={setPreviousType} />}/>
+      <Route  path="/finish" element={<Finish/>}/>
+      <Route  path="/invited" element={<Invited/>}/>
+      <Route  path="/invited/preview" element={<InvitedPreview/>}/>
+      <Route  path="/not-supported" element={<NotSupported/>}/>
+      <Route  element={<Navigate to="/"/>}/>
     </Routes>
   )
 }
@@ -98,24 +104,50 @@ class GUI extends Component {
     super(props);
     this.state = {
       type: "enter-name",
-      navIndex: null
+      navIndex: 0
     }
+    window.navigateMenu = this.navigateMenu;
+    window.focusFirstButton = this.focusFirstButton;
   }
+  focusFirstButton = () => {
+    let menuList = Array.from(document.querySelector("#game").querySelectorAll("button,select ,input, .title"));
+    menuList[0].focus();
+    this.setState ({navIndex:0})
+  }
+  navigateMenu = (command) => {
+    currentNavigationInterval = performance.now() - lastNavigationTime
+    let validTime = currentNavigationInterval > validNavigationInterval;
+    if(validTime){
 
-  navigateMenu = (event) => {
-    if(document.querySelector(".menu") && (this.state.type != "hidden" &&  document.activeElement.tagName != "INPUT"  )){
 
-      let menuList = Array.from(document.querySelector(".menu").querySelectorAll("button,select ,input"));
-
-      let firstButton = menuList[0]
-      let lastButton = menuList[menuList.length-1];
-      let lastIndex = menuList.length-1;
-      if(this.state.navIndex == null){
-        this.setState ({navIndex:0})
-        firstButton.focus();
+      if(command == "pause" && currentNavigationInterval > validNavigationInterval * 2){
+        console.log("no way?",currentNavigationInterval , validNavigationInterval)
+        if(location.pathname == "/hidden"){
+          window.changeGUIScreen("/pause");
+          pauseGame();
+        }
+        else if(location.pathname == "/pause"){
+          window.changeGUIScreen("/hidden");
+          unPauseGame();
+        }
       }
-      else{
-        if(navKeys[event.key] == "up"){
+      else if(command == "reset"){
+        setTimeout(resetGame,20)
+      }
+      
+      else if(document.querySelector(".menu") &&  document.activeElement.tagName != "INPUT" ){
+        let menuList = Array.from(document.querySelector("#game").querySelectorAll("button,select ,input, .title"));
+  
+        let firstButton = menuList[0]
+        let lastButton = menuList[menuList.length-1];
+        let lastIndex = menuList.length-1;
+  
+        if(this.state.navIndex == null){
+          console.log("missed?")
+          this.setState ({navIndex:0})
+          firstButton.focus();
+        }
+        if(command == "up"){
           if(document.activeElement == firstButton){ 
             this.setState ({navIndex:lastIndex})
             lastButton.focus();
@@ -126,7 +158,7 @@ class GUI extends Component {
             previousButton.focus();
           }
         }
-        else if(navKeys[event.key] == "down"){
+        else if(command == "down"){
           if(document.activeElement == lastButton){ 
             this.setState ({navIndex:0})
             firstButton.focus();
@@ -134,16 +166,25 @@ class GUI extends Component {
           else{
             let nextButton = menuList[this.state.navIndex+1]
             this.setState ({navIndex:this.state.navIndex+1})
+            console.log(this.state.navIndex, menuList)
             nextButton.focus();
           }
         }
-        else if(navKeys[event.key] == "select"){
-          
-          this.setState ({navIndex:null})
+        else if(command == "select"){
+          console.log(
+            menuList, this.state)
+          menuList[this.state.navIndex].click();
         }
+        else if(command == "back"){
+          history.back()
+        } //todo add navigate back?
+  
       }
+
+      lastNavigationTime = performance.now();
     }
-    
+
+
   }
 
 
@@ -164,7 +205,7 @@ class GUI extends Component {
       }
     }
     else if(Object.keys(navKeys).includes(e.key)){
-      this.navigateMenu(e);
+      this.navigateMenu(navKeys[e.key]);
     }
   }
 
@@ -174,7 +215,7 @@ class GUI extends Component {
 
 
   ref = React.createRef();
-  render() {return <Menu type={this.state.type} setType={this.handleTypeChange}/>}
+  render() {return <Menu type={this.state.type} setType={this.handleTypeChange} />}
 }
 
 

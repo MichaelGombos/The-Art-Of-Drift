@@ -26,6 +26,7 @@ function getGamePadHeldDirections() {
 }
 //rewrite this to return controller input.
 function getGamepadStatus() {
+
   if (!haveEvents) {
     scangamepads();
   }
@@ -45,12 +46,22 @@ function getGamepadStatus() {
 
     const pct = `${Math.round(val * 100)}%`;
     if(val){
-      if(i == 6){
-        console.log("slam the brakes.")
+      if(i == 0){
+        window.navigateMenu("select")
+      }     
+      else if (i == 1){
+        window.navigateMenu("back")
+      }
+      else if( i == 9 || i == 8){
+        window.navigateMenu("pause")
+      }
+      else if( i == 3){
+        window.navigateMenu("reset")
+      }
+      else if (i == 6){
         game_pad_held_directions.unshift("down")
       }
       else if(i == 7){
-        console.log("pump the gas")
         game_pad_held_directions.unshift("up")
       }
     }
@@ -61,12 +72,22 @@ function getGamepadStatus() {
     if(axis){
       if(i == 0){
         if(axis <0){
-          console.log(`turn left`)
           game_pad_held_directions.unshift("left")
         }
         else{
-          console.log(`turn right`)
           game_pad_held_directions.unshift("right")
+        }
+      }
+      if(i == 1){
+        if(axis < 0){
+          if(!getRunning()){
+            window.navigateMenu("up")
+          }
+        }
+        else{
+          if(!getRunning()){
+            window.navigateMenu("down")
+          }
         }
       }
     }

@@ -109,6 +109,10 @@ button:active:hover{
   background-color:orange;
   color:white;
 }
+
+button:focus{
+  outline: 3px solid var(--secondary-500);
+}
 h1,h2,h3,h4,h5,h6,p{
   margin:0;
 }

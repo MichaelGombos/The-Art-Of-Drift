@@ -44,7 +44,7 @@ const RaceLocalButton = ({mapIndex,difficulty,isGhostEnabled}) => {
   return (
     <button className="play-button f-h3" onClick = {()=> {
       handleRaceLocal(mapIndex,difficulty,isGhostEnabled,navigate);
-      }}>poop</button>
+      }}>P L A Y</button>
   )
 }
 
