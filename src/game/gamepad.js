@@ -69,7 +69,7 @@ function getGamepadStatus() {
 
   //sticks
   controller.axes.forEach((axis, i) => {
-    if(axis){
+    if(Math.abs(axis) > .3){
       if(i == 0){
         if(axis <0){
           game_pad_held_directions.unshift(`left@${axis}`)

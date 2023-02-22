@@ -1,7 +1,7 @@
 @import "font.css";
 
 :root {
-  --pixel-size: 1px;
+  --pixel-size: 2px;
   --tile-pixel-count: 2;
   --grid-cell: calc( var(--pixel-size) * var(--tile-pixel-count));
   --rows: 20;
@@ -40,12 +40,12 @@
 
 @media( min-width: 700px ) {
   :root {
-     --pixel-size: 1.5px;
+     --pixel-size: 1px;
   }
 }
 @media( min-width: 1000px ) {
   :root {
-     --pixel-size: 2px;
+     --pixel-size: 1px;
   }
 }
 
@@ -777,8 +777,8 @@ textarea{
   opacity: 1;
 }
 .character,.ghost {
-  width: calc( var(--grid-cell) * 4);
-  height: calc( var(--grid-cell) * 4);
+  width: calc( var(--grid-cell) * 8);
+  height: calc( var(--grid-cell) * 8);
   position: absolute;
 /* 
   border: 1px solid white; */
@@ -798,8 +798,8 @@ textarea{
  .character_spritesheet, .ghost_spritesheet{
   z-index: 0;
   position: relative;
-  bottom:50%;
-  right:50%;
+  bottom:25%;
+  left:25%;
   background:  no-repeat no-repeat;
 
   background-position:center;
