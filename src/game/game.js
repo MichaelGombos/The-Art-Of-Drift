@@ -24,6 +24,7 @@ import {
 } from "./graphics.js"
 import {maps, test} from "./map-data.js"
 import {generateMiniMap,updateMiniMapPlayers} from "./mini-map.js"
+import getGamePadHeldDirections from "./gamepad.js"
 
 let debug = 0;
 
@@ -44,7 +45,8 @@ const tilePixelCount = parseInt(
   getComputedStyle(document.documentElement).getPropertyValue('--tile-pixel-count')
 );
 const carSize = tilePixelCount;
-const held_directions = []; //State of which arrow keys we are holding down
+let held_directions = []; //State of which arrow keys we are holding down
+const controller_held_directions = [];
 
 let pauseBuffers = [];
 let pauseBuffer = 0;
@@ -358,8 +360,10 @@ const placeCharacter = () => {
   gridCellSize = pixelSize * tilePixelCount;
 
   // check if a direction is being held
-
-
+  if (getGamePadHeldDirections()){
+    held_directions = getGamePadHeldDirections();
+  }
+  
   
   if (held_directions.length > 0) {
       
@@ -386,6 +390,7 @@ const placeCharacter = () => {
       }
 
   }
+
 
   replayExport.push([...held_directions])
   // console.log(replayExport);
