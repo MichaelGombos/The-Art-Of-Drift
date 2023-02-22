@@ -363,7 +363,7 @@ const createCar = (isGhost) => {
         }
     }
 
-    const turn = (direction) => {
+    const turn = (direction, pressure = 1) => {
         //compareAngles 
         
         if (direction === "right" && !angleLock.right) {
@@ -374,13 +374,7 @@ const createCar = (isGhost) => {
             }
 
 
-            //turn
-            if(driftForce > 3){
-                angle.facing += turningSpeed; //ignore understeering on drift
-            }
-            else{
-                angle.facing += turningSpeed * underSteering;
-            }
+            angle.facing += turningSpeed * Math.abs(pressure);
             angle.moving += turningSpeed / driftForce;
 
 
@@ -392,12 +386,8 @@ const createCar = (isGhost) => {
             }
 
 
-            if(driftForce > 3){
-                angle.facing -= turningSpeed; //ignore understeering on drift
-            }
-            else{
-                angle.facing -= turningSpeed * underSteering;
-            }
+
+            angle.facing -= turningSpeed * Math.abs(pressure);
             angle.moving -= turningSpeed / driftForce;
 
             //degree correction

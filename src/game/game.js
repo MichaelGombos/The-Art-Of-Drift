@@ -285,29 +285,42 @@ const placeGhost = (stepCount) => {
       car.setY(ghostCar.getY());
     }
     
+
     if (ghost_held_directions && ghost_held_directions.length > 0) {
-        if (ghostCar.getSpeed() != 0) {
+      let pressure = 1;
+      if (ghostCar.getSpeed() != 0) {
           //turn
-            if (ghost_held_directions.includes(directions.right)) {
-                ghostCar.turn("right");
-                ghostCar.setTurning(true)
-            } else if (ghost_held_directions.includes(directions.left)) {
-                ghostCar.turn("left");
-                ghostCar.setTurning(true)
+          for(let direction of ghost_held_directions){
+            if(direction.includes("@")){
+              pressure = direction.slice(direction.indexOf("@")+1)
+            }
+
+            if (direction.includes(directions.right)) {
+              ghostCar.turn("right",pressure);
+              ghostCar.setTurning(true)
+            } else if (direction.includes(directions.left)) {
+              ghostCar.turn("left",pressure);
+              ghostCar.setTurning(true)
             }
             else{
               ghostCar.setTurning(false)
             }
-            ghostCharacterSprite.style.transform = `rotate(${ghostCar.getAngle().facing}deg)`;
+          }
+          ghostCharacterSprite.style.transform = `rotate(${ghostCar.getAngle().facing}deg)`;
+      }
+      for(let direction of ghost_held_directions){
+        console.log(direction)
+        if(direction.includes("@")){
+          let pressure = direction.slice(direction.indexOf("@")+1)
+          console.log(pressure);
         }
-  
-        if (ghost_held_directions.includes(directions.down)) {
-            ghostCar.accelerate(false)
+        if (direction.includes(directions.down)) {
+          ghostCar.accelerate(false,pressure)
         }
-        if (ghost_held_directions.includes(directions.up)) {
-            ghostCar.accelerate(true)
+        if (direction.includes(directions.up)) {
+          ghostCar.accelerate(true,pressure)
         }
-  
+      }
     }
 
     ghostCar.updateAngleLock()
@@ -366,29 +379,40 @@ const placeCharacter = () => {
   
   
   if (held_directions.length > 0) {
-      
+      let pressure = 1;
       if (car.getSpeed() != 0) {
           //turn
-          if (held_directions.includes(directions.right)) {
-              car.turn("right");
+          for(let direction of held_directions){
+            if(direction.includes("@")){
+              pressure = direction.slice(direction.indexOf("@")+1)
+            }
+
+            if (direction.includes(directions.right)) {
+              car.turn("right",pressure);
               car.setTurning(true)
-          } else if (held_directions.includes(directions.left)) {
-              car.turn("left");
-              car.setTurning(true)
-          }
-          else{
-            car.setTurning(false)
+            } else if (direction.includes(directions.left)) {
+                car.turn("left",pressure);
+                car.setTurning(true)
+            }
+            else{
+              car.setTurning(false)
+            }
           }
           characterSprite.style.transform = `rotate(${car.getAngle().facing}deg)`;
       }
-
-      if (held_directions.includes(directions.down)) {
-          car.accelerate(false)
+      for(let direction of held_directions){
+        console.log(direction)
+        if(direction.includes("@")){
+          let pressure = direction.slice(direction.indexOf("@")+1)
+          console.log(pressure);
+        }
+        if (direction.includes(directions.down)) {
+          car.accelerate(false,pressure)
+        }
+        if (direction.includes(directions.up)) {
+            car.accelerate(true,pressure)
+        }
       }
-      if (held_directions.includes(directions.up)) {
-          car.accelerate(true)
-      }
-
   }
 
 

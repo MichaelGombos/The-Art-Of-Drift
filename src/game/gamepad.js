@@ -59,10 +59,10 @@ function getGamepadStatus() {
         window.navigateMenu("reset")
       }
       else if (i == 6){
-        game_pad_held_directions.unshift("down")
+        game_pad_held_directions.unshift(`down@${val}`)
       }
       else if(i == 7){
-        game_pad_held_directions.unshift("up")
+        game_pad_held_directions.unshift(`up@${val}`)
       }
     }
   });
@@ -72,10 +72,10 @@ function getGamepadStatus() {
     if(axis){
       if(i == 0){
         if(axis <0){
-          game_pad_held_directions.unshift("left")
+          game_pad_held_directions.unshift(`left@${axis}`)
         }
         else{
-          game_pad_held_directions.unshift("right")
+          game_pad_held_directions.unshift(`right@${axis}`)
         }
       }
       if(i == 1){
