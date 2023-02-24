@@ -29,6 +29,7 @@ const setMap = (index,difficulty) => { //sets map returns ghost name
 
 
 const handleRaceLocal = (index,difficulty,isGhostEnabled, navigate) =>{
+  console.log("starting", performance.now());
   let ghostName = setMap(index,difficulty);
   setEnableGhost(isGhostEnabled);
   setSpectateMode(false)
@@ -37,6 +38,7 @@ const handleRaceLocal = (index,difficulty,isGhostEnabled, navigate) =>{
   colorGhostCar(difficulty);
   colorPlayerCar()
   navigate("/hidden");
+  console.log("finish", performance.now());
 }
 
 const RaceLocalButton = ({mapIndex,difficulty,isGhostEnabled}) => {

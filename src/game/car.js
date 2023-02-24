@@ -192,7 +192,7 @@ const createCar = (isGhost) => {
     }
 
     const stabalizeDriftForce = () => {
-        if (speed < 2 || driftForce <= 1.05) {
+        if (speed < .5 || driftForce <= 1.05) {
             driftForce = 1;
         } 
         else if (driftForce > 7){
@@ -251,13 +251,13 @@ const createCar = (isGhost) => {
     const updateHandling = () => { //turning speed & tiregrip
         switch (true) {
             case (Math.abs(speed) >= 0 && Math.abs(speed) < 1):
-                turningSpeed = 6
+                turningSpeed = 5
                 break;
             case (Math.abs(speed) > 1 && Math.abs(speed) < 2.5):
-                turningSpeed = 5.5
+                turningSpeed = 5
                 break;
             case (Math.abs(speed) > 2.5 && Math.abs(speed) < 4):
-                turningSpeed = 5
+                turningSpeed = 4.75
                 break;
             case (Math.abs(speed) > 4 && Math.abs(speed) < 5):
                 turningSpeed = 4.5
@@ -331,7 +331,7 @@ const createCar = (isGhost) => {
     //car controls  
 
     const engageBrakes = () => {
-        speed -= acceleration * 5;
+        speed -= acceleration *  5;
         
         if(speed > 7){
             if(driftForce < 1){
@@ -340,7 +340,7 @@ const createCar = (isGhost) => {
             driftForce += .099;
         }
         else{
-            driftForce -= .05;
+            driftForce -= .1;
         }
     }    
 

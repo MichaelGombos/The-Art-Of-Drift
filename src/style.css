@@ -117,6 +117,19 @@ h1,h2,h3,h4,h5,h6,p{
   margin:0;
 }
 
+/* ------ Loader ------ */
+
+#loader-container {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  background: rgba(255, 255, 255)
+      url("../public/loader.gif") center
+      no-repeat;
+  background-size:200px 200px;
+  image-rendering: pixelated;
+  z-index: 3;
+}
 
 /* ------ new GUI CSS ------ */
 
@@ -830,7 +843,7 @@ textarea{
   max-width:20px;
 }
 .particle.cloud{
-  background-color:rgba(244, 218, 169, 0.667);
+  background-color: var(--primary-300);
 
   animation: particle-fade;
   animation-fill-mode: forwards;  

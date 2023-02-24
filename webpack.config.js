@@ -36,15 +36,8 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.(jpg|jpeg|png|svg)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              limit: 10000,
-            },
-          },
-        ],
+        test: /\.(jpg|jpeg|png|svg|gif)$/,
+        type: "asset/resource"        
       },
       {
         test: [/\.(woff|eot|mp4)$/, /favicon-16x16\.png$/],

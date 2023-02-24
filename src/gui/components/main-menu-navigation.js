@@ -3,7 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { startGame} from "../../game/main.js"
-import {setMapData} from "../../game/game.js"
+import {setGameMapIndex, setMapData} from "../../game/game.js"
 import {freeplay, test } from  "../../game/map-data.js"
 
 const MainMenuNavigation = () => {
@@ -14,12 +14,14 @@ const MainMenuNavigation = () => {
     <button onClick={() => navigate("/map-select") }>Map Select</button>
     <button onClick={() => navigate("/leaderboards")}>leaderboards</button>
     <button onClick = {()=> {
+      setGameMapIndex(undefined)
       setMapData(freeplay,[[]]);
       startGame(false);
       navigate("/hidden")
     }}
     >Free Play</button>
    <button onClick = {()=> {
+      setGameMapIndex(undefined);
       setMapData(test,[[]]);
       startGame(false);
       navigate("/hidden")
