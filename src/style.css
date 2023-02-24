@@ -198,11 +198,26 @@ h1,h2,h3,h4,h5,h6,p{
 }
 
 .background div{
-  width:200%;
+  width:300%;
   position:absolute;
   display:flex;
   flex-direction: row;
-  animation: marquee 25s linear infinite;
+}
+
+.background-layer-1{
+  animation: marquee 32s linear infinite;
+}
+.background-layer-2{
+  animation: marquee 16s linear infinite;
+}
+.background-layer-3{
+  animation: marquee 8s linear infinite;
+}
+.background-layer-4{
+  animation: marquee 4s linear infinite;
+}
+.background-layer-5{
+  animation: marquee 2s linear infinite;
 }
 
 .background img{
@@ -212,7 +227,7 @@ h1,h2,h3,h4,h5,h6,p{
 
 @keyframes marquee {
   0% { left: 0; }
-  100% { left: -200%; }
+  100% { left: -150%; }
 }
 
 /* -- title -- */
