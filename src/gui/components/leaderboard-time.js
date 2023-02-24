@@ -2,7 +2,7 @@ import React from "react"
 import { useNavigate } from 'react-router-dom';
 
 import { maps } from "../../game/map-data.js";
-import { resetGame } from '../../game/main.js';
+import { startGame } from '../../game/main.js';
 import {setMapData, setEnableGhost, setSpectateTime, setSpectateMode} from "../../game/game.js"
 
 import { nameGhost, colorGhostCar, colorPlayerCar} from '../../game/graphics.js';
@@ -14,21 +14,21 @@ const LeaderboardTime = ({racerInfo,index,mapIndex}) => {
     setEnableGhost(true);
     setMapData(maps[mapIndex],JSON.parse(replay));
     setSpectateMode(true);
-    resetGame();
+    startGame();
     nameGhost(name);
     colorGhostCar(color)
-    navigate("/hidden");
+    navigate("/countdown");
   }
 
   const handleRaceAgainst = (replay,name,color) => () => {
     setEnableGhost(true);
     setMapData(maps[mapIndex],JSON.parse(replay));
     setSpectateMode(false);
-    resetGame();
+    startGame();
     nameGhost(name);
     colorGhostCar(color)
     colorPlayerCar()
-    navigate("/hidden");
+    navigate("/countdown");
   }
 
   return (

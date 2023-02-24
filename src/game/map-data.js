@@ -14,26 +14,11 @@ import map11 from "./maps/map11.js"
 import map12 from "./maps/map12.js"
 import map13 from "./maps/map13.js"
 
-let freeplay =
-  {
-    data: mapfreeplay,
-    spawnAngle : 0,
-    lapCount:4,
-  }
+let freeplay = mapfreeplay;
 
-let test =
-  {
-    data: maptest,
-    spawnAngle : 40,
-    lapCount:1,
-  }
+let test = maptest;
 
-let maps = [
-  {
-    data: map1,
-    spawnAngle : 335,
-    lapCount:4,
-  },
+let maps = [map1,
   {
     data:map2,
     spawnAngle : 295,
