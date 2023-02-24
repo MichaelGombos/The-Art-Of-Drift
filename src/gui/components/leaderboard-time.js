@@ -14,7 +14,7 @@ const LeaderboardTime = ({racerInfo,index,mapIndex}) => {
     setEnableGhost(true);
     setMapData(maps[mapIndex],JSON.parse(replay));
     setSpectateMode(true);
-    resetGame(true);
+    resetGame();
     nameGhost(name);
     colorGhostCar(color)
     navigate("/hidden");
@@ -24,7 +24,7 @@ const LeaderboardTime = ({racerInfo,index,mapIndex}) => {
     setEnableGhost(true);
     setMapData(maps[mapIndex],JSON.parse(replay));
     setSpectateMode(false);
-    resetGame(false);
+    resetGame();
     nameGhost(name);
     colorGhostCar(color)
     colorPlayerCar()

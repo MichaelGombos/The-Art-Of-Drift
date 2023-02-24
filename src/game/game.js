@@ -470,7 +470,18 @@ const placeCharacter = () => {
 
 const setTargetFps = (target) => { targetFps = target}
 
+const renderNewFrame = () => {
+  //draw stuff
+  placeCharacter();
+  if(enableGhost){
+    placeGhost(ghostStep);
+    ghostStep++;
+  }
+  updateMiniMapPlayers(car,ghostCar);
+}
+
 const step = (newtime) => {
+  console.log(newtime)
   if(!getRunning()){
     isPaused = true;
     return;
@@ -500,13 +511,7 @@ const step = (newtime) => {
         then = now - (elapsed % fpsInterval);
 
         //draw stuff
-        placeCharacter();
-        if(enableGhost){
-          placeGhost(ghostStep);
-          ghostStep++;
-        }
-        updateMiniMapPlayers(car,ghostCar);
-
+        renderNewFrame()
 
         let sinceStart = now-startTime;
         currentFps = Math.round(1000 / (sinceStart / ++frameCount) * 100) / 100
@@ -553,6 +558,7 @@ export {
   getMapData,
   checkGameOver,
   step,
+  renderNewFrame,
   resetCarValues,
   getStats,
   getEnableGhost,

@@ -2,6 +2,7 @@ import {
     getReqAnim,
     step,
     resetCarValues,
+    renderNewFrame
 } from "./game.js"
 
 import{
@@ -18,17 +19,17 @@ let running = false;
 //     generateMap(JSON.parse("[" + mapInput.value + "]")[0])
 // }
 
-const resetGame = (inSpectateMode) => {
+const resetGame = () => {
     pauseGame();
-    setTimeout(startGame(inSpectateMode),1)
+    setTimeout(startGame(),1)
+    unPauseGame();
 }
 
-const startGame = (inSpectateMode, fps) => {
-
+const startGame = () => {
     window.cancelAnimationFrame(getReqAnim());
     clearParticles();
-    resetCarValues(inSpectateMode, fps);
-    unPauseGame();
+    resetCarValues();
+    renderNewFrame();
 }
 
 const unPauseGame = () => {

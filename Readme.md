@@ -49,7 +49,6 @@ This game is played with wasd and the arrow keys to control the car. Shift, spac
 - Package game into an exe
 - Show medal next to leaderboard times
 - Add state for new medal unlocks on finish, then animate them next time the map detail screen is visited
-- Add 321 countdown animation on game start
 - Add Community Map List
 - Add community Map Leaderboard
 - Add tutorial level

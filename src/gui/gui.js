@@ -18,6 +18,7 @@ import { Route, Routes, useNavigate, Navigate, useLocation} from "react-router-d
 import InvitedPreview from "./pages/invited-preview.js"
 import MapImport from "./pages/map-import.js"
 import NotSupported from "./pages/not-supported.js"
+import Countdown from "./pages/countdown.js"
 
 const {useState} = React
 
@@ -87,6 +88,7 @@ const Menu = () => {
       <Route  path="/map-import" element={<MapImport/>} />
       <Route  path="/leaderboards" element={<Leaderboards/>} />
       <Route  path="/settings" element={<Settings previous={previousType} showStats={isStatsHidden} setShowStats={setIsStatsHidden} />} />
+      <Route  path="/countdown" element={<Countdown/>}/>
       <Route  path="/hidden" element={<Hidden  showStats={isStatsHidden} />}/>
       <Route  path="/pause" element={<Pause setPrevious={setPreviousType} />}/>
       <Route  path="/finish" element={<Finish/>}/>

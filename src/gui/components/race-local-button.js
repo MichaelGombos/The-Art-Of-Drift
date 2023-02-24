@@ -1,6 +1,6 @@
 import React from "react";
 
-import {resetGame} from "../../game/main.js"
+import {startGame} from "../../game/main.js"
 import {setMapData,setEnableGhost, setSpectateMode} from "../../game/game.js"
 import { maps } from "../../game/map-data.js";
 import { replays } from "../../game/replay.js"
@@ -33,11 +33,11 @@ const handleRaceLocal = (index,difficulty,isGhostEnabled, navigate) =>{
   let ghostName = setMap(index,difficulty);
   setEnableGhost(isGhostEnabled);
   setSpectateMode(false)
-  resetGame();
+  startGame();
   nameGhost(ghostName)
   colorGhostCar(difficulty);
   colorPlayerCar()
-  navigate("/hidden");
+  navigate("/countdown");
   console.log("finish", performance.now());
 }
 
