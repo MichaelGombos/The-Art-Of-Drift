@@ -24,7 +24,7 @@ const Stats = ({showStats}) => {
       <>
         <li>X <span id="x">{stats.x}</span></li>
         <li>Y <span id="y">{stats.y}</span></li>
-        <li>SPEED <span id="speed">{stats.speed}</span></li>
+        <li>SPEED <span id="speed">{(stats.speed*10).toFixed(2)} MPH</span></li>
         <li>MOVING ANGLE <span id="moving">{stats.movingAngle}</span></li>
         <li>FACING ANGLE <span id="facing">{stats.facingAngle}</span></li>
         <li>DRIFT FORCE <span id="drift-force">{stats.driftForce}</span></li>

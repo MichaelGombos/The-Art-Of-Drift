@@ -15,8 +15,6 @@ import createCar from "./car.js"
 import {
   displayDriftParticles,
   particles,
-  styleCar,
-  styleFinishCell,
   nameGhost,
   drawCanvasMapColor,
   updateScale,
@@ -184,10 +182,6 @@ const resetCarValues = () => {
   then = window.performance.now();
   startTime = then;
   console.log(startTime);
-
-
-  styleCar(characterSprite);
-  styleCar(ghostCharacterSprite);
   
   car.resetValues(inSpectateMode)
   ghostCar.resetValues(inSpectateMode);

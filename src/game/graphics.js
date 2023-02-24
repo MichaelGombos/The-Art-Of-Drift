@@ -30,16 +30,6 @@ const updateScale = (speed) => {
   camera.style.scale = 1.2 - (Math.abs(speed)/40)
 }
 
-//style finish line
-const styleFinishCell = (element) => {
-    element.style.backgroundImage = `url('${arrow.default}')`
-}
-
-//style cars
-const styleCar = (element) => {
-    element.style.backgroundImage = `url('${car.default}')`
-}
-
 const nameGhost = (name) => {
   ghostCharacterNameTag.innerHTML = name;
 }
@@ -221,4 +211,4 @@ const getParticleLimit = () => {
     return particleLimit;
 }
 
-export {createDirtParticle, createDriftParticle,clearParticles, displayDriftParticles,setParticleLimit,getParticleLimit, particles, styleFinishCell, styleCar, colorGhostCar,colorPlayerCar, nameGhost, drawCanvasMap, drawCanvasMapColor, updateScale, playerColors}
+export {createDirtParticle, createDriftParticle,clearParticles, displayDriftParticles,setParticleLimit,getParticleLimit, particles, colorGhostCar,colorPlayerCar, nameGhost, drawCanvasMap, drawCanvasMapColor, updateScale, playerColors}
