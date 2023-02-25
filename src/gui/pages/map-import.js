@@ -10,11 +10,7 @@ const MapImport = () => {
 
   const handleUpload = (e) => {
     //create dummy map values.
-    const map = {
-      data: JSON.parse("[" + mapInput + "]")[0],
-      spawnAngle: 0,
-      lapCount: 3
-    }
+    const map = JSON.parse(mapInput);
 
     setEnableGhost(false);
     setMapData(map)

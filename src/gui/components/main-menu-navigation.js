@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { startGame} from "../../game/main.js"
+import { startGame, resetGame, unPauseGame} from "../../game/main.js"
 import {setGameMapIndex, setMapData} from "../../game/game.js"
 import {freeplay, test } from  "../../game/map-data.js"
 
@@ -16,14 +16,14 @@ const MainMenuNavigation = () => {
     <button onClick = {()=> {
       setGameMapIndex(undefined)
       setMapData(freeplay,[[]]);
-      startGame(false);
+      resetGame();
       navigate("/hidden")
     }}
     >Free Play</button>
    <button onClick = {()=> {
       setGameMapIndex(undefined);
       setMapData(test,[[]]);
-      startGame(false);
+      resetGame();
       navigate("/hidden")
     }}
     >Test Map</button>

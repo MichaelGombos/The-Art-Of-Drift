@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { maps } from '../../game/map-data.js';
 import { getInSpectateMode,getReplayString,setEnableGhost,setMapData } from "../../game/game";
-import { resetGame } from "../../game/main";
+import { pauseGame, resetGame, startGame } from "../../game/main";
 
 const racePB = (index) => {
   setMapData(maps[index],JSON.parse(localStorage.getItem(`pbReplay${index}`)))
