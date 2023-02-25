@@ -797,6 +797,9 @@ textarea{
   width: 100%;
   overflow: hidden;
   position:relative;
+  transition-property: scale;
+  transition-duration: 150ms;
+
 }
 
 
@@ -820,8 +823,8 @@ textarea{
   opacity: 1;
 }
 .character,.ghost {
-  width: calc( var(--grid-cell) * 7);
-  height: calc( var(--grid-cell) * 7);
+  width: calc( var(--grid-cell) * 6);
+  height: calc( var(--grid-cell) * 6);
   position: absolute;
 /* 
   border: 1px solid white; */

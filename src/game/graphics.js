@@ -27,7 +27,7 @@ const playerColors = {
 map.insertBefore(mapParticles , ghostCharacter);
 
 const updateScale = (speed) => {
-  camera.style.scale = 1.2 - (Math.abs(speed)/40)
+  camera.style.scale = 2 - (Math.abs(speed)/15)
 }
 
 const nameGhost = (name) => {
@@ -51,6 +51,7 @@ let particles = [];
 let particleLimit = 1000;
 //graphics 
 const createDriftParticle = (carX, carY, driftForce, carAngle) => {
+
   let particle = (xDif,yDif,sizeMultiplier,angleModifier,className) => {
       let x = carX + xDif;
       let y = carY + yDif;
@@ -78,9 +79,9 @@ const createDriftParticle = (carX, carY, driftForce, carAngle) => {
   ] 
 
   let smokeParticle = particle(
-  Math.floor(Math.random() * 3 * driftForce), 
-  Math.floor(Math.random() * 3 * driftForce),
-  4,
+  Math.floor((Math.random() * 6)-3) * driftForce, 
+  Math.floor((Math.random() * 6)-3) * driftForce,
+  driftForce,
   carAngle.moving + Math.floor(Math.random() * 50) - 25,
   "cloud");
 
@@ -90,7 +91,7 @@ const createDriftParticle = (carX, carY, driftForce, carAngle) => {
     mapParticles.appendChild(skidParticle.element)
   }
   // also make cloud
-  if (driftForce >= 4) {
+  if (driftForce >=4) {
     particles.push(smokeParticle);
     mapParticles.appendChild(smokeParticle.element)
   }
@@ -98,8 +99,8 @@ const createDriftParticle = (carX, carY, driftForce, carAngle) => {
 
 const createDirtParticle = (x, y) => {
   let particle = {
-      x: x + Math.floor(Math.random() * 20) - 10,
-      y: y + Math.floor(Math.random() * 20) - 10,
+      x: x + Math.floor(Math.random() * 30) - 15,
+      y: y + Math.floor(Math.random() * 30) - 15,
       size: 40,
       element: document.createElement("div"),
       angle: Math.floor(Math.random() * 359)

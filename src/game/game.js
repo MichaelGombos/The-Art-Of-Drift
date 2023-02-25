@@ -181,7 +181,6 @@ const resetCarValues = () => {
   fpsInterval = 1000 / targetFps;
   then = window.performance.now();
   startTime = then;
-  console.log(startTime);
   
   car.resetValues(inSpectateMode)
   ghostCar.resetValues(inSpectateMode);
@@ -301,10 +300,8 @@ const placeGhost = (stepCount) => {
           ghostCharacterSprite.style.transform = `rotate(${ghostCar.getAngle().facing}deg)`;
       }
       for(let direction of ghost_held_directions){
-        console.log(direction)
         if(direction.includes("@")){
           let pressure = direction.slice(direction.indexOf("@")+1)
-          console.log(pressure);
         }
         if (direction.includes(directions.down)) {
           ghostCar.accelerate(false,pressure)
@@ -393,10 +390,8 @@ const placeCharacter = () => {
           characterSprite.style.transform = `rotate(${car.getAngle().facing}deg)`;
       }
       for(let direction of held_directions){
-        console.log(direction)
         if(direction.includes("@")){
           let pressure = direction.slice(direction.indexOf("@")+1)
-          console.log(pressure);
         }
         if (direction.includes(directions.down)) {
           car.accelerate(false,pressure)
@@ -481,7 +476,6 @@ const renderNewFrame = () => {
 }
 
 const step = (newtime) => {
-  console.log(newtime)
   if(!getRunning()){
     isPaused = true;
     return;
