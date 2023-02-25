@@ -1,4 +1,5 @@
 import {map,camera, mapParticles, ghostCharacter, characterSprite, ghostCharacterSprite, ghostCharacterNameTag} from "./elements.js"
+import { getDirectionalCamera } from "./game.js";
 const arrow = require("../assets/arrow.svg");
 const car = require("../assets/car.svg");
 
@@ -26,8 +27,16 @@ const playerColors = {
 
 map.insertBefore(mapParticles , ghostCharacter);
 
-const updateScale = (speed) => {
-  camera.style.scale = 2 - (Math.abs(speed)/15)
+const updateCameraScale = (speed) => {
+  camera.style.scale = 2 - (Math.abs(speed)/25)
+}
+const updateCameraAngle = (angle) => {
+  if(getDirectionalCamera()){
+    camera.style.transform = `rotate(${-angle + 270}deg)`
+  }
+  else{
+    camera.style.transform = `rotate(${0}deg)`
+  }
 }
 
 const nameGhost = (name) => {
@@ -212,4 +221,4 @@ const getParticleLimit = () => {
     return particleLimit;
 }
 
-export {createDirtParticle, createDriftParticle,clearParticles, displayDriftParticles,setParticleLimit,getParticleLimit, particles, colorGhostCar,colorPlayerCar, nameGhost, drawCanvasMap, drawCanvasMapColor, updateScale, playerColors}
+export {createDirtParticle, createDriftParticle,clearParticles, displayDriftParticles,setParticleLimit,getParticleLimit, particles, colorGhostCar,colorPlayerCar, nameGhost, drawCanvasMap, drawCanvasMapColor, updateCameraScale,updateCameraAngle, playerColors}

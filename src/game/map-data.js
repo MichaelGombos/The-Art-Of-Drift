@@ -18,28 +18,7 @@ let freeplay = mapfreeplay;
 
 let test = maptest;
 
-let maps = [map1,map2
-  ,
-  {
-    data:map3,
-    spawnAngle : 305,
-    lapCount:2
-  },
-  {
-    data:map4,
-    spawnAngle : 290,
-    lapCount:3
-  },
-  {
-    data:map5,
-    spawnAngle : 330,
-    lapCount:3
-  },
-  {
-    data:map6,
-    spawnAngle : 270,
-    lapCount:5
-  },
+let maps = [map1,map2,map3,map4,map5,map6,
   {
     data:map7,
     spawnAngle : 22,

@@ -19,6 +19,7 @@ import InvitedPreview from "./pages/invited-preview.js"
 import MapImport from "./pages/map-import.js"
 import NotSupported from "./pages/not-supported.js"
 import Countdown from "./pages/countdown.js"
+import ScrollingBackground from "./components/scrolling-background.js"
 
 const {useState} = React
 
@@ -80,6 +81,8 @@ const Menu = () => {
   }, [location])
 
   return (
+    <>
+    <ScrollingBackground/>
     <Routes>
       <Route  path="/" element={<Title/>}/>
       <Route  path="/enter-name" element={<EnterName/>}/>
@@ -97,6 +100,8 @@ const Menu = () => {
       <Route  path="/not-supported" element={<NotSupported/>}/>
       <Route  element={<Navigate to="/"/>}/>
     </Routes>
+    
+    </>
   )
 }
 

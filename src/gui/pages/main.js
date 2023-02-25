@@ -11,7 +11,6 @@ const Main = () => {
     <p className='text-color-primary-900 f-p2'>Welcome, {localStorage.getItem("playerName")}</p>
     <MainMenuNavigation/>
     <StackedBrandText size="f-h2" content="main menu"/>
-    <ScrollingBackground/>
   </div>
   )
 }

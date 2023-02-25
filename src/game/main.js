@@ -13,6 +13,7 @@ const mapInput = document.querySelector("#map-input")
 
 
 let running = false;
+let isGameOn = false;
 
 
 // const handleUpload = (e) => {
@@ -26,10 +27,18 @@ const resetGame = () => {
 }
 
 const startGame = () => {
+    isGameOn = true;
     window.cancelAnimationFrame(getReqAnim());
     clearParticles();
     resetCarValues();
     renderNewFrame();
+}
+
+const getGameOn = () => {
+    return isGameOn;
+}
+const turnOffGame = () => {
+    isGameOn = false;
 }
 
 const unPauseGame = () => {
@@ -54,5 +63,7 @@ export {
     resetGame,
     startGame,
     pauseGame,
-    unPauseGame
+    unPauseGame,
+    turnOffGame,
+    getGameOn
 }

@@ -17,7 +17,8 @@ import {
   particles,
   nameGhost,
   drawCanvasMapColor,
-  updateScale,
+  updateCameraScale,
+  updateCameraAngle
 } from "./graphics.js"
 import {maps, test} from "./map-data.js"
 import {generateMiniMap,updateMiniMapPlayers} from "./mini-map.js"
@@ -95,6 +96,7 @@ let milliseconds = 0;
 let timeString = "00:00:00";
 
 let enableGhost = false;
+let isDirectionalCameraOn = false;
 
 // functions
 const setGameMapIndex = (index) => {
@@ -105,6 +107,8 @@ const setEnableGhost = (check) => {
   enableGhost = check;
   check ? ghostCharacter.classList.remove("hidden") : ghostCharacter.classList.add("hidden")
 }
+
+const setDirectionalCamera = (value) => {isDirectionalCameraOn = value}
 
 const getTargetFps = () => {return targetFps}
 
@@ -117,6 +121,8 @@ const getReplayString = () => {return "[" + replayExport.map(frame => "\n[" + fr
 const getGameMapIndex = () => {return mapIndex}
 
 const getEnableGhost = () => {return enableGhost}
+
+const getDirectionalCamera = () => {return isDirectionalCameraOn}
 
 const getTimeString = () => {return timeString}
 
@@ -274,6 +280,8 @@ const placeGhost = (stepCount) => {
     if(inSpectateMode){
       car.setX(ghostCar.getX());
       car.setY(ghostCar.getY());
+      updateCameraScale(ghostCar.getSpeed())
+      updateCameraAngle(ghostCar.getAngle().facing)
     }
     
 
@@ -316,6 +324,7 @@ const placeGhost = (stepCount) => {
     ghostCar.stabalizeDriftForce();
     ghostCar.stabalizeAngle()
     ghostCar.updateHandling();
+    displayDriftParticles(ghostCar.getX(), ghostCar.getY(), ghostCar.getDriftForce(), ghostCar.getOnDirt(), ghostCar.getAngle());
 
   if (ghostCar.getSpeed() != 0) {
     ghostCar.collision(tilePixelCount, rows, columns, mapData.map)
@@ -353,8 +362,10 @@ const placeGhost = (stepCount) => {
 
 
 const placeCharacter = () => {
-  
-  updateScale(car.getSpeed())
+  if(!inSpectateMode){
+    updateCameraScale(car.getSpeed())
+    updateCameraAngle(car.getAngle().facing)
+  }
   pixelSize = parseInt(
       getComputedStyle(document.documentElement).getPropertyValue('--pixel-size')
   );
@@ -554,6 +565,7 @@ export {
   step,
   renderNewFrame,
   resetCarValues,
+  getDirectionalCamera,
   getStats,
   getEnableGhost,
   getInSpectateMode,
@@ -566,5 +578,6 @@ export {
   getReplayArray,
   getReplayString,
   setMapData,
-  setSpectateTime
+  setSpectateTime,
+  setDirectionalCamera
 }

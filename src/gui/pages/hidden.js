@@ -31,6 +31,7 @@ const Hidden = ({showStats}) => {
           <ResetGameButton/>
         </div>
         <Stats showStats={showStats}/>
+        <div className="solid-background"></div>
     </>
 
   )

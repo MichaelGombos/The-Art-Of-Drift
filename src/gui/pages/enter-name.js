@@ -9,7 +9,6 @@ const EnterName = () => {
 
   return (
     <div className="menu enter-name text-color-primary-900">
-      <ScrollingBackground/>
       <PlayerInfoForm destination={"/main"}/>
     </div>
   )

@@ -10,7 +10,7 @@ import {createDirtParticle} from "./graphics.js"
 const createCar = (isGhost) => {
     let acceleration = .040;
     const friction = .003;
-    const maxSpeed = 12;
+    const maxSpeed = 25;
     const maxLaps = 5;
     let lap = 0;
     let checkPointLap = 0;
@@ -100,7 +100,7 @@ const createCar = (isGhost) => {
     }
 
     const reduceSpeed = () => { //wall/border
-        speed = speed/1.05; 
+        speed = speed/1.25; 
     }
 
     const compareFacingRelativeToMoving = (facingAngle, movingAngle) => { // 1 right 0 middle - 1l eft 

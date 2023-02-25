@@ -10,7 +10,6 @@ const Title = () => {
           <StackedBrandText size="display-1" content="the art of drift"/>
           <p className="f-p1">click the screen to start </p>
         </div>
-      <ScrollingBackground/>
     </Link>
   )
 }

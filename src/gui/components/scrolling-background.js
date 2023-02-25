@@ -6,10 +6,15 @@ import layer3 from "../../assets/background/3.png"
 import layer4 from "../../assets/background/4.png"
 import layer5 from "../../assets/background/5.png"
 
+import { getGameOn } from '../../game/main';
+
+import { useEffect, useState } from 'react';
+
 const ScrollingBackground = () => {
+  const [isGameRunning,setIsGameRunning] = useState(false)
 
   return (
-    <div className='background'>
+    <div className={`background ${getGameOn() ? "hidden": ""}`}>
       <div className='background-layer-1'>
         <img src={layer1}/>
         <img src={layer1}/>
