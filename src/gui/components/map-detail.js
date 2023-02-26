@@ -9,6 +9,7 @@ import ToggleGhostButton from './toggle-ghost-button.js';
 import BackToListButton from './back-to-list-button.js';
 import RaceLocalButton from './race-local-button.js';
 import LocalMedalsList from './local-medals-list.js';
+import { decompressMapData } from '../../game/map-compression.js';
 
 const MapDetail = ({screenSetter, mapIndex}) => {
 
@@ -18,11 +19,13 @@ const MapDetail = ({screenSetter, mapIndex}) => {
 
 
   useEffect(() => {
+    const decompressedMap = decompressMapData(maps[mapIndex].data)
     const mapPreviewCanvas = document.getElementById("map-preview");
     const mapPreviewContext = mapPreviewCanvas.getContext("2d")
-    mapPreviewCanvas.width = maps[mapIndex].data[0].length;
-    mapPreviewCanvas.height = maps[mapIndex].data.length;
-    drawCanvasMap(mapPreviewContext, maps[mapIndex].data)
+    mapPreviewCanvas.width = decompressedMap[0].length;
+    mapPreviewCanvas.height = decompressedMap.length;
+    drawCanvasMap(mapPreviewContext, decompressedMap)
+    
   })
 
 

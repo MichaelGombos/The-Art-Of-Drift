@@ -35,7 +35,7 @@ This game is played with wasd and the arrow keys to control the car. Shift, spac
 
 - (done) Show wheel & pedal pressure in stats
 - (done) Fix Background On Back navigation [b1]
-- Compress Maps [b2]
+- (done) Compress Maps [b2]
 - Add upload map page
 - Add community map list + leaderboard
 - Fix Controller/Keyboard Navigation [b3]

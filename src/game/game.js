@@ -23,6 +23,7 @@ import {
 import {maps, test} from "./map-data.js"
 import {generateMiniMap,updateMiniMapPlayers} from "./mini-map.js"
 import getGamePadHeldDirections from "./gamepad.js"
+import { decompressMapData } from "./map-compression.js"
 
 let debug = 0;
 
@@ -204,7 +205,7 @@ const setMapData = (map,replay) => {
   
   maxLaps = map.lapCount;
   mapData = {
-    map:map.data,
+    map:decompressMapData(map.data),
     replay:replay
   };
   generateMap(mapData.map)

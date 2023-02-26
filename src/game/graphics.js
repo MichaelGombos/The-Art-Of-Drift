@@ -152,11 +152,11 @@ const drawCanvasMap = (context,mapData) => {
   
     for(let rowIndex in mapData){
       for(let cellIndex in mapData[rowIndex]){
-        if(mapData[rowIndex][cellIndex] == 0){
+        if(Number(mapData[rowIndex][cellIndex]) == 0){
           context.fillStyle = "white"
           context.fillRect(cellIndex,rowIndex,1,1);
         }
-        else if(mapData[rowIndex][cellIndex] == 4 ||
+        else if(Number(mapData[rowIndex][cellIndex]) == 4 ||
           mapData[rowIndex][cellIndex] == 5 ){
           context.fillStyle = "grey"
           context.fillRect(cellIndex,rowIndex,3,3);
@@ -170,7 +170,7 @@ const drawCanvasMapColor = (context,mapData) => {
   context.globalCompositeOperation='destination-over';
   for(let rowIndex in mapData){
     for(let cellIndex in mapData[rowIndex]){
-      switch(mapData[rowIndex][cellIndex]){
+      switch(Number(mapData[rowIndex][cellIndex])){
         case (0): //road
           context.fillStyle = "#e69c69";
           break;
