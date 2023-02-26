@@ -11,6 +11,7 @@ const LeaderboardTime = ({racerInfo,index,mapIndex}) => {
   const navigate = useNavigate();
 
   const handleWatchReplay = (replay,name,color,spectateTime) => () => {
+    console.log(JSON.parse(replay))
     setEnableGhost(true);
     setMapData(maps[mapIndex],JSON.parse(replay));
     setSpectateMode(true);

@@ -299,9 +299,40 @@ button.wide-btn{
   font-weight: lighter;
 }
 .stats li{
+  width:200px;
   display:flex;
   justify-content: space-between;
   gap:50px;
+}
+
+.inputs{
+  display:flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding:10px;
+}
+#steering-wheel{
+  transition-property: transform;
+  transition-duration: 250ms;
+}
+
+#pedals{
+  display: flex;
+  gap:15px;
+
+}
+.pedal{
+  width:50px;
+  height:20px;
+  background-color: white;
+  color:var(--shade-100);
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  transition-property: transform;
+  transition-duration: 250ms;
 }
 .pixel-art {
   image-rendering: pixelated;

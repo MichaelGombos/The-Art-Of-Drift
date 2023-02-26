@@ -43,8 +43,8 @@ const tilePixelCount = parseInt(
   getComputedStyle(document.documentElement).getPropertyValue('--tile-pixel-count')
 );
 const carSize = tilePixelCount;
-let held_directions = []; //State of which arrow keys we are holding down
-const controller_held_directions = [];
+let held_directions = []; 
+let ghost_held_directions = []; 
 
 let pauseBuffers = [];
 let pauseBuffer = 0;
@@ -136,6 +136,7 @@ const getSpectateTime = () => {return spectateTime}
 
 const getStats = () => {
   const target = inSpectateMode ? ghostCar : car;
+  const targetInputs = inSpectateMode ? (ghost_held_directions ? ghost_held_directions : [[]])  : held_directions;
   return {
     fps : currentFps,
     time: timeString,
@@ -149,7 +150,8 @@ const getStats = () => {
     underSteering : target.getUnderSteering().toFixed(2),
     angleLockLeft : target.getAngleLock().left,
     angleLockRight : target.getAngleLock().right,
-    particleCount : particles.length
+    particleCount : particles.length,
+    inputs : targetInputs
   }
 }
 
@@ -277,7 +279,7 @@ function msToTime(s) {
 }
 
 const placeGhost = (stepCount) => {
-    let ghost_held_directions = mapData.replay[stepCount]
+    ghost_held_directions = mapData.replay[stepCount]
     if(inSpectateMode){
       car.setX(ghostCar.getX());
       car.setY(ghostCar.getY());
