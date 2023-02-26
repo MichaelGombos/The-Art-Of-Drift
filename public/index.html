@@ -6,7 +6,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
 
   <link href="style.css" type="text/html">
-  
+  <style type="text/css">
+     #loader-container {
+      width: 100%;
+      height: 100vh;
+      position: fixed;
+      background: rgba(255, 255, 255)
+            url("loader.gif") center
+            no-repeat;
+      background-size:200px 200px;
+      image-rendering: pixelated;
+      z-index: 3;
+}
+  </style>
   </head>
   <body tabindex="-2">
      <main>
@@ -70,7 +82,7 @@
       }
       
       window.addEventListener("load", () => { setTimeout(
-      fadeOutEffect, 500)}); 
+      fadeOutEffect, 1)}); 
       console.log("assigned")
 
    </script>

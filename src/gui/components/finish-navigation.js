@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { maps } from '../../game/map-data.js';
 import { getInSpectateMode,getReplayString,setEnableGhost,setMapData } from "../../game/game";
-import { pauseGame, resetGame, startGame } from "../../game/main";
+import { pauseGame, resetGame, startGame,turnOffGame } from "../../game/main";
 
 const racePB = (index) => {
   setMapData(maps[index],JSON.parse(localStorage.getItem(`pbReplay${index}`)))
@@ -52,6 +52,7 @@ const FinishNavigation = ({newBest,mapIndex}) => {
 
             <button onClick={() => {
               navigate("/map-select");
+              turnOffGame();
             }}>Back to map select</button>
       </nav>
     </>

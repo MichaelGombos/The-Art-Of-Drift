@@ -33,25 +33,25 @@ This game is played with wasd and the arrow keys to control the car. Shift, spac
 
 ### urgent
 
-- Redraw and scale up maps.
 - Add an email login system.
 
 ### high priority
 
-- Rewrite map-data.js to have all map info in individual .js files.
-- Add settings im mapMaker to choose laps/spawn angle.
-- ^^update map maker tool to export all map information
+- Fix navigation losing focus sometimes
+- Show ghost stats in spectate mode
 - Fix map preview bug with tall maps
 
 
 ### nice to have
 
 - Package game into an exe
-- Show medal next to leaderboard times
-- Add state for new medal unlocks on finish, then animate them next time the map detail screen is visited
 - Add Community Map List
 - Add community Map Leaderboard
 - Add tutorial level
+- Add animations
+- Add sounds
+- Replace gui+game assets with pixelart
+- Add mobile support
 
 
 ## License

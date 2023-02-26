@@ -18,43 +18,27 @@ let freeplay = mapfreeplay;
 
 let test = maptest;
 
-let maps = [map1,map2,map3,map4,map5,map6,
-  {
-    data:map7,
-    spawnAngle : 22,
-    lapCount:5
-  },
-  {
-    data:map8,
-    spawnAngle : 270,
-    lapCount:5
-  },
-  {
-    data:map9,
-    spawnAngle : 270,
-    lapCount:5
-  },
-  {
-    data:map10,
-    spawnAngle : 315,
-    lapCount:5
-  },
-  {
-    data:map11,
-    spawnAngle : 138,
-    lapCount:3
-  },
-  {
-    data:map12,
-    spawnAngle : 270,
-    lapCount:5
-  },
-  {
-    data:map13,
-    spawnAngle : 0,
-    lapCount:4
-  }
-]
+let maps = [map1,map2,map3,map4,map5,map6,map7,map8,map9,map10,map11,map12,map13]
+
+/*
+
+Map references
+
+1 https://en.wikipedia.org/wiki/Suzuka_International_Racing_Course
+2 https://en.wikipedia.org/wiki/Circuito_do_Estoril
+3 https://en.wikipedia.org/wiki/Riverside_International_Raceway
+4 https://en.wikipedia.org/wiki/Monza_Circuit
+5 https://en.wikipedia.org/wiki/Hungaroring 
+6 https://en.wikipedia.org/wiki/Brands_Hatch
+7 https://en.wikipedia.org/wiki/Circuit_de_Spa-Francorchamps 
+8 is custom.
+9 https://en.wikipedia.org/wiki/Circuito_de_Jerez
+10 https://en.wikipedia.org/wiki/Red_Bull_Ring
+11 https://en.wikipedia.org/wiki/Zeltweg_Air_Base
+12 https://en.wikipedia.org/wiki/Watkins_Glen_International
+13 https://en.wikipedia.org/wiki/Sepang_International_Circuit
+*/
+
 
 const mapNames = [
   "laying TRACKS",

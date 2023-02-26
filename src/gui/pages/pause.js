@@ -2,7 +2,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import {unPauseGame} from "../../game/main.js"
+import {turnOffGame, unPauseGame} from "../../game/main.js"
 
 const Pause = ({setPrevious}) => {
   const navigate = useNavigate();
@@ -21,6 +21,7 @@ const Pause = ({setPrevious}) => {
         }}>Settings</button>
         <button onClick={() => {
           navigate("/main");
+          turnOffGame();
         }}>Back to main menu</button>
       </div>
     </div>

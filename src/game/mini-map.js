@@ -19,12 +19,16 @@ const updateMiniMapPlayers = (player,ghost) => {
   playerCanvas.height = mapCanvas.height;
 
   playerCtx.clearRect(0,0,playerCanvas.width,playerCanvas.height);
-
+  playerCtx.strokeStyle = "white";
+  playerCtx.lineWidth = 15;
   playerCtx.fillStyle = "red"
-  playerCtx.fillRect(player.getX()/getTilePixelCount(),player.getY()/getTilePixelCount(),5,5);
+
+  playerCtx.fillRect(player.getX()/getTilePixelCount(),player.getY()/getTilePixelCount(),80,80);
+  playerCtx.strokeRect(player.getX()/getTilePixelCount(),player.getY()/getTilePixelCount(),80,80);
 
   playerCtx.fillStyle = "blue"
-  playerCtx.fillRect(ghost.getX()/getTilePixelCount(),ghost.getY()/getTilePixelCount(),5,5);
+  playerCtx.fillRect(ghost.getX()/getTilePixelCount(),ghost.getY()/getTilePixelCount(),80,80);
+  playerCtx.strokeRect(ghost.getX()/getTilePixelCount(),ghost.getY()/getTilePixelCount(),80,80);
 }
 
 

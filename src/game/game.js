@@ -286,8 +286,8 @@ const placeGhost = (stepCount) => {
     
 
     if (ghost_held_directions && ghost_held_directions.length > 0) {
-      let pressure = 1;
       if (ghostCar.getSpeed() != 0) {
+          let pressure = 1;
           //turn
           for(let direction of ghost_held_directions){
             if(direction.includes("@")){
@@ -308,8 +308,9 @@ const placeGhost = (stepCount) => {
           ghostCharacterSprite.style.transform = `rotate(${ghostCar.getAngle().facing}deg)`;
       }
       for(let direction of ghost_held_directions){
+        let pressure = 1;
         if(direction.includes("@")){
-          let pressure = direction.slice(direction.indexOf("@")+1)
+          pressure = direction.slice(direction.indexOf("@")+1)
         }
         if (direction.includes(directions.down)) {
           ghostCar.accelerate(false,pressure)
@@ -379,8 +380,8 @@ const placeCharacter = () => {
   
   
   if (held_directions.length > 0) {
-      let pressure = 1;
       if (car.getSpeed() != 0) {
+        let pressure = 1;
           //turn
           for(let direction of held_directions){
             if(direction.includes("@")){
@@ -401,8 +402,9 @@ const placeCharacter = () => {
           characterSprite.style.transform = `rotate(${car.getAngle().facing}deg)`;
       }
       for(let direction of held_directions){
+        let pressure = 1;
         if(direction.includes("@")){
-          let pressure = direction.slice(direction.indexOf("@")+1)
+          pressure = direction.slice(direction.indexOf("@")+1)
         }
         if (direction.includes(directions.down)) {
           car.accelerate(false,pressure)
