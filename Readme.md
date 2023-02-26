@@ -29,30 +29,33 @@ This game is played with wasd and the arrow keys to control the car. Shift, spac
 
 [NES Cyrillic by xbost](http://www.pentacom.jp/pentacom/bitfontmaker2/gallery/?id=2639)
 
-## Backlog
+## RoadMap
 
-### urgent
+### Upcoming Release 1.0.0
 
+- Fix Background On Back navigation [b1]
+- Show wheel & pedal pressure in stats
+- Compress Maps [b2]
+- Add upload map page
+- Add community map list + leaderboard
+- Fix Controller/Keyboard Navigation [b3]
 - Add an email login system.
-
-### high priority
-
-- Fix navigation losing focus sometimes
-- Show ghost stats in spectate mode
-- Fix map preview bug with tall maps
-
-
-### nice to have
-
-- Package game into an exe
-- Add Community Map List
-- Add community Map Leaderboard
 - Add tutorial level
+- Package game into an exe
+
+### Upcoming Release 1.1.0
+
 - Add animations
 - Add sounds
 - Replace gui+game assets with pixelart
+- Add header font missing characters
 - Add mobile support
 
+### bugs
+
+- [b1] game doesn't shut off if you close by navigating back using the mouse or browser, causing background to not render and the game to still be visible in the main menu
+- [b2] maps are currently too large for netifly to process & build without running into "FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory" , causing www.theartofdrift.com to not be running the most up to date version
+- [b3] navigation loses focus occaisionally and cannot be restored if you are only using the controller/keyboard and not mouse/tab.
 
 ## License
 

@@ -495,10 +495,13 @@ form.player-info > div{
 
 .menu.map-select .preview-wrapper{
   width:100%;
+  display:flex;
+  justify-content: center;
 }
 #map-preview{
-  image-rendering: pixelated;
-  width:100%;
+image-rendering: pixelated;
+  max-height: 300px;
+  max-width: 100%;
 }
 .menu.map-select .player-stats{
   width:100%;
