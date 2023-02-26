@@ -1,5 +1,5 @@
 //game functions
-import {pauseGame,unPauseGame,resetGame} from "../game/main.js"
+import {pauseGame,unPauseGame,resetGame, turnOffGame} from "../game/main.js"
 
 //pages
 import EnterName from "./pages/enter-name.js"
@@ -70,13 +70,20 @@ const Menu = () => {
 
   useEffect(() => {
     window.addEventListener('resize',handleResize)
-    if(!location.pathname.includes("/invited"))
     navigate("/")
     handleResize();
   }, [])
 
   useEffect(() => {
     console.log('Location changed');
+
+    if(
+    !location.pathname.includes("/pause") &&
+    !location.pathname.includes("/hidden") &&
+    !location.pathname.includes("/countdown") &&
+    !location.pathname.includes("/finish")){
+      turnOffGame();
+    }
     window.focusFirstButton ? window.focusFirstButton() : null;
   }, [location])
 

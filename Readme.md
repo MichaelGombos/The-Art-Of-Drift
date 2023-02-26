@@ -33,7 +33,8 @@ This game is played with wasd and the arrow keys to control the car. Shift, spac
 
 ### Upcoming Release 1.0.0
 
-- Fix Background On Back navigation [b1]
+- (done) Show wheel & pedal pressure in stats
+- (done) Fix Background On Back navigation [b1]
 - Compress Maps [b2]
 - Add upload map page
 - Add community map list + leaderboard
