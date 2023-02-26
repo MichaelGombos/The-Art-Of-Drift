@@ -176,6 +176,7 @@ h1,h2,h3,h4,h5,h6,p{
 }
 
 .background{
+  scale:1.1;
   z-index: 2;
   width:100%;
   height:100%;
@@ -192,19 +193,19 @@ h1,h2,h3,h4,h5,h6,p{
 }
 
 .background-layer-1{
-  animation: marquee 32s linear infinite;
+  animation: marquee 122s linear infinite;
 }
 .background-layer-2{
-  animation: marquee 16s linear infinite;
+  animation: marquee 63s linear infinite;
 }
 .background-layer-3{
-  animation: marquee 8s linear infinite;
+  animation: marquee 21s linear infinite;
 }
 .background-layer-4{
-  animation: marquee 4s linear infinite;
+  animation: marquee 9s linear infinite;
 }
 .background-layer-5{
-  animation: marquee 2s linear infinite;
+  animation: marquee 3s linear infinite;
 }
 
 .background img{
@@ -213,9 +214,11 @@ h1,h2,h3,h4,h5,h6,p{
 }
 
 @keyframes marquee {
-  0% { left: 0; }
-  100% { left: -150%; }
+  0% { left: 0; bottom: 0; }
+  50% {bottom:3%;}
+  100% { left: -150%; bottom:0%;}
 }
+
 
 /* -- title -- */
 h1.brand{
@@ -788,8 +791,7 @@ textarea{
   width: 100%;
   overflow: hidden;
   position:relative;
-  transition-property: scale;
-  transition-duration: 150ms;
+  transition: scale 150ms;
 }
 
 

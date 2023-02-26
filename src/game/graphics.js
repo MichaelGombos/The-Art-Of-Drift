@@ -32,7 +32,7 @@ const updateCameraScale = (speed) => {
 }
 const updateCameraAngle = (angle) => {
   if(getDirectionalCamera()){
-    camera.style.transform = `rotate(${-angle + 270}deg)`
+    camera.style.transform = `rotate(${-angle.facing + 270}deg)`
   }
   else{
     camera.style.transform = `rotate(${0}deg)`

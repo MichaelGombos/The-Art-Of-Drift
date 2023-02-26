@@ -135,19 +135,20 @@ const getInSpectateMode = () => {return inSpectateMode}
 const getSpectateTime = () => {return spectateTime}
 
 const getStats = () => {
+  const target = inSpectateMode ? ghostCar : car;
   return {
     fps : currentFps,
     time: timeString,
-    lap:  `${car.getLap()}/${maxLaps}`,
-    x: car.getX().toFixed(2),
-    y: car.getY().toFixed(2),
-    speed: car.getSpeed().toFixed(2),
-    facingAngle : car.getAngle().facing.toFixed(2),
-    movingAngle : car.getAngle().moving.toFixed(2),
-    driftForce : car.getDriftForce().toFixed(2),
-    underSteering : car.getUnderSteering().toFixed(2),
-    angleLockLeft : car.getAngleLock().left,
-    angleLockRight : car.getAngleLock().right,
+    lap:  `${target.getLap()}/${maxLaps}`,
+    x: target.getX().toFixed(2),
+    y: target.getY().toFixed(2),
+    speed: target.getSpeed().toFixed(2),
+    facingAngle : target.getAngle().facing.toFixed(2),
+    movingAngle : target.getAngle().moving.toFixed(2),
+    driftForce : target.getDriftForce().toFixed(2),
+    underSteering : target.getUnderSteering().toFixed(2),
+    angleLockLeft : target.getAngleLock().left,
+    angleLockRight : target.getAngleLock().right,
     particleCount : particles.length
   }
 }
@@ -281,7 +282,7 @@ const placeGhost = (stepCount) => {
       car.setX(ghostCar.getX());
       car.setY(ghostCar.getY());
       updateCameraScale(ghostCar.getSpeed())
-      updateCameraAngle(ghostCar.getAngle().facing)
+      updateCameraAngle(ghostCar.getAngle())
     }
     
 
@@ -365,7 +366,7 @@ const placeGhost = (stepCount) => {
 const placeCharacter = () => {
   if(!inSpectateMode){
     updateCameraScale(car.getSpeed())
-    updateCameraAngle(car.getAngle().facing)
+    updateCameraAngle(car.getAngle())
   }
   pixelSize = parseInt(
       getComputedStyle(document.documentElement).getPropertyValue('--pixel-size')
