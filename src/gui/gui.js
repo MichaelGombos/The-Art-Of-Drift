@@ -25,7 +25,7 @@ const {useState} = React
 
 let currentNavigationInterval = 0;
 let lastNavigationTime = performance.now();
-const validNavigationInterval = 250;
+const validNavigationInterval = 150;
 let previous = "main"
 'use strict';
 const commands = {
@@ -81,7 +81,8 @@ const Menu = () => {
     !location.pathname.includes("/pause") &&
     !location.pathname.includes("/hidden") &&
     !location.pathname.includes("/countdown") &&
-    !location.pathname.includes("/finish")){
+    !location.pathname.includes("/finish") &&
+    !location.pathname.includes("/settings")){
       turnOffGame();
     }
     window.focusFirstButton ? window.focusFirstButton() : null;
@@ -117,9 +118,8 @@ class GUI extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      type: "enter-name",
-      navIndex: 0
     }
+    this.navIndex = 0;
     window.navigateMenu = this.navigateMenu;
     window.focusFirstButton = this.focusFirstButton;
   }
@@ -129,13 +129,11 @@ class GUI extends Component {
     this.setState ({navIndex:0})
   }
   navigateMenu = (command) => {
-    currentNavigationInterval = performance.now() - lastNavigationTime
+    let menuList = Array.from(document.querySelector("#game").querySelectorAll("button,select ,input, .title"));
+    currentNavigationInterval = performance.now() - lastNavigationTime;
     let validTime = currentNavigationInterval > validNavigationInterval;
     if(validTime){
-
-
       if(command == "pause" && currentNavigationInterval > validNavigationInterval * 2){
-        console.log("no way?",currentNavigationInterval , validNavigationInterval)
         if(location.pathname == "/hidden"){
           window.changeGUIScreen("/pause");
           pauseGame();
@@ -149,45 +147,40 @@ class GUI extends Component {
         setTimeout(resetGame,20)
       }
       
-      else if(document.querySelector(".menu") &&  document.activeElement.tagName != "INPUT" ){
-        let menuList = Array.from(document.querySelector("#game").querySelectorAll("button,select ,input, .title"));
-  
+      else if(document.querySelector(".menu")){
+
         let firstButton = menuList[0]
         let lastButton = menuList[menuList.length-1];
         let lastIndex = menuList.length-1;
   
-        if(this.state.navIndex == null){
-          console.log("missed?")
-          this.setState ({navIndex:0})
+        if(this.navIndex == null || this.navIndex == 0){
+          this.navIndex = 0;
           firstButton.focus();
         }
         if(command == "up"){
           if(document.activeElement == firstButton){ 
-            this.setState ({navIndex:lastIndex})
+            this.navIndex = lastIndex;
             lastButton.focus();
           }
           else{
-            let previousButton = menuList[this.state.navIndex-1];
-            this.setState ({navIndex:this.state.navIndex-1})
+            let previousButton = menuList[this.navIndex-1];
+            this.navIndex -= 1;
             previousButton.focus();
           }
         }
         else if(command == "down"){
           if(document.activeElement == lastButton){ 
-            this.setState ({navIndex:0})
+            this.navIndex = 0;
             firstButton.focus();
           }
           else{
-            let nextButton = menuList[this.state.navIndex+1]
-            this.setState ({navIndex:this.state.navIndex+1})
-            console.log(this.state.navIndex, menuList)
+            let nextButton = menuList[this.navIndex+1]
+            this.navIndex += 1
             nextButton.focus();
           }
         }
         else if(command == "select"){
-          console.log(
-            menuList, this.state)
-          menuList[this.state.navIndex].click();
+          menuList[this.navIndex].click();
         }
         else if(command == "back"){
           history.back()
@@ -229,7 +222,7 @@ class GUI extends Component {
 
 
   ref = React.createRef();
-  render() {return <Menu type={this.state.type} setType={this.handleTypeChange} />}
+  render() {return <Menu/>}
 }
 
 

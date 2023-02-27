@@ -38,7 +38,7 @@ This game is played with wasd and the arrow keys to control the car. Shift, spac
 - (done) Compress Maps [b2]
 - Add upload map page
 - Add community map list + leaderboard
-- Fix Controller/Keyboard Navigation [b3]
+- (done) Fix Controller/Keyboard Navigation [b3]
 - Add an email login system.
 - Add tutorial level
 - Package game into an exe
