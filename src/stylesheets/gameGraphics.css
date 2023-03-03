@@ -1,0 +1,121 @@
+/* ----------- gameplay/graphics css ----------- */
+
+.camera {
+  height:100vh;
+  width: 100%;
+  overflow: hidden;
+  position:relative;
+  transition: scale 150ms;
+}
+
+.map {
+  image-rendering: pixelated;
+  background-size: 100%;
+  width: calc(var(--columns) * var(--grid-cell)); 
+  height: calc(var(--rows) * var(--grid-cell));
+  position: relative;
+}
+
+#game{
+  width:100%;
+  overflow:hidden;
+  position:relative;
+}
+
+#game-canvas{
+  z-index: 0;
+  image-rendering: pixelated;
+  width: calc(var(--columns) * var(--grid-cell)); 
+  height: calc(var(--rows) * var(--grid-cell));
+  position: absolute;
+  opacity: 1;
+}
+.character,.ghost {
+  width: calc( var(--grid-cell) * 6);
+  height: calc( var(--grid-cell) * 6);
+  position: absolute;
+}
+
+.driver-name{
+  font-weight:normal;
+  font-size:10px;
+  position:absolute;
+  white-space: nowrap;
+  bottom:15px;
+  transform: translate(-50%, -50%);
+}
+
+
+
+ .character_spritesheet, .ghost_spritesheet{
+  z-index: 0;
+  position: relative;
+  bottom:25%;
+  left:25%;
+  background:  no-repeat no-repeat;
+  background-image: url("../assets/car.svg");
+  background-position:center;
+  background-size: 100%;
+  width: 100%;
+  height:100%;
+}
+.ghost_spritesheet{ 
+  opacity: 1;
+}
+@keyframes particle-fade {
+  from{opacity:1;}
+  to {opacity:0;}
+}
+
+.particle{
+  opacity: 1;
+  z-index: 0;
+  position:absolute;
+  height:32px;
+  width:32px;
+  background-color:rgb(154, 154, 154);
+}
+
+.particle.skid-mark{
+  background-color: var(--primary-700);
+  max-height:20px;
+  max-width:20px;
+}
+.particle.cloud{
+  background-color: var(--primary-300);
+
+  animation: particle-fade;
+  animation-fill-mode: forwards;  
+
+  animation-duration:1s;
+}
+.particle.dirt{
+  background-color: var(--primary-500);
+  animation: particle-fade;
+  animation-fill-mode: forwards;  
+
+  animation-duration:2s;
+}
+
+.arrow::after{  
+  display:inline-block;
+  width:100%;
+  height:100%;
+  content: "";
+  background-image: var(--arrow);
+  opacity: .4;
+}
+.finish-down{
+  transform: rotate(180deg);
+   background-color:#ff29e2;
+}
+
+.bumper{
+  background-color:#0027d2;
+}
+
+.map-grid{
+  display:flex;
+  flex-direction:column;
+}
+

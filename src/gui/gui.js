@@ -85,7 +85,9 @@ const Menu = () => {
     !location.pathname.includes("/settings")){
       turnOffGame();
     }
-    window.focusFirstButton ? window.focusFirstButton() : null;
+    if(!location.pathname.includes("/") && window.focusFirstButton){
+      window.focusFirstButton()
+    }
   }, [location])
 
   return (

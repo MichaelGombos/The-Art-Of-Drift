@@ -1,0 +1,70 @@
+@font-face {
+  font-family: 'NESCyrillic';
+  src: url('../fonts/NESCyrillic.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TheWall';
+  src: url('../fonts/TheWall.ttf') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root{
+  --ff-h: "TheWall";
+  --ff-p: "NESCyrillic";
+
+  font-family: var(--ff-p);
+
+  --display-1: 68px;
+  --f-logo-header: 133px;
+  --f-logo-subheader: 181px;
+  --f-h1: 61px;
+  --f-h2: 49px;
+  --f-h3: 35px;
+  --f-p1: 30px;
+  --f-p2: 25px;
+  --f-p3: 18px;
+}
+
+/* ------ Font classes ------ */
+
+.display-1,.f-h1,.f-h2,.f-h3{
+  font-family: var(--ff-h);
+  font-weight:normal;
+}
+.f-p1,.f-p2, button, input{
+  font-family: var(--ff-p);
+}
+
+.display-1{
+  font-size:var(--display-1);
+}
+
+.f-h1{
+  font-size:var(--f-h1)
+}
+
+.f-h2{
+  font-size:var(--f-h2)
+}
+
+.f-h3{
+  font-size:var(--f-h3)
+}
+
+.f-p1{
+  font-size:var(--f-p1)
+}
+
+.f-p2{
+  font-size:var(--f-p2)
+}
+
+.f-p3{
+  font-size:var(--f-p3)
+}

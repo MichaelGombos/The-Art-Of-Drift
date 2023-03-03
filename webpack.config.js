@@ -3,7 +3,7 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
 
-  entry: ["./src/index.js","./src/style.css"],
+  entry: ["./src/index.js","./src/styleOverhaul.css"],
 
   output : {
     path: path.join(__dirname, "/dist"),

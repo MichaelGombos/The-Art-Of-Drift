@@ -1,7 +1,7 @@
 @import "font.css";
 
 :root {
-  --pixel-size: 2px;
+  --pixel-size: 1px;
   --tile-pixel-count: 2;
   --grid-cell: calc( var(--pixel-size) * var(--tile-pixel-count));
   --rows: 20;
@@ -38,7 +38,7 @@
 
 
 
-@media( min-width: 700px ) {
+/* @media( min-width: 700px ) {
   :root {
      --pixel-size: 1px;
   }
@@ -47,7 +47,7 @@
   :root {
      --pixel-size: 1px;
   }
-}
+} */
 
 html, body {
   height: 100%;
@@ -843,9 +843,7 @@ textarea{
   height: calc(var(--rows) * var(--grid-cell));
   position: relative;
 }
-.map-grid{
-  display:none !important;
-}
+
 #game-canvas{
   z-index: 0;
   image-rendering: pixelated;
@@ -858,8 +856,6 @@ textarea{
   width: calc( var(--grid-cell) * 6);
   height: calc( var(--grid-cell) * 6);
   position: absolute;
-/* 
-  border: 1px solid white; */
 }
 
 .driver-name{
@@ -983,7 +979,3 @@ textarea{
   flex-direction:column;
 }
 
-.row{
-  display:flex;
-  flex-direction:row;
-}

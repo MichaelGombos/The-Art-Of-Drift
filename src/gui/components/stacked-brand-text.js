@@ -1,9 +1,12 @@
 import React from 'react';
 
-const StackedBrandText = ({size, content}) => {
+const TextLogo = () => {
   return(
-    <h1 className={"brand " + size}><span className="text-main">{content}</span><span className="text-style">{content.toUpperCase()}</span></h1>
+    <h1 className="text-logo">
+      <span className="text-logo__header">THE ART OF</span>
+      <span className="text-logo__subheader">Drift</span>
+    </h1>
   )
 }
 
-export default StackedBrandText;
+export default TextLogo;

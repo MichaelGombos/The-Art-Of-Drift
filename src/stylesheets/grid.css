@@ -1,0 +1,34 @@
+:root{
+  --gap-sm: 4px;
+  --gap-md: 8px;
+  --gap-lg: 16px;
+  --gap-xl: 32px;
+}
+
+.row,.column{
+  display:flex;
+}
+
+.row{
+  flex-direction: row;
+}
+
+.column{
+  flex-direction: column;
+}
+
+.gap-sm{
+  gap:var(--gap-sm);
+}
+
+.gap-md{
+  gap: var(--gap-md);
+}
+
+.gap-lg{
+  gap:var(--gap-lg);
+}
+
+.gap-xg{
+  gap:var(--gap-xl);
+}
