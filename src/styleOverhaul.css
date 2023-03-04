@@ -3,12 +3,36 @@
 @import "./stylesheets/grid.css";
 @import "./stylesheets/gameGraphics.css";
 
+/* This file holds all the styles for the GUI of the game.
+
+Its organized as:
+
+Variables 
+
+Utility 
+
+In Game Hud HUD 
+
+Small Menu Components (button/ input/ background)
+
+  Background 
+
+Pages
+
+  Title
+
+  Welcome Screen
+
+
+*/
+
 :root {
   --pixel-size: 1px;
   --tile-pixel-count: 2;
   --grid-cell: calc( var(--pixel-size) * var(--tile-pixel-count));
   --rows: 20;
   --columns: 20;
+
 
   --shade-100: #3e3e3e;
   --shade-0: #ffffff;
@@ -23,93 +47,27 @@
   --success-500: #27B510;
 
   color:white;
+
+  background-color: var(--secondary-500);
 }
 
-
-html, body {
-  height: 100%;
-}
-
-body {
-  margin:0;
-  background: var(--primary-700);
-  display: flex;
-  flex-direction:row;
-  gap:20px;
-  align-items: flex-start;
-  justify-content: space-between;
-}
-
-main{
-  width:100%;
-  display:flex;
-  flex-direction:column;
-  align-items: center;
-}
-nav{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-button{
-  color: var(--shade-100);
-  background-color: var(--shade-0);
-}
 a{
   color:white;
   text-decoration: none;
 }
 
-ul{
-  padding:unset;
-}
-li{
-  list-style: none;
-}
-
-button{
-  border:none;
-  padding:13px 47px;
-  transition-property: background-color;
-  transition-duration: 200ms;
-  transition-timing-function: ease-out;
-}
-button.bg-secondary-500:hover{
-  background-color: #e09400;;
-}
-
-button:hover{
-  background-color:rgb(202, 202, 202);
-}
-
-button:active:hover{
-  background-color:orange;
-  color:white;
-}
-
-button:focus{
-  outline: 3px solid var(--secondary-500);
-}
-button:focus-visible{
-  outline: 3px solid var(--secondary-500);
-}
-button:focus-within{
-  outline: 3px solid var(--secondary-500);
-}
-h1,h2,h3,h4,h5,h6,p{
-  margin:0;
-}
-
-
 /* utility classes */
 
-.text-color-primary-900{
+.hidden{
+  display:none;
+}
+.text-primary-900{
   color:var(--primary-900)
 }
-.text-color-secondary-500{
+.text-secondary-500{
   color:var(--secondary-500)
 }
-.text-color-shade-0{
+.text-shade-0{
   color:var(--shade-0)
 }
 .bg-danger-500{
@@ -125,17 +83,25 @@ h1,h2,h3,h4,h5,h6,p{
 /* minimalistic GUI CSS */
 
 #gui-container{
+  display:flex;
+  align-items: center;
+  justify-content: center;
   z-index:1;
   position:absolute;
   height:100%;
   width:100%;
 }
 
-.menu{
-  width: 100%;
-  height: 100%;
+.menu-container{
+  width:1076px;
+  height:100%;
+  display:flex;
+  align-items: center;
+  justify-content: center;
   /* background-color: var(--shade-100); */
 }
+
+
 
 #mini-map{
   position:absolute;
@@ -204,6 +170,9 @@ canvas{
   100% { left: -150%; bottom:0%;}
 }
 
+/* ----- title screen ----- */
+
+
 .text-logo{
   display:flex;
   flex-direction: column;
@@ -212,7 +181,9 @@ canvas{
 }
 
 .text-logo__header{
-  font-size: var(--f-logo-header)
+  position: relative;
+  left: -7px;
+  font-size: var(--f-logo-header);
 }
 
 .text-logo__subheader{
@@ -222,20 +193,85 @@ canvas{
 }
 
 .title-menu{
-  display:flex;
-  flex-direction: column;
   justify-content: flex-end;
   align-items: center;
   height: 90%;
   gap:var(--gap-xl);
+
+  /* blurry scale fix */
+  image-rendering: pixelated;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+.zoom-in{
+  animation: zoomIn 3s ease-in 1;
 }
 
 .flashing{
   animation: blinker 2s step-start infinite;
 }
 
+
+
 @keyframes blinker {
   50% {
     opacity: 0;
   }
+}
+
+@keyframes zoomIn {
+  0% {
+    scale:400;
+    position: relative;
+    bottom:40000px;
+  }
+  100%{
+    scale:1;
+    position: relative;
+    bottom:0;
+  }
+}
+
+/* -------- Welcome screen -------- */
+
+.welcome-menu{
+  height:100%;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/*  pixel button  */ 
+
+button{
+  background: transparent;
+  border: none;
+}
+
+.pixel-button{
+  position: relative;
+  width:100%;
+  height:32px;
+}
+
+.pixel-button__images{
+  display: grid;
+  width: 100%;
+  height:100%;
+  grid-template-columns: 8px 1fr 8px;
+}
+.pixel-button__left-image,
+.pixel-button__right-image,
+.pixel-button__center-image{
+  height:32px;
+  width:101%;
+}
+
+.pixel-button__text{
+  position:absolute;
+  bottom:50%;
+  left:50%;
+  transform:translate(-50% , 50%);
+  white-space: nowrap;
 }
