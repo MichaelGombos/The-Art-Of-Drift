@@ -2,15 +2,18 @@ import React from 'react';
 import MainMenuNavigation from '../components/main-menu-navigation.js';
 
 import ScrollingBackground from '../components/scrolling-background.js';
-import StackedBrandText from '../components/stacked-brand-text.js';
+import TextLogo from '../components/text-logo.js';
 
 const Main = () => {
 
   return (
-  <div className="menu main">
-    <p className='text-color-primary-900 f-p2'>Welcome, {localStorage.getItem("playerName")}</p>
-    <MainMenuNavigation/>
-    <StackedBrandText size="f-h2" content="main menu"/>
+  <div className="menu-container">
+    <div className="col-2 gap-xl main-menu">
+
+      <TextLogo size="small" content="main menu"/>
+      <MainMenuNavigation/>
+    </div>
+
   </div>
   )
 }

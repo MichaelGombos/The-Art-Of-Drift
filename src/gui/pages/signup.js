@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import {motion} from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
+
 import Button from "../components/button.js"
+import TextInput from '../components/text-input.js';
+import IconButton from '../components/icon-button.js';
 
 import previousIconUrl from "../../assets/icons/previous.png"
 import nextIconUrl from "../../assets/icons/next.png"
@@ -18,16 +21,7 @@ import vehicleUrl3 from "../../assets/profile-vehicles/sedan-1-1.png"
 import vehicleUrl4 from "../../assets/profile-vehicles/taxi-1-1.png"
 import vehicleUrl5 from "../../assets/profile-vehicles/van-1-1.png"
 
-const TextInput = ({id, labelText, placeholderText, changeHandler}) => {
-  return (
 
-  <div className="col-6 text-input gap-md">
-    <label className="text-input__label" htmlFor={id}>{labelText}</label>
-    <input className="text-input__text"  onChange={e => changeHandler(e.target.value)} 
-    placeholder ={placeholderText}/>
-  </div>
-  )
-}
 
 const SignupForm = ({submitHandler, setRacerName,setEmail,setConfirmEmail,setPassword,setConfirmPassword}) => {
 
@@ -67,17 +61,6 @@ const SignupForm = ({submitHandler, setRacerName,setEmail,setConfirmEmail,setPas
     <Button clickHandler = {submitHandler} style="primary">Create account</Button>
     </div>
     
-  )
-}
-
-const IconButton = ({clickHandler, iconUrl}) => {
-  return(
-
-    <motion.button onCLick={clickHandler} className='icon-button'
-    whileHover={{ scale: 1.5}}
-    whileTap={{ scale: .8}}>
-      <img className="icon-button__image" src={iconUrl}/>
-    </motion.button>
   )
 }
 
@@ -130,7 +113,7 @@ const Signup = () => {
           setConfirmEmail = {setConfirmEmail}
           setPassword = {setPassword}
           setConfirmPassword = {setConfirmPassword}/>
-          <div className="signup-footer col-6 gap-sm">
+          <div className="signup-footer col-6 gap-md">
             <p>Already have an account? <Link className="link-secondary-500" to="/signin">Sign in instead.</Link></p>
             <p>Too much to ask? <Link className="link-secondary-500" to="/main">Plas as guest.</Link></p>
           </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import TextLogo from '../components/stacked-brand-text';
+import TextLogo from '../components/text-logo.js';
 
 const Title = () => {
   return (

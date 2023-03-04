@@ -52,7 +52,6 @@ Pages
 }
 
 a{
-  color:white;
   text-decoration: none;
 }
 
@@ -186,9 +185,15 @@ canvas{
   font-size: var(--f-logo-header);
 }
 
-.text-logo__subheader{
+.text-logo__header.text-logo__header--small{
+  position: relative;
+  left: -7px;
+  font-size: var(--f-logo-header-small);
+}
+
+.text-logo__subheader.text-logo__subheader--small{
   font-family: var(--ff-h );
-  font-size: var( --f-logo-subheader);
+  font-size: var( --f-logo-subheader-small);
   color: var(--secondary-500);
 }
 
@@ -285,7 +290,7 @@ button{
   padding:13px 16px;
   background-color:#40404095;
   border:none;
-  color:white;
+  color:rgb(196, 196, 196);
 }
 
 .profile-scroller{
@@ -304,4 +309,12 @@ button{
 .link-secondary-500{
   color:var(--secondary-500);
   text-decoration: underline;
+}
+
+/* ------- signin screen ------- */
+
+/* ------- main menu ------- */
+
+.main-menu,.main-menu__navigation{
+  align-items: center;
 }

@@ -5,38 +5,39 @@ import { useNavigate } from 'react-router-dom';
 import { startGame, resetGame, unPauseGame} from "../../game/main.js"
 import {setGameMapIndex, setMapData} from "../../game/game.js"
 import {freeplay, test } from  "../../game/map-data.js"
+import Button from './button.js';
 
 const MainMenuNavigation = () => {
   const navigate = useNavigate();
 
   return (
-    <nav>
-    <button onClick={() => navigate("/map-select") }>Map Select</button>
-    <button onClick={() => navigate("/leaderboards")}>leaderboards</button>
-    <button onClick = {()=> {
+  <div className="col-6 main-menu__navigation gap-md">
+    <Button style="primary" clickHandler={() => navigate("/map-select") }>campaign</Button>
+    <Button style="light" clickHandler={() => navigate("/leaderboards")}>leaderboards</Button>
+    <Button style="light" clickHandler={()=> {
       setGameMapIndex(undefined)
       setMapData(freeplay,[[]]);
       resetGame();
       navigate("/hidden")
     }}
-    >Free Play</button>
-   <button onClick = {()=> {
+    >Free Play</Button>
+  <Button style="light" clickHandler={()=> {
       setGameMapIndex(undefined);
       setMapData(test,[[]]);
       resetGame();
       navigate("/hidden")
     }}
-    >Test Map</button>
-    <button onClick = {()=> {
+    >Test Map</Button>
+    <Button style="light" clickHandler={()=> {
       navigate("/map-import")
     }}
-    >map import</button>
-    <a href="https://michaelgombos.github.io/browser-driving-map-creator/" target="_blank"> <button >Map Maker</button> </a>
-    <a href="https://github.com/MichaelGombos/browser-driving-demo" target="_blank"> <button >Github</button> </a>
-    <button onClick={() => {
+    >map import</Button>
+    <a class="col-6" href="https://michaelgombos.github.io/browser-driving-map-creator/" target="_blank"> <Button style="light"  >Map Maker</Button> </a>
+    <a class="col-6"  href="https://github.com/MichaelGombos/browser-driving-demo" target="_blank"> <Button style="light"  >Github</Button> </a>
+    <Button style="light" clickHandler={() => {
       navigate("/settings");
-    }}>Settings</button>
-</nav>
+    }}>Settings</Button>
+  </div>
   )
 }
 

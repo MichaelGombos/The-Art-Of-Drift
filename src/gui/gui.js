@@ -22,6 +22,7 @@ import Countdown from "./pages/countdown.js"
 import ScrollingBackground from "./components/scrolling-background.js"
 import Welcome from "./pages/welcome.js"
 import Signup from "./pages/signup.js"
+import Signin from "./pages/signin.js"
 
 const {useState} = React
 
@@ -65,14 +66,14 @@ const Menu = () => {
     else{
       if(!isDeviceValid){
         isDeviceValid = true;
-        navigate("/")
+        navigate("/main")
       }
     }
   }
 
   useEffect(() => {
     window.addEventListener('resize',handleResize)
-    navigate("/")
+    navigate("/main")
     handleResize();
   }, [])
 
@@ -99,6 +100,7 @@ const Menu = () => {
       <Route  path="/" element={<Title/>}/>
       <Route  path="/welcome" element={<Welcome/>}/>
       <Route  path="/signup" element={<Signup/>}/>
+      <Route  path="/signin" element={<Signin/>}/>
       <Route  path="/enter-name" element={<EnterName/>}/>
       <Route  path="/main" element={<Main setPrevious={setPreviousType}/>}/>
       <Route  path="/map-select" element={<MapSelect/>} />

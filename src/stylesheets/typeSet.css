@@ -21,8 +21,9 @@
   font-family: var(--ff-p);
 
   --display-1: 68px;
+  --f-logo-header-small: 70px;
   --f-logo-header: 133px;
-  --f-logo-subheader: 181px;
+  --f-logo-subheader-small: 100px;
   --f-h1: 61px;
   --f-h2: 49px;
   --f-h3: 35px;
