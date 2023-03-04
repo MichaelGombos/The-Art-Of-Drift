@@ -13,7 +13,7 @@
   flex-direction: row;
 }
 
-.col-6,.col-4,.col-2{
+.col-6,.col-4,.col-3,.col-2{
   display:flex;
   flex-direction: column;
 }
@@ -23,6 +23,9 @@
 
 .col-4{
   width: 66%;
+}
+.col-3{
+  width: 50%;
 }
 .col-2{
   width: 33%;
@@ -40,6 +43,6 @@
   gap:var(--gap-lg);
 }
 
-.gap-xg{
+.gap-xl{
   gap:var(--gap-xl);
 }

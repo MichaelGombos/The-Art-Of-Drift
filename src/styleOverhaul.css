@@ -275,3 +275,33 @@ button{
   transform:translate(-50% , 50%);
   white-space: nowrap;
 }
+
+/* ------- signup screen ------- */
+
+.text-input{
+}
+
+.text-input__text{
+  padding:13px 16px;
+  background-color:#40404095;
+  border:none;
+  color:white;
+}
+
+.profile-scroller{
+  justify-content: center;
+}
+
+.profile-scroller__image{
+  width:150px;
+  image-rendering: pixelated;
+}
+
+.profile-scroller__image--avatar{
+  scale:.6;
+}
+
+.link-secondary-500{
+  color:var(--secondary-500);
+  text-decoration: underline;
+}

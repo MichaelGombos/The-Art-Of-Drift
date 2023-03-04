@@ -65,14 +65,14 @@ const Menu = () => {
     else{
       if(!isDeviceValid){
         isDeviceValid = true;
-        navigate("/welcome")
+        navigate("/")
       }
     }
   }
 
   useEffect(() => {
     window.addEventListener('resize',handleResize)
-    navigate("/welcome")
+    navigate("/")
     handleResize();
   }, [])
 
