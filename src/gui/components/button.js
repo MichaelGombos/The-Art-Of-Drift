@@ -54,8 +54,8 @@ const Button = ({clickHandler, style, children}) => {
   
   return(
     <motion.button className='pixel-button pixel-button--primary' onClick = {clickHandler}
-    whileHover={{scale: 1.05}}
-    whileTap={{ scale: .8}}
+    whileHover={style == "disabled" ? {rotate:-1.2}: {scale: 1.05} }
+    whileTap={style == "disabled" ? {rotate:1.2} : { scale: .8}}
     >
         <p className={`pixel-button__text f-p2 ${["danger","selected"].includes(style) ? "text-shade-0" : null}`}>{children}</p>
         <div className='pixel-button__images'>

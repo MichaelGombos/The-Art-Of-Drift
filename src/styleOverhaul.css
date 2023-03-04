@@ -270,7 +270,7 @@ button{
 .pixel-button__right-image,
 .pixel-button__center-image{
   height:32px;
-  width:101%;
+  width:100%;
 }
 
 .pixel-button__text{
@@ -317,4 +317,10 @@ button{
 
 .main-menu,.main-menu__navigation{
   align-items: center;
+}
+
+/* ------- campaign ------- */
+
+.background--blurry{
+  filter: brightness(.50) blur(10px);
 }

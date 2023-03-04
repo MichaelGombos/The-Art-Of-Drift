@@ -4,7 +4,7 @@ import {pauseGame,unPauseGame,resetGame, turnOffGame} from "../game/main.js"
 //pages
 import Finish from "./pages/finish.js"
 import Hidden from "./pages/hidden.js"
-import MapSelect from "./pages/map-select.js"
+import MapSelect from "./pages/ARCHIVED__map-select.js"
 import Title from "./pages/title.js"
 import Pause from "./pages/pause.js"
 import Main from "./pages/main.js"
@@ -14,7 +14,7 @@ import Invited from "./pages/invited.js"
 
 import React, {Component, useEffect} from 'react';
 import { Route, Routes, useNavigate, Navigate, useLocation} from "react-router-dom";
-import InvitedPreview from "./pages/invited-preview.js"
+import InvitedPreview from "./pages/ARCHIVED__invited-preview.js"
 import MapImport from "./pages/map-import.js"
 import NotSupported from "./pages/not-supported.js"
 import Countdown from "./pages/countdown.js"
@@ -22,6 +22,7 @@ import ScrollingBackground from "./components/scrolling-background.js"
 import Welcome from "./pages/welcome.js"
 import Signup from "./pages/signup.js"
 import Signin from "./pages/signin.js"
+import Campaign from "./pages/campaign.js"
 
 const {useState} = React
 
@@ -73,7 +74,7 @@ const Menu = () => {
   useEffect(() => {
     window.addEventListener('resize',handleResize)
     if(!location.pathname.includes("/invited")){
-      navigate("/invited?racer=J&map=0")
+      navigate("/campaign")
     }
 
     handleResize();
@@ -87,7 +88,6 @@ const Menu = () => {
     !location.pathname.includes("/countdown") &&
     !location.pathname.includes("/finish") &&
     !location.pathname.includes("/settings")){
-      console.log("ok I'm shutting off :D")
       window.shutOffGame();
     }
     if(!location.pathname.includes("/") && window.focusFirstButton){
@@ -104,6 +104,8 @@ const Menu = () => {
       <Route  path="/signup" element={<Signup/>}/>
       <Route  path="/signin" element={<Signin/>}/>
       <Route  path="/main" element={<Main setPrevious={setPreviousType}/>}/>
+      <Route  path="/campaign" element={<Campaign/>} />
+      
       <Route  path="/map-select" element={<MapSelect/>} />
       <Route  path="/map-import" element={<MapImport/>} />
       <Route  path="/leaderboards" element={<Leaderboards/>} />
@@ -113,7 +115,6 @@ const Menu = () => {
       <Route  path="/pause" element={<Pause setPrevious={setPreviousType} />}/>
       <Route  path="/finish" element={<Finish/>}/>
       <Route  path="/invited" element={<Invited/>}/>
-      <Route  path="/invited/preview" element={<InvitedPreview/>}/>
       <Route  path="/not-supported" element={<NotSupported/>}/>
       <Route  element={<Navigate to="/"/>}/>
     </Routes>

@@ -8,27 +8,35 @@ import layer5 from "../../assets/background/5.png"
 
 import { getGameOn, turnOffGame } from '../../game/main';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState} from 'react';
+
+import { useLocation } from 'react-router-dom';
 
 
 const ScrollingBackground = () => {
   const [isGameRunning,setIsGameRunning] = useState(getGameOn())
+  const location = useLocation();
+
+  const displayBlurry = (
+    location.pathname.includes("/campaign") ||
+    location.pathname.includes("/hidden") ||
+    location.pathname.includes("/countdown") ||
+    location.pathname.includes("/finish") ||
+    location.pathname.includes("/settings")
+    )
 
   window.shutOffGame = ()=> {
-    console.log("silly poop")
     turnOffGame();
     setIsGameRunning(false)
   };
 
   useEffect(() => {
     //TODO if location isnt main, signup, signin, or title, then do a blur effect.
-
     setIsGameRunning(getGameOn())
-    console.log("update?", getGameOn(), isGameRunning)
   })
 
   return (
-    <div className={`background ${isGameRunning ? "hidden": ""}`}>
+    <div className={`background ${isGameRunning ? "hidden ": ""} ${displayBlurry ? "background--blurry " : ""}`}>
       <div className='background-layer-1'>
         <img src={layer1}/>
         <img src={layer1}/>
