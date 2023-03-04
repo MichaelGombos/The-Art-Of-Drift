@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Button from "../components/button.js"
 import TextInput from '../components/text-input.js';
 import IconButton from '../components/icon-button.js';
+import ProfileSelect from '../components/profile-select.js';
 
 import previousIconUrl from "../../assets/icons/previous.png"
 import nextIconUrl from "../../assets/icons/next.png"
@@ -64,26 +65,6 @@ const SignupForm = ({submitHandler, setRacerName,setEmail,setConfirmEmail,setPas
   )
 }
 
-
-const ProfileSelect = ({profileAvatarId, setProfileAvatarId,profileVehicleId, setProfileVehicleId}) => {
-
-  return (
-    <div className='profile-select col-6 gap-xl'>
-          <div className='profile-scroller row'>
-            <IconButton clickHandler = {1} iconUrl = {previousIconUrl}/>
-            <img class="profile-scroller__image profile-scroller__image--avatar" src={avatarUrl1}></img>
-            <IconButton clickHandler = {1} iconUrl = {nextIconUrl}/>
-          </div>
-
-
-          <div className='profile-scroller row'>
-            <IconButton clickHandler = {1} iconUrl = {previousIconUrl}/>
-            <img class="profile-scroller__image" src={vehicleUrl1}></img>
-            <IconButton clickHandler = {1} iconUrl = {nextIconUrl}/>
-          </div>
-    </div>
-  )
-}
 
 const Signup = () => {
 

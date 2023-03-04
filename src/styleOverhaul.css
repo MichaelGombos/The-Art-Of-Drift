@@ -52,6 +52,7 @@ Pages
 }
 
 a{
+  color: white;
   text-decoration: none;
 }
 
@@ -183,34 +184,37 @@ canvas{
   position: relative;
   left: -7px;
   font-size: var(--f-logo-header);
+  color: white;
+}
+.text-logo__subheader{
+  font-family: var(--ff-h );
+  font-size: var( --f-logo-subheader);
+  color: var(--secondary-500);
 }
 
 .text-logo__header.text-logo__header--small{
-  position: relative;
-  left: -7px;
   font-size: var(--f-logo-header-small);
 }
 
 .text-logo__subheader.text-logo__subheader--small{
-  font-family: var(--ff-h );
   font-size: var( --f-logo-subheader-small);
-  color: var(--secondary-500);
 }
 
 .title-menu{
-  justify-content: flex-end;
+  padding-top: 200px;
+  justify-content: center;
   align-items: center;
-  height: 90%;
-  gap:var(--gap-xl);
+  height: 100%;
+  gap: var(--gap-xl);
 
-  /* blurry scale fix */
+  /* blurry scale fix  */
   image-rendering: pixelated;
   transform: translateZ(0);
   backface-visibility: hidden;
   -webkit-font-smoothing: subpixel-antialiased;
 }
 .zoom-in{
-  animation: zoomIn 3s ease-in 1;
+  animation: zoomIn 1s ease-in 1;
 }
 
 .flashing{
@@ -227,14 +231,10 @@ canvas{
 
 @keyframes zoomIn {
   0% {
-    scale:400;
-    position: relative;
-    bottom:40000px;
+    scale:90;
   }
   100%{
     scale:1;
-    position: relative;
-    bottom:0;
   }
 }
 

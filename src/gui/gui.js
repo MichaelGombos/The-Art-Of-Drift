@@ -2,7 +2,6 @@
 import {pauseGame,unPauseGame,resetGame, turnOffGame} from "../game/main.js"
 
 //pages
-import EnterName from "./pages/enter-name.js"
 import Finish from "./pages/finish.js"
 import Hidden from "./pages/hidden.js"
 import MapSelect from "./pages/map-select.js"
@@ -66,27 +65,30 @@ const Menu = () => {
     else{
       if(!isDeviceValid){
         isDeviceValid = true;
-        navigate("/main")
+        navigate("/")
       }
     }
   }
 
   useEffect(() => {
     window.addEventListener('resize',handleResize)
-    navigate("/main")
+    if(!location.pathname.includes("/invited")){
+      navigate("/invited?racer=J&map=0")
+    }
+
     handleResize();
   }, [])
 
   useEffect(() => {
-    console.log('Location changed');
-
+    // http://localhost:8080/invited?racer=J&map=0
     if(
     !location.pathname.includes("/pause") &&
     !location.pathname.includes("/hidden") &&
     !location.pathname.includes("/countdown") &&
     !location.pathname.includes("/finish") &&
     !location.pathname.includes("/settings")){
-      turnOffGame();
+      console.log("ok I'm shutting off :D")
+      window.shutOffGame();
     }
     if(!location.pathname.includes("/") && window.focusFirstButton){
       window.focusFirstButton()
@@ -101,7 +103,6 @@ const Menu = () => {
       <Route  path="/welcome" element={<Welcome/>}/>
       <Route  path="/signup" element={<Signup/>}/>
       <Route  path="/signin" element={<Signin/>}/>
-      <Route  path="/enter-name" element={<EnterName/>}/>
       <Route  path="/main" element={<Main setPrevious={setPreviousType}/>}/>
       <Route  path="/map-select" element={<MapSelect/>} />
       <Route  path="/map-import" element={<MapImport/>} />

@@ -46,3 +46,11 @@
 .gap-xl{
   gap:var(--gap-xl);
 }
+
+.justify-center{
+  justify-content: center;
+}
+
+.align-center{
+  align-items: center;
+}

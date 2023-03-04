@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {  useSearchParams } from 'react-router-dom';
-import PlayerInfoForm from '../components/player-info-form.js';
-
+import ProfileSelect from '../components/profile-select.js';
+import RaceDatabaseButtons from '../components/race-database-buttons.js';
 
 const Invited = () => {
   let [searchParams, setSearchParams] = useSearchParams();
+  const [profileAvatarId,setProfileAvatarId] = useState(0);
+  const [profileVehicleId,setProfileVehicleId] = useState(0);
 
   const playerName  = searchParams.get("racer");
   const mapIndex = Number(searchParams.get("map"));
@@ -12,9 +14,14 @@ const Invited = () => {
 
   console.log(mapIndex, playerName)
   return (
-    <div className="menu invited">
-      <h1>You have been invited to race {playerName} on map {mapIndex+1}</h1>
-      <PlayerInfoForm destination={`/invited/preview?racer=${playerName}&map=${mapIndex}`}/>
+    <div className="menu-container">
+      <div className="invited-menu col-3 align-center gap-xl">
+        <h1 className='f-p2 text-center'>You have been invited by {playerName} to watch or race against their best time on map # {mapIndex+1}</h1>
+        <ProfileSelect profileAvatarId={profileAvatarId} setProfileAvatarId={setProfileAvatarId} profileVehicleId={profileVehicleId} setProfileVehicleId={setProfileVehicleId}/>
+        <div className="col-3 gap-md align-center">
+          <RaceDatabaseButtons mapIndex={mapIndex} playerName={playerName}/>
+        </div>
+      </div>
     </div>
   )
 }
