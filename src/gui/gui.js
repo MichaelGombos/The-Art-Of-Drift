@@ -23,6 +23,7 @@ import Welcome from "./pages/welcome.js"
 import Signup from "./pages/signup.js"
 import Signin from "./pages/signin.js"
 import Campaign from "./pages/campaign.js"
+import CampaignLevel from "./pages/campaign-level.js"
 
 const {useState} = React
 
@@ -74,7 +75,7 @@ const Menu = () => {
   useEffect(() => {
     window.addEventListener('resize',handleResize)
     if(!location.pathname.includes("/invited")){
-      navigate("/campaign")
+      navigate("/campaign/0")
     }
 
     handleResize();
@@ -105,6 +106,7 @@ const Menu = () => {
       <Route  path="/signin" element={<Signin/>}/>
       <Route  path="/main" element={<Main setPrevious={setPreviousType}/>}/>
       <Route  path="/campaign" element={<Campaign/>} />
+      <Route  path="/campaign/:mapIndex" element={<CampaignLevel/>} />
       
       <Route  path="/map-select" element={<MapSelect/>} />
       <Route  path="/map-import" element={<MapImport/>} />

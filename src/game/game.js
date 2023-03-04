@@ -157,6 +157,7 @@ const getStats = () => {
 }
 
 const updateCarSpawnPosition = () => {
+
   if(maps[mapIndex]){
     characterSprite.style.transform = `rotate(${maps[mapIndex].spawnAngle}deg)`;
     ghostCharacterSprite.style.transform = `rotate(${maps[mapIndex].spawnAngle}deg)`;
@@ -172,7 +173,6 @@ const updateCarSpawnPosition = () => {
   car.setY(spawn.y * tilePixelCount)
   ghostCar.setX(spawn.x * tilePixelCount)
   ghostCar.setY(spawn.y * tilePixelCount)
-
 }
 
 const setSpectateMode = (spectateMode) => {

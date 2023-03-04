@@ -8,6 +8,8 @@ import goldMedal from '../../assets/map-select/medal_gold.png';
 import silverMedal from '../../assets/map-select/medal_silver.png';
 import bronzeMedal from '../../assets/map-select/medal_bronze.png';
 
+import Button from "./button";
+
 //assets
 const ghostMedals = {
   personalBest : star,
@@ -46,15 +48,17 @@ const MedalRow = ({best, medal,currentDiff, setDiff,isGhostEnabled, setNewGhostE
   }
   return (  
     <li className={`medal-row ${unlockedMedals[medal] ? "" : "locked-text"}`}>
-      <div className="medal-type"> <img src={unlockedMedals[medal] ? ghostMedals[medal] : ghostMedals["locked"]}/> {ghostNames[medal]} </div> 
-      <div className="medal-menu"> 
-        {medal == "personalBest" ? best : replays[index][medal].time}
-      <button className={(currentDiff == medal && isGhostEnabled) ? "set" : ""} onClick={ () => {
+      <div className="medal-row__menu"> 
+      <Button style={currentDiff == medal ? "selected" : "light"} clickHandler={ () => {
         setDiff(medal)
-        setNewGhostEnabled(true)
       }
-      }>{currentDiff == medal && isGhostEnabled ? "Selected!" : "select"}</button>
+      }>{medal}</Button>
       </div>
+      <div className="medal-row__time"> 
+
+      <p className="f-p3">{medal == "personalBest" ? best : replays[index][medal].time}</p>
+      <img src={unlockedMedals[medal] ? ghostMedals[medal] : ghostMedals["locked"]}/>
+      </div> 
     </li>
   )
 }

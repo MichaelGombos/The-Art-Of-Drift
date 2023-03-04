@@ -41,19 +41,41 @@ Map references
 
 
 const mapNames = [
-  "laying TRACKS",
+  "Driving Plans",
   "staging CARS",
   "ADRIFT by strategem",
   "Tactical DRIFT positions",
   "HORSEpower",
   "Slipline & SPEED",
   "Manouvering",
-  "v-eight nation TACTICS",
+  "v8 nation TACTICS",
   "The RALLEY in march",
   "Hydroplane",
-  "the nine NON-FIRST places",
-  "The ATTACK by tire",
-  "The speeds of HIGH"
+  "the nicely tuned engine",
+  "ATTACK by tire",
+  "Use of speed"
 ]
 
-export {freeplay,test,maps, mapNames};
+const HTMLMapNames = [
+  "Driving <span class='text-secondary-500'> Plans</span>",
+  "Stagin <span class='text-secondary-500'>Cars</span>",
+  "<span class='text-secondary-500'>Adrift</span> by strategem",
+  "Tactical <span class='text-secondary-500'>Drift</span> positions",
+  "<span class='text-secondary-500'>Horse</span>power",
+  "Slipline & <span class='text-secondary-500'>Speed</span>",
+  "Manouvering",
+  "v8 nation <span class='text-secondary-500'>Tactics</span>",
+  "The <span class='text-secondary-500'>rally</span> in march",
+  "Hydroplane",
+  "the nicely tuned <span class='text-secondary-500'>engine</span>",
+  "Attack by <span class='text-secondary-500'>tire</span>",
+  "Use of <span class='text-secondary-500'>speed</span>"
+]
+
+const mapDescriptions = [
+  "The Suzuka International Racing Course[7] (鈴鹿国際レーシングコース, Suzuka Kokusai Rēsingu Kōsu), more famously known as the Suzuka Circuit (鈴鹿サーキット, Suzuka Sākitto), is a 5.807 km (3.608 mi) long motorsport race track located in Ino, Suzuka City, Mie Prefecture, Japan and operated by Honda Mobilityland, a subsidiary of Honda Motor Co, Ltd. It has a capacity of 155,000.",
+  "this is the 2nd one.",
+  "this should be the third one.."
+]
+
+export {freeplay,test,maps, mapNames,mapDescriptions, HTMLMapNames};

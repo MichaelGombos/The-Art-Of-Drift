@@ -51,6 +51,7 @@ const buttonImageUrlMap = {
 }
 
 const Button = ({clickHandler, style, children}) => {
+  if(!style) style="light";
   
   return(
     <motion.button className='pixel-button pixel-button--primary' onClick = {clickHandler}

@@ -324,3 +324,37 @@ button{
 .background--blurry{
   filter: brightness(.50) blur(10px);
 }
+
+/* ------- level ------- */
+
+.map-preview-container{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+}
+.map-preview{
+  width:auto;
+  max-height: 175px;
+}
+
+.difficulty-selector{
+}
+
+.medal-row{
+  display:flex;
+  flex-direction: row;
+  width:100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.medal-row__menu{
+  width:50%;
+}
+
+.medal-row__time{
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  gap:var(--gap-md);
+}
