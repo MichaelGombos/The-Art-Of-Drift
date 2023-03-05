@@ -26,17 +26,18 @@
   </head>
   <body tabindex="-2">
      <main>
-      <!-- <div class="loader">
-      </div> -->
+      <div class="loader">
+      </div>
         <div id="game">
-           <div id="gui-container"></div>
-  
-  
-           <!-- later there can be stats overlay, and minimap here too  -->
-           <div id="mini-map">
-              <canvas id="map-canvas" width="350" height="350"></canvas>
-              <canvas id="player-canvas" width="350" height="350"></canvas>
+           <div id="gui-container">
+
+
            </div>
+  
+         <div id="mini-map">
+               <canvas id="map-canvas" width="350" height="350"></canvas>
+               <canvas id="player-canvas" width="350" height="350"></canvas>
+          </div>
            
            <div class="camera">
               <div class="map pixel-art">
@@ -84,11 +85,11 @@
                fadeTarget.remove();
          }
       zoomTarget.classList.add("zoom-in");
-      }, 25)
+      }, 50)
       }
       
-      // window.addEventListener("load", () => { setTimeout(
-      // fadeOutEffect, 125)}); 
+      window.addEventListener("load", () => { setTimeout(
+      fadeOutEffect, 200)}); 
       console.log("assigned")
 
    </script>

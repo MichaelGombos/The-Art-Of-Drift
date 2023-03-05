@@ -20,7 +20,7 @@ const CampaignLevel = () => {
     <div className='menu-container'>
         <div className='level-menu col-6 gap-md'>
           <div className='level-menu__header col-6 gap-md'>
-            <p className='f-p2'>Track <span className='text-secondary-500'># {mapIndex}</span></p>
+            <p className='f-p1'>Track <span className='text-secondary-500'># {mapIndex}</span></p>
             <h1 className="f-h1" dangerouslySetInnerHTML={{__html: HTMLMapNames[mapIndex]}}></h1>
           </div>
 
@@ -35,7 +35,7 @@ const CampaignLevel = () => {
             <div className='level-navigation col-2 gap-md'>
               <RaceLocalButton style="primary" 
               mapIndex={mapIndex}
-              difficulty={"easy"}
+              difficulty={difficulty}
               isGhostEnabled={true}>Race selected time</RaceLocalButton>
               <RaceLocalButton style="light" 
               mapIndex={mapIndex}
@@ -45,7 +45,7 @@ const CampaignLevel = () => {
               <Button clickHandler={() => navigate(`/campaign`)}>Back</Button>
             </div>
             <div className='level-description col-4'>
-              <p className='f-p2'>
+              <p className='f-p3'>
                 {mapDescriptions[mapIndex]}
               </p>
             </div>

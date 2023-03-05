@@ -148,7 +148,9 @@ const getStats = () => {
     facingAngle : target.getAngle().facing.toFixed(2),
     movingAngle : target.getAngle().moving.toFixed(2),
     driftForce : target.getDriftForce().toFixed(2),
-    underSteering : target.getUnderSteering().toFixed(2),
+    tireGrip : target.getTireGrip().toFixed(2),
+    turningSpeed : target.getTurningSpeed(),
+    acceleration : target.getAcceleration(),
     angleLockLeft : target.getAngleLock().left,
     angleLockRight : target.getAngleLock().right,
     particleCount : particles.length,
@@ -528,7 +530,9 @@ const step = (newtime) => {
         currentFps = Math.round(1000 / (sinceStart / ++frameCount) * 100) / 100
         timeString = msToTime(Math.round(sinceStart - pauseBuffers.reduce((buffer, reduce) => buffer+reduce)));
         lastRunTime = performance.now()
-        window.updateStats && window.updateStats(getStats());
+        window.updateStatsGameInfo && window.updateStatsGameInfo(getStats());
+        window.updateExtraStats && window.updateExtraStats(getStats());
+        window.updateDashboard && window.updateDashboard(getStats());
     }
 
     return;

@@ -60,6 +60,9 @@ const createCar = (isGhost) => {
     const getAngleLock = () => {return angleLock}
     const getEngineLock =() => {return engineLock}
     const getUnderSteering =() => {return underSteering}
+    const getTireGrip = () => {return tireGrip};
+    const getTurningSpeed = () => {return turningSpeed};
+    const getAcceleration = () => {return acceleration};
     const getOnDirt = () => {return onDirt}
     //setters 
     const setX = (value) => {x = value}
@@ -250,40 +253,48 @@ const createCar = (isGhost) => {
 
     const updateHandling = () => { //turning speed & tiregrip
         switch (true) {
-            case (Math.abs(speed) >= 0):
-                tireGrip = 2.2
-                turningSpeed = 5
-                acceleration = 0.07;
+
+            case (Math.abs(speed) > 5 * maxSpeed/6):
+                tireGrip = 1.5
+                turningSpeed = 3.75
+                acceleration = .04;
                 break;
+
+            case (Math.abs(speed) > 3 * maxSpeed/4):
+                tireGrip = 1.7
+                turningSpeed = 4
+                acceleration = 0.05;
+                break;
+
+            case (Math.abs(speed) > maxSpeed/2):
+                console.log(maxSpeed/2)
+                tireGrip = 1.9
+                turningSpeed = 4.5
+                acceleration = .06;
+                break;
+
+            case (Math.abs(speed) > maxSpeed/4):
+                tireGrip = 2.05
+                turningSpeed = 5
+                acceleration = .07;
+                break;
+
+            case (Math.abs(speed) > maxSpeed/6):
+                tireGrip = 2.1
+                turningSpeed = 5
+                acceleration = .07;
+                break;
+
             case (Math.abs(speed) > maxSpeed/8):
-                tireGrip = 2
+                tireGrip = 2.15
                 turningSpeed = 5
                 acceleration = 0.06;
                 break;
-            case (Math.abs(speed) > maxSpeed/6):
-                tireGrip = 1.7
-                turningSpeed = 4.75
-                acceleration = .05;
-                break;
-            case (Math.abs(speed) > maxSpeed/4):
-                tireGrip = 1.4
-                turningSpeed = 4.5
-                acceleration = .04;
-                break;
-            case (Math.abs(speed) > maxSpeed/2):
-                tireGrip = 1.1
-                turningSpeed = 4
-                acceleration = .03;
-                break;
-            case (Math.abs(speed) > 3 * maxSpeed/4):
-                tireGrip = .9
-                turningSpeed = 3.5
-                acceleration = 0.02;
-                break;
-            case (Math.abs(speed) > 5 * maxSpeed/6):
-                tireGrip = .75
-                turningSpeed = 3
-                acceleration = .01;
+
+            case (Math.abs(speed) >= 0):
+                tireGrip = 2.2
+                turningSpeed = 5
+                acceleration = 0.05;
                 break;
             default:
                 turningSpeed = 10
@@ -567,6 +578,9 @@ const createCar = (isGhost) => {
         getAngleLock,
         getEngineLock,
         getUnderSteering,
+        getTireGrip,
+        getTurningSpeed,
+        getAcceleration,
         getOnDirt,
         //setters
         setX,

@@ -32,8 +32,8 @@ const MainMenuNavigation = () => {
       navigate("/map-import")
     }}
     >map import</Button>
-    <a class="col-6" href="https://michaelgombos.github.io/browser-driving-map-creator/" target="_blank"> <Button style="light"  >Map Maker</Button> </a>
-    <a class="col-6"  href="https://github.com/MichaelGombos/browser-driving-demo" target="_blank"> <Button style="light"  >Github</Button> </a>
+    <a className="col-6" href="https://michaelgombos.github.io/browser-driving-map-creator/" target="_blank"> <Button style="light"  >Map Maker</Button> </a>
+    <a className="col-6"  href="https://github.com/MichaelGombos/browser-driving-demo" target="_blank"> <Button style="light"  >Github</Button> </a>
     <Button style="light" clickHandler={() => {
       navigate("/settings");
     }}>Settings</Button>

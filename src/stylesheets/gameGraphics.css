@@ -6,6 +6,7 @@
   overflow: hidden;
   position:relative;
   transition: scale 150ms;
+  z-index:-1;
 }
 
 .map {

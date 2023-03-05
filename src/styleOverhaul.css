@@ -103,23 +103,7 @@ a{
 
 
 
-#mini-map{
-  position:absolute;
-  bottom:-1px;
-  z-index:1;
-}
 
-#map-canvas{
-  z-index:-1;
-}
-
-#player-canvas,#map-canvas{
-  filter: drop-shadow(0px 3px 2px #0b0b0b4d);
-  position:absolute;
-  bottom: 50px;
-  width:auto;
-  height:150px;
-}
 
 canvas{
   width:100px;
@@ -281,6 +265,12 @@ button{
   white-space: nowrap;
 }
 
+/*  icon button  */
+.icon-button{
+  width:32px;
+  height:32px;
+} 
+
 /* ------- signup screen ------- */
 
 .text-input{
@@ -357,4 +347,70 @@ button{
   flex-direction: row;
   align-items: center;
   gap:var(--gap-md);
+}
+
+/* ------- hidden menu ------- */
+
+.hidden-menu{
+  padding:20px;
+}
+
+.hidden-menu__navigation{
+  position:absolute;
+  top:var(--gap-xl);
+  right:var(--gap-xl);
+}
+
+.hidden-menu_game-info{
+  position:absolute;
+  top:var(--gap-xl);
+  left:50%;
+  transform:translate(-50%, 0%)
+}
+
+.hidden-menu__extra-stats{
+  position:absolute;
+  top:var(--gap-xl);
+  left:var(--gap-xl);
+}
+
+.hidden-menu__dashboard{
+  position:absolute;
+  bottom:var(--gap-xl);
+  left:50%;
+  transform:translate(-50%, 0%)
+}
+
+#mini-map{
+  position:absolute;
+  bottom:var(--gap-xl);
+  left:var(--gap-xl);
+  z-index:0;
+}
+
+#map-canvas{
+  z-index:-1;
+}
+
+#player-canvas,#map-canvas{
+  position:absolute;
+  bottom: 0;
+  width:auto;
+  height:150px;
+}
+
+#steering-wheel{
+  transition-property: transform;
+  transition-duration: 200ms;
+}
+
+.pedal{
+  width:100px;
+  height:20px;
+  text-align: center;
+  background-color:white;
+  color:var(--shade-100);
+
+  transition-property: transform opacity;
+  transition-duration: 200ms;
 }

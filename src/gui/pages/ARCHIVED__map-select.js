@@ -1,7 +1,7 @@
 import React, { useState , useEffect } from 'react';
 
 import MapList from '../components/map-list.js';
-import MapDetail from '../components/map-detail.js';
+import MapDetail from '../components/ARCHIVED__map-detail.js';
 
 const MapSelect = () => { 
   let [mapSelectScreen, setMapSelectScreen] = useState("list"); //list or detail 

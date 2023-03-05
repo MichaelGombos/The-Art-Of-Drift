@@ -58,7 +58,7 @@ const mapNames = [
 
 const HTMLMapNames = [
   "Driving <span class='text-secondary-500'> Plans</span>",
-  "Stagin <span class='text-secondary-500'>Cars</span>",
+  "Staging <span class='text-secondary-500'>Cars</span>",
   "<span class='text-secondary-500'>Adrift</span> by strategem",
   "Tactical <span class='text-secondary-500'>Drift</span> positions",
   "<span class='text-secondary-500'>Horse</span>power",
