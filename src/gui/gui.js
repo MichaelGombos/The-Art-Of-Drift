@@ -75,7 +75,7 @@ const Menu = () => {
   useEffect(() => {
     window.addEventListener('resize',handleResize)
     if(!location.pathname.includes("/invited")){
-      navigate("/main")
+      navigate("/finish")
     }
 
     handleResize();

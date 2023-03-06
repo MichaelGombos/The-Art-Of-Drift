@@ -128,15 +128,15 @@ const replays = [
   },
   normal: {
     replay: map4Normal,
-    time: "00:00:27.648"
+    time: "00:00:45.648"
   },
   hard: {
     replay: map4Hard,
-    time: "00:00:24.451"
+    time: "00:00:42.451"
   },
   author: {
     replay: map4Author,
-    time: "00:00:23.494"
+    time: "00:00:40.494"
   }
 },
  {

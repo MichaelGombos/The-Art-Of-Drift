@@ -10,6 +10,8 @@ const Pause = ({setPrevious}) => {
   const navigate = useNavigate();
 
   return (
+
+    <div className="opaque-background">
     <div className='menu-container'>
       <div className="paused-menu col-2 align-center gap-lg">
         <h1 className="f-h1">Pause</h1>
@@ -36,6 +38,7 @@ const Pause = ({setPrevious}) => {
           }}>Back to main menu</Button>
         </div>
       </div>
+    </div>
     </div>
   )
 }

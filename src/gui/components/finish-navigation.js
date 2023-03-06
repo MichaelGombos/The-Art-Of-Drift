@@ -1,8 +1,9 @@
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 
+import Button from "./button.js";
 import { maps } from '../../game/map-data.js';
-import { getInSpectateMode,getReplayString,setEnableGhost,setMapData } from "../../game/game";
+import { getInSpectateMode,getGameMapIndex,getReplayString,setEnableGhost,setMapData } from "../../game/game";
 import { pauseGame, resetGame, startGame,turnOffGame } from "../../game/main";
 
 const racePB = (index) => {
@@ -21,41 +22,52 @@ const FinishNavigation = ({newBest,mapIndex}) => {
   const [inviteCopied, setInviteCopied] = useState(false);
   const [replayCopied, setReplayCopied] = useState(false);
 
+  const setAndResetInviteCopied = () => {
+    setInviteCopied(true)
+    setTimeout(() => {
+      setInviteCopied(false)}
+      , 3000) 
+  }
+
   return(
-    <>
-      <nav>
+      <nav className="col-6 align-center gap-md">
             {getInSpectateMode() ? 
-            <button onClick={() => {
+            <Button clickHandler={() => {
               resetGame(true);
               navigate("/hidden");
-            }}>Watch Again</button>
+            }}>Watch Again</Button>
           : 
-          <button className = {inviteCopied ? "disabled" : ""}onClick={() => {
-            copyToClipboard(`http://www.theartofdrift.com/invited?racer=${playerName}&map=${mapIndex}`).then(setInviteCopied(true));
-          }}>{inviteCopied ? "Copied!" : "Copy Invite Link"}</button>}
+          <Button style={inviteCopied ? "disabled" : "primary"} className = {inviteCopied ? "disabled" : ""}clickHandler={() => {
+            copyToClipboard(`http://www.theartofdrift.com/invited?racer=${playerName}&map=${mapIndex}`).then(setAndResetInviteCopied());
+          }}>{inviteCopied ? "Copied!" : "Copy Invite Link"}</Button>}
 
-          <button className = {replayCopied ? "disabled" : ""}onClick={() => {
+          {/* <Button className = {replayCopied ? "disabled" : ""}clickHandler={() => {
             copyToClipboard(getReplayString()).then(setReplayCopied(true));
-          }}>{inviteCopied ? "Copied!" : "Copy Replay String"}</button>
-            <button onClick={() => {
+          }}>{inviteCopied ? "Copied!" : "Copy Replay String"}</Button> */}
+            <Button clickHandler={() => {
               resetGame();
               navigate("/hidden")
-            }}>Race Again</button>  
+            }}>Race Again</Button>  
             {newBest && 
-            <button onClick = {()=> {
+            <Button clickHandler = {()=> {
               racePB(mapIndex,localStorage.getItem(`pbReplay${mapIndex}`));
               setEnableGhost(true);
               resetGame();
               navigate("/hidden");
-              }}>Race New Best</button>
+              }}>Race New Best</Button>
             }
-
-            <button onClick={() => {
+          {
+            getGameMapIndex() &&
+            <Button clickHandler={() => {
+              navigate(`/campaign/${getGameMapIndex()}`);
+              turnOffGame();
+            }}>Back to level screen</Button>
+          }
+            <Button clickHandler={() => {
               navigate("/map-select");
               turnOffGame();
-            }}>Back to map select</button>
+            }}>Back to map select</Button>
       </nav>
-    </>
   )
 }
 

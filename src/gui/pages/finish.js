@@ -55,19 +55,21 @@ const checkBest = (index, oldPB) => {
 const Finish = () => {
   const mapIndex = getGameMapIndex();
   const oldPB = localStorage.getItem(`pb${mapIndex}`);
-
   useMemo(() => {
       newBest = checkBest(mapIndex, oldPB);
       playerTime = getTimeString();
       spectateTime = getSpectateTime();
   }, [])
   return (
-    <div className="menu finish" >
-      <div className="finish-container">
-        <FinishHeader spectateTime = {spectateTime} playerTime = {playerTime} newBest={newBest} mapIndex={mapIndex} />
-        <FinishNavigation newBest={newBest} mapIndex={mapIndex}/>
+    <div className="opaque-background">
+      <div className="menu-container" >
+        <div className="finish-menu col-2 align-center  gap-md">
+          <FinishHeader spectateTime = {spectateTime} playerTime = {playerTime} newBest={newBest} mapIndex={mapIndex} oldPB={oldPB}/>
+          <FinishNavigation newBest={newBest} mapIndex={mapIndex}/>
+        </div>
       </div>
     </div>
+
   )
 }
 

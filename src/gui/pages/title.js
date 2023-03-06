@@ -4,7 +4,7 @@ import TextLogo from '../components/text-logo.js';
 
 const Title = () => {
   return (
-    <Link className="menu-container" to= {localStorage.getItem("playerName") ? "/welcome" : "/enter-name" // I will update this to something like "logged in" later...
+    <Link className="menu-container" to= {localStorage.getItem("playerName") ? "/welcome" : "/welcome" // I will update this to something like "logged in" later...
   }>
         <div className='title-menu col-4'>
           <TextLogo content="the art of drift"/>
