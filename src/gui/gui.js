@@ -54,7 +54,10 @@ const navKeys = {
 const Menu = () => {
   let isDeviceValid = true;
   const [previousType,setPreviousType] = useState('title')
-  const [isStatsHidden,setIsStatsHidden] = useState(true);
+  const [showFPS,setShowFPS] = useState(true);
+  const [showExtraStats,setShowExtraStats] = useState(true);
+  const [showDashboard,setShowDashboard] = useState(true);
+
   const location = useLocation();
   const navigate = useNavigate();
   window.changeGUIScreen = navigate;
@@ -75,7 +78,7 @@ const Menu = () => {
   useEffect(() => {
     window.addEventListener('resize',handleResize)
     if(!location.pathname.includes("/invited")){
-      navigate("/finish")
+      navigate("/")
     }
 
     handleResize();
@@ -111,9 +114,21 @@ const Menu = () => {
       <Route  path="/map-select" element={<MapSelect/>} />
       <Route  path="/map-import" element={<MapImport/>} />
       <Route  path="/leaderboards" element={<Leaderboards/>} />
-      <Route  path="/settings" element={<Settings previous={previousType} showStats={isStatsHidden} setShowStats={setIsStatsHidden} />} />
+      <Route  path="/settings" element={<Settings 
+      previous={previousType} 
+      showFPS={showFPS}
+      setShowFPS={setShowFPS} 
+      showExtraStats={showExtraStats}
+      setShowExtraStats={setShowExtraStats}
+      showDashboard={showDashboard}
+      setShowDashboard={setShowDashboard}
+       />} />
       <Route  path="/countdown" element={<Countdown/>}/>
-      <Route  path="/hidden" element={<Hidden  showStats={isStatsHidden} />}/>
+      <Route  path="/hidden" element={<Hidden  
+      showFPS={showFPS}
+      showExtraStats={showExtraStats}
+      showDashboard={showDashboard}
+       />}/>
       <Route  path="/pause" element={<Pause setPrevious={setPreviousType} />}/>
       <Route  path="/finish" element={<Finish/>}/>
       <Route  path="/invited" element={<Invited/>}/>

@@ -59,23 +59,23 @@ function getGamepadStatus() {
         window.navigateMenu("reset")
       }
       else if (i == 6){
-        game_pad_held_directions.unshift(`down@${val}`)
+        game_pad_held_directions.unshift(`down@${val.toFixed(2)}`)
       }
       else if(i == 7){
-        game_pad_held_directions.unshift(`up@${val}`)
+        game_pad_held_directions.unshift(`up@${val.toFixed(2)}`)
       }
     }
   });
 
   //sticks
   controller.axes.forEach((axis, i) => {
-    if(Math.abs(axis) > .05){
+    if(Math.abs(axis) > .025){
       if(i == 0){
         if(axis <0){
-          game_pad_held_directions.unshift(`left@${axis}`)
+          game_pad_held_directions.unshift(`left@${axis.toFixed(2)}`)
         }
         else{
-          game_pad_held_directions.unshift(`right@${axis}`)
+          game_pad_held_directions.unshift(`right@${axis.toFixed(2)}`)
         }
       }
       if(i == 1){

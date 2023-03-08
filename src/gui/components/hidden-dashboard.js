@@ -9,7 +9,7 @@ const directions = {
   right: "right",
 }
 
-const Dashboard = ({isHidden}) => {
+const Dashboard = ({showInfo}) => {
   const [stats, setStats ] = useState({})
   const [gameOver, setGameOver ] = useState(false)
   let steeringAngle = 0;
@@ -32,7 +32,6 @@ const Dashboard = ({isHidden}) => {
         pressure = direction.slice(direction.indexOf("@")+1)
 
         if (direction.includes( directions.left)) {
-          console.log(direction,pressure)
           steeringAngle = pressure
         }      
         if (direction.includes( directions.right)) {
@@ -40,7 +39,6 @@ const Dashboard = ({isHidden}) => {
         }
 
         if (direction.includes( directions.down)) {
-          console.log(stats.inputs)
           brakePressure = pressure
         }      
         if (direction.includes( directions.up)) {
@@ -49,14 +47,12 @@ const Dashboard = ({isHidden}) => {
       }
       else{
         if (direction.includes( directions.left)) {
-          console.log(direction,pressure)
           steeringAngle = -pressure
         }      
         if (direction.includes( directions.right)) {
           steeringAngle = pressure
         }
         if (direction.includes( directions.down)) {
-          console.log(direction,pressure)
           brakePressure = pressure
         }      
         if (direction.includes( directions.up)) {
@@ -70,23 +66,25 @@ const Dashboard = ({isHidden}) => {
 
   window.updateDashboard = refreshStats;
   window.updateGameOver = refreshGameOver;
-  return (
-    <ul className="hidden-menu__dashboard">
-      {!isHidden && 
-          <div className="inputs col-6 align-center gap-md">
-
-            <li>{(stats.speed*5).toFixed(2)} MPH</li>
-            <img id="steering-wheel" style = {{transform: `rotate(${steeringAngle*90}deg)`}}src={steering_wheel}/>
-
-            <div className="col-6 gap-md" id="pedals">
-              <div className="pedal"  style = {{opacity: gasPressure}}><p>gas</p></div>
-              <div className="pedal"  style = {{opacity: brakePressure}}><p>{stats.speed >= 0 ? "brake" : "reverse"}</p></div>
+  if(showInfo){
+    return (
+      <ul className="hidden-menu__dashboard">
+            <div className="inputs col-6 align-center gap-md">
+  
+              <li>{(stats.speed*5).toFixed(2)} MPH</li>
+              <img id="steering-wheel" style = {{transform: `rotate(${steeringAngle*90}deg)`}}src={steering_wheel}/>
+  
+              <div className="col-6 gap-md" id="pedals">
+                <div className="pedal"  style = {{opacity: gasPressure}}><p>gas</p></div>
+                <div className="pedal"  style = {{opacity: brakePressure}}><p>{stats.speed >= 0 ? "brake" : "reverse"}</p></div>
+              </div>
             </div>
-          </div>
-      }
-      
-    </ul>
-  )
+        
+      </ul>
+    )
+  }
+  return "";
+
 }
 
 export default Dashboard;

@@ -25,7 +25,7 @@ const ProfileSelect = ({profileAvatarId, setProfileAvatarId,profileVehicleId, se
     <div className='profile-select col-6 gap-xl'>
         <div className="col-6 align-center gap-md">
           <p className="f-p3">choose your avatar</p>
-          <div className='profile-scroller row'>
+          <div className='profile-scroller row align-center'>
               <IconButton clickHandler = {1} iconUrl = {previousIconUrl}/>
               <img class="profile-scroller__image profile-scroller__image--avatar" src={avatarUrl1}></img>
               <IconButton clickHandler = {1} iconUrl = {nextIconUrl}/>
@@ -35,7 +35,7 @@ const ProfileSelect = ({profileAvatarId, setProfileAvatarId,profileVehicleId, se
 
         <div className="col-6 align-center gap-md">
           <p className="f-p3">select a vehicle</p>
-          <div className='profile-scroller row'>
+          <div className='profile-scroller row align-center'>
             <IconButton clickHandler = {1} iconUrl = {previousIconUrl}/>
             <img class="profile-scroller__image" src={vehicleUrl1}></img>
             <IconButton clickHandler = {1} iconUrl = {nextIconUrl}/>

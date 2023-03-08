@@ -3,28 +3,37 @@ import { useNavigate } from "react-router-dom";
 
 import { getDirectionalCamera, getEnableGhost, setDirectionalCamera, setEnableGhost } from "../../game/game";
 import { getParticleLimit, setParticleLimit } from "../../game/graphics";
+import Button from "./button";
 
-const ExitSettingsButton = ({isSaving,setNewEnableGhost,setNewParticleLimit, newEnableGhost, newParticleLimit, setNewDirectionalCamera, newDirectionalCamera}) => {
+const ExitSettingsButton = ({
+  isSaving,
+  setNewEnableGhost,
+  setNewParticleLimit, 
+  newEnableGhost, 
+  newParticleLimit, 
+  setNewDirectionalCamera, 
+  newDirectionalCamera
+}) => {
   const navigate = useNavigate();
 
     if(isSaving){
       return(
-        <button className="bg-success-500 text-color-shade-0"onClick={() => {
+        <Button style="primary" clickHandler={() => {
           navigate(-1);
           setEnableGhost(newEnableGhost);
           setParticleLimit(newParticleLimit);
           setDirectionalCamera(newDirectionalCamera);
-        }}>Save and exit</button>
+        }}>Save and exit</Button>
       )
     }
     else{
       return(
-        <button onClick={() => {
+        <Button clickHandler={() => {
           navigate(-1);
           setNewEnableGhost(getEnableGhost());
           setNewParticleLimit(getParticleLimit());
           setNewDirectionalCamera(getDirectionalCamera());
-        }}>Exit without saving</button>
+        }}>Exit without saving</Button>
       )
     }
 }

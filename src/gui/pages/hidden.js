@@ -28,7 +28,7 @@ const ResetGameButton = () => {
   )
 }
 
-const Hidden = ({showStats}) => {
+const Hidden = ({showFPS,showExtraStats,showDashboard}) => {
   let isExtraStatsHidden = false;
   let isDashboardHidden = false;
   // TODO TOGGLE FOR THIS IN SETTINGS
@@ -39,10 +39,10 @@ const Hidden = ({showStats}) => {
           <ResetGameButton/>
         </div>
 
-        <GameInfo />
+        <GameInfo  />
       
-        <ExtraStats isHidden={isExtraStatsHidden}/>
-        <Dashboard isHidden={isDashboardHidden}/>
+        <ExtraStats showInfo={showExtraStats} showFPS={showFPS}/>
+        <Dashboard showInfo={showDashboard}/>
     </div>
 
   )

@@ -51,12 +51,20 @@
   justify-content: center;
 }
 
+.justify-between{
+  justify-content: space-between;
+}
+
 .align-center{
   align-items: center;
 }
 
 .align-start{
   align-items: start;
+}
+
+.align-between{
+  align-items: space-between;
 }
 
 .w-100{

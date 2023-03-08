@@ -23,6 +23,8 @@ const GameInfo = () => {
       <li>LAP <span id="lap">{stats.lap}</span></li>      
     </ul>
   )
+  return ""
+
 }
 
 export default GameInfo;

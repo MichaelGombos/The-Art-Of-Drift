@@ -37,7 +37,7 @@ let replayExport = []
 
 let mapIndex;
 
-let targetFps = 144;
+let targetFps = 45;
 let currentFps = 0;
 
 const tilePixelCount = parseInt(
@@ -385,7 +385,7 @@ const placeCharacter = () => {
   }
   
   
-  if (held_directions.length > 0) {
+  if (held_directions && held_directions.length > 0) {
       if (car.getSpeed() != 0) {
         let pressure = 1;
           //turn
@@ -484,6 +484,16 @@ const placeCharacter = () => {
 
 const setTargetFps = (target) => { targetFps = target}
 
+const renderFirstFrame = () => {
+  //draw stuff
+  placeCharacter();
+  // if(enableGhost){
+  //   placeGhost(ghostStep);
+  //   ghostStep++;
+  // }
+  // updateMiniMapPlayers(car,ghostCar);
+}
+
 const renderNewFrame = () => {
   //draw stuff
   placeCharacter();
@@ -574,6 +584,7 @@ export {
   checkGameOver,
   step,
   renderNewFrame,
+  renderFirstFrame,
   resetCarValues,
   getDirectionalCamera,
   getStats,

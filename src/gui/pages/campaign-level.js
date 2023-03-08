@@ -20,7 +20,7 @@ const CampaignLevel = () => {
     <div className='menu-container'>
         <div className='level-menu col-6 gap-md'>
           <div className='level-menu__header col-6 gap-md'>
-            <p className='f-p1'>Track <span className='text-secondary-500'># {mapIndex}</span></p>
+            <p className='f-p1'>Track <span className='text-secondary-500'># {mapIndex+1}</span></p>
             <h1 className="f-h1" dangerouslySetInnerHTML={{__html: HTMLMapNames[mapIndex]}}></h1>
           </div>
 

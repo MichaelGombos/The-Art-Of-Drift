@@ -267,7 +267,6 @@ const createCar = (isGhost) => {
                 break;
 
             case (Math.abs(speed) > maxSpeed/2):
-                console.log(maxSpeed/2)
                 tireGrip = 1.9
                 turningSpeed = 4.5
                 acceleration = .06;
@@ -358,23 +357,24 @@ const createCar = (isGhost) => {
 
     const turn = (direction, pressure = 1) => {
         //compareAngles 
-        
+        pressure = Math.abs(pressure).toFixed(2);
+        console.log(pressure)
         if (direction === "right" && !angleLock.right) {
             if (driftForce <= 1.7) {
                 driftForce += .1;
-            } else if (driftForce > 1.7 && driftForce < 5) {
+            } else if (driftForce > 1.7 && driftForce < 5 && pressure > .5) {
                 driftForce += 0.055;
             }
 
 
-            angle.facing += turningSpeed * Math.abs(pressure);
+            angle.facing += turningSpeed * pressure;
             angle.moving += turningSpeed / driftForce;
 
 
         } else if (direction === "left" && !angleLock.left) {
             if (driftForce <= 1.7) {
                 driftForce += .1;
-            } else if (driftForce > 1.7 && driftForce < 5) {
+            } else if (driftForce > 1.7 && driftForce < 5 && pressure > .5) {
                 driftForce += 0.055;
             }
 

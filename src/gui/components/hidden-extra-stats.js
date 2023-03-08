@@ -1,7 +1,7 @@
 import React, {useState} from "react"
 
 
-const ExtraStats = ({isHidden}) => {
+const ExtraStats = ({showFPS,showInfo}) => {
   const [stats, setStats ] = useState({})
 
   const refreshStats = (information) => {
@@ -17,8 +17,9 @@ const ExtraStats = ({isHidden}) => {
   window.updateGameOver = refreshGameOver;
   return (
     <ul className="hidden-menu__extra-stats">
-      {!isHidden && 
-      <>
+        {showFPS || showInfo ? 
+        <li>FPS <span>{stats.fps}</span></li> : ""}
+        {showInfo ? <>
         <li>X <span id="x">{stats.x}</span></li>
         <li>Y <span id="y">{stats.y}</span></li>
         <li>ACCELERATION <span id="under-steer">{stats.acceleration}</span></li>
@@ -36,9 +37,8 @@ const ExtraStats = ({isHidden}) => {
         <li>FACING ANGLE <span id="facing">{stats.facingAngle}</span></li>
 
         <li>PARTICLE COUNT <span id="particle-count">{stats.particleCount}</span></li>
-      </>
-      }
-      
+        </>
+        : "" }
     </ul>
   )
 }

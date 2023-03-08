@@ -2,7 +2,7 @@ import {
     getReqAnim,
     step,
     resetCarValues,
-    renderNewFrame
+    renderFirstFrame
 } from "./game.js"
 
 import{
@@ -22,7 +22,7 @@ let isGameOn = false;
 
 const resetGame = () => {
     pauseGame();
-    setTimeout(startGame(),1)
+    startGame();
     unPauseGame();
 }
 
@@ -31,7 +31,7 @@ const startGame = () => {
     window.cancelAnimationFrame(getReqAnim());
     clearParticles();
     resetCarValues();
-    renderNewFrame();
+    renderFirstFrame();
 }
 
 const getGameOn = () => {
