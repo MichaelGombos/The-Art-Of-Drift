@@ -26,6 +26,7 @@ import Campaign from "./pages/campaign.js"
 import CampaignLevel from "./pages/campaign-level.js"
 import CampaignLeaderboards from "./pages/campaign-leaderboards.js"
 import CampaignLeaderboard from "./pages/campaign-leaderboard.js"
+import CommunityMaps from "./pages/community-maps.js"
 
 const {useState} = React
 
@@ -80,7 +81,7 @@ const Menu = () => {
   useEffect(() => {
     window.addEventListener('resize',handleResize)
     if(!location.pathname.includes("/invited")){
-      navigate("leaderboards/campaign/13")
+      navigate("/community-maps")
     }
 
     handleResize();
@@ -112,8 +113,8 @@ const Menu = () => {
       <Route  path="/main" element={<Main setPrevious={setPreviousType}/>}/>
       <Route  path="/campaign" element={<Campaign/>} />
       <Route  path="/campaign/:mapIndex" element={<CampaignLevel/>} />
+      <Route  path="/community-maps" element={<CommunityMaps/>} />
       
-      <Route  path="/map-select" element={<MapSelect/>} />
       <Route  path="/map-import" element={<MapImport/>} />
       <Route  path="/leaderboards" element={<Leaderboards/>} />
       <Route  path="/leaderboards/campaign" element={<CampaignLeaderboards/>} />

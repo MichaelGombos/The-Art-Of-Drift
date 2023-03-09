@@ -26,58 +26,60 @@ const Settings = ({
   let [gameDataSafeteyNet,setGameDataSafeteyNet] = useState(3);
   let [newDirectionalCamera, setNewDirectionalCamera] = useState(getDirectionalCamera())
   return (
-    <div className="menu-container">
-      <div className="options-menu col-6 gap-lg align-center">
-        <h1 className="f-h1">Settings</h1>
-        <div className="settings-wrapper col-2 align-center gap-md">
-          {/* placeholder */}
-          <Button>Log Out</Button>
-          <Button>View Controls</Button>
-          <DeleteGameSaveButton gameDataSafeteyNet={gameDataSafeteyNet} setGameDataSafeteyNet={setGameDataSafeteyNet}/>
-          <InputSlider 
-          newValue={newParticleLimit} 
-          setter={setNewParticleLimit}
-          minimum={0}
-          maximum={2000}>
-            Particle Limit
-          </InputSlider>
-        <InputToggle 
-        newValue={newDirectionalCamera} 
-        setter={setNewDirectionalCamera}
-        >
-          Enable Directional Camera
-        </InputToggle>
+    <div className="opaque-background">
+      <div className="menu-container">
+        <div className="options-menu col-6 gap-lg align-center">
+          <h1 className="f-h1">Settings</h1>
+          <div className="settings-wrapper col-2 align-center gap-md">
+            {/* placeholder */}
+            <Button>Log Out</Button>
+            <Button>View Controls</Button>
+            <DeleteGameSaveButton gameDataSafeteyNet={gameDataSafeteyNet} setGameDataSafeteyNet={setGameDataSafeteyNet}/>
+            <InputSlider 
+            newValue={newParticleLimit} 
+            setter={setNewParticleLimit}
+            minimum={0}
+            maximum={2000}>
+              Particle Limit
+            </InputSlider>
+          <InputToggle 
+          newValue={newDirectionalCamera} 
+          setter={setNewDirectionalCamera}
+          >
+            Enable Directional Camera
+          </InputToggle>
 
-        <InputToggle 
-        newValue={showExtraStats} 
-        setter={setShowExtraStats}
-        >
-          Show Extra Stats
-        </InputToggle>
+          <InputToggle 
+          newValue={showExtraStats} 
+          setter={setShowExtraStats}
+          >
+            Show Extra Stats
+          </InputToggle>
 
-        <InputToggle 
-        newValue={showFPS} 
-        setter={setShowFPS}
-        >
-          Show FPS
-        </InputToggle>
+          <InputToggle 
+          newValue={showFPS} 
+          setter={setShowFPS}
+          >
+            Show FPS
+          </InputToggle>
 
-        <InputToggle 
-        newValue={showDashboard} 
-        setter={setShowDashboard}
-        >
-          Show dashboard
-        </InputToggle>
+          <InputToggle 
+          newValue={showDashboard} 
+          setter={setShowDashboard}
+          >
+            Show dashboard
+          </InputToggle>
 
-        <InputToggle 
-        newValue={newEnableGhost} 
-        setter={setNewEnableGhost}
-        >
-          Enable Ghost Car
-        </InputToggle>
+          <InputToggle 
+          newValue={newEnableGhost} 
+          setter={setNewEnableGhost}
+          >
+            Enable Ghost Car
+          </InputToggle>
 
-          <ExitSettingsButton isSaving={false} setNewEnableGhost={setNewEnableGhost} setNewParticleLimit={setNewParticleLimit} newEnableGhost={newEnableGhost} newParticleLimit={newParticleLimit} />
-          <ExitSettingsButton isSaving={true} setNewEnableGhost={setNewEnableGhost} setNewParticleLimit={setNewParticleLimit} setNewDirectionalCamera = {setNewDirectionalCamera} newEnableGhost={newEnableGhost} newParticleLimit={newParticleLimit} newDirectionalCamera={newDirectionalCamera}/>
+            <ExitSettingsButton isSaving={false} setNewEnableGhost={setNewEnableGhost} setNewParticleLimit={setNewParticleLimit} newEnableGhost={newEnableGhost} newParticleLimit={newParticleLimit} />
+            <ExitSettingsButton isSaving={true} setNewEnableGhost={setNewEnableGhost} setNewParticleLimit={setNewParticleLimit} setNewDirectionalCamera = {setNewDirectionalCamera} newEnableGhost={newEnableGhost} newParticleLimit={newParticleLimit} newDirectionalCamera={newDirectionalCamera}/>
+          </div>
         </div>
       </div>
     </div>
