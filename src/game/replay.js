@@ -300,7 +300,26 @@ const replays = [
    replay: map13Author,
    time: "00:00:42.839"
  }
-}
+},
+
+{ 
+  easy: {
+    replay: [[]],
+    time: "00:00:49.035"
+  },
+  normal: {
+    replay: [[]],
+    time: "00:00:46.901"
+  },
+  hard: {
+    replay: [[]],
+    time: "00:00:43.901"
+  },
+  author: {
+    replay: [[]],
+    time: "00:00:42.839"
+  }
+ }
 ]
 
 export {replays};

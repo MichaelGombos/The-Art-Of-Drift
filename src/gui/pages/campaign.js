@@ -72,7 +72,7 @@ const Campaign = () => {
           <Button style="light" clickHandler={() => navigate(`/main`)}>back
           </Button>
           <div className='campaign-menu__acts row justify-center gap-md'>
-            <Act actIndex={1} mapIndexArray={[0,1,2,3]} medalsRequired={0}/>
+            <Act actIndex={1} mapIndexArray={[0,1,2,3,13]} medalsRequired={0}/>
             <Act actIndex={2} mapIndexArray={[4,5,6,7]} medalsRequired={4}/>
             <Act actIndex={3} mapIndexArray={[8,9,10,11,12]} medalsRequired={9}/>
           </div>

@@ -25,11 +25,12 @@ const Pause = ({setPrevious}) => {
             navigate("/settings");
           }}>Settings</Button>
           {
-            getGameMapIndex() &&
+            getGameMapIndex() ?
             <Button clickHandler={() => {
               navigate(`/campaign/${getGameMapIndex()}`);
               turnOffGame();
-            }}>Back to level screen</Button>
+            }}>Back to level screen</Button> :
+            ""
           }
 
           <Button clickHandler={() => {

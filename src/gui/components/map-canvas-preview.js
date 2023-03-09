@@ -5,7 +5,7 @@ import { drawCanvasMap } from '../../game/graphics.js';
 import { decompressMapData } from '../../game/map-compression.js';
 
 
-const MapCanvasPreview = ({width, mapIndex}) => {
+const MapCanvasPreview = ({width, mapIndex , isTiny = false}) => {
   useEffect(() => {
     const decompressedMap = decompressMapData(maps[mapIndex].data)
     const mapPreviewCanvas = document.querySelector(".map-preview");
@@ -17,8 +17,8 @@ const MapCanvasPreview = ({width, mapIndex}) => {
   })
 
   return(
-    <div className={`map-preview-container ${width}`}>
-      <canvas className="map-preview"></canvas>
+    <div className={`map-preview-container ${width} `}>
+      <canvas className={`map-preview ${isTiny ? "map-preview--sm" : ""}`}></canvas>
     </div>
   )
 }

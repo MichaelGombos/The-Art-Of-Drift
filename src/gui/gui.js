@@ -24,6 +24,8 @@ import Signup from "./pages/signup.js"
 import Signin from "./pages/signin.js"
 import Campaign from "./pages/campaign.js"
 import CampaignLevel from "./pages/campaign-level.js"
+import CampaignLeaderboards from "./pages/campaign-leaderboards.js"
+import CampaignLeaderboard from "./pages/campaign-leaderboard.js"
 
 const {useState} = React
 
@@ -78,7 +80,7 @@ const Menu = () => {
   useEffect(() => {
     window.addEventListener('resize',handleResize)
     if(!location.pathname.includes("/invited")){
-      navigate("/")
+      navigate("leaderboards/campaign/13")
     }
 
     handleResize();
@@ -114,6 +116,8 @@ const Menu = () => {
       <Route  path="/map-select" element={<MapSelect/>} />
       <Route  path="/map-import" element={<MapImport/>} />
       <Route  path="/leaderboards" element={<Leaderboards/>} />
+      <Route  path="/leaderboards/campaign" element={<CampaignLeaderboards/>} />
+      <Route  path="/leaderboards/campaign/:mapIndex" element={<CampaignLeaderboard/>} />
       <Route  path="/settings" element={<Settings 
       previous={previousType} 
       showFPS={showFPS}

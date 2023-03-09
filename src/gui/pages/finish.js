@@ -19,14 +19,15 @@ firebase.initializeApp({
 
 const firestore = firebase.firestore();
 
-
+localStorage.clear();
 let newBest = false;
 let playerTime;
 let spectateTime;
 
 const sendTime = async(mapIndex,time,pName,replay,color) => {
+  pName = `NAME_HASH_${Math.floor(Math.random()*10)}_${Math.floor(Math.random()*500)}`
   //firebase
-  const leaderboardPlayerRef = firestore.collection("leaderboards").doc("desktop").collection(`map${mapIndex+1}`).doc(pName)
+  const leaderboardPlayerRef = firestore.collection("leaderboards").doc("desktop").collection(`map${Number(mapIndex)+1}`).doc(pName)
 
   await leaderboardPlayerRef.set({
     time: time,
@@ -44,6 +45,11 @@ const checkBest = (index, oldPB) => {
     localStorage.setItem(`pbReplay${index}`,JSON.stringify(getReplayArray()))
 
     sendTime(index, getTimeString(), localStorage.getItem("playerName"), localStorage.getItem(`pbReplay${index}`), localStorage.getItem("playerColor"))
+
+    console.log("send it!");
+
+    console.log("THIS IS WHAT I SEND!!!",
+    index, getTimeString(), localStorage.getItem("playerName"), localStorage.getItem(`pbReplay${index}`), localStorage.getItem("playerColor"))
     return true;
   }
   else{

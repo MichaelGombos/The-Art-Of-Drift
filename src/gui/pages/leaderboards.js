@@ -1,24 +1,30 @@
 import React, { useState  } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import MapList from '../components/map-list.js';
-import Leaderboard from '../components/leaderboard.js';
+import Button from '../components/button';
+
+
+
 
 
 
 const Leaderboards = () => { 
-  let [mapSelectScreen, setMapSelectScreen] = useState("list"); //list or detail 
-  let [index,setIndex] = useState(0);
-
-  if(mapSelectScreen == "list"){
-    return (
-      <MapList screenSetter={setMapSelectScreen} setGUIMapIndex={setIndex}/>
-    )
-  }
-  else if(mapSelectScreen == "detail"){
-    return(
-      <Leaderboard screenSetter={setMapSelectScreen} mapIndex={index}></Leaderboard>
-    )
-  }
+  const navigate = useNavigate();
+  return(
+    <div className='menu-container'>
+      <div className='campaign-menu col-6 gap-md'>
+        <div className='campaign-menu__header col-6 align-center gap-md'>
+          <h1 className='f-h1'>Leaderboards</h1>
+        </div>
+        <Button style="light" clickHandler={() => navigate(`/leaderboards/campaign`)}>campaign leaderboards
+        </Button>
+        <Button style="light" clickHandler={() => navigate(`/leaderboards/community`)}>community leaderboards
+        </Button>
+        <Button style="light" clickHandler={() => navigate(`/main`)}>back
+        </Button>
+      </div>
+    </div>
+  )
 
 }
 

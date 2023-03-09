@@ -358,7 +358,6 @@ const createCar = (isGhost) => {
     const turn = (direction, pressure = 1) => {
         //compareAngles 
         pressure = Math.abs(pressure).toFixed(2);
-        console.log(pressure)
         if (direction === "right" && !angleLock.right) {
             if (driftForce <= 1.7) {
                 driftForce += .1;

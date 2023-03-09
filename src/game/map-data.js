@@ -13,12 +13,13 @@ import map10 from "./maps/map10.js"
 import map11 from "./maps/map11.js"
 import map12 from "./maps/map12.js"
 import map13 from "./maps/map13.js"
+import map14 from "./maps/map14-campaign-test.js"
 
 let freeplay = mapfreeplay;
 
 let test = maptest;
 
-let maps = [map1,map2,map3,map4,map5,map6,map7,map8,map9,map10,map11,map12,map13]
+let maps = [map1,map2,map3,map4,map5,map6,map7,map8,map9,map10,map11,map12,map13,map14]
 
 /*
 
@@ -53,7 +54,8 @@ const mapNames = [
   "Hydroplane",
   "the nicely tuned engine",
   "ATTACK by tire",
-  "Use of speed"
+  "Use of speed",
+  "test"
 ]
 
 const HTMLMapNames = [
@@ -69,7 +71,8 @@ const HTMLMapNames = [
   "Hydroplane",
   "the nicely tuned <span class='text-secondary-500'>engine</span>",
   "Attack by <span class='text-secondary-500'>tire</span>",
-  "Use of <span class='text-secondary-500'>speed</span>"
+  "Use of <span class='text-secondary-500'>speed</span>",
+  "test"
 ]
 
 const mapDescriptions = [

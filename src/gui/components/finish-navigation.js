@@ -57,11 +57,12 @@ const FinishNavigation = ({newBest,mapIndex}) => {
               }}>Race New Best</Button>
             }
           {
-            getGameMapIndex() &&
+            getGameMapIndex() ?
             <Button clickHandler={() => {
               navigate(`/campaign/${getGameMapIndex()}`);
               turnOffGame();
             }}>Back to level screen</Button>
+            : ""
           }
             <Button clickHandler={() => {
               navigate("/map-select");

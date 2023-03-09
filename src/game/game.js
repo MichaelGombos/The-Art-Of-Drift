@@ -37,7 +37,7 @@ let replayExport = []
 
 let mapIndex;
 
-let targetFps = 45;
+let targetFps = 60;
 let currentFps = 0;
 
 const tilePixelCount = parseInt(

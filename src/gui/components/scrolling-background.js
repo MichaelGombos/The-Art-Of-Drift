@@ -22,7 +22,8 @@ const ScrollingBackground = () => {
     location.pathname.includes("/hidden") ||
     location.pathname.includes("/countdown") ||
     location.pathname.includes("/finish") ||
-    location.pathname.includes("/settings")
+    location.pathname.includes("/settings") || 
+    location.pathname.includes("/leaderboards")
     )
 
   window.shutOffGame = ()=> {
