@@ -20,7 +20,7 @@ import {
   updateCameraScale,
   updateCameraAngle
 } from "./graphics.js"
-import {maps, test} from "./map-data.js"
+import {maps} from "./map-data.js"
 import {generateMiniMap,updateMiniMapPlayers} from "./mini-map.js"
 import getGamePadHeldDirections from "./gamepad.js"
 import { decompressMapData } from "./map-compression.js"
@@ -168,8 +168,8 @@ const updateCarSpawnPosition = () => {
     ghostCar.setAngle(maps[mapIndex].spawnAngle,maps[mapIndex].spawnAngle)
   }
   else{
-    characterSprite.style.transform = `rotate(${test.spawnAngle}deg)`
-    car.setAngle(test.spawnAngle,test.spawnAngle)
+    characterSprite.style.transform = `rotate(${45}deg)`
+    car.setAngle(45,45)
   }
   car.setX(spawn.x * tilePixelCount)
   car.setY(spawn.y * tilePixelCount)

@@ -81,7 +81,7 @@ const Menu = () => {
   useEffect(() => {
     window.addEventListener('resize',handleResize)
     if(!location.pathname.includes("/invited")){
-      navigate("/community-maps")
+      navigate("/signup")
     }
 
     handleResize();

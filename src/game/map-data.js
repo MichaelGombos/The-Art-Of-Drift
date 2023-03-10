@@ -1,5 +1,4 @@
 import mapfreeplay from "./maps/freeplay.js"
-import maptest from "./maps/test.js"
 import map1 from "./maps/map1.js"
 import map2 from "./maps/map2.js"
 import map3 from "./maps/map3.js"
@@ -16,8 +15,6 @@ import map13 from "./maps/map13.js"
 import map14 from "./maps/map14-campaign-test.js"
 
 let freeplay = mapfreeplay;
-
-let test = maptest;
 
 let maps = [map1,map2,map3,map4,map5,map6,map7,map8,map9,map10,map11,map12,map13,map14]
 
@@ -81,4 +78,4 @@ const mapDescriptions = [
   "this should be the third one.."
 ]
 
-export {freeplay,test,maps, mapNames,mapDescriptions, HTMLMapNames};
+export {freeplay,maps, mapNames,mapDescriptions, HTMLMapNames};

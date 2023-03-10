@@ -65,7 +65,7 @@ const FinishNavigation = ({newBest,mapIndex}) => {
             : ""
           }
             <Button clickHandler={() => {
-              navigate("/map-select");
+              navigate("/campaign");
               turnOffGame();
             }}>Back to map select</Button>
       </nav>

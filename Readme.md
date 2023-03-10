@@ -33,29 +33,26 @@ This game is played with wasd and the arrow keys to control the car. Shift, spac
 
 ### Upcoming Release 1.0.0
 
-- (done) Show wheel & pedal pressure in stats
-- (done) Fix Background On Back navigation [b1]
-- (done) Compress Maps [b2]
-- Add upload map page
-- Add community map list + leaderboard
-- (done) Fix Controller/Keyboard Navigation [b3]
-- Add an email login system.
-- Add tutorial level
-- Package game into an exe
-
-### Upcoming Release 1.1.0
-
-- Add animations
-- Add sounds
-- Replace gui+game assets with pixelart
-- Add header font missing characters
-- Add mobile support
+- add interaction for profile selector 
+- add email and gmail login w/firebase
+- refactor the [map maker](https://michaelgombos.github.io/browser-driving-map-creator/) as a react component, and allow it to be accessed from the create map button
+- add community leaderboard page
+- add community maps pages
+- fix replay bug[b1]
+- add controller/keyboard support for navigation & framer animations
+- add tutorial level
+- add support for custom keybinds in settings
+- fix game time bug[b2]
+- add pixel art assets for particles
+- add sounds for UI and game
+- add a logo
+- release :D 
 
 ### bugs
 
-- [b1] game doesn't shut off if you close by navigating back using the mouse or browser, causing background to not render and the game to still be visible in the main menu
-- [b2] maps are currently too large for netifly to process & build without running into "FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory" , causing www.theartofdrift.com to not be running the most up to date version
-- [b3] navigation loses focus occaisionally and cannot be restored if you are only using the controller/keyboard and not mouse/tab.
+- [b1] While watching or racing against a replay, the replay inconsistantly fails. This may be tied to performance or maybe the game time bug [b2] but this is difficult to test, so I am going to overhaul the replay system; Instead of the ghost reading the inputs of the replayArray on each frame to then running the car physics using the inputs, I will just store the location/angle of car in the replayArray, so the ghost won't have to run the physics, and should always be accurate. I can still use the replay input to display the steering wheel and pedals in the HUD since its only slightly innacurate.
+
+- [b2] The timer is using the real time that has passed to check how long you have been racing (minus the time paused). BUT each "tick" of the game is pulled using requestAnimationFrame, this means that if you are running this game at 30fps instead of 60fps, you will experience the game running half as fast, but the timer will tick in real time. If you have a 144hz monitor, the game will run extremely fast. The solution here is to rewrite my game loop function to consider delta time.
 
 ## License
 

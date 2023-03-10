@@ -13,8 +13,8 @@ const MainMenuNavigation = () => {
   return (
   <div className="col-6 main-menu__navigation gap-md">
     <Button style="primary" clickHandler={() => navigate("/campaign") }>campaign</Button>
-    <Button style="light" clickHandler={() => navigate("/leaderboards")}>leaderboards</Button>
     <Button style="light" clickHandler={() => navigate("/community-maps")}>community maps</Button>
+    <Button style="light" clickHandler={() => navigate("/leaderboards")}>leaderboards</Button>
     <Button style="light" clickHandler={()=> {
       setGameMapIndex(undefined)
       setMapData(freeplay,[[]]);
@@ -22,19 +22,8 @@ const MainMenuNavigation = () => {
       navigate("/hidden")
     }}
     >Free Play</Button>
-  <Button style="light" clickHandler={()=> {
-      setGameMapIndex(undefined);
-      setMapData(test,[[]]);
-      resetGame();
-      navigate("/hidden")
-    }}
-    >Test Map</Button>
-    <Button style="light" clickHandler={()=> {
-      navigate("/map-import")
-    }}
-    >map import</Button>
     <a className="col-6" href="https://michaelgombos.github.io/browser-driving-map-creator/" target="_blank"> <Button style="light"  >Map Maker</Button> </a>
-    <a className="col-6"  href="https://github.com/MichaelGombos/browser-driving-demo" target="_blank"> <Button style="light"  >Github</Button> </a>
+    <a className="col-6"  href="https://github.com/MichaelGombos/browser-driving-demo" target="_blank"> <Button style="light"  >Source Code</Button> </a>
     <Button style="light" clickHandler={() => {
       navigate("/settings");
     }}>Settings</Button>

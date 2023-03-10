@@ -44,7 +44,7 @@ const Signin = () => {
   return (
     <div className='menu-container'>
         <div className='col-2 gap-xl'>
-          <h1 className="f-h3">Sign <span className="text-secondary-500">in</span></h1>
+          <h1 className="f-h1">Sign <span className="text-secondary-500">in</span></h1>
           <SigninForm submitHandler={handleSubmit}
           setEmail = {setEmail} 
           setPassword = {setPassword}/>
