@@ -5,6 +5,22 @@ import Button from "../components/button.js"
 
 import TextInput from '../components/input-text';
 
+import { 
+  //test
+  printUserProfile,
+  //auth
+  emailSignIn,
+  guestSignIn,
+  logOut,
+  deleteAccount,
+  deleteAccountUID,
+  //db-users
+  updateProfile,
+  getCurrentAuthProfile,
+  deleteProfile,
+  deleteProfileUID,
+  guestUpgrade,
+ } from '../helpers/databaseFacade.js';
 
 const SigninForm = ({submitHandler, setEmail,setPassword,}) => {
 
@@ -39,8 +55,14 @@ const Signin = () => {
   const navigate = useNavigate();
 
   const handleSubmit = () => {
-    console.log(email, password)
+    emailSignIn("/main",email, password)
   }
+
+  const handleGuestSignIn = () => {
+    guestSignIn("/main",1,1)
+    console.log("signed you in as a guest.")
+  }
+
   return (
     <div className='menu-container'>
         <div className='col-2 gap-xl'>
@@ -50,7 +72,11 @@ const Signin = () => {
           setPassword = {setPassword}/>
           <div className="signup-footer col-6 gap-md">
             <p>Dont have an account? <Link className="link-secondary-500" to="/signup">Sign up.</Link></p>
-            <p>Too much to ask? <Link className="link-secondary-500" to="/main">Plas as a guest.</Link></p>
+            <p>Too much to ask? <a 
+            className="link-secondary-500" 
+            onClick={handleGuestSignIn}
+            
+            >Plas as guest.</a></p>
           </div>
         </div>
     </div>

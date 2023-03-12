@@ -34,7 +34,7 @@ Pages
   --columns: 20;
 
 
-  --shade-100: #3e3e3e;
+  --shade-100: #131313;
   --shade-0: #ffffff;
   --primary-50: #fdf8f1;
   --primary-100: #f9e6cf;
@@ -183,6 +183,9 @@ canvas{
   font-size: var( --f-logo-subheader-small);
 }
 
+.clickable, button, a{
+  cursor: pointer;
+}
 .title-menu{
   padding-top: 200px;
   justify-content: center;
@@ -265,6 +268,16 @@ button{
   white-space: nowrap;
 }
 
+.pixel-button__text--align-start{
+  left: 20px;
+  transform: translate(-0% , 50%);
+}
+
+.pixel-button__text--align-left{
+  left: 20px;
+  transform: translate(-0% , 50%);
+}
+
 /*  icon button  */
 .icon-button{
   width:32px;
@@ -275,7 +288,9 @@ button{
 
 .text-input{
 }
-
+.text-input__label.text-input__label--view-only{
+  color:grey;
+}
 .text-input__text{
   padding:13px 16px;
   background-color:#40404095;
@@ -283,8 +298,23 @@ button{
   color:rgb(196, 196, 196);
 }
 
+.text-input__text.text-input__text--view-only{
+  padding-left:0px;
+  font-size:var(--f-p2);
+  background-color:transparent;
+  pointer-events: none;
+}
+
+.text-input__text.text-input__text--view-only::placeholder{
+  color:white;
+}
+
 .profile-scroller{
   justify-content: center;
+}
+
+.profile-scroller.profile-scroller--view-only .icon-button{
+  display:none;
 }
 
 .profile-scroller__image{
@@ -423,6 +453,16 @@ button{
 
 .opaque-background{
   background-color: #151515ad;
+  width: 100%;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  animation: bgFadeIn 200ms linear 1;
+}
+
+.dark-background{
+  background-color: var(--shade-100);
   width: 100%;
   display: flex;
   height: 100%;
@@ -598,3 +638,23 @@ input:checked + .switch__inner:before {
   background-size:contain;
   image-rendering: pixelated;
 }
+
+/*  --------- auth status (profile widget) */
+
+.auth-status{
+  position:absolute;
+  top:16px;
+  right:16px;
+  display:flex;
+  align-items: center;
+  gap:var(--gap-lg);
+}
+
+.auth-status .icon-button, 
+.auth-status .icon-button__image,
+.auth-status__image{
+  width:45px;
+  height:45px;
+  image-rendering: pixelated;
+}
+

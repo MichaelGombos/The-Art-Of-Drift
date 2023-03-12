@@ -19,25 +19,26 @@ import {
   deleteAccountUID,
   //db-users
   updateProfile,
-  getCurrenAuthProfile,
+  getCurrentAuthProfile,
   deleteProfile,
   deleteProfileUID,
   guestUpgrade,
  } from '../helpers/databaseFacade.js';
 
 
-const SignupForm = ({updateProfileHandler, submitHandler, setRacerName,setEmail,setPassword, guestUpgradeHandler}) => {
-  const guestSignInHandler = () => {
-    guestSignIn(1,2)
-  }
+const SignupForm = ({ submitHandler, setRacerName,setEmail,setPassword, guestUpgradeHandler}) => {
+
+  const navigate = useNavigate();
 
   return (
-    <div className="signup-form col-6 gap-md">
+    <form onSubmit={submitHandler} className="signup-form col-6 gap-md">
       
       <TextInput id="racer-name" 
       labelText="racer name"
       placeholderText="enter name"
       changeHandler={setRacerName}
+      min={6}
+      max={20}
       />
 
     <TextInput id="email" 
@@ -52,17 +53,13 @@ const SignupForm = ({updateProfileHandler, submitHandler, setRacerName,setEmail,
       type="password"
       placeholderText="enter email"
       changeHandler={setPassword}
+      min={6}
       />
 
-    <Button clickHandler = {submitHandler} style="primary">Create account</Button>
+    <Button type="submit" style="primary">Create account</Button>
 
-    <Button clickHandler = {updateProfileHandler} style="primary">print account info</Button>
-
-    <Button clickHandler = {logOut} style="primary">log out</Button>
-    <Button clickHandler = {deleteAccount} style="primary">delete account</Button>
-    <Button clickHandler = {guestSignInHandler} style="primary">sign in as guest</Button>
-    <Button clickHandler = {guestUpgradeHandler} style="primary">upgrade guest to real account</Button>
-    </div>
+    <Button clickHandler = {() => navigate("/welcome")}>back</Button>
+    </form>
     
   )
 }
@@ -81,17 +78,16 @@ const Signup = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
     console.log(racerName)
-    emailSignUp(email,password,racerName,profileAvatarId,profileVehicleId)
+    e.preventDefault();
+    emailSignUp("/main",email,password,racerName,profileAvatarId,profileVehicleId)
   }
 
-  const handlePrintUser = () => {
-    getCurrenAuthProfile()
-  }
 
-  const handleGuestUpgrade = () => {
-    guestUpgrade(email,password,racerName,profileAvatarId,profileVehicleId)
+  const handleGuestSignIn = () => {
+    guestSignIn("/main",profileAvatarId,profileVehicleId)
+    console.log("signed you in as a guest.")
   }
 
   return (
@@ -99,20 +95,20 @@ const Signup = () => {
         <div className='col-3 gap-xl'>
           <h1 className="f-h1">Sign <span className="text-secondary-500">up</span></h1>
           <SignupForm 
-          guestUpgradeHandler = {handleGuestUpgrade}
-          updateProfileHandler = {handlePrintUser}
           submitHandler={handleSubmit}
           setRacerName = {setRacerName} 
           setEmail = {setEmail} 
           setPassword = {setPassword}/>
           <div className="signup-footer col-6 gap-md">
             <p>Already have an account? <Link className="link-secondary-500" to="/signin">Sign in instead.</Link></p>
-            <p>Too much to ask? <Link className="link-secondary-500" to="/main">Plas as guest.</Link></p>
+            <p>Too much to ask? <a 
+            className="link-secondary-500" 
+            onClick={handleGuestSignIn}
+            >Plas as guest.</a></p>
           </div>
         </div>
         <div className='col-3 gap-md'>
-          <ProfileSelect profileAvatarId={profileAvatarId} setProfileAvatarId={setProfileAvatarId} profileVehicleId={profileVehicleId} setProfileVehicleId={setProfileVehicleId}
-          handleGuestUpgrade={handleGuestUpgrade}/>
+          <ProfileSelect profileAvatarId={profileAvatarId} setProfileAvatarId={setProfileAvatarId} profileVehicleId={profileVehicleId} setProfileVehicleId={setProfileVehicleId}/>
         </div>
     </div>
   )

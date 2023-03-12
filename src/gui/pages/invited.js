@@ -1,27 +1,36 @@
 import React, {useState} from 'react';
-import {  useSearchParams } from 'react-router-dom';
+import {  useNavigate, useSearchParams } from 'react-router-dom';
 import ProfileSelect from '../components/profile-select.js';
 import RaceDatabaseButtons from '../components/race-database-buttons.js';
+import TextLogo from '../components/text-logo.js';
 
-const Invited = () => {
+import { auth } from '../helpers/firebase.js';
+import { guestSignIn } from '../helpers/databaseFacade.js';
+
+const Invited = ({user,loading,error}) => {
   let [searchParams, setSearchParams] = useSearchParams();
-  const [profileAvatarId,setProfileAvatarId] = useState(0);
-  const [profileVehicleId,setProfileVehicleId] = useState(0);
+  const navigate = useNavigate();
 
   const playerName  = searchParams.get("racer");
   const mapIndex = Number(searchParams.get("map"));
+  let guestSignUpHandler;
+  let isGuestNavigation;
 
+  if(!loading && user == null){ //if user is not signed into any account, sign them up as a guest.
+    guestSignUpHandler = () => guestSignIn(`/invited/info?racer=${playerName}&map=${mapIndex}`,0,1);
+  }else{
+    guestSignUpHandler = () => navigate(`/invited/info?racer=${playerName}&map=${mapIndex}`);
+  }
 
-  console.log(mapIndex, playerName)
   return (
-    <div className="menu-container">
-      <div className="invited-menu col-3 align-center gap-xl">
-        <h1 className='f-p2 text-center'>You have been invited by {playerName} to watch or race against their best time on map # {mapIndex+1}</h1>
-        <ProfileSelect profileAvatarId={profileAvatarId} setProfileAvatarId={setProfileAvatarId} profileVehicleId={profileVehicleId} setProfileVehicleId={setProfileVehicleId}/>
-        <div className="col-3 gap-md align-center">
-          <RaceDatabaseButtons mapIndex={mapIndex} playerName={playerName}/>
+
+    <div className="menu-container clickable" 
+      onClick={guestSignUpHandler}
+    >
+        <div className='title-menu col-4'>
+          <TextLogo content="the art of drift"/>
+          <p className="f-p1 flashing">{`${playerName} says hello!!`}</p>
         </div>
-      </div>
     </div>
   )
 }

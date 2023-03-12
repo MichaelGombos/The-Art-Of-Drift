@@ -10,10 +10,13 @@ import ToggleGhostCarButton from '../components/ARCHIVED__toggle-ghost-car-butto
 import ToggleStatsButton from '../components/toggle-stats-button.js';
 import InputToggle from '../components/input-toggle.js';
 import Button from '../components/button.js';
+import { logOut } from '../helpers/databaseFacade.js';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const {useState} = React
 
 const Settings = ({ 
+  isGuestSession,
   showFPS,
   setShowFPS,
   showExtraStats,
@@ -21,6 +24,7 @@ const Settings = ({
   showDashboard,
   setShowDashboard
 }) => {
+  const navigate = useNavigate();
   let [newEnableGhost, setNewEnableGhost] = useState(getEnableGhost());
   let [newParticleLimit,setNewParticleLimit] = useState(getParticleLimit());
   let [gameDataSafeteyNet,setGameDataSafeteyNet] = useState(3);
@@ -32,8 +36,8 @@ const Settings = ({
           <h1 className="f-h1">Settings</h1>
           <div className="settings-wrapper col-2 align-center gap-md">
             {/* placeholder */}
-            <Button>Log Out</Button>
-            <Button>View Controls</Button>
+            <Button clickHandler={( () => logOut('/'))}>Log Out</Button>
+            <Button clickHandler={( () => navigate(isGuestSession ? "/profile/guest" : "/profile" ))}>View Profile</Button>
             <DeleteGameSaveButton gameDataSafeteyNet={gameDataSafeteyNet} setGameDataSafeteyNet={setGameDataSafeteyNet}/>
             <InputSlider 
             newValue={newParticleLimit} 

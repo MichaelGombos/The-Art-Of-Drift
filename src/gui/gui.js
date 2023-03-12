@@ -27,8 +27,16 @@ import CampaignLevel from "./pages/campaign-level.js"
 import CampaignLeaderboards from "./pages/campaign-leaderboards.js"
 import CampaignLeaderboard from "./pages/campaign-leaderboard.js"
 import CommunityMaps from "./pages/community-maps.js"
+import AuthStatus from "./components/auth-status.js"
+import Profile from "./pages/profile.js"
+import ProfileGuest from "./pages/profile-guest.js"
+import ProfileEdit from "./pages/profile-edit.js"
 
 const {useState} = React
+// http://www.theartofdrift.com/invited?racer=NAME_HASH_0_309&map=0
+// http://localhost:8081/invited?racer=NAME_HASH_0_309&map=0
+
+const home = "/"; //for tests
 
 let currentNavigationInterval = 0;
 let lastNavigationTime = performance.now();
@@ -53,13 +61,22 @@ const navKeys = {
   "d": commands.right,
   "Enter": commands.select
 }
+import { auth } from "./helpers/firebase.js"
+import { useAuthState, useIdToken } from "react-firebase-hooks/auth"
+import ProfileUpgrade from "./pages/profile-upgrade.js"
+import InvitedInfo from "./pages/invited-info.js"
 
 const Menu = () => {
   let isDeviceValid = true;
+  
+  const [user, loading, error] = useIdToken(auth);
   const [previousType,setPreviousType] = useState('title')
   const [showFPS,setShowFPS] = useState(true);
   const [showExtraStats,setShowExtraStats] = useState(true);
   const [showDashboard,setShowDashboard] = useState(true);
+  const [showAuthStatus,setShowAuthStatus] = useState(true);
+  const [isGuestSession,setIsGuestSession] = useState(false);
+
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -73,15 +90,22 @@ const Menu = () => {
     else{
       if(!isDeviceValid){
         isDeviceValid = true;
-        navigate("/")
+        navigate(home)
       }
     }
   }
 
+
+  useEffect(() => {
+    if(user){
+      setIsGuestSession(user.isAnonymous);
+    }
+  }, [user])
+
   useEffect(() => {
     window.addEventListener('resize',handleResize)
     if(!location.pathname.includes("/invited")){
-      navigate("/signup")
+      navigate(home)
     }
 
     handleResize();
@@ -97,6 +121,18 @@ const Menu = () => {
     !location.pathname.includes("/settings")){
       window.shutOffGame();
     }
+
+    if(
+      location.pathname == ("/") ||
+      location.pathname == ("/hidden") ||
+      location.pathname ==("/welcome") ||
+      location.pathname == ("/signup") || 
+      location.pathname.includes("/profile")){
+        setShowAuthStatus(false)
+      }else{
+        setShowAuthStatus(true)
+      }
+
     if(!location.pathname.includes("/") && window.focusFirstButton){
       window.focusFirstButton()
     }
@@ -105,21 +141,31 @@ const Menu = () => {
   return (
     <>
     <ScrollingBackground/>
+    <AuthStatus 
+    isGuestSession={isGuestSession}
+    isShown = {showAuthStatus}
+    user = {user}
+    loading = {loading}
+    error = {error}/>
     <Routes>
       <Route  path="/" element={<Title/>}/>
       <Route  path="/welcome" element={<Welcome/>}/>
       <Route  path="/signup" element={<Signup/>}/>
       <Route  path="/signin" element={<Signin/>}/>
       <Route  path="/main" element={<Main setPrevious={setPreviousType}/>}/>
+      <Route  path="/profile" element={<Profile user = {user} loading = {loading} error = {error}/>}/>
+      <Route  path="/profile/guest" element={<ProfileGuest user = {user} loading = {loading} error = {error}/>}/>
+      <Route  path="/profile/edit" element={<ProfileEdit user = {user} loading = {loading} error = {error}/>}/>
+      <Route  path="/profile/guest/upgrade" element={<ProfileUpgrade user = {user} loading = {loading} error = {error}/>}/>
       <Route  path="/campaign" element={<Campaign/>} />
       <Route  path="/campaign/:mapIndex" element={<CampaignLevel/>} />
-      <Route  path="/community-maps" element={<CommunityMaps/>} />
-      
+      <Route  path="/community-maps" element={<CommunityMaps/>} />    
       <Route  path="/map-import" element={<MapImport/>} />
       <Route  path="/leaderboards" element={<Leaderboards/>} />
       <Route  path="/leaderboards/campaign" element={<CampaignLeaderboards/>} />
       <Route  path="/leaderboards/campaign/:mapIndex" element={<CampaignLeaderboard/>} />
       <Route  path="/settings" element={<Settings 
+      isGuestSession={isGuestSession}
       previous={previousType} 
       showFPS={showFPS}
       setShowFPS={setShowFPS} 
@@ -136,7 +182,8 @@ const Menu = () => {
        />}/>
       <Route  path="/pause" element={<Pause setPrevious={setPreviousType} />}/>
       <Route  path="/finish" element={<Finish/>}/>
-      <Route  path="/invited" element={<Invited/>}/>
+      <Route  path="/invited" element={<Invited user = {user} loading = {loading} error = {error}/>}/>
+      <Route  path="/invited/info" element={<InvitedInfo/>}/>
       <Route  path="/not-supported" element={<NotSupported/>}/>
       <Route  element={<Navigate to="/"/>}/>
     </Routes>

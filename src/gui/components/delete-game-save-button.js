@@ -12,7 +12,7 @@ const DeleteGameSaveButton = ({gameDataSafeteyNet,setGameDataSafeteyNet}) => {
         localStorage.clear();
         navigate("/");
       }
-    }}>{gameDataSafeteyNet > 0 ? `Click ${gameDataSafeteyNet} times to clear data` : "game Data deleted ):"}</Button>
+    }}>{gameDataSafeteyNet > 0 ? `Click x${gameDataSafeteyNet} to delete account` : "game Data deleted ):"}</Button>
   )
 }
 

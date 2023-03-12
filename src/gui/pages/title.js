@@ -1,10 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import TextLogo from '../components/text-logo.js';
+import { auth } from '../helpers/firebase.js';
 
 const Title = () => {
+
   return (
-    <Link className="menu-container" to= {localStorage.getItem("playerName") ? "/welcome" : "/welcome" // I will update this to something like "logged in" later...
+    <Link className="menu-container" 
+    to= {auth.currentUser ? "/main" : "/welcome"
   }>
         <div className='title-menu col-4'>
           <TextLogo content="the art of drift"/>

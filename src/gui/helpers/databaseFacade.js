@@ -12,7 +12,7 @@ import { app,analytics,auth,db } from "./firebase";
 
 import { collection, addDoc, setDoc , doc, getDoc, deleteDoc} from "firebase/firestore";
 
-import { createUserWithEmailAndPassword, signOut, deleteUser,signInAnonymously, linkWithCredential, EmailAuthProvider } from "firebase/auth";
+import { createUserWithEmailAndPassword, signOut, deleteUser,signInAnonymously, linkWithCredential, EmailAuthProvider, signInWithEmailAndPassword } from "firebase/auth";
 
 //tests
 
@@ -23,30 +23,35 @@ export const printUserProfile = () => {
 
 //--------------AUTH
 
-export const emailSignUp = (email,password, racerName="unset", profileAvatarId=1, profileVehicleId=1) => {
+export const emailSignUp = (destination, email,password, racerName="unset", profileAvatarId=1, profileVehicleId=1) => {
   createUserWithEmailAndPassword(auth, email, password)
   .then(userCredential => {    
     updateProfileUID(userCredential.user.uid, racerName,profileAvatarId, profileVehicleId)
+    window.changeGUIScreen(destination);
   }).catch(error => {
     console.log(error);
   })
 
 }
-export const emailSignIn = (email,password) => {
+export const emailSignIn = (destination,email,password) => {
   signInWithEmailAndPassword(auth, email, password)
   .then(userCredential => {
+    window.changeGUIScreen(destination);
     console.log(userCredential)
   }).catch(error => {
     console.log(error);
   })
 }
-export const guestSignIn = (AID,VID) => {
+export const guestSignIn = (destination, AID,VID) => {
   signInAnonymously(auth)
   .then( async(cred) => {
     getGuestAmount().then( (amount) => {
     let result = amount.toString().padStart(6, '0')
     updateProfileUID(cred.user.uid, `Guest#${result}` , AID, VID);
     incrementGuestAmount(amount)
+    if(destination){
+      window.changeGUIScreen(destination);
+    }
     }
   )
 
@@ -60,7 +65,7 @@ export const guestSignIn = (AID,VID) => {
 
 }
 
-export const guestUpgrade = (email,password, racerName="unset", AID=1,VID=1) => {
+export const guestUpgrade = (destination, email,password, racerName="unset", AID=1,VID=1) => {
 
   const credential = EmailAuthProvider.credential(email, password);
 
@@ -69,15 +74,16 @@ export const guestUpgrade = (email,password, racerName="unset", AID=1,VID=1) => 
     const user = usercred.user;
     console.log("Anonymous account successfully upgraded", user);
 
-    updateProfile(racerName,AID,VID);
+    updateProfile(destination,racerName,AID,VID);
   }).catch((error) => {
     console.log("Error upgrading anonymous account", error);
   });
 }
 
-export const logOut = () => {
+export const logOut = (destination) => {
   signOut(auth).then(() => {
-    console.log('sign out siccessful')
+    console.log('sign out successful')
+    window.changeGUIScreen(destination);
   }).catch(error => console.log(error))
 }
 export const deleteAccount = () => {
@@ -91,10 +97,12 @@ export const deleteAccount = () => {
     // ...
   });
 }
+
+window.killLogin = () => logOut("/");
 export const deleteAccountUID = () => {}
 //--------------DB-USERS
 
-export const updateProfile = async(displayName,AID,VID) => {
+export const updateProfile = async(destination, displayName,AID,VID) => {
   try {
     const id = auth.currentUser.uid;
 
@@ -106,6 +114,7 @@ export const updateProfile = async(displayName,AID,VID) => {
     });
   
     console.log("Update profile on ID: ",id );
+    window.changeGUIScreen(destination);
   } catch (e) {
     console.error("error updating profile: ", e);
   }
@@ -148,12 +157,12 @@ export const getGuestAmount = async() => {
   }
 }
 
-export const getCurrenAuthProfile = async() => {
+export const getCurrentAuthProfile = async() => {
+  console.log(auth.currentUser);
   const docRef = doc(db, "users", auth.currentUser.uid);
   const docSnap = await getDoc(docRef);
-  console.log(auth.currentUser.uid);
   if (docSnap.exists()) {
-    console.log("Document data:", docSnap.data());
+    return docSnap.data();
   } else {
     // doc.data() will be undefined in this case
     console.log("No such document!");
@@ -179,7 +188,7 @@ export const deleteProfileUID = async(UID) => {
 //--------------DB-LEADERBOARD
 
 export const getCurrentAuthReplay = (mapID) => {}
-export const getUIDReplay = (UID) => {}
+export const getUIDReplay = (UID,mapId) => {}
 export const getAllReplays = (mapID) => {}
 export const addReplay = (UID,mapID) => {}
 export const deleteReplay = (UID,mapId) => {}

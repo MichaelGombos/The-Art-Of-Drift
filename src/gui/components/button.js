@@ -50,15 +50,18 @@ const buttonImageUrlMap = {
   }
 }
 
-const Button = ({clickHandler, style, children}) => {
+const Button = ({alignStart, clickHandler,type, style, children}) => {
   if(!style) style="light";
   
   return(
-    <motion.button className='pixel-button pixel-button--primary' onClick = {clickHandler}
+    <motion.button 
+    className='pixel-button pixel-button--primary' 
+    onClick = {clickHandler}
     whileHover={style == "disabled" ? {rotate:-1.2}: {scale: 1.05} }
     whileTap={style == "disabled" ? {rotate:1.2} : { scale: .8}}
+    type = {type}
     >
-        <p className={`pixel-button__text f-p2 ${["danger","selected"].includes(style) ? "text-shade-0" : null}`}>{children}</p>
+        <p className={`pixel-button__text ${alignStart ? "pixel-button__text--align-start" : "" } f-p2 ${["danger","selected"].includes(style) ? "text-shade-0" : null}`}>{children}</p>
         <div className='pixel-button__images'>
           <img src={buttonImageUrlMap[style].left}  className='pixel-button__left-image'/>
           <img src={buttonImageUrlMap[style].center}  className='pixel-button__center-image'/>
