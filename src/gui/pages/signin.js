@@ -3,7 +3,7 @@ import {motion} from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from "../components/button.js"
 
-import TextInput from '../components/text-input.js';
+import TextInput from '../components/input-text';
 
 
 const SigninForm = ({submitHandler, setEmail,setPassword,}) => {

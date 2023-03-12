@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Button from "../components/button.js"
-import TextInput from '../components/text-input.js';
+import TextInput from './input-text.js';
 import IconButton from '../components/icon-button.js';
 
 import previousIconUrl from "../../assets/icons/previous.png"
