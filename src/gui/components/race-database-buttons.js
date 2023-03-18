@@ -24,22 +24,18 @@ firebase.initializeApp({
 
 const firestore = firebase.firestore();
 
-const RaceDatabaseButtons = ({playerName,mapIndex, isTextShort}) => {
-  const navigate = useNavigate();
-
-  const playerRef = firestore.collection("leaderboards").doc("desktop").collection(`map${mapIndex+1}`).doc(playerName)
-  const allData = useDocumentData(playerRef)
-  const defendingPlayerData = useDocumentData(playerRef)[0];
+const RaceDatabaseButtons = ({replayObject,mapIndex, isTextShort}) => {
+  const navigate = useNavigate();  
 
   // console.log(allData)
   
   let vsReplay;
   let vsColor;
 
-  if(defendingPlayerData)
+  if(replayObject)
   {
-    vsReplay = defendingPlayerData.playerInputs;
-    vsColor = defendingPlayerData.color;
+    vsReplay = replayObject.playerInputs;
+    vsColor = replayObject.color;
   }
 
   setGameMapIndex(mapIndex)
@@ -65,13 +61,17 @@ const RaceDatabaseButtons = ({playerName,mapIndex, isTextShort}) => {
     colorPlayerCar()
     navigate("/countdown");
   }
-  if(defendingPlayerData){
+  if(replayObject){
     return (
       <>
-            <Button style="primary" clickHandler={handleRaceAgainst(defendingPlayerData.playerInputs, defendingPlayerData.playerName, defendingPlayerData.playerColor)}>
+            <Button 
+            style="primary" 
+            clickHandler={handleRaceAgainst(replayObject.playerInputs, replayObject.playerName, replayObject.playerColor)}>
               {isTextShort ? "race them" : "race against them"}
               </Button>
-            <Button style="light" clickHandler={handleWatchReplay(defendingPlayerData.playerInputs, defendingPlayerData.playerName, defendingPlayerData.playerColor,defendingPlayerData.time)}>
+            <Button 
+            style="light" 
+            clickHandler={handleWatchReplay(replayObject.playerInputs, replayObject.playerName, replayObject.playerColor,replayObject.time)}>
             {isTextShort ? "watch replay" : "watch the replay"}
               </Button> 
       </>

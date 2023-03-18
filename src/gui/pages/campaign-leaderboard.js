@@ -14,6 +14,7 @@ import RaceDatabaseButtons from '../components/race-database-buttons';
 import { replays } from "../../game/replay.js"
 import { drawCanvasMap } from '../../game/graphics.js';
 import { mapNames, maps } from '../../game/map-data';
+import { getAllReplays } from '../helpers/databaseFacade';
 
 
 firebase.initializeApp({
@@ -28,15 +29,15 @@ firebase.initializeApp({
 
 const firestore = firebase.firestore();
 
-const LeaderboardTime = ({racerInfo,index,mapIndex}) => {
+const LeaderboardTime = ({replayObject,index,mapIndex}) => {
   return(
     <div className="leaderboard__time row">
       <div className="time__player-name">
-        <p>#{index+1} {racerInfo.playerName}</p>
+        <p>#{index+1} {replayObject.playerName}</p>
       </div>
       <div className='time__menu row'>
-        <p>{racerInfo.time}</p>
-        <RaceDatabaseButtons playerName={racerInfo.playerName} mapIndex={mapIndex} isTextShort={true}/>
+        <p>{replayObject.time}</p>
+        <RaceDatabaseButtons replayObject={replayObject} mapIndex={mapIndex} isTextShort={true}/>
       </div>
     </div>
   )
@@ -52,16 +53,19 @@ const ScrollContainer = ({children}) => {
 
 const CampaignLeaderboard = () => { 
   let {mapIndex} = useParams();
+  console.log(mapIndex)
+  let [allReplays,setAllReplays] = useState();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    
+    getAllReplays(Number(mapIndex)).then(replays => {
+      setAllReplays(replays)
+    })
+  },[])
 
-  const leaderboardRef = firestore.collection("leaderboards").doc("desktop").collection(`map${Number(mapIndex)+1}`)
-  const query = leaderboardRef.orderBy('time');
-
-  const leaderBoardTimes = useCollectionData(query, {idField : 'id'})[0]
 
   const pb = localStorage.getItem(`pb${mapIndex}`);
-  console.log(`map${Number(mapIndex)+1}`);
 
   return(
     <div className='menu-container'>
@@ -73,8 +77,8 @@ const CampaignLeaderboard = () => {
         </div>
         <Button clickHandler={() => navigate("/leaderboards/campaign")}>Back</Button>
         <ScrollContainer>
-          {leaderBoardTimes && leaderBoardTimes.map((racerInfo,index) => {
-            return( <LeaderboardTime key={racerInfo.playerName} racerInfo={racerInfo} index={index} mapIndex={Number(mapIndex)}/>)
+          {allReplays && allReplays.map((replayObject,index) => {
+            return( <LeaderboardTime key={replayObject.playerName} replayObject={replayObject} index={index} mapIndex={Number(mapIndex)}/>)
           })}
         </ScrollContainer>
 

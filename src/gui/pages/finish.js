@@ -1,11 +1,12 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 
-import React, { useMemo } from 'react';
+import React, { useMemo , useState} from 'react';
 import {  getTimeString, getGameMapIndex, getReplayArray,  getInSpectateMode, getSpectateTime } from '../../game/game.js';
 
 import FinishHeader from '../components/finish-header.js';
 import FinishNavigation from '../components/finish-navigation.js';
+import { addReplay, getCurrentAuthProfile, getDatabaseTime } from '../helpers/databaseFacade.js';
 
 firebase.initializeApp({
   apiKey: "AIzaSyDTGF6K4sLCAszEdJlBZsbFahZiFr-zkA8",
@@ -24,32 +25,49 @@ let newBest = false;
 let playerTime;
 let spectateTime;
 
-const sendTime = async(mapIndex,time,pName,replay,color) => {
-  pName = `NAME_HASH_${Math.floor(Math.random()*10)}_${Math.floor(Math.random()*500)}`
-  //firebase
-  const leaderboardPlayerRef = firestore.collection("leaderboards").doc("desktop").collection(`map${Number(mapIndex)+1}`).doc(pName)
+const sendTime = async(mapIndex,replayObject) => {
 
-  await leaderboardPlayerRef.set({
-    time: time,
-    playerName : pName,
-    playerInputs: replay,
-    playerColor: color,
-    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-  })
+  addReplay(mapIndex,replayObject)
+
+
+  // pName = `NAME_HASH_${Math.floor(Math.random()*10)}_${Math.floor(Math.random()*500)}`
+  // //firebase
+  // const leaderboardPlayerRef = firestore.collection("leaderboards").doc("desktop").collection(`map${Number(mapIndex)+1}`).doc(pName)
+
+  // await leaderboardPlayerRef.set({
+  //   time: time,
+  //   playerName : pName,
+  //   playerInputs: replay,
+  //   playerColor: color,
+  //   createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  // })
 }
 
-const checkBest = (index, oldPB) => {
-  if(!getInSpectateMode() && getTimeString() < oldPB || !oldPB){
+const checkBest = (setter, index, oldPB) => {
+  const finishTime = getTimeString();
+  if(!getInSpectateMode() && finishTime < oldPB || !oldPB){
     //post to localStorage and to Database
-    localStorage.setItem(`pb${index}`,getTimeString())
-    localStorage.setItem(`pbReplay${index}`,JSON.stringify(getReplayArray()))
 
-    sendTime(index, getTimeString(), localStorage.getItem("playerName"), localStorage.getItem(`pbReplay${index}`), localStorage.getItem("playerColor"))
+    getCurrentAuthProfile().then((profile) => {
+      const replayObject = {
+        time: finishTime,
+        playerName : profile.displayName,
+        playerInputs: JSON.stringify(getReplayArray()),
+        playerFrameInformation: "[[text (new) (tm) (c)..]]",
+        playerVehicle: profile.vehicleID,
+        playerAvatar: profile.avatarId,
+        createdAt: getDatabaseTime()
+      }
+
+      sendTime(index, replayObject)
+      setter(replayObject)
+
+      console.log("but itshould actually be sending here?")
+    })
+
 
     console.log("send it!");
 
-    console.log("THIS IS WHAT I SEND!!!",
-    index, getTimeString(), localStorage.getItem("playerName"), localStorage.getItem(`pbReplay${index}`), localStorage.getItem("playerColor"))
     return true;
   }
   else{
@@ -59,10 +77,12 @@ const checkBest = (index, oldPB) => {
 
 
 const Finish = () => {
+  const [replayObject, setReplayObject] = useState({big:"chungus"})
+
   const mapIndex = getGameMapIndex();
   const oldPB = localStorage.getItem(`pb${mapIndex}`);
   useMemo(() => {
-      newBest = checkBest(mapIndex, oldPB);
+      newBest = checkBest(setReplayObject, mapIndex, oldPB);
       playerTime = getTimeString();
       spectateTime = getSpectateTime();
   }, [])
@@ -70,7 +90,7 @@ const Finish = () => {
     <div className="opaque-background">
       <div className="menu-container" >
         <div className="finish-menu col-2 align-center  gap-md">
-          <FinishHeader spectateTime = {spectateTime} playerTime = {playerTime} newBest={newBest} mapIndex={mapIndex} oldPB={oldPB}/>
+          <FinishHeader replayObject={replayObject} spectateTime = {spectateTime} playerTime = {playerTime} newBest={newBest} mapIndex={mapIndex} oldPB={oldPB}/>
           <FinishNavigation newBest={newBest} mapIndex={mapIndex}/>
         </div>
       </div>

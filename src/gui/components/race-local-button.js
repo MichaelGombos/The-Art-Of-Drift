@@ -7,6 +7,7 @@ import { replays } from "../../game/replay.js"
 import { colorGhostCar, colorPlayerCar, nameGhost } from '../../game/graphics.js';
 import { useNavigate } from "react-router-dom";
 import Button from "./button.js";
+import { getCurrentAuthReplay } from "../helpers/databaseFacade.js";
 
 const ghostNames = {
   easy : "Bronze",
@@ -16,11 +17,13 @@ const ghostNames = {
   personalBest: "best time"
 }
 
-const setMap = (index,difficulty) => { //sets map returns ghost name
+const setMap = async(index,difficulty) => { //sets map returns ghost name
   if(difficulty == "personalBest"){
-    setGameMapIndex(index);
-    setMapData(maps[index],JSON.parse(localStorage.getItem(`pbReplay${index}`)))
-    return ("personal best");
+    await getCurrentAuthReplay(index).then(replayObject => {
+      setGameMapIndex(index);
+      setMapData(maps[index],JSON.parse(replayObject.playerInputs))
+      return ("personal best");
+    })
   }
   else{ 
     setGameMapIndex(index);
@@ -39,16 +42,20 @@ const RaceLocalButton = ({mapIndex,difficulty,isGhostEnabled, children,style}) =
   const handleRaceLocal = (index,difficulty,isGhostEnabled) =>{
   
     console.log("starting", performance.now());
-    let ghostName = setMap(index,difficulty);
-    
-    setEnableGhost(isGhostEnabled);
-    setSpectateMode(false)
-    startGame();
-    nameGhost(ghostName)
-    colorGhostCar(difficulty);
-    colorPlayerCar()
-    navigate("/countdown");
-    console.log("finish", performance.now());
+    let ghostName = difficulty == "personalBest" ? "personal best" : (ghostNames[difficulty] + " medal");
+
+    setMap(index,difficulty).then( name => {
+
+      setEnableGhost(isGhostEnabled);
+      setSpectateMode(false)
+      startGame();
+      nameGhost(ghostName)
+      colorGhostCar(difficulty);
+      colorPlayerCar()
+      navigate("/countdown");
+      console.log("finish", performance.now());
+      }
+    )
   }
 
   return (

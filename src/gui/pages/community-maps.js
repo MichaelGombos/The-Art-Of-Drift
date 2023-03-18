@@ -1,11 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/button";
-console.log("anything?")
 
 const CommunityMaps = () => {
   const navigate = useNavigate();
-  console.log("fuck you.")
   return (
     <div className='menu-container'>
         <div className='col-2 gap-xl align-center'>

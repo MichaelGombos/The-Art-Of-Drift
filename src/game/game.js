@@ -487,11 +487,10 @@ const setTargetFps = (target) => { targetFps = target}
 const renderFirstFrame = () => {
   //draw stuff
   placeCharacter();
-  // if(enableGhost){
-  //   placeGhost(ghostStep);
-  //   ghostStep++;
-  // }
-  // updateMiniMapPlayers(car,ghostCar);
+  if(enableGhost){
+    placeGhost(ghostStep);
+  }
+  updateMiniMapPlayers(car,ghostCar);
 }
 
 const renderNewFrame = () => {

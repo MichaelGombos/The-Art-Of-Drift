@@ -1,26 +1,37 @@
-import React, {useState} from "react";
+import React, {useState , useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 
 import Button from "./button.js";
 import { maps } from '../../game/map-data.js';
 import { getInSpectateMode,getGameMapIndex,getReplayString,setEnableGhost,setMapData } from "../../game/game";
 import { pauseGame, resetGame, startGame,turnOffGame } from "../../game/main";
+import { getCurrentAuthReplay, getCurrentAuthReplayTime } from "../helpers/databaseFacade.js";
+import { auth } from "../helpers/firebase.js";
 
-const racePB = (index) => {
-  setMapData(maps[index],JSON.parse(localStorage.getItem(`pbReplay${index}`)))
+const racePB = (index,inputs) => {
+  setMapData(maps[index],JSON.parse(inputs))
  }
 
 const FinishNavigation = ({newBest,mapIndex}) => {
-  const playerName = localStorage.getItem("playerName")
+
+  const navigate = useNavigate();
+  const [inviteCopied, setInviteCopied] = useState(false);
+  const [replayCopied, setReplayCopied] = useState(false);
+  const [bestReplayObject , setBestReplayObject] = useState({
+    playerInputs:[],
+    playerName:"placeholder"
+  });
+
   const copyToClipboard = str => {
     if (navigator && navigator.clipboard && navigator.clipboard.writeText)
       return navigator.clipboard.writeText(str);
     return Promise.reject('The Clipboard API is not available.');
   };
 
-  const navigate = useNavigate();
-  const [inviteCopied, setInviteCopied] = useState(false);
-  const [replayCopied, setReplayCopied] = useState(false);
+  
+  getCurrentAuthReplay(mapIndex).then( obj => {
+    setBestReplayObject(obj)
+  })
 
   const setAndResetInviteCopied = () => {
     setInviteCopied(true)
@@ -38,7 +49,7 @@ const FinishNavigation = ({newBest,mapIndex}) => {
             }}>Watch Again</Button>
           : 
           <Button style={inviteCopied ? "disabled" : "primary"} className = {inviteCopied ? "disabled" : ""}clickHandler={() => {
-            copyToClipboard(`http://www.theartofdrift.com/invited?racer=${playerName}&map=${mapIndex}`).then(setAndResetInviteCopied());
+            copyToClipboard(`http://www.theartofdrift.com/invited?racer=${auth.currentUser.uid}&map=${mapIndex}`).then(setAndResetInviteCopied());
           }}>{inviteCopied ? "Copied!" : "Copy Invite Link"}</Button>}
 
           {/* <Button className = {replayCopied ? "disabled" : ""}clickHandler={() => {
@@ -50,7 +61,7 @@ const FinishNavigation = ({newBest,mapIndex}) => {
             }}>Race Again</Button>  
             {newBest && 
             <Button clickHandler = {()=> {
-              racePB(mapIndex,localStorage.getItem(`pbReplay${mapIndex}`));
+              racePB(mapIndex,bestReplayObject.playerInputs);
               setEnableGhost(true);
               resetGame();
               navigate("/hidden");

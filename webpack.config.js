@@ -4,7 +4,7 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
 
   entry: ["./src/index.js","./src/styleOverhaul.css"],
-
+  devtool: 'eval-source-map',
   output : {
     path: path.join(__dirname, "/dist"),
     filename : "bundle.js",

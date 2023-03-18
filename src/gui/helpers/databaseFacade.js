@@ -194,7 +194,7 @@ export const getProfileUID = async(UID) => {
   const docSnap = await getDoc(docRef);
   
   if (docSnap.exists()) {
-    console.log("Document data:", docSnap.data());
+    return docSnap.data();
   } else {
     // doc.data() will be undefined in this case
     console.log("No such document!");
@@ -240,6 +240,21 @@ export const getCurrentAuthReplay = async( mapID) => {
     console.log("cant get guest amount!");
   }
 }
+
+
+export const getCurrentAuthReplayTime = async( mapID) => {
+
+  const id = auth.currentUser.uid;
+  const docRef = doc(db, `leaderboards/desktop/map${mapID}`, id);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    return docSnap.data().time;
+  } else {
+    // doc.data() will be undefined in this case
+    console.log("cant get guest amount!");
+  }
+}
+
 export const getUIDReplay = async(UID,mapID) => {
   const docRef = doc(db, `leaderboards/desktop/map${mapID}`, UID);
   const docSnap = await getDoc(docRef);
@@ -259,8 +274,8 @@ export const getAllReplays = async(mapID) => {
   querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
       allReplays.push(doc.data())
-  
   });
+  console.log("INSIDE",allReplays);
   return allReplays;
 }
 export const deleteReplay = async(UID,mapID) => {

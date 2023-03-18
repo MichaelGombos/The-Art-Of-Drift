@@ -7,13 +7,17 @@ import { replays } from "../../game/replay";
 import MapCanvasPreview from '../components/map-canvas-preview.js';
 import RaceLocalButton from '../components/race-local-button.js';
 import LocalMedalsList from '../components/local-medals-list.js';
+import { getCurrentAuthReplayTime } from '../helpers/databaseFacade.js';
 
 const CampaignLevel = () => {
+  
   const navigate = useNavigate();
   let {mapIndex} = useParams();
   let [difficulty, setDifficulty] = useState("easy");
-  const pb = localStorage.getItem(`pb${mapIndex}`);
-
+  const [bestTime, setBestTime] = useState("loading...")
+  getCurrentAuthReplayTime(mapIndex).then(time => {
+    setBestTime(time);
+  })
   console.log(mapIndex)
   //need a calculate medals function.
   return (
@@ -26,7 +30,7 @@ const CampaignLevel = () => {
 
           <div className='level-menu__main row w-100 gap-md align-center'>
             <div className="difficulty-selector col-2 gap-md">
-              <LocalMedalsList pb={pb} difficulty={difficulty} setDifficulty={setDifficulty} mapIndex={mapIndex} />
+              <LocalMedalsList pb={bestTime} difficulty={difficulty} setDifficulty={setDifficulty} mapIndex={mapIndex} />
             </div>
             <MapCanvasPreview width="col-4" mapIndex={mapIndex}/>
           </div>

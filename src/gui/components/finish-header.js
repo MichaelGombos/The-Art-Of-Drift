@@ -57,21 +57,21 @@ const UnlockedMedal = ({newBest,playerTime,oldPB,mapIndex}) => {
   }
 }
 
-const FinishHeader = ({spectateTime,playerTime,newBest,mapIndex, oldPB}) => {
-
+const FinishHeader = ({replayObject, spectateTime,newBest,mapIndex, oldPB}) => {
+  console.log("THIS IS THE HEADER!!" , replayObject);
   return (
     <div className="finish__header col-6 align-center">
       {getInSpectateMode() ?  <h1 className="f-p1">Replay Over</h1> : <h1 className="f-h1">Finish</h1>}
        
        <div className="col-6  gap-md f-p3">
-          <UnlockedMedal newBest={newBest} playerTime={playerTime} oldPB={oldPB} mapIndex={mapIndex}/>
+          <UnlockedMedal newBest={newBest} playerTime={replayObject.time} oldPB={oldPB} mapIndex={mapIndex}/>
          
-         <p>{getInSpectateMode() ? `REPLAY TIME: ${spectateTime}` : `YOUR TIME: ${playerTime} `}<span className="new-best">{newBest ? "NEW BEST" : null}</span></p>
+         <p>{getInSpectateMode() ? `REPLAY TIME: ${spectateTime}` : `YOUR TIME: ${replayObject.time} `}<span className="new-best">{newBest ? "NEW BEST" : null}</span></p>
          {newBest 
          ?
          <p>{oldPB ? `Your OLD best: ${oldPB}` : ""}</p>
          :
-        <p>Your best: {localStorage.getItem(`pb${mapIndex}`)}</p>}
+        <p>Your best: {oldPB}</p>}
        </div>
     </div>
   )

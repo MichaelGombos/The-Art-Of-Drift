@@ -2,15 +2,13 @@
 
 import { addReplay , addUIDReplay, deleteReplay, getAllReplays, getCurrentAuthReplay, getDatabaseTime, getMedalAmount, setMedalAmount} from "../helpers/databaseFacade";
 
-console.log("im a big ol chungus");
-
 const runTests = () => {
   console.log('testsran..')
 
   addReplay(0,{
-    time: "00:33.233",
+    time: "00:00:33.233",
     playerName : "ready player fun",
-    playerInputs: "[[this should be long af..]]",
+    playerInputs: "[[up],[up],[down,down],[left,right],[left,right][b,a]]",
     playerFrameInformation: "[[this should be long af..]]",
     playerVehicle: 2,
     playerAvater:0,
@@ -20,9 +18,9 @@ const runTests = () => {
   )
 
   addUIDReplay("fartlol",0,{
-    time: "00:12.233",
+    time: "00:00:12.233",
     playerName : "GET YOUR HOTDOGS",
-    playerInputs: "[[this should be long af..]]",
+    playerInputs: "[[up],[up],[down,down],[left,right],[left,right][b,a]]",
     playerFrameInformation: "[[this should be long af..]]",
     playerVehicle: 3,
     playerAvater:3,
@@ -32,9 +30,9 @@ const runTests = () => {
   )
 
   addUIDReplay("fartlol2",0,{
-    time: "00:53.233",
+    time: "00:00:53.233",
     playerName : "slow poser",
-    playerInputs: "[[this should be long af..]]",
+    playerInputs: "[[up],[up],[down,down],[left,right],[left,right][b,a]]",
     playerFrameInformation: "[[this should be long af..]]",
     playerVehicle: 1,
     playerAvater:1,
@@ -49,8 +47,8 @@ const runTests = () => {
     console.log("replay info" , information);
   })
 
-  getAllReplays(0).then(allReplays => {
-    console.log(allReplays);
+  getAllReplays(7).then(allReplays => {
+    console.log("all replays test" , allReplays);
   })
 
   getMedalAmount().then(amount => {
@@ -60,6 +58,7 @@ const runTests = () => {
   getMedalAmount().then(amount => {
     setMedalAmount(amount+2)
   })
+
 }
 
       
