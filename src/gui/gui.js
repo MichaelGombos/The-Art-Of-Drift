@@ -66,6 +66,8 @@ import { useAuthState, useIdToken } from "react-firebase-hooks/auth"
 import ProfileUpgrade from "./pages/profile-upgrade.js"
 import InvitedInfo from "./pages/invited-info.js"
 
+import "./tests/databaseTests.js"
+
 const Menu = () => {
   let isDeviceValid = true;
   

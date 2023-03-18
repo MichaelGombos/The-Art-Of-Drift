@@ -10,11 +10,14 @@
 
 import { app,analytics,auth,db } from "./firebase";
 
-import { collection, addDoc, setDoc , doc, getDoc, deleteDoc} from "firebase/firestore";
+import { collection, addDoc, setDoc , doc, getDoc,getDocs, deleteDoc, serverTimestamp, query, orderBy, limit, updateDoc} from "firebase/firestore";
 
 import { createUserWithEmailAndPassword, signOut, deleteUser,signInAnonymously, linkWithCredential, EmailAuthProvider, signInWithEmailAndPassword } from "firebase/auth";
 
-//tests
+//-----------MISC
+export const getDatabaseTime = () => {
+  return serverTimestamp();
+}
 
 export const printUserProfile = () => {
   const userID = auth.currentUser.uid;
@@ -37,7 +40,6 @@ export const emailSignIn = (destination,email,password) => {
   signInWithEmailAndPassword(auth, email, password)
   .then(userCredential => {
     window.changeGUIScreen(destination);
-    console.log(userCredential)
   }).catch(error => {
     console.log(error);
   })
@@ -105,15 +107,14 @@ export const deleteAccountUID = () => {}
 export const updateProfile = async(destination, displayName,AID,VID) => {
   try {
     const id = auth.currentUser.uid;
-
-    console.log(displayName,AID,VID)
     const docRef = await setDoc(doc(db, "users", id), {
       displayName: displayName,
       avatarId: AID,
-      vehicleID: VID
+      vehicleID: VID,
+      medals: 0,
+      createdAt: serverTimestamp()
     });
   
-    console.log("Update profile on ID: ",id );
     window.changeGUIScreen(destination);
   } catch (e) {
     console.error("error updating profile: ", e);
@@ -122,14 +123,14 @@ export const updateProfile = async(destination, displayName,AID,VID) => {
 export const updateProfileUID = async(UID, displayName,AID,VID) => {
   try {
 
-    console.log(displayName,AID,VID)
     const docRef = await setDoc(doc(db, "users", UID), {
       displayName: displayName,
       avatarId: AID,
-      vehicleID: VID
+      vehicleID: VID,
+      medals: 0,
+      createdAt: serverTimestamp()
     });
   
-    console.log("Document written with ID: ",UID );
   } catch (e) {
     console.error("Error adding document: ", e);
   }
@@ -145,10 +146,30 @@ export const incrementGuestAmount = async(currentAmount) => {
   }
 }
 
+export const setMedalAmount = async(medals) => {
+  try {
+    const docRef = await updateDoc(doc(db, "users", auth.currentUser.uid), {
+      medals: medals
+    });
+  } catch (e) {
+    console.error("Error updating medals: ", e);
+  }
+}
+
+export const getMedalAmount = async() => {
+  const docRef = doc(db, "users", auth.currentUser.uid);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    return docSnap.data().medals;
+  } else {
+    // doc.data() will be undefined in this case
+    console.log("cant get guest amount!");
+  }
+}
+
 export const getGuestAmount = async() => {
   const docRef = doc(db, "stats", "guests");
   const docSnap = await getDoc(docRef);
-  console.log(auth.currentUser.uid);
   if (docSnap.exists()) {
     return docSnap.data().total;
   } else {
@@ -158,7 +179,6 @@ export const getGuestAmount = async() => {
 }
 
 export const getCurrentAuthProfile = async() => {
-  console.log(auth.currentUser);
   const docRef = doc(db, "users", auth.currentUser.uid);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
@@ -168,6 +188,7 @@ export const getCurrentAuthProfile = async() => {
     console.log("No such document!");
   }
 } 
+
 export const getProfileUID = async(UID) => {
   const docRef = doc(db, "users", UID);
   const docSnap = await getDoc(docRef);
@@ -185,13 +206,67 @@ export const deleteProfileUID = async(UID) => {
   await deleteDoc(doc(db, "users", UID));
 }
 
+
 //--------------DB-LEADERBOARD
 
-export const getCurrentAuthReplay = (mapID) => {}
-export const getUIDReplay = (UID,mapId) => {}
-export const getAllReplays = (mapID) => {}
-export const addReplay = (UID,mapID) => {}
-export const deleteReplay = (UID,mapId) => {}
+export const addReplay = async(mapID,replayInfo) => {
+  try {
+    const id = auth.currentUser.uid;
+    const docRef = await setDoc(doc(db, `leaderboards/desktop/map${mapID}`, id), replayInfo);
+
+  } catch (e) {
+    console.error("error updating profile: ", e);
+  }
+}
+
+export const addUIDReplay = async(UID, mapID,replayInfo) => {
+  try {
+    const docRef = await setDoc(doc(db, `leaderboards/desktop/map${mapID}`, UID), replayInfo);
+
+  } catch (e) {
+    console.error("error updating profile: ", e);
+  }
+}
+
+export const getCurrentAuthReplay = async( mapID) => {
+
+  const id = auth.currentUser.uid;
+  const docRef = doc(db, `leaderboards/desktop/map${mapID}`, id);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    return docSnap.data();
+  } else {
+    // doc.data() will be undefined in this case
+    console.log("cant get guest amount!");
+  }
+}
+export const getUIDReplay = async(UID,mapID) => {
+  const docRef = doc(db, `leaderboards/desktop/map${mapID}`, UID);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    return docSnap.data();
+  } else {
+    // doc.data() will be undefined in this case
+    console.log("cant get guest amount!");
+  }
+}
+export const getAllReplays = async(mapID) => {
+  const leaderboardRef = collection(db, `leaderboards/desktop/map${mapID}`);
+  const q = query(leaderboardRef, orderBy('time') , limit(50));
+  let allReplays = [];
+
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+      allReplays.push(doc.data())
+  
+  });
+  return allReplays;
+}
+export const deleteReplay = async(UID,mapID) => {
+  
+await deleteDoc(doc(db, `leaderboards/desktop/map${mapID}`, UID));
+}
 
 //--------------DB-MAPS
 
