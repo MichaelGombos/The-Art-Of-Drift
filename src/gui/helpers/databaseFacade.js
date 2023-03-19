@@ -27,29 +27,36 @@ export const printUserProfile = () => {
 //--------------AUTH
 
 export const emailSignUp = (destination, email,password, racerName="unset", profileAvatarId=1, profileVehicleId=1) => {
+  window.setAsyncLoader(true)
   createUserWithEmailAndPassword(auth, email, password)
   .then(userCredential => {    
     updateProfileUID(userCredential.user.uid, racerName,profileAvatarId, profileVehicleId)
     window.changeGUIScreen(destination);
 
     window.addResultMessage(false,"Success signing up with email!")
+    window.setAsyncLoader(false)
   }).catch(error => {
     console.log(error);
     window.addResultMessage(true,"error signing up with email!")
+    window.setAsyncLoader(false)
   })
 
 }
 export const emailSignIn = (destination,email,password) => {
+  window.setAsyncLoader(true)
   signInWithEmailAndPassword(auth, email, password)
   .then(userCredential => {
     window.changeGUIScreen(destination);
     window.addResultMessage(false,"Success signing in with email!")
+    window.setAsyncLoader(false)
   }).catch(error => {
     console.log(error);
     window.addResultMessage(true,"Error signing in with email!")
+    window.setAsyncLoader(false)
   })
 }
 export const guestSignIn = (destination, AID,VID) => {
+  window.setAsyncLoader(true)
   signInAnonymously(auth)
   .then( async(cred) => {
     getGuestAmount().then( (amount) => {
@@ -60,6 +67,7 @@ export const guestSignIn = (destination, AID,VID) => {
       window.changeGUIScreen(destination);
     }
 
+    window.setAsyncLoader(false)
     window.addResultMessage(false,"Success signing in as a guest!")
     }
   )
@@ -69,12 +77,14 @@ export const guestSignIn = (destination, AID,VID) => {
 
     window.addResultMessage(true,error.message)
     console.log("error on signin" , error)
+    window.setAsyncLoader(false)
   });
 
 }
 
 export const guestUpgrade = (destination, email,password, racerName="unset", AID=1,VID=1) => {
 
+  window.setAsyncLoader(true)
   const credential = EmailAuthProvider.credential(email, password);
 
   linkWithCredential(auth.currentUser, credential)
@@ -82,32 +92,40 @@ export const guestUpgrade = (destination, email,password, racerName="unset", AID
     const user = usercred.user;
     console.log("Anonymous account successfully upgraded", user);
     window.addResultMessage(false,"Success upgrading guest account!")
+    window.setAsyncLoader(false)
 
     updateProfile(destination,racerName,AID,VID);
   }).catch((error) => {
     console.log("Error upgrading anonymous account", error);
     window.addResultMessage(true,"unable to upgrade guest acconut")
+    window.setAsyncLoader(false)
   });
 }
 
 export const logOut = (destination) => {
+  window.setAsyncLoader(true)
   signOut(auth).then(() => {
     window.changeGUIScreen(destination);
     window.addResultMessage(false,"sign out successful")
+    window.setAsyncLoader(false)
   }).catch(error => 
-    
-    window.addResultMessage(true,"unable to log out")
+    {
+    window.addResultMessage(true,"unable to log out");
+    window.setAsyncLoader(false);}
     )
 }
 export const deleteAccount = () => {
+  window.setAsyncLoader(true)
   const user = auth.currentUser;
   const id = user.uid;
   deleteUser(user).then(() => {
     console.log(`user deleted ${user} with the ud ${id}`)
-    window.addResultMessage(false,"account deleted D:")
     deleteProfileUID(id);
+    window.addResultMessage(false,"account deleted D:")
+    window.setAsyncLoader(false)
   }).catch((error) => {
     
+    window.setAsyncLoader(false)
     window.addResultMessage(true,"unable to delete account")
   });
 }
@@ -117,6 +135,7 @@ export const deleteAccountUID = () => {}
 //--------------DB-USERS
 
 export const updateProfile = async(destination, displayName,AID,VID) => {
+  window.setAsyncLoader(true)
   try {
     const id = auth.currentUser.uid;
     const docRef = await setDoc(doc(db, "users", id), {
@@ -129,12 +148,15 @@ export const updateProfile = async(destination, displayName,AID,VID) => {
   
     window.changeGUIScreen(destination);
     window.addResultMessage(false,"updated profile!")
+    window.setAsyncLoader(false)
   } catch (e) {
     console.error("error updating profile: ", e);
     window.addResultMessage(true,"unable to update profile")
+    window.setAsyncLoader(false)
   }
 }
 export const updateProfileUID = async(UID, displayName,AID,VID) => {
+  window.setAsyncLoader(true)
   try {
 
     const docRef = await setDoc(doc(db, "users", UID), {
@@ -146,55 +168,69 @@ export const updateProfileUID = async(UID, displayName,AID,VID) => {
     });
   
     window.addResultMessage(false,"updated profile!")
+    window.setAsyncLoader(false)
   } catch (e) {
     console.error("Error adding document: ", e);
     window.addResultMessage(true,"unable to update profile")
+    window.setAsyncLoader(false)
   }
 }
 
 export const incrementGuestAmount = async(currentAmount) => {
+  window.setAsyncLoader(true)
   try {
     const docRef = await setDoc(doc(db, "stats", "guests"), {
       total: currentAmount+1
     });
+    window.setAsyncLoader(false)
   } catch (e) {
     console.error("Error adding document: ", e);
     window.addResultMessage(true,"unable to increment guest amount")
+    window.setAsyncLoader(false)
   }
 }
 
 export const setMedalAmount = async(medals) => {
+  window.setAsyncLoader(true)
   try {
     const docRef = await updateDoc(doc(db, "users", auth.currentUser.uid), {
       medals: medals
     });
     window.addResultMessage(false,`set medal amount to ${medals}`)
+    window.setAsyncLoader(false)
   } catch (e) {
     console.error("Error updating medals: ", e);
     window.addResultMessage(true,"unable to set medal amount")
+    window.setAsyncLoader(false)
   }
 }
 
 export const getMedalAmount = async() => {
+  window.setAsyncLoader(true)
   const docRef = doc(db, "users", auth.currentUser.uid);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
+    window.setAsyncLoader(false)
     return docSnap.data().medals;
   } else {
     // doc.data() will be undefined in this case
     window.addResultMessage(true,`can't get medal amount`)
+    window.setAsyncLoader(false)
   }
 }
 
 export const getGuestAmount = async() => {
+  window.setAsyncLoader(true)
   const docRef = doc(db, "stats", "guests");
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
+    window.setAsyncLoader(false)
     return docSnap.data().total;
   } else {
     // doc.data() will be undefined in this case
     console.log("cant get guest amount!");
     window.addResultMessage(true,`cant get guest amount`)
+    window.setAsyncLoader(false)
   }
 }
 
@@ -202,6 +238,7 @@ export const getCurrentAuthProfile = async() => {
   const docRef = doc(db, "users", auth.currentUser.uid);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
+    window.setAsyncLoader(false)
     return docSnap.data();
   } else {
     // doc.data() will be undefined in this case
@@ -211,89 +248,110 @@ export const getCurrentAuthProfile = async() => {
 } 
 
 export const getProfileUID = async(UID) => {
+  window.setAsyncLoader(true)
   const docRef = doc(db, "users", UID);
   const docSnap = await getDoc(docRef);
   
   if (docSnap.exists()) {
+    window.setAsyncLoader(false)
     return docSnap.data();
   } else {
     // doc.data() will be undefined in this case
     console.log("No such document!");
     window.addResultMessage(true,`no profile document (uid)`)
+    window.setAsyncLoader(false)
   }
   
 }
 export const deleteProfile = () => {}
 export const deleteProfileUID = async(UID) => {
+  window.setAsyncLoader(true)
   await deleteDoc(doc(db, "users", UID));
+  window.setAsyncLoader(false)
 }
 
 
 //--------------DB-LEADERBOARD
 
 export const addReplay = async(mapID,replayInfo) => {
+  window.setAsyncLoader(true)
   try {
     const id = auth.currentUser.uid;
     const docRef = await setDoc(doc(db, `leaderboards/desktop/map${mapID}`, id), replayInfo);
     window.addResultMessage(false,`replay added to leaderboard`)
+    window.setAsyncLoader(false)
   } catch (e) {
     console.error("unable to add replay ", e);
     window.addResultMessage(true,`unable to add replay`)
+    window.setAsyncLoader(false)
   }
 }
 
 export const addUIDReplay = async(UID, mapID,replayInfo) => {
+  window.setAsyncLoader(true)
   try {
     const docRef = await setDoc(doc(db, `leaderboards/desktop/map${mapID}`, UID), replayInfo);
 
     window.addResultMessage(false,`replay added to leaderboard`)
+    window.setAsyncLoader(false)
   } catch (e) {
     console.error("error updating profile: ", e);
     window.addResultMessage(true,`unable to add replay`)
+    window.setAsyncLoader(false)
   }
 }
 
 export const getCurrentAuthReplay = async( mapID) => {
+  window.setAsyncLoader(true)
 
   const id = auth.currentUser.uid;
   const docRef = doc(db, `leaderboards/desktop/map${mapID}`, id);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
+    window.setAsyncLoader(false)
     return docSnap.data();
   } else {
     // doc.data() will be undefined in this case
     console.log("cant get guest amount!");
     window.addResultMessage(true,`cant get current auth replay on ${mapID}`)
+    window.setAsyncLoader(false)
   }
 }
 
 
 export const getCurrentAuthReplayTime = async( mapID) => {
+  window.setAsyncLoader(true)
 
   const id = auth.currentUser.uid;
   const docRef = doc(db, `leaderboards/desktop/map${mapID}`, id);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
+    window.setAsyncLoader(false)
     return docSnap.data().time;
   } else {
     // doc.data() will be undefined in this case
     console.log("cant get guest amount!");
     window.addResultMessage(true,`cant get current auth replay time on ${mapID}`)
+    window.setAsyncLoader(false)
   }
 }
 
 export const getUIDReplay = async(UID,mapID) => {
+  window.setAsyncLoader(true)
   const docRef = doc(db, `leaderboards/desktop/map${mapID}`, UID);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
+    window.setAsyncLoader(false)
     return docSnap.data();
   } else {
     // doc.data() will be undefined in this case
     console.log(`cant get ${UID} auth replay on ${mapID}`);
     window.addResultMessage(true,`cant get (uid) auth replay on ${mapID}`)
+    window.setAsyncLoader(false)
   }
 }
 export const getAllReplays = async(mapID) => {
+  window.setAsyncLoader(true)
   const leaderboardRef = collection(db, `leaderboards/desktop/map${mapID}`);
   const q = query(leaderboardRef, orderBy('time') , limit(50));
   let allReplays = [];
@@ -304,6 +362,9 @@ export const getAllReplays = async(mapID) => {
       allReplays.push(doc.data())
   });
   console.log("INSIDE",allReplays);
+
+  window.setAsyncLoader(false)
+  console.log("big chungus replay?")
   return allReplays;
 }
 export const deleteReplay = async(UID,mapID) => {

@@ -68,6 +68,7 @@ import ProfileUpgrade from "./pages/profile-upgrade.js"
 import InvitedInfo from "./pages/invited-info.js"
 
 import "./tests/databaseTests.js"
+import AsyncLoader from "./components/async-loader.js"
 
 const Menu = () => {
   let isDeviceValid = true;
@@ -151,6 +152,7 @@ const Menu = () => {
     loading = {loading}
     error = {error}/>
     <ResultBanner/>
+    <AsyncLoader/>
     <Routes>
       <Route  path="/" element={<Title/>}/>
       <Route  path="/welcome" element={<Welcome/>}/>

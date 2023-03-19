@@ -778,3 +778,27 @@ input:checked + .switch__inner:before {
   padding:10px 30px;
   width:330px;
 }
+
+/* async loader */
+
+.async-loader__wrapper{
+  display:none;
+  position: absolute;
+  bottom:100px;
+  left:20px;
+  width:100px;
+  image-rendering: pixelated;
+  height:40px;
+}
+
+.async-loader__wrapper.async-loader__wrapper--visible{
+  display:block;
+}
+
+.async-loader__image{
+  width:100%;
+}
+
+.async-loader__text{
+  text-align: right;
+}

@@ -21,18 +21,24 @@ const AuthStatus = ({isGuestSession, isShown, user, loading, error}) => {
 
   let textElement;
 
-  if(loading){
-  }
-  else if(error){
+  useEffect(() => {
+    if(loading){
+      window.setAsyncLoader(true)
+    }
+    else if(error){
+  
+      setNameText("error...")
+    }
+    else if(user){
 
-    setNameText("error...")
-  }
-  else if(user){
-    getCurrentAuthProfile().then(profile => {
-    setNameText(profile.displayName)
-    setProfileImageUrl(avatarGraphicURLs[profile.avatarId])
-    })
-  }
+      getCurrentAuthProfile().then(profile => {
+      setNameText(profile.displayName)
+      setProfileImageUrl(avatarGraphicURLs[profile.avatarId])
+      window.setAsyncLoader(false)
+      })
+    }
+  }) 
+
 
 
   if(isShown){
