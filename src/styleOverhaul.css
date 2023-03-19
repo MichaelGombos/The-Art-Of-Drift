@@ -61,13 +61,20 @@ a{
   display:none;
 }
 .text-primary-900{
-  color:var(--primary-900)
+  color:var(--primary-900);
 }
 .text-secondary-500{
-  color:var(--secondary-500)
+  color:var(--secondary-500);
 }
 .text-shade-0{
-  color:var(--shade-0)
+  color:var(--shade-0);
+}
+
+.text-danger-500{
+  color:var(--danger-500);
+}
+.text-success-500{
+  color:var(--success-500);
 }
 .bg-danger-500{
   background-color: var(--danger-500);
@@ -752,4 +759,22 @@ input:checked + .switch__inner:before {
   height:10px;
   margin-left:6px;
   margin-right:2px;
+}
+
+/* result banner */
+
+.result-banner__container{
+  position: absolute;
+  left:20px;
+  top:20px;
+  display:flex;
+  flex-direction: column;
+  gap:8px;
+  background-size:100%;
+}
+
+.result-banner{
+  background-color:#0000008c;
+  padding:10px 30px;
+  width:330px;
 }

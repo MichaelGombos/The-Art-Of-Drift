@@ -31,8 +31,11 @@ export const emailSignUp = (destination, email,password, racerName="unset", prof
   .then(userCredential => {    
     updateProfileUID(userCredential.user.uid, racerName,profileAvatarId, profileVehicleId)
     window.changeGUIScreen(destination);
+
+    window.addResultMessage(false,"Success signing up with email!")
   }).catch(error => {
     console.log(error);
+    window.addResultMessage(true,"error signing up with email!")
   })
 
 }
@@ -40,8 +43,10 @@ export const emailSignIn = (destination,email,password) => {
   signInWithEmailAndPassword(auth, email, password)
   .then(userCredential => {
     window.changeGUIScreen(destination);
+    window.addResultMessage(false,"Success signing in with email!")
   }).catch(error => {
     console.log(error);
+    window.addResultMessage(true,"Error signing in with email!")
   })
 }
 export const guestSignIn = (destination, AID,VID) => {
@@ -54,15 +59,16 @@ export const guestSignIn = (destination, AID,VID) => {
     if(destination){
       window.changeGUIScreen(destination);
     }
+
+    window.addResultMessage(false,"Success signing in as a guest!")
     }
   )
 
   })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    // ...
-    console.log("error on signin" , errorMessage)
+  .catch((error) => { 
+
+    window.addResultMessage(true,error.message)
+    console.log("error on signin" , error)
   });
 
 }
@@ -75,28 +81,34 @@ export const guestUpgrade = (destination, email,password, racerName="unset", AID
   .then((usercred) => {
     const user = usercred.user;
     console.log("Anonymous account successfully upgraded", user);
+    window.addResultMessage(false,"Success upgrading guest account!")
 
     updateProfile(destination,racerName,AID,VID);
   }).catch((error) => {
     console.log("Error upgrading anonymous account", error);
+    window.addResultMessage(true,"unable to upgrade guest acconut")
   });
 }
 
 export const logOut = (destination) => {
   signOut(auth).then(() => {
-    console.log('sign out successful')
     window.changeGUIScreen(destination);
-  }).catch(error => console.log(error))
+    window.addResultMessage(false,"sign out successful")
+  }).catch(error => 
+    
+    window.addResultMessage(true,"unable to log out")
+    )
 }
 export const deleteAccount = () => {
   const user = auth.currentUser;
   const id = user.uid;
   deleteUser(user).then(() => {
     console.log(`user deleted ${user} with the ud ${id}`)
+    window.addResultMessage(false,"account deleted D:")
     deleteProfileUID(id);
   }).catch((error) => {
-    // An error ocurred
-    // ...
+    
+    window.addResultMessage(true,"unable to delete account")
   });
 }
 
@@ -116,8 +128,10 @@ export const updateProfile = async(destination, displayName,AID,VID) => {
     });
   
     window.changeGUIScreen(destination);
+    window.addResultMessage(false,"updated profile!")
   } catch (e) {
     console.error("error updating profile: ", e);
+    window.addResultMessage(true,"unable to update profile")
   }
 }
 export const updateProfileUID = async(UID, displayName,AID,VID) => {
@@ -131,8 +145,10 @@ export const updateProfileUID = async(UID, displayName,AID,VID) => {
       createdAt: serverTimestamp()
     });
   
+    window.addResultMessage(false,"updated profile!")
   } catch (e) {
     console.error("Error adding document: ", e);
+    window.addResultMessage(true,"unable to update profile")
   }
 }
 
@@ -143,6 +159,7 @@ export const incrementGuestAmount = async(currentAmount) => {
     });
   } catch (e) {
     console.error("Error adding document: ", e);
+    window.addResultMessage(true,"unable to increment guest amount")
   }
 }
 
@@ -151,8 +168,10 @@ export const setMedalAmount = async(medals) => {
     const docRef = await updateDoc(doc(db, "users", auth.currentUser.uid), {
       medals: medals
     });
+    window.addResultMessage(false,`set medal amount to ${medals}`)
   } catch (e) {
     console.error("Error updating medals: ", e);
+    window.addResultMessage(true,"unable to set medal amount")
   }
 }
 
@@ -163,7 +182,7 @@ export const getMedalAmount = async() => {
     return docSnap.data().medals;
   } else {
     // doc.data() will be undefined in this case
-    console.log("cant get guest amount!");
+    window.addResultMessage(true,`can't get medal amount`)
   }
 }
 
@@ -175,6 +194,7 @@ export const getGuestAmount = async() => {
   } else {
     // doc.data() will be undefined in this case
     console.log("cant get guest amount!");
+    window.addResultMessage(true,`cant get guest amount`)
   }
 }
 
@@ -186,6 +206,7 @@ export const getCurrentAuthProfile = async() => {
   } else {
     // doc.data() will be undefined in this case
     console.log("No such document!");
+    window.addResultMessage(true,`no profile document (current auth)`)
   }
 } 
 
@@ -198,6 +219,7 @@ export const getProfileUID = async(UID) => {
   } else {
     // doc.data() will be undefined in this case
     console.log("No such document!");
+    window.addResultMessage(true,`no profile document (uid)`)
   }
   
 }
@@ -213,9 +235,10 @@ export const addReplay = async(mapID,replayInfo) => {
   try {
     const id = auth.currentUser.uid;
     const docRef = await setDoc(doc(db, `leaderboards/desktop/map${mapID}`, id), replayInfo);
-
+    window.addResultMessage(false,`replay added to leaderboard`)
   } catch (e) {
-    console.error("error updating profile: ", e);
+    console.error("unable to add replay ", e);
+    window.addResultMessage(true,`unable to add replay`)
   }
 }
 
@@ -223,8 +246,10 @@ export const addUIDReplay = async(UID, mapID,replayInfo) => {
   try {
     const docRef = await setDoc(doc(db, `leaderboards/desktop/map${mapID}`, UID), replayInfo);
 
+    window.addResultMessage(false,`replay added to leaderboard`)
   } catch (e) {
     console.error("error updating profile: ", e);
+    window.addResultMessage(true,`unable to add replay`)
   }
 }
 
@@ -238,6 +263,7 @@ export const getCurrentAuthReplay = async( mapID) => {
   } else {
     // doc.data() will be undefined in this case
     console.log("cant get guest amount!");
+    window.addResultMessage(true,`cant get current auth replay on ${mapID}`)
   }
 }
 
@@ -252,6 +278,7 @@ export const getCurrentAuthReplayTime = async( mapID) => {
   } else {
     // doc.data() will be undefined in this case
     console.log("cant get guest amount!");
+    window.addResultMessage(true,`cant get current auth replay time on ${mapID}`)
   }
 }
 
@@ -262,7 +289,8 @@ export const getUIDReplay = async(UID,mapID) => {
     return docSnap.data();
   } else {
     // doc.data() will be undefined in this case
-    console.log("cant get guest amount!");
+    console.log(`cant get ${UID} auth replay on ${mapID}`);
+    window.addResultMessage(true,`cant get (uid) auth replay on ${mapID}`)
   }
 }
 export const getAllReplays = async(mapID) => {

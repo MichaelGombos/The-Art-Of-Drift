@@ -12,7 +12,7 @@ import Settings from "./pages/settings.js"
 import Leaderboards from "./pages/leaderboards.js"
 import Invited from "./pages/invited.js"
 
-import React, {Component, useEffect} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import { Route, Routes, useNavigate, Navigate, useLocation} from "react-router-dom";
 import InvitedPreview from "./pages/ARCHIVED__invited-preview.js"
 import MapImport from "./pages/map-import.js"
@@ -31,12 +31,13 @@ import AuthStatus from "./components/auth-status.js"
 import Profile from "./pages/profile.js"
 import ProfileGuest from "./pages/profile-guest.js"
 import ProfileEdit from "./pages/profile-edit.js"
+import MapMaker from "../mapmaker/mapmaker.js"
+import ResultBanner from "./components/result-banner.js"
 
-const {useState} = React
 // http://www.theartofdrift.com/invited?racer=NAME_HASH_0_309&map=0
 // http://localhost:8081/invited?racer=NAME_HASH_0_309&map=0
 
-const home = "/community-maps/map-maker"; //for tests
+const home = "/"; //for tests
 
 let currentNavigationInterval = 0;
 let lastNavigationTime = performance.now();
@@ -67,7 +68,6 @@ import ProfileUpgrade from "./pages/profile-upgrade.js"
 import InvitedInfo from "./pages/invited-info.js"
 
 import "./tests/databaseTests.js"
-import MapMaker from "../mapmaker/mapmaker.js"
 
 const Menu = () => {
   let isDeviceValid = true;
@@ -150,6 +150,7 @@ const Menu = () => {
     user = {user}
     loading = {loading}
     error = {error}/>
+    <ResultBanner/>
     <Routes>
       <Route  path="/" element={<Title/>}/>
       <Route  path="/welcome" element={<Welcome/>}/>

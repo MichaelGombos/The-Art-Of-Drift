@@ -35,11 +35,11 @@ This game is played with wasd and the arrow keys to control the car. Shift, spac
 
 - (done) add interaction for profile selector 
 - (done) add email login w/firebase
-- add error banner for database functions
+- (done) add error banner for database functions
 - add loading icon for database functions
 - add gmail login w/firebase
 - (done) update existing leaderboard functions to use new database facade
-- refactor the [map maker](https://michaelgombos.github.io/browser-driving-map-creator/) as a react component, and allow it to be accessed from the create map button
+- (done) refactor the [map maker](https://michaelgombos.github.io/browser-driving-map-creator/) as a react component, and allow it to be accessed from the create map button
 - add community leaderboard page
 - add community maps pages
 - fix replay bug[b1]
