@@ -15,13 +15,13 @@ const InputToggle = ({newValue,setter,children}) => {
     <div className='particle-limit row w-100 justify-between align-center'>
       <label htmlFor="particle-selector">{children} ({newValue ? "on" : "off"})</label>
 
-      <label class="switch">
+      <label className="switch">
           <input 
           type="checkbox"
           checked={newValue}
           className="toggle"
           onChange={onChange}/>
-        <span class="switch__inner"></span>
+        <span className="switch__inner"></span>
       </label>
 
   </div>

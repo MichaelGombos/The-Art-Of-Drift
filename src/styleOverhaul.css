@@ -616,13 +616,16 @@ input:checked + .switch__inner:before {
 .scroll-container{
   max-height:400px;
   overflow-y:scroll;
-  overflow-x:hidden;
-  padding-right:8px;
+  overflow-x: hidden;
+}
+
+.scroll-container--tall{
+  max-height:100vh;
 }
 
 /* width */
 ::-webkit-scrollbar {
-  width: 40px;
+  width: 45px;
   overflow:visible;
 }
 
@@ -632,7 +635,7 @@ input:checked + .switch__inner:before {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: url("./assets/scrollbar/scrollbar-thumb.png");
+  background: url("./assets/scrollbar/scroll-bar-thumb-2.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size:contain;
@@ -643,6 +646,7 @@ input:checked + .switch__inner:before {
 
 .auth-status{
   position:absolute;
+  z-index: 1;
   top:16px;
   right:16px;
   display:flex;
@@ -658,3 +662,94 @@ input:checked + .switch__inner:before {
   image-rendering: pixelated;
 }
 
+/* --- map maker styles --- */
+.map-maker__container{
+  display:grid;
+  grid-template-columns: 420px 1fr;
+  gap:var(--gap-lg);
+  padding-left:var(--gap-lg);
+  grid-template-rows:1fr;
+  width:100%;
+  height:100%;
+  justify-content: center;
+}
+.map-maker__menu{
+}
+
+.map-maker__menu h1, .map-maker__menu h2{
+  text-align: center;
+}
+
+.map-maker__menu h1:first-child{
+  margin-top:100px;
+}
+.map-maker__menu > div:last-child{
+  margin-bottom:100px;
+}
+
+.map-maker-canvas__wrapper{
+  position: relative;
+  padding-top:86px;
+  height:100%;
+}
+
+.map-maker-canvas{
+  height:auto;
+  width:100%;
+  image-rendering: pixelated;
+  /* background:url("https://images.contentstack.io/v3/assets/bltdd99f24e8a94d536/blt867d5477b7adc192/627be2023debbf3afdd2ea1e/get-well-flowers-146761-silo-260x284.jpg?quality=85&auto=webp&optimize={medium}"); */
+}
+
+.map-maker-canvas__text{
+  height:0px;
+  position:fixed;
+  padding-left:var(--gap-lg);
+  left:calc(420px + (var(--gap-lg)) * 2);
+  top:16px;
+}
+
+.paint-tile{
+  width:20px;
+  height:20px;
+}
+.paint-tile--selected{
+  border: 3px solid white;
+}
+
+.paints{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:repeat(6,1fr);
+}
+
+.brush-sizes{
+  display:flex;
+  flex-direction: row;
+  gap:var(--gap-lg)
+}
+
+.brush-size{
+  padding-bottom:5px;
+}
+.brush-size--selected{
+  border-bottom:5px solid var(--secondary-500);
+}
+
+
+.canvas-overlay__image{
+  position:absolute;
+  top:86px;
+  width:100%;
+  opacity: .3;
+  pointer-events: none;
+}
+
+.canvas-overlay__image--hidden{
+  display:none;
+}
+
+.spawn-angle__arrow{
+  height:10px;
+  margin-left:6px;
+  margin-right:2px;
+}

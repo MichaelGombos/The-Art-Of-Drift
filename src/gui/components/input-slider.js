@@ -3,13 +3,14 @@ import React, {useRef, useState, useEffect} from "react"
 
 
 
-const InputSlider = ({minimum,maximum,newValue,setter,children}) => {
+const InputSlider = ({minimum,maximum,newValue,setter,sideEffect, children}) => {
     const inputRef = useRef();
   
     const onChange = (event) => {
       setter(event.target.value);
+      sideEffect()
     };
-  
+    
     const initSlider = () => {
       const slider = inputRef.current;
       const min = slider.min;

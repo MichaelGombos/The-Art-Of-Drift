@@ -3,6 +3,7 @@
   --gap-md: 8px;
   --gap-lg: 16px;
   --gap-xl: 32px;
+  --gap-xxl: 64px;
 }
 
 .row,.column{
@@ -47,6 +48,9 @@
   gap:var(--gap-xl);
 }
 
+.gap-xxl{
+  gap:var(--gap-xxl);
+}
 .justify-center{
   justify-content: center;
 }
