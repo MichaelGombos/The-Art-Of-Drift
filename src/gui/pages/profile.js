@@ -102,7 +102,7 @@ const Profile = ({ user, loading, error}) => {
 
 
   const handleGuestSignIn = () => {
-    guestSignIn("/profile/guest",profileAvatarId,profileVehicleId)
+    guestSignIn("/profile/guest",0,1)
   }
 
   return (

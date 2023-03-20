@@ -5,9 +5,15 @@ import { drawCanvasMap } from '../../game/graphics.js';
 import { decompressMapData } from '../../game/map-compression.js';
 
 
-const MapCanvasPreview = ({width, mapIndex , isTiny = false}) => {
+const MapCanvasPreview = ({width, mapIndex , isTiny = false, communityMapData}) => {
   useEffect(() => {
-    const decompressedMap = decompressMapData(maps[mapIndex].data)
+    let decompressedMap;
+    if(communityMapData){
+      decompressedMap = decompressMapData(communityMapData)
+    }
+    else{
+      decompressedMap = decompressMapData(maps[mapIndex].data)
+    }
     const mapPreviewCanvas = document.querySelector(".map-preview");
     const mapPreviewContext = mapPreviewCanvas.getContext("2d")
     mapPreviewCanvas.width = decompressedMap[0].length;

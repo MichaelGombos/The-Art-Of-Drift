@@ -802,3 +802,18 @@ input:checked + .switch__inner:before {
 .async-loader__text{
   text-align: right;
 }
+
+/* community maps upload  */
+
+.map-upload-canvas__wrapper{
+  height:100%
+}
+.map-upload-canvas{
+  height:auto;
+  width:100%;
+  image-rendering: pixelated;
+}
+
+.upload-map__menu{
+  align-items: center;
+}

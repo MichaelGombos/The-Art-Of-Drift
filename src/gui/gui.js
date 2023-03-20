@@ -37,7 +37,7 @@ import ResultBanner from "./components/result-banner.js"
 // http://www.theartofdrift.com/invited?racer=NAME_HASH_0_309&map=0
 // http://localhost:8081/invited?racer=NAME_HASH_0_309&map=0
 
-const home = "/"; //for tests
+const home = "/community-maps/upload"; //for tests
 
 let currentNavigationInterval = 0;
 let lastNavigationTime = performance.now();
@@ -69,6 +69,8 @@ import InvitedInfo from "./pages/invited-info.js"
 
 import "./tests/databaseTests.js"
 import AsyncLoader from "./components/async-loader.js"
+import CommunityUpload from "./pages/community-upload.js"
+import { maps } from "../game/map-data.js"
 
 const Menu = () => {
   let isDeviceValid = true;
@@ -80,6 +82,9 @@ const Menu = () => {
   const [showDashboard,setShowDashboard] = useState(true);
   const [showAuthStatus,setShowAuthStatus] = useState(true);
   const [isGuestSession,setIsGuestSession] = useState(false);
+  const [previewMap,setPreviewMap] = useState(
+    `{ "spawnAngle" : ${maps[7].spawnAngle} , "lapCount" : ${maps[7].lapCount} , "data" : [${ maps[7].data.map(mapRow => "\n[" + mapRow.map(cell => `"${cell}"`) + "]")}\n] } `
+  );
 
 
   const location = useLocation();
@@ -166,7 +171,8 @@ const Menu = () => {
       <Route  path="/campaign" element={<Campaign/>} />
       <Route  path="/campaign/:mapIndex" element={<CampaignLevel/>} />
       <Route  path="/community-maps" element={<CommunityMaps/>} />    
-      <Route  path="/community-maps/map-maker" element={<MapMaker/>} />
+      <Route  path="/community-maps/map-maker" element={<MapMaker setPreviewMap={setPreviewMap}/>} />
+      <Route  path="/community-maps/upload" element={<CommunityUpload previewMap={previewMap} setPreviewMap={setPreviewMap}/>} />
       <Route  path="/map-import" element={<MapImport/>} />
       <Route  path="/leaderboards" element={<Leaderboards/>} />
       <Route  path="/leaderboards/campaign" element={<CampaignLeaderboards/>} />

@@ -321,7 +321,7 @@ const copyToClipboard = str => {
 
 // components
 
-const MapMakerHeading = ({lapCount, spawnAngle}) => {
+const MapMakerHeading = ({lapCount, spawnAngle,setPreviewMap}) => {
   const navigate = useNavigate();
   const handleCopyCompressed = (e) => {
     console.log("hello?")
@@ -329,7 +329,11 @@ const MapMakerHeading = ({lapCount, spawnAngle}) => {
     logSizeInBytes("COMPRESSED", arrayString); //TODO show in alert banner instead
     copyToClipboard(arrayString);
   }
-
+  const handleSaveAs = () => {
+    navigate("/community-maps/upload")   
+    let arrayString = `{ "spawnAngle" : ${spawnAngle} , "lapCount" : ${lapCount} , "data" : [${ compressMapData(mapData).map(mapRow => "\n[" + mapRow.map(cell => `"${cell}"`) + "]")}\n] } `;
+    setPreviewMap(arrayString)
+  }
   return (
     <>
 
@@ -337,7 +341,7 @@ const MapMakerHeading = ({lapCount, spawnAngle}) => {
         
         <div className="col-6 gap-md">
           <Button style="primary">save</Button>
-          <Button >save as</Button>
+          <Button clickHandler={handleSaveAs}>save as</Button>
           <Button clickHandler={handleCopyCompressed}>copy data to clipboard</Button>
           <Button clickHandler={(() => {navigate("/community-maps")})}>Exit</Button>
         </div>
@@ -557,7 +561,8 @@ const MapMakerMenu = ({
   setNewMapColumns,
   mapMakerCanvasOverlayRef,
   mapMakerCanvasRef,
-  setShowOverlay
+  setShowOverlay,
+  setPreviewMap
 }) => {
 
 
@@ -575,7 +580,9 @@ const MapMakerMenu = ({
 
         <MapMakerHeading 
         lapCount={lapCount} 
-        spawnAngle={spawnAngle}/>
+        spawnAngle={spawnAngle}
+        setPreviewMap = {setPreviewMap}
+        />
         <ImageOverlayMenu 
         setShowOverlay={setShowOverlay}
         mapMakerCanvasOverlayRef={mapMakerCanvasOverlayRef}/>
@@ -670,7 +677,7 @@ const MapMakerCanvas = (props) => {
 }
 
 
-const MapMaker = () => {
+const MapMaker = ({setPreviewMap}) => {
   
   const mapMakerCanvasOverlayRef = useRef(null);
   const mapMakerCanvasRef = useRef(null);
@@ -696,6 +703,7 @@ const MapMaker = () => {
           mapMakerCanvasOverlayRef = {mapMakerCanvasOverlayRef}
           mapMakerCanvasRef = {mapMakerCanvasRef}
           setShowOverlay = {setShowOverlay}
+          setPreviewMap={setPreviewMap}
           />
 
             <MapMakerCanvas

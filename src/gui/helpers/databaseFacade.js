@@ -243,7 +243,7 @@ export const getCurrentAuthProfile = async() => {
   } else {
     // doc.data() will be undefined in this case
     console.log("No such document!");
-    window.addResultMessage(true,`no profile document (current auth)`)
+    // window.addResultMessage(true,`no profile document (current auth)`)
   }
 } 
 
@@ -258,7 +258,7 @@ export const getProfileUID = async(UID) => {
   } else {
     // doc.data() will be undefined in this case
     console.log("No such document!");
-    window.addResultMessage(true,`no profile document (uid)`)
+    // window.addResultMessage(true,`no profile document (uid)`)
     window.setAsyncLoader(false)
   }
   
