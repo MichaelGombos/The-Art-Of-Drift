@@ -1,9 +1,11 @@
 //just logging all the leaderboard functions
 
-import { addReplay , addUIDReplay, deleteReplay, getAllReplays, getCurrentAuthReplay, getDatabaseTime, getMedalAmount, setMedalAmount} from "../helpers/databaseFacade";
+import { serverTimestamp } from "firebase/firestore";
+import { addMap, addReplay , addUIDReplay, deleteReplay, getAllMaps, getAllReplays, getCommunityMapAmount, getCurrentAuthMaps, getCurrentAuthReplay, getDatabaseTime, getMap, getMedalAmount, getUIDMaps, setMedalAmount} from "../helpers/databaseFacade";
+import { auth } from "../helpers/firebase";
 
 const runTests = () => {
-  // console.log('testsran..')
+  // // replay db tests
 
   // addReplay(0,{
   //   time: "00:00:33.233",
@@ -59,17 +61,48 @@ const runTests = () => {
   //   setMedalAmount(amount+2)
   // })
 
-// //result banner
+// // result banner tests
   
-//   window.addResultMessage(false,"asdasdasd")
-//   window.addResultMessage(true,"wa wa wa")
-//   window.addResultMessage(false,"wwwwwwwwwwww s wwww s")
+//   window.addResultMessage(false,"message 1")
+//   window.addResultMessage(true,"2 wa wa wa")
+//   window.addResultMessage(false,"3 wwwwwwwwwwww s wwww s")
 
 //   setTimeout(() => {
-//     window.addResultMessage(false,"brucc jucc!")
+//     window.addResultMessage(false,"4!!!! brucc jucc!")
 //   }, 2000)
+
+// // community maps tests
+  addMap({
+    creatorUID: auth.currentUser.uid,
+    mapName : "testName",
+    mapDescrition: "test Description",
+    mapObject: {
+      testProperty: "test"
+    },
+    authorProfileObject: {
+
+      testProperty: "test"
+    },
+    isDraft: false,
+    createdAt: serverTimestamp(),
+    mapID: "easter egg?"
+  })
+
+  getCommunityMapAmount().then(amount => {
+    console.log(amount)
+  })
+
+  getAllMaps().then(daMaps => console.log("map(s) ----->",daMaps))
+
+  getCurrentAuthMaps().then(daFilteredMaps => console.log("filtered maps??!!!? ---->" , daFilteredMaps))
+
+  getUIDMaps("KpTftu4hl6b3z0jeTEI3JADVvdB2").then(uidMapz => console.log("KpTftu4hl6b3z0jeTEI3JADVvdB2 maps ", uidMapz))
+
+  getMap("c00000001").then(datMapInfo => console.log("c00000001 information " ,datMapInfo))
+
+  
 }
 
       
 window.addEventListener("load", () => { setTimeout(
-  runTests, 1000)}); 
+  runTests, 3000)}); 

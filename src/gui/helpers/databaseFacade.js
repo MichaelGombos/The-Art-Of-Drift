@@ -10,7 +10,7 @@
 
 import { app,analytics,auth,db } from "./firebase";
 
-import { collection, addDoc, setDoc , doc, getDoc,getDocs, deleteDoc, serverTimestamp, query, orderBy, limit, updateDoc} from "firebase/firestore";
+import { collection, addDoc, setDoc , doc, getDoc,getDocs, deleteDoc, serverTimestamp, query, orderBy, limit, updateDoc, where} from "firebase/firestore";
 
 import { createUserWithEmailAndPassword, signOut, deleteUser,signInAnonymously, linkWithCredential, EmailAuthProvider, signInWithEmailAndPassword } from "firebase/auth";
 
@@ -143,7 +143,8 @@ export const updateProfile = async(destination, displayName,AID,VID) => {
       avatarId: AID,
       vehicleID: VID,
       medals: 0,
-      createdAt: serverTimestamp()
+      createdAt: serverTimestamp(),
+      uid: auth.currentUser.uid
     });
   
     window.changeGUIScreen(destination);
@@ -164,7 +165,8 @@ export const updateProfileUID = async(UID, displayName,AID,VID) => {
       avatarId: AID,
       vehicleID: VID,
       medals: 0,
-      createdAt: serverTimestamp()
+      createdAt: serverTimestamp(),
+      uid: auth.currentUser.uid
     });
   
     window.addResultMessage(false,"updated profile!")
@@ -374,10 +376,135 @@ await deleteDoc(doc(db, `leaderboards/desktop/map${mapID}`, UID));
 
 //--------------DB-MAPS
 
-export const addMap = (map,mapInfo) => {}
-export const getAllMaps = () => {}
-export const getCurrentAuthMaps = () => {}
-export const getUIDMaps = () => {}
-export const getMap = (mapID) => {}
-export const deleteMap = (mapId) => {}
 
+
+
+
+export const addMap = async(mapInfo) => {
+    /* 
+    mapInfo object = {
+      mapName :
+      mapDescrition:
+      mapObject:
+      authorProfileObject:
+      isDraft:
+      createdAt:
+      mapID: (generateMapId)
+    }
+  */
+    
+  window.setAsyncLoader(true)
+  getCommunityMapAmount().then(async(currentMapAmount) => {
+    try {
+      const id = auth.currentUser.uid;
+      let result = currentMapAmount.toString().padStart(8, '0');
+      const docRef = await setDoc(doc(db, `community-maps/`, `c${result}`), mapInfo); 
+      window.addResultMessage(false,`map uploaded!`);
+      window.setAsyncLoader(false);
+      incrementCommunitymapAmount(currentMapAmount);
+    } catch (e) {
+      console.error("unable to upload map ", e);
+      window.addResultMessage(true,`unable to upload map`)
+      window.setAsyncLoader(false)
+    }
+  })
+
+}
+export const getAllMaps = async() => {
+  window.setAsyncLoader(true)
+  const communityMapsRef = collection(db, `community-maps/`);
+  const q = query(communityMapsRef, orderBy('createdAt') , limit(50));
+  let allMaps = [];
+
+  const querySnapshot = await getDocs(q);
+  console.log(querySnapshot)
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    allMaps.push(doc.data())
+  });
+
+  window.setAsyncLoader(false)
+  return allMaps;
+}
+export const getCurrentAuthMaps = async() => {
+  window.setAsyncLoader(true)
+  const communityMapsRef = collection(db, `community-maps/`);
+  const q = query(communityMapsRef, where("creatorUID", '==', auth.currentUser.uid));
+  let filteredMaps = [];
+
+  const querySnapshot = await getDocs(q);
+  console.log(querySnapshot)
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    filteredMaps.push(doc.data())
+  });
+
+  window.setAsyncLoader(false)
+  return filteredMaps;
+}
+export const getUIDMaps = async(UID) => {
+  window.setAsyncLoader(true)
+  const communityMapsRef = collection(db, `community-maps/`);
+  const q = query(communityMapsRef, where("creatorUID", '==', UID));
+  let filteredMaps = [];
+
+  const querySnapshot = await getDocs(q);
+  console.log(querySnapshot)
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    filteredMaps.push(doc.data())
+  });
+
+  window.setAsyncLoader(false)
+  return filteredMaps;
+}
+export const getMap = async(mapID) => { //this map ID can be a search param..
+  window.setAsyncLoader(true)
+  const docRef = doc(db, `community-maps`, mapID);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    window.setAsyncLoader(false)
+    return docSnap.data();
+  } else {
+    // doc.data() will be undefined in this case
+    console.log(`cant get map ${mapID}`);
+    window.addResultMessage(true,`cant get map ${mapID}`)
+    window.setAsyncLoader(false)
+  }
+}
+export const deleteMap = async(mapID) => {
+  await deleteDoc(doc(db, `community-maps`, mapID));
+}
+
+// window.deleteMapTemp = deleteMap
+// window.deleteMapTemp("c00000006")
+//helper to count maps..
+
+export const getCommunityMapAmount = async() => {
+  window.setAsyncLoader(true)
+  const docRef = doc(db, "stats", "community-maps");
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    window.setAsyncLoader(false)
+    return docSnap.data().total;
+  } else {
+    // doc.data() will be undefined in this case
+    console.log("cant get guest amount!");
+    window.addResultMessage(true,`cant get guest amount`)
+    window.setAsyncLoader(false)
+  }
+}
+
+export const incrementCommunitymapAmount = async(currentAmount) => {
+  window.setAsyncLoader(true)
+  try {
+    const docRef = await setDoc(doc(db, "stats", "community-maps"), {
+      total: currentAmount+1
+    });
+    window.setAsyncLoader(false)
+  } catch (e) {
+    console.error("Error adding document: ", e);
+    window.addResultMessage(true,"unable to increment guest amount")
+    window.setAsyncLoader(false)
+  }
+}

@@ -37,7 +37,7 @@ import ResultBanner from "./components/result-banner.js"
 // http://www.theartofdrift.com/invited?racer=NAME_HASH_0_309&map=0
 // http://localhost:8081/invited?racer=NAME_HASH_0_309&map=0
 
-const home = "/community-maps/upload"; //for tests
+const home = "/"; //for tests
 
 let currentNavigationInterval = 0;
 let lastNavigationTime = performance.now();
