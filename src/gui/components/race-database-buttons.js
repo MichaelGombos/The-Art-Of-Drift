@@ -24,13 +24,14 @@ firebase.initializeApp({
 
 const firestore = firebase.firestore();
 
-const RaceDatabaseButtons = ({replayObject,mapIndex, isTextShort}) => {
+const RaceDatabaseButtons = ({replayObject,mapIndex, isTextShort, mapObject}) => {
   const navigate = useNavigate();  
-
+  console.log("This is the map we are sending...:" ,mapObject)
   // console.log(allData)
   
   let vsReplay;
   let vsColor;
+  let mapInfo;
 
   if(replayObject)
   {
@@ -38,12 +39,18 @@ const RaceDatabaseButtons = ({replayObject,mapIndex, isTextShort}) => {
     vsColor = replayObject.color;
   }
 
+  if(mapObject){
+    mapInfo = mapObject;
+  }else{
+    mapInfo = maps[mapIndex];
+  }
+
   setGameMapIndex(mapIndex)
 
   const handleWatchReplay = (replay,name,color,spectateTime) => () => {
     console.log(JSON.parse(replay))
     setEnableGhost(true);
-    setMapData(maps[mapIndex],JSON.parse(replay));
+    setMapData(mapInfo,JSON.parse(replay));
     setSpectateMode(true);
     startGame();
     nameGhost(name);
@@ -53,7 +60,7 @@ const RaceDatabaseButtons = ({replayObject,mapIndex, isTextShort}) => {
 
   const handleRaceAgainst = (replay,name,color) => () => {
     setEnableGhost(true);
-    setMapData(maps[mapIndex],JSON.parse(replay));
+    setMapData(mapInfo,JSON.parse(replay));
     setSpectateMode(false);
     startGame();
     nameGhost(name);

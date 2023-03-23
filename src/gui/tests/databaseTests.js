@@ -104,5 +104,5 @@ const runTests = () => {
 }
 
       
-window.addEventListener("load", () => { setTimeout(
-  runTests, 3000)}); 
+// window.addEventListener("load", () => { setTimeout(
+//   runTests, 3000)}); 

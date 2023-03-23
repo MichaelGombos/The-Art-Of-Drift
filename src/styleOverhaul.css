@@ -818,3 +818,34 @@ input:checked + .switch__inner:before {
 .upload-map__menu{
   align-items: center;
 }
+
+
+/* community maps preview  */
+
+.map-info-nodes{
+  display:flex;
+  flex-direction: column;
+  gap:var(--gap-lg)
+}
+
+.map-info-node{
+  display:flex;
+  flex-direction: column;
+  gap:var(--gap-sm)
+}
+
+.map-info-node__footer{
+  display:flex;
+  flex-direction: column;
+  gap:0px;
+  line-height: .6;
+}
+
+.map-info-node__subtext{
+  color:grey;
+}
+
+.map-info-node__image{
+  height:32px;
+  width:32px;
+}

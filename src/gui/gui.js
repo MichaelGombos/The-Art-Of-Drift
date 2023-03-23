@@ -22,22 +22,28 @@ import ScrollingBackground from "./components/scrolling-background.js"
 import Welcome from "./pages/welcome.js"
 import Signup from "./pages/signup.js"
 import Signin from "./pages/signin.js"
+
 import Campaign from "./pages/campaign.js"
 import CampaignLevel from "./pages/campaign-level.js"
 import CampaignLeaderboards from "./pages/campaign-leaderboards.js"
+
 import CampaignLeaderboard from "./pages/campaign-leaderboard.js"
 import CommunityMaps from "./pages/community-maps.js"
+import CommunityMapsUpload from "./pages/community-maps-upload.js"
+import CommunityMapsPreview from "./pages/community-maps-preview.js"
+
 import AuthStatus from "./components/auth-status.js"
 import Profile from "./pages/profile.js"
 import ProfileGuest from "./pages/profile-guest.js"
 import ProfileEdit from "./pages/profile-edit.js"
-import MapMaker from "../mapmaker/mapmaker.js"
 import ResultBanner from "./components/result-banner.js"
+
+import MapMaker from "../mapmaker/mapmaker.js"
 
 // http://www.theartofdrift.com/invited?racer=NAME_HASH_0_309&map=0
 // http://localhost:8081/invited?racer=NAME_HASH_0_309&map=0
 
-const home = "/"; //for tests
+const home = "/community-maps/c00000053"; //for tests
 
 let currentNavigationInterval = 0;
 let lastNavigationTime = performance.now();
@@ -69,8 +75,8 @@ import InvitedInfo from "./pages/invited-info.js"
 
 import "./tests/databaseTests.js"
 import AsyncLoader from "./components/async-loader.js"
-import CommunityUpload from "./pages/community-upload.js"
 import { maps } from "../game/map-data.js"
+import CommunityMapsLeaderboard from "./pages/community-maps-leaderboard.js"
 
 const Menu = () => {
   let isDeviceValid = true;
@@ -172,7 +178,9 @@ const Menu = () => {
       <Route  path="/campaign/:mapIndex" element={<CampaignLevel/>} />
       <Route  path="/community-maps" element={<CommunityMaps/>} />    
       <Route  path="/community-maps/map-maker" element={<MapMaker setPreviewMap={setPreviewMap}/>} />
-      <Route  path="/community-maps/upload" element={<CommunityUpload previewMap={previewMap} setPreviewMap={setPreviewMap}/>} />
+      <Route  path="/community-maps/upload" element={<CommunityMapsUpload previewMap={previewMap} setPreviewMap={setPreviewMap}/>} />
+      <Route  path="/community-maps/:mapId" element={<CommunityMapsPreview/>} />
+      <Route  path="/community-maps/leaderboard/:mapId" element={<CommunityMapsLeaderboard/>} />
       <Route  path="/map-import" element={<MapImport/>} />
       <Route  path="/leaderboards" element={<Leaderboards/>} />
       <Route  path="/leaderboards/campaign" element={<CampaignLeaderboards/>} />

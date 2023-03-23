@@ -380,7 +380,7 @@ await deleteDoc(doc(db, `leaderboards/desktop/map${mapID}`, UID));
 
 
 
-export const addMap = async(mapInfo) => {
+export const addMap = async(mapInfo,isNavigatingToView) => {
     /* 
     mapInfo object = {
       mapName :
@@ -394,20 +394,31 @@ export const addMap = async(mapInfo) => {
   */
     
   window.setAsyncLoader(true)
-  getCommunityMapAmount().then(async(currentMapAmount) => {
-    try {
-      const id = auth.currentUser.uid;
-      let result = currentMapAmount.toString().padStart(8, '0');
-      const docRef = await setDoc(doc(db, `community-maps/`, `c${result}`), mapInfo); 
-      window.addResultMessage(false,`map uploaded!`);
-      window.setAsyncLoader(false);
-      incrementCommunitymapAmount(currentMapAmount);
-    } catch (e) {
-      console.error("unable to upload map ", e);
-      window.addResultMessage(true,`unable to upload map`)
-      window.setAsyncLoader(false)
-    }
+  getCurrentAuthProfile().then(async(profile) => {
+    mapInfo.authorProfileObject = profile;
+
+    getCommunityMapAmount().then(async(currentMapAmount) => {
+      try {
+        const id = auth.currentUser.uid;
+        let result = `c${currentMapAmount.toString().padStart(8, '0')}`;
+        const docRef = await setDoc(doc(db, `community-maps/`, result), mapInfo); 
+        window.addResultMessage(false,`map uploaded!`);
+        window.setAsyncLoader(false);
+        incrementCommunitymapAmount(currentMapAmount)
+        if(isNavigatingToView){
+          window.changeGUIScreen(`community-maps/${result}`);
+        }
+      } catch (e) {
+        console.error("unable to upload map ", e);
+        window.addResultMessage(true,`unable to upload map`)
+        window.setAsyncLoader(false)
+      }
+
+
+      return "hello"
+    })
   })
+
 
 }
 export const getAllMaps = async() => {

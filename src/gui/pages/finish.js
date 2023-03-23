@@ -6,7 +6,7 @@ import {  getTimeString, getGameMapIndex, getReplayArray,  getInSpectateMode, ge
 
 import FinishHeader from '../components/finish-header.js';
 import FinishNavigation from '../components/finish-navigation.js';
-import { addReplay, getCurrentAuthProfile, getDatabaseTime } from '../helpers/databaseFacade.js';
+import { addReplay, getCurrentAuthProfile, getCurrentAuthReplay, getDatabaseTime } from '../helpers/databaseFacade.js';
 
 firebase.initializeApp({
   apiKey: "AIzaSyDTGF6K4sLCAszEdJlBZsbFahZiFr-zkA8",
@@ -58,7 +58,7 @@ const checkBest = (setter, index, oldPB) => {
         playerAvatar: profile.avatarId,
         createdAt: getDatabaseTime()
       }
-
+      
       sendTime(index, replayObject)
       setter(replayObject)
 
@@ -80,8 +80,9 @@ const Finish = () => {
   const [replayObject, setReplayObject] = useState({big:"chungus"})
 
   const mapIndex = getGameMapIndex();
-  const oldPB = localStorage.getItem(`pb${mapIndex}`);
-  useMemo(() => {
+  let oldPB;
+  useMemo(async() => {
+      oldPB = await getCurrentAuthReplay(mapIndex)
       newBest = checkBest(setReplayObject, mapIndex, oldPB);
       playerTime = getTimeString();
       spectateTime = getSpectateTime();
