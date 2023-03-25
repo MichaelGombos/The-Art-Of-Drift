@@ -422,6 +422,22 @@ export const addMap = async(mapInfo,isNavigatingToView) => {
 
 
 }
+
+export const updateMap = async(mapID,mapInfo) => {
+  window.setAsyncLoader(true)
+  try {
+    const docRef = await updateDoc(doc(db, "community-maps", mapID), {
+      mapObject:mapInfo
+    });
+    window.addResultMessage(false,`update map ID ${mapID}`)
+    window.setAsyncLoader(false)
+  } catch (e) {
+    console.error("error updating map ID: ", e);
+    window.addResultMessage(true,"unable to update map ")
+    window.setAsyncLoader(false)
+  }
+}
+
 export const getAllMaps = async() => {
   window.setAsyncLoader(true)
   const communityMapsRef = collection(db, `community-maps/`);
@@ -485,7 +501,11 @@ export const getMap = async(mapID) => { //this map ID can be a search param..
   }
 }
 export const deleteMap = async(mapID) => {
+
+  window.setAsyncLoader(true)
   await deleteDoc(doc(db, `community-maps`, mapID));
+  window.addResultMessage(false,`deleted map ${mapID} like a boss B')`)
+  window.setAsyncLoader(false)
 }
 
 // window.deleteMapTemp = deleteMap

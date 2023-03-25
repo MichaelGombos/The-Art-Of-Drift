@@ -492,6 +492,10 @@ button{
   animation: bgFadeIn 200ms linear 1;
 }
 
+.dark-background--saturated{
+  background-color:#36000a;
+}
+
 @keyframes bgFadeIn {
   0%{
     background-color: transparent;

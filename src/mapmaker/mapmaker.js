@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {motion, useUnmountEffect} from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import Button from '../gui/components/button.js';
 import TextInput from '../gui/components/input-text.js';
@@ -23,6 +23,8 @@ import {
   deleteProfile,
   deleteProfileUID,
   guestUpgrade,
+  getMap,
+  updateMap,
  } from '../gui/helpers/databaseFacade.js';
 import InputToggle from '../gui/components/input-toggle.js';
 import InputSlider from '../gui/components/input-slider.js';
@@ -143,7 +145,6 @@ const generateDefaultMapData = (rows,columns) => {
     }
     primativeMapData.push(mapRow);
   }
-  console.log("what do they get",rows,columns)
   return primativeMapData;
 }
 
@@ -321,7 +322,8 @@ const copyToClipboard = str => {
 
 // components
 
-const MapMakerHeading = ({lapCount, spawnAngle,setPreviewMap}) => {
+const MapMakerHeading = ({lapCount, spawnAngle,setPreviewMap, mode}) => {
+  const {mapID} = useParams();
   const navigate = useNavigate();
   const handleCopyCompressed = (e) => {
     console.log("hello?")
@@ -334,14 +336,29 @@ const MapMakerHeading = ({lapCount, spawnAngle,setPreviewMap}) => {
     let arrayString = `{ "spawnAngle" : ${spawnAngle} , "lapCount" : ${lapCount} , "data" : [${ compressMapData(mapData).map(mapRow => "\n[" + mapRow.map(cell => `"${cell}"`) + "]")}\n] } `;
     setPreviewMap(arrayString)
   }
+
+  const handleSave = () => {
+    //update current map (in db) with this juicy map data, then navigate user to the view screen for it.
+    let arrayString = `{ "spawnAngle" : ${spawnAngle} , "lapCount" : ${lapCount} , "data" : [${ compressMapData(mapData).map(mapRow => "\n[" + mapRow.map(cell => `"${cell}"`) + "]")}\n] } `;
+    updateMap(mapID,arrayString).then(() => {
+      navigate(`/community-maps/${mapID}`)
+    })
+  }
+
   return (
     <>
 
         <h1 className="f-h1">Map<span className="text-secondary-500"> Maker</span> :)</h1>
         
         <div className="col-6 gap-md">
-          <Button style="primary">save</Button>
-          <Button clickHandler={handleSaveAs}>save as</Button>
+          {mode == "edit" ? 
+          <Button 
+          style="primary"
+          clickHandler={handleSave}
+          >save</Button>
+          : ""}
+           
+          <Button style={ mode == "edit" ? "light" : "primary"}clickHandler={handleSaveAs}>save as</Button>
           <Button clickHandler={handleCopyCompressed}>copy data to clipboard</Button>
           <Button clickHandler={(() => {navigate("/community-maps")})}>Exit</Button>
         </div>
@@ -562,7 +579,8 @@ const MapMakerMenu = ({
   mapMakerCanvasOverlayRef,
   mapMakerCanvasRef,
   setShowOverlay,
-  setPreviewMap
+  setPreviewMap,
+  mode
 }) => {
 
 
@@ -579,6 +597,7 @@ const MapMakerMenu = ({
     <div className='scroll-container scroll-container--tall map-maker__menu col-6 row gap-xxl'>
 
         <MapMakerHeading 
+        mode = {mode}
         lapCount={lapCount} 
         spawnAngle={spawnAngle}
         setPreviewMap = {setPreviewMap}
@@ -626,8 +645,11 @@ const MapMakerCanvas = (props) => {
   currentFill,
   mapMakerCanvasRef,
   mapMakerCanvasOverlayRef,
-  showOverlay
+  showOverlay,
+  mode
 } = props;
+
+const {mapID} = useParams();
   
 
   const handleCanvasMouseMovement = (e) => {
@@ -646,11 +668,28 @@ const MapMakerCanvas = (props) => {
     fillTiles(posx,posy,currentFill)
   }
   useEffect(() => {
-    if(mapMakerCanvasRef.current != null){
 
+
+    if(mapMakerCanvasRef.current != null){
       context = mapMakerCanvasRef.current.getContext("2d")
-      console.log(mapRows,mapColumns,props)
-      generateCanvasMapColor(mapMakerCanvasRef.current, generateDefaultMapData(mapRows,mapColumns))
+      switch(mode){
+        case("create"):
+          console.log("create");
+            generateCanvasMapColor(mapMakerCanvasRef.current, generateDefaultMapData(mapRows,mapColumns))
+          break;
+        case("edit"):
+          console.log("edit", mapID);
+          getMap(mapID).then(information => {
+            generateCanvasMapColor(mapMakerCanvasRef.current, decompressMapData(JSON.parse(information.mapObject).data))
+          })
+          break;
+        case("clone"):
+          console.log("clone", mapID);
+          getMap(mapID).then(information => {
+            generateCanvasMapColor(mapMakerCanvasRef.current, decompressMapData(JSON.parse(information.mapObject).data))
+          })
+          break;
+      }
     }
 
   },[mapMakerCanvasRef])
@@ -677,8 +716,7 @@ const MapMakerCanvas = (props) => {
 }
 
 
-const MapMaker = ({setPreviewMap}) => {
-  
+const MapMaker = ({setPreviewMap,mode}) => {
   const mapMakerCanvasOverlayRef = useRef(null);
   const mapMakerCanvasRef = useRef(null);
   const [brushType,setBrushType] = useState(tileTypes[0]);
@@ -704,9 +742,11 @@ const MapMaker = ({setPreviewMap}) => {
           mapMakerCanvasRef = {mapMakerCanvasRef}
           setShowOverlay = {setShowOverlay}
           setPreviewMap={setPreviewMap}
+          mode = {mode}
           />
 
             <MapMakerCanvas
+          mode = {mode}
           mapMakerCanvasRef = {mapMakerCanvasRef}
           showOverlay = {showOverlay}
           mapMakerCanvasOverlayRef = {mapMakerCanvasOverlayRef}

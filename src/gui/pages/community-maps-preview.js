@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { decompressMapData } from "../../game/map-compression";
 import Button from "../components/button";
 import TextInput from "../components/input-text";
-import { addMap, getDatabaseTime, getMap } from "../helpers/databaseFacade";
+import { addMap, deleteMap, getDatabaseTime, getMap } from "../helpers/databaseFacade";
 import { auth } from "../helpers/firebase";
 
 import { avatarGraphicURLs } from "../helpers/profileGraphicUrls";
@@ -69,6 +69,13 @@ const CommunityMapsPreview = () => {
     nameGhost("chungus");
     navigate("/countdown");
   }
+
+  const handleDeleteMap = () => {
+    deleteMap(mapId).then(()=> {
+      navigate("/community-maps/")
+    })
+  }
+
   useEffect(() => {
 
     // generateCanvasMapColor(mapMakerPreviewRef.current,decompressMapData(JSON.parse(previewMap).data))
@@ -94,14 +101,15 @@ const CommunityMapsPreview = () => {
     })
   },[])
   
+
+
   return (
 
-    <div className="dark-background ">
+    <div className={`dark-background  ${mapInformation.isDraft ? "dark-background--saturated" : "" }`}>
       <div className='menu-container col-6 gap-lg'>
 
-          <h1 className="f-h2">Community <span className="text-secondary-500">Map</span></h1>
-          <p className="p-h2">{mapInformation.isDraft ? "Draft" : "Public "} 
-             <span className="text-secondary-500">map</span> : " {mapInformation.mapName} "</p>
+          <h1 className="f-h2"><span className="text-secondary-500">{mapInformation.isDraft ? "Draft" : "Public "} </span> Community Map</h1>
+          <p className="f-p2">" {mapInformation.mapName} "</p>
           <div className="row w-100 gap-md upload-map__menu">
           <div className='col-3 gap-xl align-center'>
             <div className="signup-footer col-6 gap-md">
@@ -132,7 +140,10 @@ const CommunityMapsPreview = () => {
                 </div>
                 <Button style={"primary"} clickHandler={handlePlayCommunityMap}>Play</Button>
                 <Button  clickHandler={() => navigate(`/community-maps/leaderboard/${mapId}`)}>view leaderboard</Button>
-                <Button  clickHandler={() => navigate("/community-maps/")}>Exit</Button>
+                <Button  clickHandler={() => navigate(`/community-maps/clone/${mapId}`)}>Clone map</Button>
+                <Button  clickHandler={() => navigate(`/community-maps/edit/${mapId}`)}>Edit map</Button>
+                <Button style="danger" clickHandler={handleDeleteMap}>Delete map</Button>
+                <Button clickHandler={(() => {navigate("/community-maps")})}>Exit</Button>
             </div>
           </div>
 

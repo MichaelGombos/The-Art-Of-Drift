@@ -43,7 +43,7 @@ import MapMaker from "../mapmaker/mapmaker.js"
 // http://www.theartofdrift.com/invited?racer=NAME_HASH_0_309&map=0
 // http://localhost:8081/invited?racer=NAME_HASH_0_309&map=0
 
-const home = "/community-maps/all"; //for tests
+const home = "/community-maps/clone/c00000000"; //for tests
 
 let currentNavigationInterval = 0;
 let lastNavigationTime = performance.now();
@@ -178,7 +178,15 @@ const Menu = () => {
       <Route  path="/campaign" element={<Campaign/>} />
       <Route  path="/campaign/:mapIndex" element={<CampaignLevel/>} />
       <Route  path="/community-maps" element={<CommunityMaps/>} />    
-      <Route  path="/community-maps/map-maker" element={<MapMaker setPreviewMap={setPreviewMap}/>} />
+      <Route  path="/community-maps/create" element={<MapMaker 
+      mode='create'
+      setPreviewMap={setPreviewMap}/>} />
+      <Route  path="/community-maps/edit/:mapID" element={<MapMaker
+       mode='edit'
+        setPreviewMap={setPreviewMap}/>} />
+      <Route  path="/community-maps/clone/:mapID" element={<MapMaker 
+      mode='clone'
+      setPreviewMap={setPreviewMap}/>} />
       <Route  path="/community-maps/upload" element={<CommunityMapsUpload previewMap={previewMap} setPreviewMap={setPreviewMap}/>} />
       <Route  path="/community-maps/all" element={<CommunityMapsAll showAll={true} />} />
       <Route  path="/community-maps/my-maps" element={<CommunityMapsAll showAll={false} />} />

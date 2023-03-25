@@ -12,7 +12,14 @@ const CommunityMapsAll = ({showAll}) => {
 useEffect(() => {
   if(showAll){
     getAllMaps().then(result => {
-      setMapList(result)
+
+      const filteredResult = (result.filter(cMap => {
+
+        return cMap.isDraft == false;
+      })
+      )
+      setMapList(filteredResult)
+
     })
   }
   else{
@@ -40,6 +47,7 @@ useEffect(() => {
                     <div className="map-item__header">
                       {showAll ? <h2 className="f-p2"><span className="text-secondary-500">Author:</span> {mapInformation.authorProfileObject.displayName}</h2> : "" }
                       <p><span className="text-secondary-500">Name:</span> {mapInformation.mapName}</p>
+                      {!showAll ? <h2 className="f-p2"><span className="text-secondary-500">Visibility:</span> {mapInformation.isDraft ? "Draft" : "Public"}</h2> : "" }
                       <p className='text-grey-100'>{mapInformation.createdAt.toDate().toString()}</p>
                     </div>
                     <div className="map-item__navigation">
