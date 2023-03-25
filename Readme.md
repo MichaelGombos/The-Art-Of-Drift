@@ -36,25 +36,34 @@ This game is played with wasd and the arrow keys to control the car. Shift, spac
 - (done) add interaction for profile selector 
 - (done) add email login w/firebase
 - (done) add error banner for database functions
-- add loading icon for database functions
+- (done) add loading icon for database functions
 - add gmail login w/firebase
 - (done) update existing leaderboard functions to use new database facade
 - (done) refactor the [map maker](https://michaelgombos.github.io/browser-driving-map-creator/) as a react component, and allow it to be accessed from the create map button
 - add community leaderboard page
-- add community maps pages
-- fix replay bug[b1]
+- (done) add community maps pages
+- fix replays crashing randomly[b1]
+- update car sprite to use new graphics
 - add controller/keyboard support for navigation & framer animations
-- add tutorial level
-- add support for custom keybinds in settings
-- fix game time bug[b2]
+- add custom keybinds
+- update particle layer to use pixi js
 - add pixel art assets for particles
-- add sounds for UI and game
-- add a logo
-- release :D 
+- add sounds
+- commision logo
+- add dialogue system
+- add tutorial level
+- fix game time being tied to fps [b2]
+- publish this games design doc, game description, create full feature list
+- add credits
+- commision trailer
+- release :)
 
 ### bugs
 
-- [b1] While watching or racing against a replay, the replay inconsistantly fails. This may be tied to performance or maybe the game time bug [b2] but this is difficult to test, so I am going to overhaul the replay system; Instead of the ghost reading the inputs of the replayArray on each frame to then running the car physics using the inputs, I will just store the location/angle of car in the replayArray, so the ghost won't have to run the physics, and should always be accurate. I can still use the replay input to display the steering wheel and pedals in the HUD since its only slightly innacurate.
+- [b1] While watching or racing against a replay, the replay inconsistantly fails. This may be tied to performance or maybe the game time bug [b2] but this is difficult to test, so I am going to overhaul the replay system; Instead of:
+ the ghost reading the inputs of the replayArray on each frame then running the car physics using the inputs,
+I will:
+   store the location/angle of car in the replayArray, so the ghost won't have to run the physics, and should always be accurate. I can still use the replay input to display the steering wheel and pedals in the HUD since its only slightly innacurate.
 
 - [b2] The timer is using the real time that has passed to check how long you have been racing (minus the time paused). BUT each "tick" of the game is pulled using requestAnimationFrame, this means that if you are running this game at 30fps instead of 60fps, you will experience the game running half as fast, but the timer will tick in real time. If you have a 144hz monitor, the game will run extremely fast. The solution here is to rewrite my game loop function to consider delta time.
 

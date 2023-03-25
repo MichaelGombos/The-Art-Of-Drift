@@ -35,7 +35,7 @@ import brush3URL from "../assets/brush-sizes/size_3.png";
 import brush5URL from "../assets/brush-sizes/size_4.png";
 import brush11URL from "../assets/brush-sizes/size_5.png";
 import brushFillURL from "../assets/brush-sizes/fill.png";
-import logSizeInBytes from '../../../BrowserDrivingMapCreator/size-in-bytes.js';
+import logSizeInBytes from './size-in-bytes.js';
 import { compressMapData, decompressMapData } from '../game/map-compression.js';
 import arrowURL from '../assets/map-maker/arrow.svg'
 //variables
