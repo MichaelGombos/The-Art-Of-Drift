@@ -10,8 +10,8 @@ const CommunityMaps = () => {
           <h1 className="f-h2">Community <span className="text-secondary-500">Maps</span></h1>
           <div className="signup-footer col-6 gap-md">
             <Button style="primary"  clickHandler={() => navigate("/community-maps/map-maker")}>map maker</Button>
-            <Button clickHandler={() => navigate("/community-maps/list")}>Community Map list</Button>
-            <Button  clickHandler={() => navigate("/community-maps/view")}>view your maps</Button>
+            <Button clickHandler={() => navigate("/community-maps/all")}>Community Map list</Button>
+            <Button  clickHandler={() => navigate("/community-maps/my-maps")}>view your maps</Button>
             <Button  clickHandler={() => navigate("/community-maps/upload")}>upload map</Button>
             <Button  clickHandler={() => navigate("/main")}>back</Button>
           </div>

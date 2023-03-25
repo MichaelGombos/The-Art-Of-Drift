@@ -401,6 +401,7 @@ export const addMap = async(mapInfo,isNavigatingToView) => {
       try {
         const id = auth.currentUser.uid;
         let result = `c${currentMapAmount.toString().padStart(8, '0')}`;
+        mapInfo.mapID = result;
         const docRef = await setDoc(doc(db, `community-maps/`, result), mapInfo); 
         window.addResultMessage(false,`map uploaded!`);
         window.setAsyncLoader(false);

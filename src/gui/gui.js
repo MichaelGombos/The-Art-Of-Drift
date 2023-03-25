@@ -43,7 +43,7 @@ import MapMaker from "../mapmaker/mapmaker.js"
 // http://www.theartofdrift.com/invited?racer=NAME_HASH_0_309&map=0
 // http://localhost:8081/invited?racer=NAME_HASH_0_309&map=0
 
-const home = "/community-maps/c00000053"; //for tests
+const home = "/community-maps/all"; //for tests
 
 let currentNavigationInterval = 0;
 let lastNavigationTime = performance.now();
@@ -77,6 +77,7 @@ import "./tests/databaseTests.js"
 import AsyncLoader from "./components/async-loader.js"
 import { maps } from "../game/map-data.js"
 import CommunityMapsLeaderboard from "./pages/community-maps-leaderboard.js"
+import CommunityMapsAll from "./pages/community-maps-all.js"
 
 const Menu = () => {
   let isDeviceValid = true;
@@ -179,6 +180,8 @@ const Menu = () => {
       <Route  path="/community-maps" element={<CommunityMaps/>} />    
       <Route  path="/community-maps/map-maker" element={<MapMaker setPreviewMap={setPreviewMap}/>} />
       <Route  path="/community-maps/upload" element={<CommunityMapsUpload previewMap={previewMap} setPreviewMap={setPreviewMap}/>} />
+      <Route  path="/community-maps/all" element={<CommunityMapsAll showAll={true} />} />
+      <Route  path="/community-maps/my-maps" element={<CommunityMapsAll showAll={false} />} />
       <Route  path="/community-maps/:mapId" element={<CommunityMapsPreview/>} />
       <Route  path="/community-maps/leaderboard/:mapId" element={<CommunityMapsLeaderboard/>} />
       <Route  path="/map-import" element={<MapImport/>} />

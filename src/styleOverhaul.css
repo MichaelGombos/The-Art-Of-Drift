@@ -46,6 +46,10 @@ Pages
   --danger-500: #ff2525;
   --success-500: #27B510;
 
+  --grey-50: #CBCBCB;
+  --grey-100: #A7A7A7;
+  --grey-500: #524F4E;
+  --grey-900: #282626;
   color:white;
   background-color: var(--shade-100);
 }
@@ -68,6 +72,16 @@ a{
 }
 .text-shade-0{
   color:var(--shade-0);
+}
+
+.text-grey-50{
+  color:var(--grey-50)
+}
+.text-grey-100{
+  color:var(--grey-100)
+}
+.text-grey-500{
+  color:var(--grey-500)
 }
 
 .text-danger-500{
@@ -848,4 +862,15 @@ input:checked + .switch__inner:before {
 .map-info-node__image{
   height:32px;
   width:32px;
+}
+
+.community-map-grid{
+  position: relative;
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-content: center;
+}
+
+.community-map-grid--2{
+  grid-template-columns: 1fr 1fr;
 }
