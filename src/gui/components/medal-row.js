@@ -38,7 +38,6 @@ const MedalRow = ({best, medal,currentDiff, setDiff,isGhostEnabled, setNewGhostE
     easy : best <= replays[index].easy.time
   }
 
-  console.log(unlockedMedals, best, replays[index].easy.time);
 
 
   

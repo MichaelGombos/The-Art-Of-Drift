@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import Button from "../components/button.js"
 import { HTMLMapNames, mapDescriptions } from '../../game/map-data.js';
@@ -14,11 +14,13 @@ const CampaignLevel = () => {
   const navigate = useNavigate();
   let {mapIndex} = useParams();
   let [difficulty, setDifficulty] = useState("easy");
-  const [bestTime, setBestTime] = useState("loading...")
-  getCurrentAuthReplayTime(mapIndex).then(time => {
-    setBestTime(time);
-  })
-  console.log(mapIndex)
+  const [bestTime, setBestTime] = useState()
+  useEffect(() => {
+    getCurrentAuthReplayTime(mapIndex).then(time => {
+      setBestTime(time);
+    })
+  },[])
+
   //need a calculate medals function.
   return (
     <div className='menu-container'>

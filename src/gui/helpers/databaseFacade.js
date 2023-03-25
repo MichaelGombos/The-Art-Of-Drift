@@ -315,7 +315,6 @@ export const getCurrentAuthReplay = async( mapID) => {
   } else {
     // doc.data() will be undefined in this case
     console.log("cant get guest amount!");
-    window.addResultMessage(true,`cant get current auth replay on ${mapID}`)
     window.setAsyncLoader(false)
   }
 }
@@ -333,7 +332,6 @@ export const getCurrentAuthReplayTime = async( mapID) => {
   } else {
     // doc.data() will be undefined in this case
     console.log("cant get guest amount!");
-    window.addResultMessage(true,`cant get current auth replay time on ${mapID}`)
     window.setAsyncLoader(false)
   }
 }

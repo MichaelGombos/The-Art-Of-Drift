@@ -1,5 +1,5 @@
 import React, {useState , useEffect} from "react";
-import { useNavigate } from "react-router-dom";
+import { useFetcher, useNavigate } from "react-router-dom";
 
 import Button from "./button.js";
 import { maps } from '../../game/map-data.js';
@@ -29,10 +29,12 @@ const FinishNavigation = ({newBest,mapIndex}) => {
     return Promise.reject('The Clipboard API is not available.');
   };
 
-  
-  getCurrentAuthReplay(mapIndex).then( obj => {
-    setBestReplayObject(obj)
-  })
+  useEffect(() => {
+    getCurrentAuthReplay(mapIndex).then( obj => {
+      setBestReplayObject(obj)
+    })
+  } , [])
+
 
   const setAndResetInviteCopied = () => {
     setInviteCopied(true)

@@ -9,7 +9,6 @@ const MapCanvasPreview = ({width, mapIndex , isTiny = false, communityMapData}) 
   const mapPreviewRef = useRef('null')
   
   useEffect(() => {
-    console.log("DATA",communityMapData)
     let decompressedMap;
     if(communityMapData){
       decompressedMap = decompressMapData(communityMapData)
@@ -25,7 +24,6 @@ const MapCanvasPreview = ({width, mapIndex , isTiny = false, communityMapData}) 
     mapPreviewCanvas.width = decompressedMap[0].length;
     mapPreviewCanvas.height = decompressedMap.length;
     drawCanvasMap(mapPreviewContext, decompressedMap)
-    console.log("but do I finish drawing???",decompressedMap)
     
   })
 

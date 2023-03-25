@@ -14,8 +14,6 @@ const Act = ({actIndex, mapIndexArray,medalsRequired, medalsUnlocked}) => {
   <p>{isLocked ? `( locked ) ${medalsRequired - medalsUnlocked } more medals required ` : `Act ${actIndex} `}</p>
       <div className='act__navigation col-6 gap-sm'>
         {
-          console.log(mapIndexArray.map(index => index+1))}
-        {
           mapIndexArray.map(mapIndex => {
             return (
             <Button key={mapIndex} style={isLocked ? "disabled" : "light"} clickHandler={
