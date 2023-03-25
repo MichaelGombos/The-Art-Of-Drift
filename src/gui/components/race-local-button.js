@@ -21,12 +21,14 @@ const setMap = async(index,difficulty) => { //sets map returns ghost name
   if(difficulty == "personalBest"){
     await getCurrentAuthReplay(index).then(replayObject => {
       setGameMapIndex(index);
-      setMapData(maps[index],JSON.parse(replayObject.playerInputs))
+      console.log(replayObject.replay);
+      setMapData(maps[index],replayObject.replay)
       return ("personal best");
     })
   }
   else{ 
     setGameMapIndex(index);
+    console.log(replays[index][difficulty]["replay"])
     setMapData(maps[index],replays[index][difficulty]["replay"])
     return (ghostNames[difficulty] + " medal");
   }

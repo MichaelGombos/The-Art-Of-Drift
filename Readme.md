@@ -42,7 +42,12 @@ This game is played with wasd and the arrow keys to control the car. Shift, spac
 - (done) refactor the [map maker](https://michaelgombos.github.io/browser-driving-map-creator/) as a react component, and allow it to be accessed from the create map button
 - add community leaderboard page
 - (done) add community maps pages
-- fix replays crashing randomly[b1]
+- (done) fix replays crashing randomly[b1]
+- fix infinite async loads on finish navigation
+- add publish/set to draft flow for maps
+- fix huge particle bug on replay
+- remake replays for all maps
+- compress replay stats (4 min replay is 1.3mb)
 - update car sprite to use new graphics
 - add controller/keyboard support for navigation & framer animations
 - add custom keybinds
@@ -60,12 +65,13 @@ This game is played with wasd and the arrow keys to control the car. Shift, spac
 
 ### bugs
 
-- [b1] While watching or racing against a replay, the replay inconsistantly fails. This may be tied to performance or maybe the game time bug [b2] but this is difficult to test, so I am going to overhaul the replay system; Instead of:
+- [b1] (fixed) While watching or racing against a replay, the replay inconsistantly fails. This may be tied to performance or maybe the game time bug [b2] but this is difficult to test, so I am going to overhaul the replay system; Instead of:
  the ghost reading the inputs of the replayArray on each frame then running the car physics using the inputs,
 I will:
    store the location/angle of car in the replayArray, so the ghost won't have to run the physics, and should always be accurate. I can still use the replay input to display the steering wheel and pedals in the HUD since its only slightly innacurate.
 
 - [b2] The timer is using the real time that has passed to check how long you have been racing (minus the time paused). BUT each "tick" of the game is pulled using requestAnimationFrame, this means that if you are running this game at 30fps instead of 60fps, you will experience the game running half as fast, but the timer will tick in real time. If you have a 144hz monitor, the game will run extremely fast. The solution here is to rewrite my game loop function to consider delta time.
+
 
 ## License
 

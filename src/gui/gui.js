@@ -43,7 +43,7 @@ import MapMaker from "../mapmaker/mapmaker.js"
 // http://www.theartofdrift.com/invited?racer=NAME_HASH_0_309&map=0
 // http://localhost:8081/invited?racer=NAME_HASH_0_309&map=0
 
-const home = "/community-maps/clone/c00000000"; //for tests
+const home = "/campaign"; //for tests
 
 let currentNavigationInterval = 0;
 let lastNavigationTime = performance.now();

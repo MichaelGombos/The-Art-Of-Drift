@@ -33,7 +33,10 @@ let car = createCar(false);
 let ghostCar = createCar(true);
 let ghostStep = 0; //kind of like dubstep, but for ghosts. 
 let maxLaps = undefined;
-let replayExport = []
+let replayExport = {
+  inputs : [],
+  stats : ["peanut butter jelly time!"]
+}
 
 let mapIndex;
 
@@ -46,6 +49,8 @@ const tilePixelCount = parseInt(
 const carSize = tilePixelCount;
 let held_directions = []; 
 let ghost_held_directions = []; 
+let ghost_inputs = []
+let ghost_stats = []
 
 let pauseBuffers = [];
 let pauseBuffer = 0;
@@ -115,9 +120,11 @@ const getTargetFps = () => {return targetFps}
 
 const getReqAnim = () => {return reqAnim}
 
-const getReplayArray = () => {return replayExport}
+const getReplayArray = () => {return replayExport.inputs}
 
-const getReplayString = () => {return "[" + replayExport.map(frame => "\n[" + frame.map(command => "\"" + command + "\"" ) + "]") + "\n]"}
+const getReplayString = () => {return "[" + replayExport.inputs.map(frame => "\n[" + frame.map(command => "\"" + command + "\"" ) + "]") + "\n]"}
+
+const getReplayObject = () => {return replayExport}
 
 const getGameMapIndex = () => {return mapIndex}
 
@@ -137,7 +144,7 @@ const getSpectateTime = () => {return spectateTime}
 
 const getStats = () => {
   const target = inSpectateMode ? ghostCar : car;
-  const targetInputs = inSpectateMode ? (ghost_held_directions ? ghost_held_directions : [[]])  : held_directions;
+  const targetInputs = inSpectateMode ? (ghost_inputs ? ghost_inputs : [[]])  : held_directions;
   return {
     fps : currentFps,
     time: timeString,
@@ -200,15 +207,22 @@ const resetCarValues = () => {
   updateCarSpawnPosition();
   ghostStep = 0;
   milliseconds = 0;
-  replayExport = [];
+  replayExport = {
+    inputs: [],
+    stats: []
+  };
 }
-const setMapData = (map,replay) => {
+const setMapData = (map,replayJSON) => {
+
   nameGhost('');
-  
+  console.log(replayJSON)
   maxLaps = map.lapCount;
   mapData = {
     map:decompressMapData(map.data),
-    replay:replay
+    replay: {
+      inputs: JSON.parse(replayJSON.inputs),
+      stats: JSON.parse(replayJSON.stats)
+    }
   };
   generateMap(mapData.map)
   generateMiniMap(mapData.map)
@@ -282,88 +296,98 @@ function msToTime(s) {
 }
 
 const placeGhost = (stepCount) => {
-    ghost_held_directions = mapData.replay[stepCount]
+    //ghost_held_directions = mapData.replay.inputs[stepCount]
+    
+    ghost_inputs = mapData.replay.inputs[stepCount];
+    ghost_stats = mapData.replay.stats[stepCount];
+
     if(inSpectateMode){
       car.setX(ghostCar.getX());
       car.setY(ghostCar.getY());
       updateCameraScale(ghostCar.getSpeed())
       updateCameraAngle(ghostCar.getAngle())
     }
-    
-
-    if (ghost_held_directions && ghost_held_directions.length > 0) {
-      if (ghostCar.getSpeed() != 0) {
-          let pressure = 1;
-          //turn
-          for(let direction of ghost_held_directions){
-            if(direction.includes("@")){
-              pressure = direction.slice(direction.indexOf("@")+1)
-            }
-
-            if (direction.includes(directions.right)) {
-              ghostCar.turn("right",pressure);
-              ghostCar.setTurning(true)
-            } else if (direction.includes(directions.left)) {
-              ghostCar.turn("left",pressure);
-              ghostCar.setTurning(true)
-            }
-            else{
-              ghostCar.setTurning(false)
-            }
-          }
-          ghostCharacterSprite.style.transform = `rotate(${ghostCar.getAngle().facing}deg)`;
-      }
-      for(let direction of ghost_held_directions){
-        let pressure = 1;
-        if(direction.includes("@")){
-          pressure = direction.slice(direction.indexOf("@")+1)
-        }
-        if (direction.includes(directions.down)) {
-          ghostCar.accelerate(false,pressure)
-        }
-        if (direction.includes(directions.up)) {
-          ghostCar.accelerate(true,pressure)
-        }
-      }
+    if(ghost_stats){
+      ghostCar.setStats(ghost_stats)
+    }
+    if(stepCount == mapData.replay.inputs.length && inSpectateMode){
+      window.changeGUIScreen("/finish");
     }
 
-    ghostCar.updateAngleLock()
-    ghostCar.stabalizeDriftForce();
-    ghostCar.stabalizeAngle()
-    ghostCar.updateHandling();
+    // if (ghost_held_directions && ghost_held_directions.length > 0) {
+    //   if (ghostCar.getSpeed() != 0) {
+    //       let pressure = 1;
+    //       //turn
+    //       for(let direction of ghost_held_directions){
+    //         if(direction.includes("@")){
+    //           pressure = direction.slice(direction.indexOf("@")+1)
+    //         }
+
+    //         if (direction.includes(directions.right)) {
+    //           ghostCar.turn("right",pressure);
+    //           ghostCar.setTurning(true)
+    //         } else if (direction.includes(directions.left)) {
+    //           ghostCar.turn("left",pressure);
+    //           ghostCar.setTurning(true)
+    //         }
+    //         else{
+    //           ghostCar.setTurning(false)
+    //         }
+    //       }
+    //       ghostCharacterSprite.style.transform = `rotate(${ghostCar.getAngle().facing}deg)`;
+    //   }
+    //   for(let direction of ghost_held_directions){
+    //     let pressure = 1;
+    //     if(direction.includes("@")){
+    //       pressure = direction.slice(direction.indexOf("@")+1)
+    //     }
+    //     if (direction.includes(directions.down)) {
+    //       ghostCar.accelerate(false,pressure)
+    //     }
+    //     if (direction.includes(directions.up)) {
+    //       ghostCar.accelerate(true,pressure)
+    //     }
+    //   }
+    // }
+
+    // ghostCar.updateAngleLock()
+    // ghostCar.stabalizeDriftForce();
+    // ghostCar.stabalizeAngle()
+    // ghostCar.updateHandling();
     displayDriftParticles(ghostCar.getX(), ghostCar.getY(), ghostCar.getDriftForce(), ghostCar.getOnDirt(), ghostCar.getAngle());
 
-  if (ghostCar.getSpeed() != 0) {
-    ghostCar.collision(tilePixelCount, rows, columns, mapData.map)
-      //friction
-      ghostCar.applyFriction();
-  }
+  // if (ghostCar.getSpeed() != 0) {
+  //   ghostCar.collision(tilePixelCount, rows, columns, mapData.map)
+  //     //friction
+  //     ghostCar.applyFriction();
+  // }
 
   //Limits (gives the illusion of walls)
   //set the right and bottom limit to the image size in the dom
 
-  const leftLimit = 0;
-  const rightLimit = (columns * tilePixelCount) - carSize;
-  const topLimit = 0;
-  const bottomLimit = (rows * tilePixelCount) - carSize;
-  if (ghostCar.getX() < leftLimit) {
-    ghostCar.setX(leftLimit);
-    ghostCar.reduceSpeed()
-  }
-  if (ghostCar.getX() > rightLimit) {
-    ghostCar.setX(rightLimit);
-    ghostCar.reduceSpeed()
-  }
-  if (ghostCar.getY() < topLimit) {
-    ghostCar.setY(topLimit);
-    ghostCar.reduceSpeed()
-  }
-  if (ghostCar.getY() > bottomLimit) {
-    ghostCar.setY(bottomLimit);
-    ghostCar.reduceSpeed()
-  }
+  // const leftLimit = 0;
+  // const rightLimit = (columns * tilePixelCount) - carSize;
+  // const topLimit = 0;
+  // const bottomLimit = (rows * tilePixelCount) - carSize;
+  // if (ghostCar.getX() < leftLimit) {
+  //   ghostCar.setX(leftLimit);
+  //   ghostCar.reduceSpeed()
+  // }
+  // if (ghostCar.getX() > rightLimit) {
+  //   ghostCar.setX(rightLimit);
+  //   ghostCar.reduceSpeed()
+  // }
+  // if (ghostCar.getY() < topLimit) {
+  //   ghostCar.setY(topLimit);
+  //   ghostCar.reduceSpeed()
+  // }
+  // if (ghostCar.getY() > bottomLimit) {
+  //   ghostCar.setY(bottomLimit);
+  //   ghostCar.reduceSpeed()
+  // }
 
   ghostCharacter.style.transform = `translate3d( ${ghostCar.getX()*pixelSize}px, ${ghostCar.getY()*pixelSize}px, 0 )`;
+  ghostCharacterSprite.style.transform = `rotate(${ghostCar.getAngle().facing}deg)`;
 
 }
 
@@ -405,7 +429,6 @@ const placeCharacter = () => {
               car.setTurning(false)
             }
           }
-          characterSprite.style.transform = `rotate(${car.getAngle().facing}deg)`;
       }
       for(let direction of held_directions){
         let pressure = 1;
@@ -422,7 +445,8 @@ const placeCharacter = () => {
   }
 
 
-  replayExport.push([...held_directions])
+  replayExport.inputs.push([...held_directions])
+  replayExport.stats.push(car.getStats())
   // console.log(replayExport);
   car.updateAngleLock()
   car.stabalizeDriftForce();
@@ -478,7 +502,7 @@ const placeCharacter = () => {
   }
 
   character.style.transform = `translate3d( ${car.getX()*pixelSize}px, ${car.getY()*pixelSize}px, 0 )`;
-
+  characterSprite.style.transform = `rotate(${car.getAngle().facing}deg)`;
 
 }
 
@@ -596,6 +620,7 @@ export {
   setSpectateMode,
   getGameMapIndex,
   getReplayArray,
+  getReplayObject,
   getReplayString,
   setMapData,
   setSpectateTime,

@@ -5,7 +5,7 @@ import { nameGhost } from '../../game/graphics';
 import { startGame } from '../../game/main';
 import Button from './button';
 
-const RaceCommunityMapButton = ({mapInfo, replay = [[]]}) => {
+const RaceCommunityMapButton = ({mapInfo}) => {
   const navigate = useNavigate();
 
   const handlePlayCommunityMap = (mapInfo) => {
@@ -14,7 +14,10 @@ const RaceCommunityMapButton = ({mapInfo, replay = [[]]}) => {
 
     setEnableGhost(false);
     setGameMapIndex(mapInfo.mapID);
-    setMapData(JSON.parse(mapInfo.mapObject),[[]])
+    setMapData(JSON.parse(mapInfo.mapObject),{
+      inputs:"[]",
+      stats:"[]"
+    })
     setSpectateMode(false);
     startGame()
     nameGhost("chungus");

@@ -63,6 +63,11 @@ import map13Normal from "./replays/map13/silver/replay.js"
 import map13Hard   from "./replays/map13/gold/replay.js"
 import map13Author from "./replays/map13/author/replay.js"
 
+import mapTestEasy   from "./replays/test/bronze/replay.js"
+import mapTestNormal from "./replays/test/silver/replay.js"
+import mapTestHard   from "./replays/test/gold/replay.js"
+import mapTestAuthor from "./replays/test/author/replay.js"
+
 const freeplay = [[]]
 
 const replays = [ 
@@ -78,7 +83,7 @@ const replays = [
   ,
   hard: {
     replay: map1Hard,
-    time: "00:00:28.176"
+    time: "00:00:48.465"
   },
   author: { 
     replay: map1Author,
@@ -304,19 +309,19 @@ const replays = [
 
 { 
   easy: {
-    replay: [[]],
+    replay: mapTestEasy,
     time: "00:00:49.035"
   },
   normal: {
-    replay: [[]],
+    replay: mapTestEasy,
     time: "00:00:46.901"
   },
   hard: {
-    replay: [[]],
+    replay: mapTestEasy,
     time: "00:00:43.901"
   },
   author: {
-    replay: [[]],
+    replay: mapTestEasy,
     time: "00:00:42.839"
   }
  }

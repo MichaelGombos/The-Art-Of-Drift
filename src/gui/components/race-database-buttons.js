@@ -48,9 +48,8 @@ const RaceDatabaseButtons = ({replayObject,mapIndex, isTextShort, mapObject}) =>
   setGameMapIndex(mapIndex)
 
   const handleWatchReplay = (replay,name,color,spectateTime) => () => {
-    console.log(JSON.parse(replay))
     setEnableGhost(true);
-    setMapData(mapInfo,JSON.parse(replay));
+    setMapData(mapInfo,replay);
     setSpectateMode(true);
     startGame();
     nameGhost(name);
@@ -60,7 +59,7 @@ const RaceDatabaseButtons = ({replayObject,mapIndex, isTextShort, mapObject}) =>
 
   const handleRaceAgainst = (replay,name,color) => () => {
     setEnableGhost(true);
-    setMapData(mapInfo,JSON.parse(replay));
+    setMapData(mapInfo,replay);
     setSpectateMode(false);
     startGame();
     nameGhost(name);
@@ -73,12 +72,12 @@ const RaceDatabaseButtons = ({replayObject,mapIndex, isTextShort, mapObject}) =>
       <>
             <Button 
             style="primary" 
-            clickHandler={handleRaceAgainst(replayObject.playerInputs, replayObject.playerName, replayObject.playerColor)}>
+            clickHandler={handleRaceAgainst(replayObject.replay, replayObject.playerName, replayObject.playerColor)}>
               {isTextShort ? "race them" : "race against them"}
               </Button>
             <Button 
             style="light" 
-            clickHandler={handleWatchReplay(replayObject.playerInputs, replayObject.playerName, replayObject.playerColor,replayObject.time)}>
+            clickHandler={handleWatchReplay(replayObject.replay, replayObject.playerName, replayObject.playerColor,replayObject.time)}>
             {isTextShort ? "watch replay" : "watch the replay"}
               </Button> 
       </>

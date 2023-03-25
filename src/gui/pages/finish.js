@@ -2,7 +2,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 
 import React, { useMemo , useState} from 'react';
-import {  getTimeString, getGameMapIndex, getReplayArray,  getInSpectateMode, getSpectateTime } from '../../game/game.js';
+import {  getTimeString, getGameMapIndex, getReplayArray,  getInSpectateMode, getSpectateTime, getReplayObject } from '../../game/game.js';
 
 import FinishHeader from '../components/finish-header.js';
 import FinishNavigation from '../components/finish-navigation.js';
@@ -47,13 +47,15 @@ const checkBest = (setter, index, oldPB) => {
   const finishTime = getTimeString();
   if(!getInSpectateMode() && finishTime < oldPB || !oldPB){
     //post to localStorage and to Database
-
+    const gameReplayObject = getReplayObject();
     getCurrentAuthProfile().then((profile) => {
       const replayObject = {
         time: finishTime,
         playerName : profile.displayName,
-        playerInputs: JSON.stringify(getReplayArray()),
-        playerFrameInformation: "[[text (new) (tm) (c)..]]",
+        replay: {
+          inputs: JSON.stringify(gameReplayObject.inputs),
+          stats: JSON.stringify(gameReplayObject.stats)
+        },
         playerVehicle: profile.vehicleID,
         playerAvatar: profile.avatarId,
         createdAt: getDatabaseTime()
