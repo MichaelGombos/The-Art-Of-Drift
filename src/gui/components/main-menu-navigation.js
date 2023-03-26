@@ -17,12 +17,14 @@ const MainMenuNavigation = () => {
     <Button style="light" clickHandler={() => navigate("/leaderboards")}>leaderboards</Button>
     <Button style="light" clickHandler={()=> {
       setGameMapIndex(undefined)
-      setMapData(freeplay,[[]]);
+      setMapData(freeplay,{
+        inputs:"[]",
+        stats:"[]"
+      });
       resetGame();
       navigate("/hidden")
     }}
     >Free Play</Button>
-    <a className="col-6" href="https://michaelgombos.github.io/browser-driving-map-creator/" target="_blank"> <Button style="light"  >Map Maker</Button> </a>
     <a className="col-6"  href="https://github.com/MichaelGombos/browser-driving-demo" target="_blank"> <Button style="light"  >Source Code</Button> </a>
     <Button style="light" clickHandler={() => {
       navigate("/settings");

@@ -388,7 +388,6 @@ const placeGhost = (stepCount) => {
 
   ghostCharacter.style.transform = `translate3d( ${ghostCar.getX()*pixelSize}px, ${ghostCar.getY()*pixelSize}px, 0 )`;
   ghostCharacterSprite.style.transform = `rotate(${ghostCar.getAngle().facing}deg)`;
-
 }
 
 

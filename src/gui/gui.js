@@ -78,6 +78,7 @@ import AsyncLoader from "./components/async-loader.js"
 import { maps } from "../game/map-data.js"
 import CommunityMapsLeaderboard from "./pages/community-maps-leaderboard.js"
 import CommunityMapsAll from "./pages/community-maps-all.js"
+import CommunityMapsLeaderboards from "./pages/community-leaderboards.js"
 
 const Menu = () => {
   let isDeviceValid = true;
@@ -194,6 +195,8 @@ const Menu = () => {
       <Route  path="/community-maps/leaderboard/:mapId" element={<CommunityMapsLeaderboard/>} />
       <Route  path="/map-import" element={<MapImport/>} />
       <Route  path="/leaderboards" element={<Leaderboards/>} />
+
+      <Route  path="/leaderboards/community" element={<CommunityMapsLeaderboards/>} />
       <Route  path="/leaderboards/campaign" element={<CampaignLeaderboards/>} />
       <Route  path="/leaderboards/campaign/:mapIndex" element={<CampaignLeaderboard/>} />
       <Route  path="/settings" element={<Settings 

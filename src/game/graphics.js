@@ -62,9 +62,10 @@ let particleLimit = 1000;
 const createDriftParticle = (carX, carY, driftForce, carAngle) => {
 
   let particle = (xDif,yDif,sizeMultiplier,angleModifier,className) => {
+      const driftForceVisualCap = 64;
       let x = carX + xDif;
       let y = carY + yDif;
-      let size = driftForce * sizeMultiplier;
+      let size = driftForce * sizeMultiplier > driftForceVisualCap ? driftForceVisualCap : driftForce * sizeMultiplier;
       let element = document.createElement("div")
       let angle = carAngle.moving + angleModifier
       element.classList.add("particle");

@@ -469,15 +469,15 @@ const createCar = (isGhost) => {
             //dirt
             if (collidingWithValue(2,"y",mapData,tilePixelCount) || collidingWithValue(2,"x",mapData,tilePixelCount)) {
                 onDirt = true;
-                if (speed > 1) {
-                    speed = speed / 1.055;
-                    createDirtParticle(x, y);
+                if(!isGhost){
+                    if (speed > 1 ) {
+                        speed = speed / 1.055;
+                        createDirtParticle(x, y);
+                    }
+                    if(turning){
+                        driftForce += .05;
+                    }
                 }
-                if(turning){
-                    driftForce += .05;
-                }
-
-
             } else {
                 onDirt = false;
             }
