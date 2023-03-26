@@ -47,7 +47,7 @@ This game is played with wasd and the arrow keys to control the car. Shift, spac
 - add publish/set to draft flow for maps
 - (done) fix huge particle bug on replay
 - remake replays for all maps
-- compress replay stats (4 min replay is 1.3mb)
+- (done) compress replay stats (4 min replay is 1.3mb)
 - update car sprite to use new graphics
 - add controller/keyboard support for navigation & framer animations
 - add custom keybinds

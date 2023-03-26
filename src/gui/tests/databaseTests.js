@@ -45,9 +45,9 @@ const runTests = () => {
 
   // deleteReplay("fartlol2",0)
 
-  // getCurrentAuthReplay(0).then(information => {
-  //   console.log("replay info" , information);
-  // })
+  getCurrentAuthReplay(0).then(information => {
+    console.log("replay info" , information);
+  })
 
   // getAllReplays(7).then(allReplays => {
   //   console.log("all replays test" , allReplays);
@@ -72,37 +72,37 @@ const runTests = () => {
 //   }, 2000)
 
 // // community maps tests
-  addMap({
-    creatorUID: auth.currentUser.uid,
-    mapName : "testName",
-    mapDescrition: "test Description",
-    mapObject: {
-      testProperty: "test"
-    },
-    authorProfileObject: {
+  // addMap({
+  //   creatorUID: auth.currentUser.uid,
+  //   mapName : "testName",
+  //   mapDescrition: "test Description",
+  //   mapObject: {
+  //     testProperty: "test"
+  //   },
+  //   authorProfileObject: {
 
-      testProperty: "test"
-    },
-    isDraft: false,
-    createdAt: serverTimestamp(),
-    mapID: "easter egg?"
-  })
+  //     testProperty: "test"
+  //   },
+  //   isDraft: false,
+  //   createdAt: serverTimestamp(),
+  //   mapID: "easter egg?"
+  // })
 
-  getCommunityMapAmount().then(amount => {
-    console.log(amount)
-  })
+  // getCommunityMapAmount().then(amount => {
+  //   console.log(amount)
+  // })
 
-  getAllMaps().then(daMaps => console.log("map(s) ----->",daMaps))
+  // getAllMaps().then(daMaps => console.log("map(s) ----->",daMaps))
 
-  getCurrentAuthMaps().then(daFilteredMaps => console.log("filtered maps??!!!? ---->" , daFilteredMaps))
+  // getCurrentAuthMaps().then(daFilteredMaps => console.log("filtered maps??!!!? ---->" , daFilteredMaps))
 
-  getUIDMaps("KpTftu4hl6b3z0jeTEI3JADVvdB2").then(uidMapz => console.log("KpTftu4hl6b3z0jeTEI3JADVvdB2 maps ", uidMapz))
+  // getUIDMaps("KpTftu4hl6b3z0jeTEI3JADVvdB2").then(uidMapz => console.log("KpTftu4hl6b3z0jeTEI3JADVvdB2 maps ", uidMapz))
 
-  getMap("c00000001").then(datMapInfo => console.log("c00000001 information " ,datMapInfo))
+  // getMap("c00000001").then(datMapInfo => console.log("c00000001 information " ,datMapInfo))
 
   
 }
 
       
-// window.addEventListener("load", () => { setTimeout(
-//   runTests, 3000)}); 
+window.addEventListener("load", () => { setTimeout(
+  runTests, 3000)}); 
