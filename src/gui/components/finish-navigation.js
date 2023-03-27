@@ -5,23 +5,16 @@ import Button from "./button.js";
 import { maps } from '../../game/map-data.js';
 import { getInSpectateMode,getGameMapIndex,getReplayString,setEnableGhost,setMapData, getReplayObject } from "../../game/game";
 import { pauseGame, resetGame, startGame,turnOffGame } from "../../game/main";
-import { getCurrentAuthReplay, getCurrentAuthReplayTime } from "../helpers/databaseFacade.js";
+import { getCurrentAuthProfile, getCurrentAuthReplay, getCurrentAuthReplayTime } from "../helpers/databaseFacade.js";
 import { auth } from "../helpers/firebase.js";
+import { colorGhostCar, drawGhostVehicle, drawPlayerVehicle } from "../../game/graphics.js";
 
-const racePB = (index,replay) => {
-  setMapData(maps[index],replay)
- }
 
-const FinishNavigation = ({newBest,mapIndex}) => {
+const FinishNavigation = ({newBest,mapIndex,bestReplayObject}) => {
 
   const navigate = useNavigate();
   const [inviteCopied, setInviteCopied] = useState(false);
   const [replayCopied, setReplayCopied] = useState(false);
-  const [bestReplayObject , setBestReplayObject] = useState({
-    inputs:[],
-    stats:[],
-    playerName:"placeholder"
-  });
 
   const copyToClipboard = str => {
     if (navigator && navigator.clipboard && navigator.clipboard.writeText)
@@ -30,9 +23,7 @@ const FinishNavigation = ({newBest,mapIndex}) => {
   };
 
   useEffect(() => {
-    getCurrentAuthReplay(mapIndex).then( obj => {
-      setBestReplayObject(obj)
-    })
+
   } , [])
 
 
@@ -57,6 +48,21 @@ const FinishNavigation = ({newBest,mapIndex}) => {
     })
   }
 
+  const racePB = (index,replayObject) => {
+    getCurrentAuthProfile().then(profileData => {
+      setMapData(maps[index],replayObject.replay)
+      setEnableGhost(true);
+      console.log("race pb" , replayObject)
+      colorGhostCar("personalBest")
+      drawGhostVehicle(replayObject.playerVehicle)
+      drawPlayerVehicle(profileData.vehicleID)
+      resetGame();
+      navigate("/hidden");
+    })
+   }
+
+   
+
   return(
       <nav className="col-6 align-center gap-md">
             {getInSpectateMode() ? 
@@ -78,10 +84,7 @@ const FinishNavigation = ({newBest,mapIndex}) => {
             }}>Race Again</Button>  
             {newBest && 
             <Button clickHandler = {()=> {
-              racePB(mapIndex,bestReplayObject.replay);
-              setEnableGhost(true);
-              resetGame();
-              navigate("/hidden");
+              racePB(mapIndex,bestReplayObject);
               }}>Race New Best</Button>
             }
           {

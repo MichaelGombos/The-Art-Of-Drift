@@ -1,8 +1,9 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import { setEnableGhost, setGameMapIndex, setMapData, setSpectateMode } from '../../game/game';
-import { nameGhost } from '../../game/graphics';
+import { drawPlayerVehicle, nameGhost } from '../../game/graphics';
 import { startGame } from '../../game/main';
+import { getCurrentAuthProfile } from '../helpers/databaseFacade';
 import Button from './button';
 
 const RaceCommunityMapButton = ({mapInfo}) => {
@@ -10,18 +11,21 @@ const RaceCommunityMapButton = ({mapInfo}) => {
 
   const handlePlayCommunityMap = (mapInfo) => {
 
-    console.log( mapInfo, mapInfo.mapObject)
+    getCurrentAuthProfile().then(profileData => {
 
-    setEnableGhost(false);
-    setGameMapIndex(mapInfo.mapID);
-    setMapData(JSON.parse(mapInfo.mapObject),{
-      inputs:"[]",
-      stats:"[]"
+      setEnableGhost(false);
+      setGameMapIndex(mapInfo.mapID);
+      setMapData(JSON.parse(mapInfo.mapObject),{
+        inputs:"[]",
+        stats:"[]"
+      })
+      drawPlayerVehicle(profileData.vehicleID)
+      setSpectateMode(false);
+      startGame()
+      nameGhost("chungus");
+      navigate("/countdown");
     })
-    setSpectateMode(false);
-    startGame()
-    nameGhost("chungus");
-    navigate("/countdown");
+
   }
 
 

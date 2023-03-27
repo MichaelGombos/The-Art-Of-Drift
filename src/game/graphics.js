@@ -1,5 +1,15 @@
 import {map,camera, mapParticles, ghostCharacter, characterSprite, ghostCharacterSprite, ghostCharacterNameTag} from "./elements.js"
 import { getDirectionalCamera } from "./game.js";
+
+
+import vehicleTopDownGraphicCampaignURL from "../assets/game-vehicles/campaign-police-3.png"
+
+import vehicleTopDownGraphic1 from "../assets/game-vehicles/jeep-9.png"
+import vehicleTopDownGraphic2 from "../assets/game-vehicles/hatchback-9.png"
+import vehicleTopDownGraphic3 from "../assets/game-vehicles/sedan-1-9.png"
+import vehicleTopDownGraphic4 from "../assets/game-vehicles/taxi-1-9.png"
+import vehicleTopDownGraphic5 from "../assets/game-vehicles/van-1-9.png"
+
 const arrow = require("../assets/arrow.svg");
 const car = require("../assets/car.svg");
 
@@ -19,9 +29,11 @@ const playerColors = {
   green : "sepia(47%) saturate(7150%) hue-rotate(70deg) brightness(113%) contrast(100%)",
   blue : "sepia(47%) saturate(7150%) hue-rotate(157deg) brightness(86%) contrast(97%)",
   purple : "sepia(47%) saturate(7151%) hue-rotate(259deg) brightness(106%) contrast(99%)",
-  white : "",
+  white : "brightness(100%)",
   black : "saturate(3169%) hue-rotate(337deg) brightness(36%) contrast(100%)"
 }
+
+const vehicleTopDownGraphicURLs = [vehicleTopDownGraphic1,vehicleTopDownGraphic2,vehicleTopDownGraphic3,vehicleTopDownGraphic4,vehicleTopDownGraphic5]
 
 
 
@@ -43,17 +55,40 @@ const nameGhost = (name) => {
   ghostCharacterNameTag.innerHTML = name;
 }
 
+
+
+const drawPlayerVehicle = (vehicleID) => {
+  //set background image to car graphic
+  console.log("before drawing??")
+  characterSprite.style.backgroundImage = `url(${vehicleTopDownGraphicURLs[vehicleID]})`
+
+  console.log("drawing??" , vehicleID ,vehicleTopDownGraphicURLs[vehicleID] , characterSprite.style.backgroundImage ) 
+}
+
+const drawGhostVehicle = (vehicleID) => {
+  if(vehicleID == "campaign"){
+    ghostCharacterSprite.style.backgroundImage = `url(${vehicleTopDownGraphicCampaignURL})`
+  }
+  else{
+    ghostCharacterSprite.style.backgroundImage = `url(${vehicleTopDownGraphicURLs[vehicleID]})`
+  }
+}
+
 const colorPlayerCar = () => {
-  characterSprite.style.filter = playerColors[localStorage.getItem("playerColor")];
+  // characterSprite.style.filter = playerColors[localStorage.getItem("playerColor")];
 }
 
 const colorGhostCar = (color) => {
   if(ghostColors[color]){
+    console.log("inside1 ")
     ghostCharacterSprite.style.filter = ghostColors[color];
   }
   else if(playerColors[color]){
+    console.log("inside2 ")
     ghostCharacterSprite.style.filter = playerColors[color]
   }
+
+  console.log("AM I TRYING TO COLOR?", color, ghostCharacterSprite.style.filter)
 }
 
 let particles = [];
@@ -222,4 +257,6 @@ const getParticleLimit = () => {
     return particleLimit;
 }
 
-export {createDirtParticle, createDriftParticle,clearParticles, displayDriftParticles,setParticleLimit,getParticleLimit, particles, colorGhostCar,colorPlayerCar, nameGhost, drawCanvasMap, drawCanvasMapColor, updateCameraScale,updateCameraAngle, playerColors}
+export {createDirtParticle, createDriftParticle,clearParticles, displayDriftParticles,setParticleLimit,getParticleLimit, particles, colorGhostCar,colorPlayerCar, nameGhost, drawCanvasMap, drawCanvasMapColor, updateCameraScale,updateCameraAngle, playerColors,
+  drawPlayerVehicle,
+drawGhostVehicle}

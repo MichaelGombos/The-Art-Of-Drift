@@ -32,8 +32,8 @@
   opacity: 1;
 }
 .character,.ghost {
-  width: calc( var(--grid-cell) * 6);
-  height: calc( var(--grid-cell) * 6);
+  width: calc( var(--grid-cell) * 9);
+  height: calc( var(--grid-cell) * 9);
   position: absolute;
 }
 
@@ -51,8 +51,7 @@
  .character_spritesheet, .ghost_spritesheet{
   z-index: 0;
   position: relative;
-  bottom:25%;
-  left:25%;
+  bottom:10px;
   background:  no-repeat no-repeat;
   background-image: url("../assets/car.svg");
   background-position:center;

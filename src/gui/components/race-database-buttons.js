@@ -9,8 +9,9 @@ import { maps } from "../../game/map-data.js";
 import { startGame } from '../../game/main.js';
 import {setMapData, setEnableGhost, setSpectateTime, setSpectateMode,setGameMapIndex} from "../../game/game.js"
 
-import { nameGhost, colorGhostCar, colorPlayerCar} from '../../game/graphics.js';
+import { nameGhost, colorGhostCar, colorPlayerCar, drawGhostVehicle, drawPlayerVehicle} from '../../game/graphics.js';
 import Button from './button.js';
+import { getCurrentAuthProfile } from '../helpers/databaseFacade.js';
 
 firebase.initializeApp({
   apiKey: "AIzaSyDTGF6K4sLCAszEdJlBZsbFahZiFr-zkA8",
@@ -47,37 +48,49 @@ const RaceDatabaseButtons = ({replayObject,mapIndex, isTextShort, mapObject}) =>
 
   setGameMapIndex(mapIndex)
 
-  const handleWatchReplay = (replay,name,color,spectateTime) => () => {
-    setEnableGhost(true);
-    setMapData(mapInfo,replay);
-    setSpectateMode(true);
-    startGame();
-    nameGhost(name);
-    colorGhostCar(color)
-    navigate("/countdown");
+  const handleWatchReplay = (replay,name,vehicleID,spectateTime) => () => {
+
+    getCurrentAuthProfile().then(profileData => {
+      setEnableGhost(true);
+      setMapData(mapInfo,replay);
+      setSpectateMode(true);
+      startGame();
+      nameGhost(name);
+
+      colorGhostCar("white")
+      drawPlayerVehicle(profileData.vehicleID);
+      drawGhostVehicle(vehicleID);
+      navigate("/countdown");
+    })
   }
 
-  const handleRaceAgainst = (replay,name,color) => () => {
-    setEnableGhost(true);
-    setMapData(mapInfo,replay);
-    setSpectateMode(false);
-    startGame();
-    nameGhost(name);
-    colorGhostCar(color)
-    colorPlayerCar()
-    navigate("/countdown");
+  const handleRaceAgainst = (replay,name,vehicleID) => () => {
+
+    getCurrentAuthProfile().then(profileData => {
+      setEnableGhost(true);
+      setMapData(mapInfo,replay);
+      setSpectateMode(false);
+      startGame();
+      nameGhost(name);
+      
+      colorGhostCar("white")
+      drawPlayerVehicle(profileData.vehicleID);
+      drawGhostVehicle(vehicleID);
+      navigate("/countdown");
+    })
   }
   if(replayObject){
+    console.log(replayObject);
     return (
       <>
             <Button 
             style="primary" 
-            clickHandler={handleRaceAgainst(replayObject.replay, replayObject.playerName, replayObject.playerColor)}>
+            clickHandler={handleRaceAgainst(replayObject.replay, replayObject.playerName, replayObject.playerVehicle)}>
               {isTextShort ? "race them" : "race against them"}
               </Button>
             <Button 
             style="light" 
-            clickHandler={handleWatchReplay(replayObject.replay, replayObject.playerName, replayObject.playerColor,replayObject.time)}>
+            clickHandler={handleWatchReplay(replayObject.replay, replayObject.playerName, replayObject.playerVehicle,replayObject.time)}>
             {isTextShort ? "watch replay" : "watch the replay"}
               </Button> 
       </>
