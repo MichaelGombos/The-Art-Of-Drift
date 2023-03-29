@@ -37,7 +37,7 @@ This game is played with wasd and the arrow keys to control the car. Shift, spac
 - (done) add email login w/firebase
 - (done) add error banner for database functions
 - (done) add loading icon for database functions
-- add gmail login w/firebase
+- (done) add gmail login w/firebase
 - (done) update existing leaderboard functions to use new database facade
 - (done) refactor the [map maker](https://michaelgombos.github.io/browser-driving-map-creator/) as a react component, and allow it to be accessed from the create map button
 - (done) add community leaderboard page
@@ -48,7 +48,7 @@ This game is played with wasd and the arrow keys to control the car. Shift, spac
 - (done) fix huge particle bug on replay
 - remake replays for all maps
 - (done) compress replay stats (4 min replay is 1.3mb)
-- update car sprite to use new graphics
+- (done) update car sprite to use new graphics
 - add controller/keyboard support for navigation & framer animations
 - add custom keybinds
 - update particle layer to use pixi js

@@ -43,7 +43,7 @@ import MapMaker from "../mapmaker/mapmaker.js"
 // http://www.theartofdrift.com/invited?racer=NAME_HASH_0_309&map=0
 // http://localhost:8081/invited?racer=NAME_HASH_0_309&map=0
 
-const home = "/campaign"; //for tests
+const home = "/"; //for tests
 
 let currentNavigationInterval = 0;
 let lastNavigationTime = performance.now();
@@ -79,6 +79,7 @@ import { maps } from "../game/map-data.js"
 import CommunityMapsLeaderboard from "./pages/community-maps-leaderboard.js"
 import CommunityMapsAll from "./pages/community-maps-all.js"
 import CommunityMapsLeaderboards from "./pages/community-leaderboards.js"
+import WelcomeAuthSelect from "./pages/welcome-auth-select.js"
 
 const Menu = () => {
   let isDeviceValid = true;
@@ -165,17 +166,21 @@ const Menu = () => {
     loading = {loading}
     error = {error}/>
     <ResultBanner/>
-    <AsyncLoader/>
+    <AsyncLoader loading={loading} user={user} />
     <Routes>
       <Route  path="/" element={<Title/>}/>
       <Route  path="/welcome" element={<Welcome/>}/>
-      <Route  path="/signup" element={<Signup/>}/>
-      <Route  path="/signin" element={<Signin/>}/>
+      <Route  path="/signup" element={<WelcomeAuthSelect type={"signup"}/>}/>
+      <Route  path="/signin" element={<WelcomeAuthSelect type={"signin"}/>}/>
+      <Route  path="/signup/gmail" element={<Signup type={"gmail"}/>}/>
+      <Route  path="/signup/email" element={<Signup type={"email"}/>}/>
+      <Route  path="/signin/email" element={<Signin/>}/>
       <Route  path="/main" element={<Main setPrevious={setPreviousType}/>}/>
       <Route  path="/profile" element={<Profile user = {user} loading = {loading} error = {error}/>}/>
       <Route  path="/profile/guest" element={<ProfileGuest user = {user} loading = {loading} error = {error}/>}/>
       <Route  path="/profile/edit" element={<ProfileEdit user = {user} loading = {loading} error = {error}/>}/>
-      <Route  path="/profile/guest/upgrade" element={<ProfileUpgrade user = {user} loading = {loading} error = {error}/>}/>
+      <Route  path="/profile/guest/upgrade/gmail" element={<ProfileUpgrade type="gmail" user = {user} loading = {loading} error = {error}/>}/>
+      <Route  path="/profile/guest/upgrade/email" element={<ProfileUpgrade type="email" user = {user} loading = {loading} error = {error}/>}/>
       <Route  path="/campaign" element={<Campaign/>} />
       <Route  path="/campaign/:mapIndex" element={<CampaignLevel/>} />
       <Route  path="/community-maps" element={<CommunityMaps/>} />    

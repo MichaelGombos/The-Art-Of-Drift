@@ -8,11 +8,11 @@
 
 // DATABASE-MAPS : adding a new map to the database (w/ unique map ID), pulling a list of maps from the database, pulling a list of only maps you created, pulling a map based on map ID. deleting a map from the database 
 
-import { app,analytics,auth,db } from "./firebase";
+import { app,analytics,auth,provider,db } from "./firebase";
 
 import { collection, addDoc, setDoc , doc, getDoc,getDocs, deleteDoc, serverTimestamp, query, orderBy, limit, updateDoc, where} from "firebase/firestore";
 
-import { createUserWithEmailAndPassword, signOut, deleteUser,signInAnonymously, linkWithCredential, EmailAuthProvider, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signOut, deleteUser,signInAnonymously, linkWithCredential, EmailAuthProvider, signInWithEmailAndPassword,  signInWithPopup } from "firebase/auth";
 
 //-----------MISC
 export const getDatabaseTime = () => {
@@ -25,7 +25,33 @@ export const printUserProfile = () => {
 }
 
 //--------------AUTH
+export const gmailSignUp = (destination, racerName="unset", profileAvatarId=1, profileVehicleId=1) => {
+  //take details and create a brand new gmail user.
+  signInWithPopup(auth,provider)
+  .then((result) => {
+    updateProfileUID(result.user.uid, racerName,profileAvatarId, profileVehicleId)
+    window.changeGUIScreen(destination);
+  }).catch((error) => {
+    console.log("could not gmail sign up!!!",error)
+    // ...
+  });
+}
 
+export const gmailSignIn = (destination) => {
+  //sign in using the popup, then read details
+
+  //if details are blank, give a filler name and default car/medal count.
+
+  signInWithPopup(auth,provider)
+  .then((result) => {
+    window.changeGUIScreen(destination);
+  }).catch((error) => {
+    console.log("could not gmail sign in!!!",error)
+    // ...
+  });
+}
+
+window.forceGmailSignUp = gmailSignUp;
 export const emailSignUp = (destination, email,password, racerName="unset", profileAvatarId=1, profileVehicleId=1) => {
   window.setAsyncLoader(true)
   createUserWithEmailAndPassword(auth, email, password)
@@ -82,7 +108,7 @@ export const guestSignIn = (destination, AID,VID) => {
 
 }
 
-export const guestUpgrade = (destination, email,password, racerName="unset", AID=1,VID=1) => {
+export const guestUpgradeEmail = (destination, email,password, racerName="unset", AID=1,VID=1) => {
 
   window.setAsyncLoader(true)
   const credential = EmailAuthProvider.credential(email, password);
@@ -93,6 +119,7 @@ export const guestUpgrade = (destination, email,password, racerName="unset", AID
     console.log("Anonymous account successfully upgraded", user);
     window.addResultMessage(false,"Success upgrading guest account!")
     window.setAsyncLoader(false)
+    window.changeGUIScreen(destination);
 
     updateProfile(destination,racerName,AID,VID);
   }).catch((error) => {
@@ -100,6 +127,35 @@ export const guestUpgrade = (destination, email,password, racerName="unset", AID
     window.addResultMessage(true,"unable to upgrade guest acconut")
     window.setAsyncLoader(false)
   });
+}
+
+export const guestUpgradeGmail = (destination, racerName="unset", AID=1,VID=1) => {
+
+  window.setAsyncLoader(true)
+  signInWithPopup(auth, provider)
+  .then((cred) => {
+    linkWithCredential(auth.currentUser, cred)
+    .then((usercred) => {
+      const user = usercred.user;
+      console.log("Anonymous account successfully upgraded", user);
+      window.addResultMessage(false,"Success linking to credential!")
+      window.setAsyncLoader(false)
+      window.changeGUIScreen(destination);
+  
+      updateProfile(destination,racerName,AID,VID);
+    }).catch((error) => {
+      console.log("Error upgrading anonymous account", error);
+      window.addResultMessage(true,"unable to link current login to gmail credential")
+      window.setAsyncLoader(false)
+    });
+
+  }).catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    window.addResultMessage(true,"unale to sign in with gmail")
+    window.setAsyncLoader(false)
+  });
+  
 }
 
 export const logOut = (destination) => {

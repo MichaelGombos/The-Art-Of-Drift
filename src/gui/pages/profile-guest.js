@@ -107,9 +107,10 @@ const ProfileGuest = ({ user, loading, error}) => {
             emailPlaceholder = {emailPlaceholder}
             setEmail = {setEmail} 
             setPassword = {setPassword}/>
-            <p>upgrade to a free email account to unlock <span className="text-secondary-500">profile customization,</span> and the ability to <span className="text-secondary-500">upload community maps.</span> Upgrading will <span className="text-secondary-500">transfer your guest account progress</span> to your email account</p>
+            <p>upgrade your guest account to unlock <span className="text-secondary-500">profile customization,</span> and the ability to <span className="text-secondary-500">upload community maps.</span> Upgrading will <span className="text-secondary-500">transfer your guest account progress</span> to your new account</p>
             <div className="profile__navigation col-6 gap-sm">
-              <Button alignStart={true} style="primary" clickHandler = {() => navigate("/profile/guest/upgrade")}>Upgrade to email account</Button>
+              <Button alignStart={true}  clickHandler = {() => navigate("/profile/guest/upgrade/email")}>Upgrade to email account</Button>
+              <Button alignStart={true} icon="google" clickHandler = {() => navigate("/profile/guest/upgrade/gmail")}>Upgrade to gmail account</Button>
               <Button alignStart={true} clickHandler = {() => navigate(-1)}>Exit</Button> 
             </div>
 

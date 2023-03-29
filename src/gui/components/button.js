@@ -22,6 +22,9 @@ import selectedCenter from "../../assets/buttons/button-selected-center.png";
 import selectedLeft from "../../assets/buttons/button-selected-left.png";
 import selectedRight from "../../assets/buttons/button-selected-right.png";
 
+import google from "../../assets/buttons/google.svg"
+import googleWhite from "../../assets/buttons/google-white.svg"
+
 const buttonImageUrlMap = {
   danger : {
     center : dangerCenter,
@@ -50,9 +53,13 @@ const buttonImageUrlMap = {
   }
 }
 
-const Button = ({alignStart, clickHandler,type, style, children}) => {
+const iconMap = {
+  google : google,
+  "google-white":googleWhite
+}
+
+const Button = ({alignStart, clickHandler,type, style, children, icon}) => {
   if(!style) style="light";
-  
   return(
     <motion.button 
     className='pixel-button pixel-button--primary' 
@@ -61,7 +68,11 @@ const Button = ({alignStart, clickHandler,type, style, children}) => {
     whileTap={style == "disabled" ? {rotate:1.2} : { scale: .8}}
     type = {type}
     >
-        <p className={`pixel-button__text ${alignStart ? "pixel-button__text--align-start" : "" } f-p2 ${["danger","selected"].includes(style) ? "text-shade-0" : null}`}>{children}</p>
+      <div className={`pixel-button__text ${alignStart ? "pixel-button__text--align-start" : "" }`}>
+        <p className={`pixel-button__main  f-p2 ${["danger","selected"].includes(style) ? "text-shade-0" : null}`}>{children}</p>
+          {icon ? <img className='pixel-button__icon' src={iconMap[icon]}></img> : ""}
+      </div>
+
         <div className='pixel-button__images'>
           <img src={buttonImageUrlMap[style].left}  className='pixel-button__left-image'/>
           <img src={buttonImageUrlMap[style].center}  className='pixel-button__center-image'/>

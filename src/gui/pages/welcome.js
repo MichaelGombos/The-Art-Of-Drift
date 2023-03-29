@@ -12,7 +12,7 @@ const Welcome = () => {
   return (
     <div className='menu-container'>
         <div className='welcome-menu col-2 gap-md'>
-          <Button clickHandler = {() => navigate("/signup")} style="primary">Create a racer</Button>
+          <Button clickHandler = {() => navigate("/signup")} style="primary">Sign Up</Button>
           <Button clickHandler = {() => navigate("/signin")} style="light">Sign In</Button>
           <Button clickHandler = {() => guestSignIn("/main",0,1)} style="light">skip (play as guest)</Button>
         </div>

@@ -23,10 +23,11 @@ import {
   deleteProfile,
   deleteProfileUID,
   guestUpgrade,
+  gmailSignUp,
  } from '../helpers/databaseFacade.js';
 
 
-const SignupForm = ({ submitHandler, setRacerName,setEmail,setPassword, guestUpgradeHandler}) => {
+const SignupForm = ({ submitHandler, setRacerName,setEmail,setPassword, guestUpgradeHandler,type}) => {
 
   const navigate = useNavigate();
 
@@ -41,6 +42,7 @@ const SignupForm = ({ submitHandler, setRacerName,setEmail,setPassword, guestUpg
       max={20}
       />
 
+    {type == "gmail" ? "" : <>
     <TextInput id="email" 
       labelText="email"
       type="email"
@@ -55,17 +57,22 @@ const SignupForm = ({ submitHandler, setRacerName,setEmail,setPassword, guestUpg
       changeHandler={setPassword}
       min={6}
       />
+      </>
+     }
+    {type == "gmail" ? 
+    <Button type="submit" style="primary" icon="google-white">Create google account</Button>
+    :
+    <Button type="submit" style="primary">Create email account</Button>
+    }
 
-    <Button type="submit" style="primary">Create account</Button>
-
-    <Button clickHandler = {() => navigate("/welcome")}>back</Button>
+    <Button clickHandler = {() => navigate("/signup")}>back</Button>
     </form>
     
   )
 }
 
 
-const Signup = () => {
+const Signup = ({type}) => {
 
 
   const [racerName,setRacerName] = useState();
@@ -81,7 +88,13 @@ const Signup = () => {
   const handleSubmit = (e) => {
     console.log(racerName)
     e.preventDefault();
-    emailSignUp("/main",email,password,racerName,profileAvatarId,profileVehicleId)
+    if(type == "gmail"){
+      gmailSignUp("/main",racerName,profileAvatarId,profileVehicleId)
+    }
+      else{
+        emailSignUp("/main",email,password,racerName,profileAvatarId,profileVehicleId)
+
+      }
   }
 
 
@@ -93,12 +106,15 @@ const Signup = () => {
   return (
     <div className='menu-container'>
         <div className='col-3 gap-xl'>
-          <h1 className="f-h1">Sign <span className="text-secondary-500">up</span></h1>
+          <h1 className="f-h1">
+            {type == "gmail" ? <span className="text-secondary-500">(google) </span> : ""}
+             Sign <span className="text-secondary-500">up</span></h1>
           <SignupForm 
           submitHandler={handleSubmit}
           setRacerName = {setRacerName} 
           setEmail = {setEmail} 
-          setPassword = {setPassword}/>
+          setPassword = {setPassword}
+          type={type}/>
           <div className="signup-footer col-6 gap-md">
             <p>Already have an account? <Link className="link-secondary-500" to="/signin">Sign in instead.</Link></p>
             <p>Too much to ask? <a 

@@ -17,7 +17,6 @@ const CommunityMapsUpload = ({previewMap, setPreviewMap}) => {
   const navigate = useNavigate();
 
   const handlePreviewClick = () => {
-    console.log("fuck you>>.")
     const parsedData = JSON.parse(newPreviewInput)["data"]
     generateCanvasMapColor(mapMakerPreviewRef.current,decompressMapData(parsedData))
 

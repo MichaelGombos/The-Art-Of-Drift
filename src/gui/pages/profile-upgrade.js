@@ -20,10 +20,12 @@ import {
   deleteProfile,
   deleteProfileUID,
   guestUpgrade,
+  guestUpgradeEmail,
+  guestUpgradeGmail,
  } from '../helpers/databaseFacade.js';
 
 
-const ProfileForm = ({ submitHandler, setRacerName,setEmail, setPassword, racerNamePlaceholder, emailPlaceholder}) => {
+const ProfileForm = ({ submitHandler, setRacerName,setEmail, setPassword, racerNamePlaceholder, emailPlaceholder,type}) => {
 
   const navigate = useNavigate();
 
@@ -39,32 +41,34 @@ const ProfileForm = ({ submitHandler, setRacerName,setEmail, setPassword, racerN
       min={6}
       max={20}
       />
+    {type == "gmail" ? "" : <>
+      <TextInput 
+        viewOnly={false}
+        id="email" 
+        labelText="email"
+        type="email"
+        placeholderText={"enter an email"}
+        changeHandler={setEmail}
+        />
 
-    <TextInput 
-      viewOnly={false}
-      id="email" 
-      labelText="email"
-      type="email"
-      placeholderText={"enter an email"}
-      changeHandler={setEmail}
-      />
-
-    <TextInput 
-      viewOnly={false}
-      id="password" 
-      labelText="password"
-      type="password"
-      placeholderText={"choose a secure password"}
-      changeHandler={setPassword}
-      min={6}
-      />
+      <TextInput 
+        viewOnly={false}
+        id="password" 
+        labelText="password"
+        type="password"
+        placeholderText={"choose a secure password"}
+        changeHandler={setPassword}
+        min={6}
+        />
+      </>
+      }
     </form>
     
   )
 }
 
 
-const ProfileUpgrade = ({ user, loading, error}) => {
+const ProfileUpgrade = ({type, user, loading, error}) => {
 
   const [racerNamePlaceholder, setRacerNamePlaceholder] = useState();
   const [emailPlaceholder,setEmailPlaceholder] = useState();
@@ -106,8 +110,13 @@ const ProfileUpgrade = ({ user, loading, error}) => {
 
   const handleGuestUpgrade = () => {
     console.log("Signing in a new guest with this info...",racerName, email, password, profileAvatarId,profileVehicleId)
+    if(type == "email"){
 
-    guestUpgrade("/profile",email, password,racerName, profileAvatarId,profileVehicleId)
+      guestUpgradeEmail("/profile",email, password,racerName, profileAvatarId,profileVehicleId)
+    }
+    else{
+      guestUpgradeGmail("/profile",racerName, profileAvatarId,profileVehicleId)
+    }
 
   }
 
@@ -116,6 +125,7 @@ const ProfileUpgrade = ({ user, loading, error}) => {
           <div className='col-3 gap-xl'>
             <h1 className="f-h1">Profile <span className="text-secondary-500">(upgrade)</span></h1>
             <ProfileForm 
+            type={type}
             user = {user}
             setRacerName = {setRacerName} 
             racerNamePlaceholder = {racerNamePlaceholder}
@@ -124,17 +134,10 @@ const ProfileUpgrade = ({ user, loading, error}) => {
             setPassword = {setPassword}/>
 
             <div className="profile__navigation col-6 gap-sm">
-              <Button alignStart={true} style="primary" clickHandler = {handleGuestUpgrade}>Create account</Button>
+              <Button alignStart={true} style="primary" icon={type == "gmail" ? "google-white" : "" } clickHandler = {handleGuestUpgrade}>Create account</Button>
               <Button alignStart={true} clickHandler = {() => navigate(-1)}>Cancel</Button> 
             </div>
 
-            {/* <div className="signup-footer col-6 gap-md">
-              <p>Already have an account? <Link className="link-secondary-500" to="/signin">Sign in instead.</Link></p>
-              <p>Too much to ask? <a 
-              className="link-secondary-500" 
-              onClick={handleGuestSignIn}
-              >Plas as guest.</a></p>
-            </div> */}
           </div>
           <div className='col-3 gap-md'>
             <ProfileSelect viewOnly={false} profileAvatarId={profileAvatarId} setProfileAvatarId={setProfileAvatarId} profileVehicleId={profileVehicleId} setProfileVehicleId={setProfileVehicleId}/>

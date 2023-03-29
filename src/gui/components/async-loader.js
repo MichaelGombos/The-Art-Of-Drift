@@ -5,7 +5,9 @@ import asyncLoaderGifURL from "../../assets/async-loader.gif"
 const AsyncLoader = () => {
   const [loading,setLoading] = useState(false);
 
-  window.setAsyncLoader = setLoading
+  window.setAsyncLoader = (value) => {
+    setLoading(value)
+  }
 
   return(
     <div className={`async-loader__wrapper ${loading ? "async-loader__wrapper--visible" : "" }`}>

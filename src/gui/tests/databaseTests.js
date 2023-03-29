@@ -45,9 +45,9 @@ const runTests = () => {
 
   // deleteReplay("fartlol2",0)
 
-  getCurrentAuthReplay(0).then(information => {
-    console.log("replay info" , information);
-  })
+  // getCurrentAuthReplay(0).then(information => {
+  //   console.log("replay info" , information);
+  // })
 
   // getAllReplays(7).then(allReplays => {
   //   console.log("all replays test" , allReplays);
@@ -104,5 +104,5 @@ const runTests = () => {
 }
 
       
-window.addEventListener("load", () => { setTimeout(
-  runTests, 3000)}); 
+// window.addEventListener("load", () => { setTimeout(
+//   runTests, 3000)}); 
