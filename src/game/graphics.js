@@ -1,4 +1,6 @@
-import {map,camera, mapParticles, ghostCharacter, characterSprite, ghostCharacterSprite, ghostCharacterNameTag} from "./elements.js"
+import { Application, Sprite, AnimatedSprite, Texture } from 'pixi.js';
+
+import {map,camera, mapParticles, ghostCharacter, characterSprite, ghostCharacterSprite, ghostCharacterNameTag , particleLayer} from "./elements.js"
 import { getDirectionalCamera } from "./game.js";
 
 
@@ -10,6 +12,23 @@ import vehicleTopDownGraphic3 from "../assets/game-vehicles/sedan-1-9.png"
 import vehicleTopDownGraphic4 from "../assets/game-vehicles/taxi-1-9.png"
 import vehicleTopDownGraphic5 from "../assets/game-vehicles/van-1-9.png"
 
+//particles
+
+import smoke_1_1 from "../assets/particles/smoke_1/frame1.png"
+import smoke_1_2 from "../assets/particles/smoke_1/frame2.png"
+import smoke_1_3 from "../assets/particles/smoke_1/frame3.png"
+import smoke_1_4 from "../assets/particles/smoke_1/frame4.png"
+import smoke_1_5 from "../assets/particles/smoke_1/frame5.png"
+import smoke_1_6 from "../assets/particles/smoke_1/frame6.png"
+import smoke_1_7 from "../assets/particles/smoke_1/frame7.png"
+import smoke_1_8 from "../assets/particles/smoke_1/frame8.png"
+import smoke_1_9 from "../assets/particles/smoke_1/frame9.png"
+import smoke_1_10 from "../assets/particles/smoke_1/frame10.png"
+import smoke_1_11 from "../assets/particles/smoke_1/frame11.png"
+import smoke_1_12 from "../assets/particles/smoke_1/frame12.png"
+import smoke_1_13 from "../assets/particles/smoke_1/frame13.png"
+
+import tire_tracks from "../assets/particles/tire/tire-tracks.png"
 const arrow = require("../assets/arrow.svg");
 const car = require("../assets/car.svg");
 
@@ -35,7 +54,8 @@ const playerColors = {
 
 const vehicleTopDownGraphicURLs = [vehicleTopDownGraphic1,vehicleTopDownGraphic2,vehicleTopDownGraphic3,vehicleTopDownGraphic4,vehicleTopDownGraphic5]
 
-
+let animatedParticleTick = 0; //used to confirm if we should place a particle or wait.
+let staticParticleTick = 0; //used to confirm if we should place a particle or wait.
 
 map.insertBefore(mapParticles , ghostCharacter);
 
@@ -159,11 +179,28 @@ const createDirtParticle = (x, y) => {
   particles.push(particle);
   mapParticles.appendChild(particle.element)
 }
-const displayDriftParticles = (x,y ,driftForce, onDirt,angle) => {
+const generateFrameParticles = (x,y ,driftForce, onDirt,angle) => {
   let domParticles = Array.from(mapParticles.children) 
 
   if (driftForce > 1.5 && !onDirt) {
-      createDriftParticle(x, y, driftForce, angle);
+      // createDriftParticle(x, y, driftForce, angle);
+      if(staticParticleTick == 1){
+        addParticle("tire_tracks",x, y, driftForce, angle)
+        staticParticleTick =0
+      }
+      else{
+        staticParticleTick++;
+      }
+      if(driftForce > 4){
+        if(animatedParticleTick == 6){
+          addParticle("road_dust",x, y, driftForce, angle)
+          animatedParticleTick =0
+        }
+        else{
+          animatedParticleTick++;
+        }
+      }
+
   }
  
   //delete drift particle if more than 100
@@ -180,8 +217,8 @@ const displayDriftParticles = (x,y ,driftForce, onDirt,angle) => {
 }
 
 const clearParticles = () => {
-  particles = [];
-  mapParticles.textContent = '';
+  // particles = [];
+  // mapParticles.textContent = '';
 }
 const drawCanvasMap = (context,mapData) => {
     context.globalCompositeOperation='destination-over';
@@ -257,6 +294,102 @@ const getParticleLimit = () => {
     return particleLimit;
 }
 
-export {createDirtParticle, createDriftParticle,clearParticles, displayDriftParticles,setParticleLimit,getParticleLimit, particles, colorGhostCar,colorPlayerCar, nameGhost, drawCanvasMap, drawCanvasMapColor, updateCameraScale,updateCameraAngle, playerColors,
+//new particle layer setup with pixi JS
+
+
+//define pixi app
+let app 
+const createParticleLayer = (width,height) => {
+  particleLayer.innerHTML = ''
+  app = new Application({ width: width, height: height , backgroundAlpha: 0  });
+  particleLayer.appendChild(app.view) 
+}
+
+//define textures
+let cowImages = [
+  "https://st.depositphotos.com/1052928/1663/i/600/depositphotos_16636059-stock-photo-brown-cow.jpg",
+  "https://t3.ftcdn.net/jpg/00/84/09/18/360_F_84091840_8wn1lAJ7jIuYRczt4PRqrrZUoAOoPVrO.jpg",
+  "https://images.pexels.com/photos/51311/cow-calf-cattle-stock-51311.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+]
+let cowTextures = [];
+for (let i=0; i < cowImages.length; i++)
+{
+     let texture = Texture.from(cowImages[i]);
+     cowTextures.push(texture);
+};
+
+let smoke_1_images = [
+  smoke_1_1 ,
+  smoke_1_2 ,
+  smoke_1_3 ,
+  smoke_1_4 ,
+  smoke_1_5 ,
+  smoke_1_6 ,
+  smoke_1_7 ,
+  smoke_1_8 ,
+  smoke_1_9 ,
+  smoke_1_10,
+  smoke_1_11,
+  smoke_1_12,
+  smoke_1_13,
+]
+let smoke_1_textures = []
+for (let i=0; i < smoke_1_images.length; i++)
+{
+     let texture = Texture.from(smoke_1_images[i]);
+     smoke_1_textures.push(texture);
+};
+
+const animationTextureMap =  {
+  "cow" : cowTextures,
+  "road_dust" : smoke_1_textures
+}
+
+const staticTextureMap = {
+  "tire_tracks" : Texture.from(tire_tracks)
+}
+
+const particleScaleMap = {
+  "road_dust" : 1.2,
+  "tire_tracks" : .1
+}
+// TODO make a map/object containing the textures :)
+
+//add new sprite
+// let cowSprite = new AnimatedSprite(cowTextures);
+// cowSprite.gotoAndPlay(0);
+
+// app.stage.addChild(cowSprite);
+const addParticle = (type = "road_dust", carX= 69,carY = 69, driftForce = 2, carAngle = 24) => {
+  let newCow
+  
+
+  if(Object.keys(animationTextureMap).includes(type)){
+    newCow = new AnimatedSprite(animationTextureMap[type]);
+    newCow.gotoAndPlay(0);
+    newCow.animationSpeed = .1;
+    newCow.angle = carAngle.moving -30 ;
+    newCow.alpha = .4;
+  }
+  else{
+    newCow = new Sprite(staticTextureMap[type]);
+    newCow.angle = carAngle.facing;
+    newCow.alpha = .2;
+  }
+  newCow.x = carX / 2;
+  newCow.y = carY / 2;
+  newCow.anchor.set(.75,.75)
+  newCow.width = 100;
+  newCow.height = 100;
+  newCow.scale.set(particleScaleMap[type],particleScaleMap[type])
+  app.stage.addChild(newCow);
+  setTimeout(() => newCow.destroy(), 1000) ;
+  return "wowzers"
+}
+
+window.addWindowParticle = addParticle
+
+export {createDirtParticle, createDriftParticle,clearParticles, generateFrameParticles,setParticleLimit,getParticleLimit, particles, colorGhostCar,colorPlayerCar, nameGhost, drawCanvasMap, drawCanvasMapColor, updateCameraScale,updateCameraAngle, playerColors,
   drawPlayerVehicle,
-drawGhostVehicle}
+drawGhostVehicle,
+createParticleLayer}

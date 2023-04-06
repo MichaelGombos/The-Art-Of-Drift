@@ -1,4 +1,5 @@
 //contains all document elements 
+const particleLayer = document.querySelector('#particle-layer')
 
 const character = document.querySelector(".character");
 const characterSprite = document.querySelector(".character_spritesheet")
@@ -38,6 +39,7 @@ const playerCanvas = document.querySelector("#player-canvas")
 const camera = document.querySelector(".camera")
 
 export {
+  particleLayer, 
   character,
   characterSprite,
   ghostCharacter,

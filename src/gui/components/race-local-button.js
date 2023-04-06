@@ -1,6 +1,6 @@
 import React from "react";
 
-import {startGame} from "../../game/main.js"
+import {resetGame, startGame} from "../../game/main.js"
 import {setMapData,setEnableGhost, setSpectateMode, setGameMapIndex} from "../../game/game.js"
 import { maps } from "../../game/map-data.js";
 import { replays } from "../../game/replay.js"
@@ -51,6 +51,7 @@ const RaceLocalButton = ({mapIndex,difficulty,isGhostEnabled, children,style}) =
       getCurrentAuthProfile().then(profileData => {
         setEnableGhost(isGhostEnabled);
         setSpectateMode(false)
+
         startGame();
         nameGhost(ghostName)
         colorGhostCar(difficulty);

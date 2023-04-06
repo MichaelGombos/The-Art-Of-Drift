@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-import {pauseGame,resetGame, unPauseGame} from "../../game/main.js"
+import {getRunning, pauseGame,resetGame, unPauseGame} from "../../game/main.js"
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -19,7 +19,8 @@ const Countdown = () => {
 
     if(counter == 0){
       navigate("/hidden");
-      resetGame();
+      unPauseGame();
+      console.log("just unpaused on god", getRunning())
     }
   }, [counter]);
 

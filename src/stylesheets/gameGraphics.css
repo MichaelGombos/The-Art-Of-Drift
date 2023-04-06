@@ -17,6 +17,19 @@
   position: relative;
 }
 
+#particle-layer {
+  image-rendering: pixelated;
+  background-size: 100%;
+  width: calc(var(--columns) * var(--grid-cell)); 
+  height: calc(var(--rows) * var(--grid-cell));
+  position: absolute;
+}
+
+#particle-layer canvas{
+  width:100%;
+  height:100%;
+}
+
 #game{
   width:100%;
   overflow:hidden;
