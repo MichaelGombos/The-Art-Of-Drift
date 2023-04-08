@@ -19,7 +19,7 @@ const Countdown = () => {
 
     if(counter == 0){
       navigate("/hidden");
-      unPauseGame();
+      resetGame();
       console.log("just unpaused on god", getRunning())
     }
   }, [counter]);
