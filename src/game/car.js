@@ -4,7 +4,7 @@ import {
 
 import { characterSprite } from "./elements.js";
 
-import {createDirtParticle} from "./graphics.js"
+import {addParticle, createDirtParticle} from "./graphics.js"
 
 //defines car physics 
 const createCar = (isGhost) => {
@@ -458,11 +458,13 @@ const createCar = (isGhost) => {
 
             //walls
             if (collidingWithValue(1,"y",mapData,tilePixelCount)) {
+                addParticle("collision_wall",speed/10, x,y,driftForce,angle)
                 reduceSpeed()
                 newY = y;
             }
 
             if (collidingWithValue(1,"x",mapData,tilePixelCount)) {
+                addParticle("collision_wall",speed/10, x,y,driftForce,angle)
                 reduceSpeed()
                 newX = x;
             }
@@ -472,7 +474,8 @@ const createCar = (isGhost) => {
                 if(!isGhost){
                     if (speed > 1 ) {
                         speed = speed / 1.055;
-                        createDirtParticle(x, y);
+                        // createDirtParticle(x, y);
+                        
                     }
                     if(turning){
                         driftForce += .05;
@@ -553,23 +556,23 @@ const createCar = (isGhost) => {
 
             //Bumper Tiles
             if (collidingWithValue(6,"y",mapData,tilePixelCount)) {
-
                 //old bouncy collition
                 let tempAngle = angle.moving
                 angle.moving = 360 - tempAngle;
                 angle.facing = 360 - tempAngle;
 
+                addParticle("collision_bounce",1, x,y,driftForce,angle)
                 newY = y + (speed * Math.sin(angle.moving * Math.PI / 180));
 
             }
 
             if (collidingWithValue(6,"x",mapData,tilePixelCount)) {
-
                 //old bouncy collision
                 let tempAngle = angle.moving
                 angle.moving = 180 - tempAngle;
                 angle.facing = 180 - tempAngle;
 
+                addParticle("collision_bounce",1, x,y,driftForce,angle)
                 newX = x + (speed * Math.cos(angle.moving * Math.PI / 180));
 
             }

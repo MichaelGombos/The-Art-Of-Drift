@@ -28,6 +28,62 @@ import smoke_1_11 from "../assets/particles/smoke_1/frame11.png"
 import smoke_1_12 from "../assets/particles/smoke_1/frame12.png"
 import smoke_1_13 from "../assets/particles/smoke_1/frame13.png"
 
+import collision_bounce_1 from "../assets/particles/collision_bounce/frame1.png"
+import collision_bounce_2 from "../assets/particles/collision_bounce/frame2.png"
+import collision_bounce_3 from "../assets/particles/collision_bounce/frame3.png"
+import collision_bounce_4 from "../assets/particles/collision_bounce/frame4.png"
+import collision_bounce_5 from "../assets/particles/collision_bounce/frame5.png"
+import collision_bounce_6 from "../assets/particles/collision_bounce/frame6.png"
+import collision_bounce_7 from "../assets/particles/collision_bounce/frame7.png"
+import collision_bounce_8 from "../assets/particles/collision_bounce/frame8.png"
+import collision_bounce_9 from "../assets/particles/collision_bounce/frame9.png"
+import collision_bounce_10 from "../assets/particles/collision_bounce/frame10.png"
+import collision_bounce_11 from "../assets/particles/collision_bounce/frame11.png"
+import collision_bounce_12 from "../assets/particles/collision_bounce/frame12.png"
+import collision_bounce_13 from "../assets/particles/collision_bounce/frame13.png"
+import collision_bounce_14 from "../assets/particles/collision_bounce/frame14.png"
+
+import collision_wall_1 from "../assets/particles/collision_wall/frame1.png"
+import collision_wall_2 from "../assets/particles/collision_wall/frame2.png"
+import collision_wall_3 from "../assets/particles/collision_wall/frame3.png"
+import collision_wall_4 from "../assets/particles/collision_wall/frame4.png"
+import collision_wall_5 from "../assets/particles/collision_wall/frame5.png"
+import collision_wall_6 from "../assets/particles/collision_wall/frame6.png"
+import collision_wall_7 from "../assets/particles/collision_wall/frame7.png"
+import collision_wall_8 from "../assets/particles/collision_wall/frame8.png"
+import collision_wall_9 from "../assets/particles/collision_wall/frame9.png"
+import collision_wall_10 from "../assets/particles/collision_wall/frame10.png"
+import collision_wall_11 from "../assets/particles/collision_wall/frame11.png"
+import collision_wall_12 from "../assets/particles/collision_wall/frame12.png"
+
+import max_speed_1 from "../assets/particles/max_speed/frame1.png"
+import max_speed_2 from "../assets/particles/max_speed/frame2.png"
+import max_speed_3 from "../assets/particles/max_speed/frame3.png"
+import max_speed_4 from "../assets/particles/max_speed/frame4.png"
+import max_speed_5 from "../assets/particles/max_speed/frame5.png"
+import max_speed_6 from "../assets/particles/max_speed/frame6.png"
+import max_speed_7 from "../assets/particles/max_speed/frame7.png"
+import max_speed_8 from "../assets/particles/max_speed/frame8.png"
+import max_speed_9 from "../assets/particles/max_speed/frame9.png"
+import max_speed_10 from "../assets/particles/max_speed/frame10.png"
+
+import drift_dirt_1 from "../assets/particles/drift_dirt/frame1.png"
+import drift_dirt_2 from "../assets/particles/drift_dirt/frame2.png"
+import drift_dirt_3 from "../assets/particles/drift_dirt/frame3.png"
+import drift_dirt_4 from "../assets/particles/drift_dirt/frame4.png"
+import drift_dirt_5 from "../assets/particles/drift_dirt/frame5.png"
+import drift_dirt_6 from "../assets/particles/drift_dirt/frame6.png"
+import drift_dirt_7 from "../assets/particles/drift_dirt/frame7.png"
+import drift_dirt_8 from "../assets/particles/drift_dirt/frame8.png"
+import drift_dirt_9 from "../assets/particles/drift_dirt/frame9.png"
+import drift_dirt_10 from "../assets/particles/drift_dirt/frame10.png"
+import drift_dirt_11 from "../assets/particles/drift_dirt/frame11.png"
+import drift_dirt_12 from "../assets/particles/drift_dirt/frame12.png"
+import drift_dirt_13 from "../assets/particles/drift_dirt/frame13.png"
+import drift_dirt_14 from "../assets/particles/drift_dirt/frame14.png"
+import drift_dirt_15 from "../assets/particles/drift_dirt/frame15.png"
+
+
 import tire_tracks from "../assets/particles/tire/tire-tracks.png"
 const arrow = require("../assets/arrow.svg");
 const car = require("../assets/car.svg");
@@ -179,26 +235,25 @@ const createDirtParticle = (x, y) => {
   particles.push(particle);
   mapParticles.appendChild(particle.element)
 }
-const generateFrameParticles = (x,y ,driftForce, onDirt,angle) => {
+const generateFrameParticles = (speed, x,y ,driftForce, onDirt,angle) => {
   let domParticles = Array.from(mapParticles.children) 
+  if(speed > 15){
 
+    addParticle("max_speed",1, x,y,driftForce,angle)
+
+  }
+  if(driftForce > 2 && onDirt){
+
+
+    addParticle("drift_dirt",1,x,y,driftForce,angle)
+  }
   if (driftForce > 1.5 && !onDirt) {
       // createDriftParticle(x, y, driftForce, angle);
-      if(staticParticleTick == 1){
-        addParticle("tire_tracks",x, y, driftForce, angle)
-        staticParticleTick =0
-      }
-      else{
-        staticParticleTick++;
-      }
+
+      addParticle("tire_tracks",1,x, y, driftForce, angle)
       if(driftForce > 4){
-        if(animatedParticleTick == 6){
-          addParticle("road_dust",x, y, driftForce, angle)
-          animatedParticleTick =0
-        }
-        else{
-          animatedParticleTick++;
-        }
+
+        addParticle("road_dust",1,x, y, driftForce, angle)
       }
 
   }
@@ -333,63 +388,222 @@ let smoke_1_images = [
   smoke_1_12,
   smoke_1_13,
 ]
-let smoke_1_textures = []
-for (let i=0; i < smoke_1_images.length; i++)
-{
-     let texture = Texture.from(smoke_1_images[i]);
-     smoke_1_textures.push(texture);
-};
+
+let collision_bounce_images = [
+  collision_bounce_1 ,
+  collision_bounce_2 ,
+  collision_bounce_3 ,
+  collision_bounce_4 ,
+  collision_bounce_5 ,
+  collision_bounce_6 ,
+  collision_bounce_7 ,
+  collision_bounce_8 ,
+  collision_bounce_9 ,
+  collision_bounce_10,
+  collision_bounce_11,
+  collision_bounce_12,
+  collision_bounce_13,
+  collision_bounce_14,
+]
+
+let collision_wall_images = [
+  collision_wall_1 ,
+collision_wall_2 ,
+collision_wall_3 ,
+collision_wall_4 ,
+collision_wall_5 ,
+collision_wall_6 ,
+collision_wall_7 ,
+collision_wall_8 ,
+collision_wall_9 ,
+collision_wall_10,
+collision_wall_11,
+collision_wall_12
+]
+
+let max_speed_images = [
+  max_speed_1 ,
+max_speed_2 ,
+max_speed_3 ,
+max_speed_4 ,
+max_speed_5 ,
+max_speed_6 ,
+max_speed_7 ,
+max_speed_8 ,
+max_speed_9 ,
+max_speed_10
+]
+
+let drift_dirt_images = [
+  drift_dirt_1 ,
+drift_dirt_2 ,
+drift_dirt_3 ,
+drift_dirt_4 ,
+drift_dirt_5 ,
+drift_dirt_6 ,
+drift_dirt_7 ,
+drift_dirt_8 ,
+drift_dirt_9 ,
+drift_dirt_10,
+drift_dirt_11,
+drift_dirt_12,
+drift_dirt_13,
+drift_dirt_14,
+drift_dirt_15
+]
+
+
+const textureFromImages = (images) => {
+  let temptTextureArray = []
+  for (let i=0; i < images.length; i++)
+  {
+       let texture = Texture.from(images[i]);
+       temptTextureArray.push(texture);
+  };
+  return temptTextureArray;
+}
 
 const animationTextureMap =  {
   "cow" : cowTextures,
-  "road_dust" : smoke_1_textures
+  "road_dust" : textureFromImages(smoke_1_images),
+  "collision_bounce" : textureFromImages(collision_bounce_images),
+  "collision_wall" : textureFromImages(collision_wall_images),
+  "max_speed" : textureFromImages(max_speed_images),
+  "drift_dirt" : textureFromImages(drift_dirt_images)
 }
 
 const staticTextureMap = {
   "tire_tracks" : Texture.from(tire_tracks)
 }
 
-const particleScaleMap = {
-  "road_dust" : 1.2,
-  "tire_tracks" : .1
+const spriteDetailsMap = {
+  "tire_tracks" : {
+    scale: .1,
+    anchor: [.75,.75],
+    animationSpeed : .1,
+    angleOffset : 0,
+    angleVariance : 0,
+    alpha: .4,
+    width: 100,
+    height: 100,
+    deleteDelay : 1000,
+    tick: 0,
+    frequency: 1
+  },
+  "road_dust" : {
+    scale: 1.2,
+    anchor: [.75,.75],
+    animationSpeed : .1,
+    angleOffset : -30,
+    angleVariance : 90,
+    alpha: .4,
+    width: 100,
+    height: 100,
+    deleteDelay : 1000,
+    tick: 0,
+    frequency: 2
+  },
+  "collision_bounce" : {
+    scale: 1.2,
+    anchor: [.5,.75],
+    animationSpeed : .3,
+    angleOffset : 90,
+    angleVariance : 0,
+    alpha: .4,
+    width: 100,
+    height: 100,
+    deleteDelay : 750,
+    tick: 0,
+    frequency: -1 //may want to lower this for collision if player is stucky wucky
+  },
+  "collision_wall" : {
+    scale: 1.2,
+    anchor: [.5,.5],
+    animationSpeed : .3,
+    angleOffset : -30,
+    angleVariance : 0,
+    alpha: .4,
+    width: 100,
+    height: 100,
+    deleteDelay : 1000,
+    tick: 0,
+    frequency: 1
+  },
+  "max_speed" : {
+    scale: .4,
+    anchor: [.5,.5],
+    animationSpeed : .1,
+    angleOffset : -30,
+    angleVariance : 360,
+    alpha: 1,
+    width: 100,
+    height: 100,
+    deleteDelay : 1000,
+    tick: 0,
+    frequency: 3
+  },
+  "drift_dirt" : {
+    scale: 1.2,
+    anchor: [.5,.75],
+    animationSpeed : .2,
+    angleOffset : -90,
+    angleVariance : 90,
+    alpha: .4,
+    width: 100,
+    height: 100,
+    deleteDelay : 1000,
+    tick: 0,
+    frequency: 6
+  },
 }
 // TODO make a map/object containing the textures :)
 
-//add new sprite
+// add new sprite
 // let cowSprite = new AnimatedSprite(cowTextures);
 // cowSprite.gotoAndPlay(0);
 
 // app.stage.addChild(cowSprite);
-const addParticle = (type = "road_dust", carX= 69,carY = 69, driftForce = 2, carAngle = 24) => {
+const addParticle = (type = "road_dust", scaleMultiplier, carX= 69,carY = 69, driftForce = 2, carAngle = 24) => {
   let newCow
   
+  //check if tick is > frequency 
+  // if it is, generate the particle, set the tick to 0
+  //if not, increase the tick
 
-  if(Object.keys(animationTextureMap).includes(type)){
-    newCow = new AnimatedSprite(animationTextureMap[type]);
-    newCow.gotoAndPlay(0);
-    newCow.animationSpeed = .1;
-    newCow.angle = carAngle.moving -30 ;
-    newCow.alpha = .4;
+  if(spriteDetailsMap[type].tick > spriteDetailsMap[type].frequency){
+
+    if(Object.keys(animationTextureMap).includes(type)){
+      newCow = new AnimatedSprite(animationTextureMap[type]);
+      newCow.gotoAndPlay(0);
+      newCow.animationSpeed = spriteDetailsMap[type].animationSpeed;
+    }
+    else{
+      newCow = new Sprite(staticTextureMap[type]);
+    }
+    newCow.angle = carAngle.moving
+     + spriteDetailsMap[type].angleOffset
+      + ( Math.floor(Math.random() * spriteDetailsMap[type].angleVariance) - spriteDetailsMap[type].angleVariance/2);
+    newCow.alpha = spriteDetailsMap[type].alpha;
+    newCow.x = carX / 2;
+    newCow.y = carY / 2;
+    newCow.anchor.set(spriteDetailsMap[type].anchor[0],spriteDetailsMap[type].anchor[1])
+    newCow.width = 128;
+    newCow.height = 128;
+    newCow.scale.set(spriteDetailsMap[type].scale * scaleMultiplier,spriteDetailsMap[type].scale * scaleMultiplier)
+    app.stage.addChild(newCow);
+    setTimeout(() => newCow.destroy(), spriteDetailsMap[type].deleteDelay) ;
+    spriteDetailsMap[type].tick = 0;
   }
   else{
-    newCow = new Sprite(staticTextureMap[type]);
-    newCow.angle = carAngle.facing;
-    newCow.alpha = .2;
+    console.log("increasing tick instead...")
+    spriteDetailsMap[type].tick = spriteDetailsMap[type].tick+1;
   }
-  newCow.x = carX / 2;
-  newCow.y = carY / 2;
-  newCow.anchor.set(.75,.75)
-  newCow.width = 100;
-  newCow.height = 100;
-  newCow.scale.set(particleScaleMap[type],particleScaleMap[type])
-  app.stage.addChild(newCow);
-  setTimeout(() => newCow.destroy(), 1000) ;
-  return "wowzers"
+
 }
 
 window.addWindowParticle = addParticle
 
 export {createDirtParticle, createDriftParticle,clearParticles, generateFrameParticles,setParticleLimit,getParticleLimit, particles, colorGhostCar,colorPlayerCar, nameGhost, drawCanvasMap, drawCanvasMapColor, updateCameraScale,updateCameraAngle, playerColors,
   drawPlayerVehicle,
-drawGhostVehicle,
+drawGhostVehicle, addParticle,
 createParticleLayer}

@@ -356,7 +356,7 @@ const placeGhost = (stepCount) => {
     // ghostCar.stabalizeDriftForce();
     // ghostCar.stabalizeAngle()
     // ghostCar.updateHandling();
-    generateFrameParticles(ghostCar.getX(), ghostCar.getY(), ghostCar.getDriftForce(), ghostCar.getOnDirt(), ghostCar.getAngle());
+    generateFrameParticles(ghostCar.getSpeed(),ghostCar.getX(), ghostCar.getY(), ghostCar.getDriftForce(), ghostCar.getOnDirt(), ghostCar.getAngle());
 
   // if (ghostCar.getSpeed() != 0) {
   //   ghostCar.collision(tilePixelCount, rows, columns, mapData.map)
@@ -453,15 +453,13 @@ const placeCharacter = () => {
   car.stabalizeDriftForce();
   car.stabalizeAngle()
   car.updateHandling();
-  generateFrameParticles(car.getX(), car.getY(), car.getDriftForce(), car.getOnDirt(), car.getAngle());
-
-
   if (car.getSpeed() != 0) {
       car.collision(tilePixelCount, rows, columns, mapData.map)
       //friction
       car.applyFriction();
   }
 
+  generateFrameParticles(car.getSpeed(),car.getX(), car.getY(), car.getDriftForce(), car.getOnDirt(), car.getAngle());
   
   
   //understeering
