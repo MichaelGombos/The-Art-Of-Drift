@@ -89,7 +89,7 @@ const arrow = require("../assets/arrow.svg");
 const car = require("../assets/car.svg");
 
 const ghostColors = {
-  personalBest : "opacity(.75)",
+  personalBest : "opacity(.25)",
   easy : "sepia(56%) saturate(3169%) hue-rotate(337deg) brightness(85%) contrast(100%)",
   normal : "saturate(7169%) brightness(65%) contrast(101%)",
   hard : "sepia(46%) saturate(2500.8%) hue-rotate(354deg) brightness(105%) contrast(97%)",
@@ -169,91 +169,28 @@ const colorGhostCar = (color) => {
 
 let particles = [];
 let particleLimit = 1000;
-//graphics 
-const createDriftParticle = (carX, carY, driftForce, carAngle) => {
 
-  let particle = (xDif,yDif,sizeMultiplier,angleModifier,className) => {
-      const driftForceVisualCap = 64;
-      let x = carX + xDif;
-      let y = carY + yDif;
-      let size = driftForce * sizeMultiplier > driftForceVisualCap ? driftForceVisualCap : driftForce * sizeMultiplier;
-      let element = document.createElement("div")
-      let angle = carAngle.moving + angleModifier
-      element.classList.add("particle");
-      element.classList.add(className);
-      if(className == "skid-mark"){
-        element.style.width = 25;
-        element.style.height = (driftForce * driftForce)/3;
-      }
-      else{
-        element.style.width = size;
-        element.style.height = size;
-      }
-      return {x,y,size,element,angle}
-  }
-
-  let skidParticles = [
-    particle(2,2,3,0,"skid-mark"), 
-    particle(2,-2,3,0,"skid-mark"), 
-    particle(-2,2,3,0,"skid-mark"),
-    particle(-2,-2,3,0,"skid-mark")
-  ] 
-
-  let smokeParticle = particle(
-  Math.floor((Math.random() * 6)-3) * driftForce, 
-  Math.floor((Math.random() * 6)-3) * driftForce,
-  driftForce,
-  carAngle.moving + Math.floor(Math.random() * 50) - 25,
-  "cloud");
-
-  
-  for(let skidParticle of skidParticles ){
-    particles.push(skidParticle);
-    mapParticles.appendChild(skidParticle.element)
-  }
-  // also make cloud
-  if (driftForce >=4) {
-    particles.push(smokeParticle);
-    mapParticles.appendChild(smokeParticle.element)
-  }
-}
-
-const createDirtParticle = (x, y) => {
-  let particle = {
-      x: x + Math.floor(Math.random() * 30) - 15,
-      y: y + Math.floor(Math.random() * 30) - 15,
-      size: 40,
-      element: document.createElement("div"),
-      angle: Math.floor(Math.random() * 359)
-  }
-  particle.element.classList.add("particle");
-  particle.element.style.width = particle.size;
-  particle.element.style.height = particle.size;
-
-  particle.element.classList.add("dirt");
-
-  particles.push(particle);
-  mapParticles.appendChild(particle.element)
-}
 const generateFrameParticles = (speed, x,y ,driftForce, onDirt,angle) => {
   let domParticles = Array.from(mapParticles.children) 
-  if(speed > 15){
+  if(speed > 16){
 
-    addParticle("max_speed",1, x,y,driftForce,angle)
+    addParticle("max_speed",1, x,y,driftForce,angle.moving)
 
   }
-  if(driftForce > 2 && onDirt){
+  if(speed > 2 && onDirt){
 
 
-    addParticle("drift_dirt",1,x,y,driftForce,angle)
+    addParticle("drift_dirt",speed/10,x,y,driftForce,angle.moving)
   }
-  if (driftForce > 1.5 && !onDirt) {
+  if (driftForce > 4.5 && !onDirt) {
       // createDriftParticle(x, y, driftForce, angle);
 
-      addParticle("tire_tracks",1,x, y, driftForce, angle)
-      if(driftForce > 4){
-
-        addParticle("road_dust",1,x, y, driftForce, angle)
+      addParticle("tire_tracks",1,x, y, driftForce, angle.facing)
+      if(driftForce > 5){
+        addParticle("road_dust",speed/20,x + (Math.floor(Math.random() * 60) - 30 ) , y, driftForce, angle.moving)
+        addParticle("road_dust",speed/20,x + (Math.floor(Math.random() * 60) - 30 ), y, driftForce, angle.moving)
+        addParticle("road_dust",speed/20,x, y + (Math.floor(Math.random() * 60) - 30 ), driftForce, angle.moving)
+        addParticle("road_dust",speed/20,x, y + (Math.floor(Math.random() * 60) - 30 ), driftForce, angle.moving)
       }
 
   }
@@ -361,17 +298,7 @@ const createParticleLayer = (width,height) => {
 }
 
 //define textures
-let cowImages = [
-  "https://st.depositphotos.com/1052928/1663/i/600/depositphotos_16636059-stock-photo-brown-cow.jpg",
-  "https://t3.ftcdn.net/jpg/00/84/09/18/360_F_84091840_8wn1lAJ7jIuYRczt4PRqrrZUoAOoPVrO.jpg",
-  "https://images.pexels.com/photos/51311/cow-calf-cattle-stock-51311.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-]
-let cowTextures = [];
-for (let i=0; i < cowImages.length; i++)
-{
-     let texture = Texture.from(cowImages[i]);
-     cowTextures.push(texture);
-};
+
 
 let smoke_1_images = [
   smoke_1_1 ,
@@ -463,8 +390,16 @@ const textureFromImages = (images) => {
   return temptTextureArray;
 }
 
+const animationLengthMap = {
+  "road_dust" : smoke_1_images.length,
+  "collision_bounce" : collision_bounce_images.length,
+  "collision_wall" : collision_wall_images.length,
+  "max_speed" : max_speed_images.length,
+  "drift_dirt" : drift_dirt_images.length,
+
+}
+
 const animationTextureMap =  {
-  "cow" : cowTextures,
   "road_dust" : textureFromImages(smoke_1_images),
   "collision_bounce" : textureFromImages(collision_bounce_images),
   "collision_wall" : textureFromImages(collision_wall_images),
@@ -478,30 +413,32 @@ const staticTextureMap = {
 
 const spriteDetailsMap = {
   "tire_tracks" : {
-    scale: .1,
+    scale: .2,
     anchor: [.75,.75],
     animationSpeed : .1,
     angleOffset : 0,
     angleVariance : 0,
-    alpha: .4,
-    width: 100,
-    height: 100,
-    deleteDelay : 1000,
+    alpha: .25,
+    width: 300,
+    height: 140,
+    deleteDelay : 100000,
     tick: 0,
-    frequency: 1
+    frequency: -1,
+    tint : 0xFFFFFF
   },
   "road_dust" : {
-    scale: 1.2,
+    scale: 2,
     anchor: [.75,.75],
     animationSpeed : .1,
     angleOffset : -30,
     angleVariance : 90,
-    alpha: .4,
+    alpha: .75,
     width: 100,
     height: 100,
     deleteDelay : 1000,
     tick: 0,
-    frequency: 2
+    frequency: 1,
+    tint : 0xf2cbb1
   },
   "collision_bounce" : {
     scale: 1.2,
@@ -509,12 +446,13 @@ const spriteDetailsMap = {
     animationSpeed : .3,
     angleOffset : 90,
     angleVariance : 0,
-    alpha: .4,
+    alpha: 1,
     width: 100,
     height: 100,
     deleteDelay : 750,
     tick: 0,
-    frequency: -1 //may want to lower this for collision if player is stucky wucky
+    frequency: -1,
+    tint : 0xFFFFFF
   },
   "collision_wall" : {
     scale: 1.2,
@@ -522,12 +460,13 @@ const spriteDetailsMap = {
     animationSpeed : .3,
     angleOffset : -30,
     angleVariance : 0,
-    alpha: .4,
+    alpha: 1,
     width: 100,
     height: 100,
     deleteDelay : 1000,
     tick: 0,
-    frequency: 1
+    frequency: 1,
+    tint : 0xFFFFFF
   },
   "max_speed" : {
     scale: .4,
@@ -540,7 +479,8 @@ const spriteDetailsMap = {
     height: 100,
     deleteDelay : 1000,
     tick: 0,
-    frequency: 3
+    frequency: 3,
+    tint : 0xFFFFFF
   },
   "drift_dirt" : {
     scale: 1.2,
@@ -548,50 +488,43 @@ const spriteDetailsMap = {
     animationSpeed : .2,
     angleOffset : -90,
     angleVariance : 90,
-    alpha: .4,
+    alpha: .5,
     width: 100,
     height: 100,
     deleteDelay : 1000,
     tick: 0,
-    frequency: 6
+    frequency: 6,
+    tint : 0xbf6f4a
   },
 }
-// TODO make a map/object containing the textures :)
 
-// add new sprite
-// let cowSprite = new AnimatedSprite(cowTextures);
-// cowSprite.gotoAndPlay(0);
-
-// app.stage.addChild(cowSprite);
 const addParticle = (type = "road_dust", scaleMultiplier, carX= 69,carY = 69, driftForce = 2, carAngle = 24) => {
-  let newCow
+  let newParticle
   
-  //check if tick is > frequency 
-  // if it is, generate the particle, set the tick to 0
-  //if not, increase the tick
 
   if(spriteDetailsMap[type].tick > spriteDetailsMap[type].frequency){
 
     if(Object.keys(animationTextureMap).includes(type)){
-      newCow = new AnimatedSprite(animationTextureMap[type]);
-      newCow.gotoAndPlay(0);
-      newCow.animationSpeed = spriteDetailsMap[type].animationSpeed;
+      newParticle = new AnimatedSprite(animationTextureMap[type]);
+      newParticle.gotoAndPlay(Math.floor(Math.random() * animationLengthMap[type]/2));
+      newParticle.animationSpeed = spriteDetailsMap[type].animationSpeed;
     }
     else{
-      newCow = new Sprite(staticTextureMap[type]);
+      newParticle = new Sprite(staticTextureMap[type]);
     }
-    newCow.angle = carAngle.moving
+    newParticle.angle = carAngle
      + spriteDetailsMap[type].angleOffset
       + ( Math.floor(Math.random() * spriteDetailsMap[type].angleVariance) - spriteDetailsMap[type].angleVariance/2);
-    newCow.alpha = spriteDetailsMap[type].alpha;
-    newCow.x = carX / 2;
-    newCow.y = carY / 2;
-    newCow.anchor.set(spriteDetailsMap[type].anchor[0],spriteDetailsMap[type].anchor[1])
-    newCow.width = 128;
-    newCow.height = 128;
-    newCow.scale.set(spriteDetailsMap[type].scale * scaleMultiplier,spriteDetailsMap[type].scale * scaleMultiplier)
-    app.stage.addChild(newCow);
-    setTimeout(() => newCow.destroy(), spriteDetailsMap[type].deleteDelay) ;
+    newParticle.alpha = spriteDetailsMap[type].alpha;
+    newParticle.x = carX / 2;
+    newParticle.y = carY / 2;
+    newParticle.anchor.set(spriteDetailsMap[type].anchor[0],spriteDetailsMap[type].anchor[1])
+    newParticle.width = 128;
+    newParticle.height = 128;
+    newParticle.tint = spriteDetailsMap[type].tint;
+    newParticle.scale.set(spriteDetailsMap[type].scale * scaleMultiplier,spriteDetailsMap[type].scale * scaleMultiplier)
+    app.stage.addChild(newParticle);
+    setTimeout(() => newParticle.destroy(), spriteDetailsMap[type].deleteDelay) ;
     spriteDetailsMap[type].tick = 0;
   }
   else{
@@ -603,7 +536,7 @@ const addParticle = (type = "road_dust", scaleMultiplier, carX= 69,carY = 69, dr
 
 window.addWindowParticle = addParticle
 
-export {createDirtParticle, createDriftParticle,clearParticles, generateFrameParticles,setParticleLimit,getParticleLimit, particles, colorGhostCar,colorPlayerCar, nameGhost, drawCanvasMap, drawCanvasMapColor, updateCameraScale,updateCameraAngle, playerColors,
+export {clearParticles, generateFrameParticles,setParticleLimit,getParticleLimit, particles, colorGhostCar,colorPlayerCar, nameGhost, drawCanvasMap, drawCanvasMapColor, updateCameraScale,updateCameraAngle, playerColors,
   drawPlayerVehicle,
 drawGhostVehicle, addParticle,
 createParticleLayer}

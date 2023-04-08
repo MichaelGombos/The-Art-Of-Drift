@@ -69,8 +69,10 @@ const createCar = (isGhost) => {
             x.toFixed(2),
             y.toFixed(2),
             angle.facing.toFixed(2),
+            angle.moving.toFixed(2),
             onDirt,
-            driftForce.toFixed(2)
+            driftForce.toFixed(2),
+            speed
         ]
     }
     //setters 
@@ -78,8 +80,10 @@ const createCar = (isGhost) => {
         x = Number(stats[0]);
         y = Number(stats[1]);
         angle.facing = Number(stats[2]);
-        onDirt =  stats[3];
-        driftForce = Number(stats[4]);
+        angle.moving = Number(stats[3]);
+        onDirt =  stats[4];
+        driftForce = Number(stats[5]);
+        driftForce = Number(stats[6]);
     }
     const setX = (value) => {x = value}
     const setY = (value) => {y = value}

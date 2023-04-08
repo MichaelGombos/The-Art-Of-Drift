@@ -205,6 +205,8 @@ const resetCarValues = () => {
   car.resetValues(inSpectateMode)
   ghostCar.resetValues(inSpectateMode);
 
+  createParticleLayer(getMapDataDimensions().width, getMapDataDimensions().height)
+
   updateCarSpawnPosition();
   ghostStep = 0;
   milliseconds = 0;
@@ -230,6 +232,12 @@ const setMapData = (map,replayJSON) => {
 }
 const getMapData = () => {return mapData}
 
+const getMapDataDimensions = () => {
+  return {
+    width: gameCanvas.width,
+    height: gameCanvas.height
+  }
+}
 const generateMap = (inputData) => {
   while (mapGrid.lastElementChild) {
       mapGrid.removeChild(mapGrid.lastElementChild);
