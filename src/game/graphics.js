@@ -83,8 +83,7 @@ import drift_dirt_13 from "../assets/particles/drift_dirt/frame13.png"
 import drift_dirt_14 from "../assets/particles/drift_dirt/frame14.png"
 import drift_dirt_15 from "../assets/particles/drift_dirt/frame15.png"
 
-
-import tire_tracks from "../assets/particles/tire/tire-tracks.png"
+import tire_tracks from "../assets/particles/tracks.png"
 const arrow = require("../assets/arrow.svg");
 const car = require("../assets/car.svg");
 
