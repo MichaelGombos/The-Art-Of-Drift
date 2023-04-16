@@ -47,7 +47,7 @@ const AuthStatus = ({isGuestSession, isShown, user, loading, error}) => {
 
   if(isShown){
     return (
-      <div className="auth-status">
+      <div className=" vertical-navigation-menu auth-status">
         <img className="auth-status__image"
         src={profileImageUrl}/>
         <p className="auth-status__name f-p3">{nameText}</p>

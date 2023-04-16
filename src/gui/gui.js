@@ -40,10 +40,12 @@ import ResultBanner from "./components/result-banner.js"
 
 import MapMaker from "../mapmaker/mapmaker.js"
 
+import { traverseElement, findValidActionsIntree,arrayIncludesArray, arraysEqual,startsWithArray , findObjectWithLocation , convertMultiDimArrayToStringArray, findClosestSibling,findClosestRelative} from "./helpers/accessible-navigation.js"
+
 // http://www.theartofdrift.com/invited?racer=NAME_HASH_0_309&map=0
 // http://localhost:8081/invited?racer=NAME_HASH_0_309&map=0
 
-const home = "/"; //for tests
+const home = "/settings"; //for tests
 
 let currentNavigationInterval = 0;
 let lastNavigationTime = performance.now();
@@ -239,103 +241,214 @@ class GUI extends Component {
     this.state = {
     }
     this.navIndex = 0;
-    window.navigateMenu = this.navigateMenu;
-    window.focusFirstButton = this.focusFirstButton;
+    this.navLocation = "wow"
+    this.baseNode = ""
+    this.validActionsList
+    this.validActionsStringList
+    this.documentTree
+    this.currentNode;
+    // window.navigateMenu = this.navigateMenu;
+    // window.focusFirstButton = this.focusFirstButton;
   }
-  focusFirstButton = () => {
-    let menuList = Array.from(document.querySelector("#game").querySelectorAll("button,select ,input, .title"));
-    menuList[0].focus();
-    this.setState ({navIndex:0})
+
+  componentDidMount =() => {
+    this.baseNode = document.querySelector("#gui-container");
+    this.documentTree = (traverseElement(this.baseNode,this.baseNode,[0]))
+
+    this.validActionsList = findValidActionsIntree([], this.documentTree)
+    this.navLocation = this.validActionsList[this.validActionsList.length-1]
+    this.currentNode = findObjectWithLocation([],this.navLocation,this.documentTree)
+
+    console.log("this is what I am building the list with", this.documentTree),
+    console.log("this is a copy of the validactions list, ", this.validActionsList)
+    document.addEventListener("keydown", this.onKeyPressed )
   }
-  navigateMenu = (command) => {
-    let menuList = Array.from(document.querySelector("#game").querySelectorAll("button,select ,input, .title"));
-    currentNavigationInterval = performance.now() - lastNavigationTime;
-    let validTime = currentNavigationInterval > validNavigationInterval;
-    if(validTime){
-      if(command == "pause" && currentNavigationInterval > validNavigationInterval * 2){
-        if(location.pathname == "/hidden"){
-          window.changeGUIScreen("/pause");
-          pauseGame();
-        }
-        else if(location.pathname == "/pause"){
-          window.changeGUIScreen("/hidden");
-          unPauseGame();
-        }
+
+
+  responsiveNavigation = (direction, isVertical) => {
+    //input navigation
+    if(this.currentNode.navType == "range" && !isVertical){
+      this.currentNode.element.value = Number(this.currentNode.element.value) - direction * this.currentNode.element.dataset.keyboardNavigationSpeed;
+      this.currentNode.element.click();
+      return;
+    }
+    else if(this.currentNode.navType == "checkbox" && !isVertical){
+      this.currentNode.element.click();
+      return;
+    }
+    //movement navigation
+    let verticalDepth;
+    if(this.currentNode.flowType == "row"){
+      verticalDepth = isVertical ? 2 : 1;
+    }
+    else{
+      verticalDepth = isVertical ? 1 : 2;
+    }
+
+    let tempNewLocation = [...this.navLocation];
+    tempNewLocation[this.navLocation.length-verticalDepth] += direction;
+
+    //check for valid direct move
+    for(let action of this.validActionsList){ 
+      console.log("I didn't go here", action, tempNewLocation)
+      if(arraysEqual(action, tempNewLocation)){
+        this.navLocation = tempNewLocation;
+        console.log("current tile (direct move)", this.navLocation)
+        this.currentNode = findObjectWithLocation([],this.navLocation,this.documentTree)
+        this.currentNode.element.focus()
+        
+        return;
       }
-      else if(command == "reset"){
-        setTimeout(resetGame,20)
-      }
+    }
+
+    //recersively check ancestors for the closes valid relative
+    if(findClosestSibling(this.validActionsList,this.navLocation, direction)){
+      console.log("closest sibling " , findClosestSibling(this.validActionsList,this.navLocation,direction))
+      this.navLocation = findClosestSibling(this.validActionsList,this.navLocation,direction);
+    }
+    else if(findClosestRelative(this.validActionsList,this.navLocation,direction)){
+      console.log("closest cousin" , findClosestRelative(this.validActionsList,this.navLocation,direction))
+      this.navLocation = findClosestRelative(this.validActionsList,this.navLocation,direction)
+    }
+    else{
+      console.log("no closest sibling above.", this.navLocation)
+
+    }
+
+    console.log("current tile (recursive move)", this.navLocation)
+    this.currentNode = findObjectWithLocation([],this.navLocation,this.documentTree)
+    console.log("this is the one!!", this.currentNode.element)
+    this.currentNode.element.focus()
+  
+
+    
+  }
+
+  responsiveAction = () => { //like when enter is pressed
+    if(this.currentNode.navType == "checkbox"){
+      this.currentNode.element.click();
+      return;
+    }
+    this.currentNode.element.click();
+    let tempActionNode = this.currentNode
+    tempActionNode.element.classList.add('held-down')
+    setTimeout(() => {
+    tempActionNode.element.classList.remove('held-down')
+    },200)
+  }
+   onKeyPressed = (e) => {
+    // e.preventDefault();
+    if(e.key == "w"){
+      this.responsiveNavigation(-1, true)
+    }
+    if(e.key == "s"){
+      this.responsiveNavigation(1, true)
+    }
+    if(e.key == "d"){
+      this.responsiveNavigation(-1, false)
+    }
+    if(e.key == "a"){
+      this.responsiveNavigation(1, false)
+    }
+    if(e.key == "Enter"){
+      this.responsiveAction()
+    }
+    console.log(e.key)
+  }
+  // focusFirstButton = () => {
+  //   let menuList = Array.from(document.querySelector("#game").querySelectorAll("button,select ,input, .title"));
+  //   menuList[0].focus();
+  //   this.setState ({navIndex:0})
+  // }
+  // navigateMenu = (command) => {
+  //   let menuList = Array.from(document.querySelector("#game").querySelectorAll("button,select ,input, .title"));
+  //   currentNavigationInterval = performance.now() - lastNavigationTime;
+  //   let validTime = currentNavigationInterval > validNavigationInterval;
+  //   if(validTime){
+  //     if(command == "pause" && currentNavigationInterval > validNavigationInterval * 2){
+  //       if(location.pathname == "/hidden"){
+  //         window.changeGUIScreen("/pause");
+  //         pauseGame();
+  //       }
+  //       else if(location.pathname == "/pause"){
+  //         window.changeGUIScreen("/hidden");
+  //         unPauseGame();
+  //       }
+  //     }
+  //     else if(command == "reset"){
+  //       setTimeout(resetGame,20)
+  //     }
       
-      else if(document.querySelector(".menu")){
+  //     else if(document.querySelector(".menu")){
 
-        let firstButton = menuList[0]
-        let lastButton = menuList[menuList.length-1];
-        let lastIndex = menuList.length-1;
+  //       let firstButton = menuList[0]
+  //       let lastButton = menuList[menuList.length-1];
+  //       let lastIndex = menuList.length-1;
   
-        if(this.navIndex == null || this.navIndex == 0){
-          this.navIndex = 0;
-          firstButton.focus();
-        }
-        if(command == "up"){
-          if(document.activeElement == firstButton){ 
-            this.navIndex = lastIndex;
-            lastButton.focus();
-          }
-          else{
-            let previousButton = menuList[this.navIndex-1];
-            this.navIndex -= 1;
-            previousButton.focus();
-          }
-        }
-        else if(command == "down"){
-          if(document.activeElement == lastButton){ 
-            this.navIndex = 0;
-            firstButton.focus();
-          }
-          else{
-            let nextButton = menuList[this.navIndex+1]
-            this.navIndex += 1
-            nextButton.focus();
-          }
-        }
-        else if(command == "select"){
-          menuList[this.navIndex].click();
-        }
-        else if(command == "back"){
-          history.back()
-        } //todo add navigate back?
+  //       if(this.navIndex == null || this.navIndex == 0){
+  //         this.navIndex = 0;
+  //         firstButton.focus();
+  //       }
+  //       if(command == "up"){
+  //         if(document.activeElement == firstButton){ 
+  //           this.navIndex = lastIndex;
+  //           lastButton.focus();
+  //         }
+  //         else{
+  //           let previousButton = menuList[this.navIndex-1];
+  //           this.navIndex -= 1;
+  //           previousButton.focus();
+  //         }
+  //       }
+  //       else if(command == "down"){
+  //         if(document.activeElement == lastButton){ 
+  //           this.navIndex = 0;
+  //           firstButton.focus();
+  //         }
+  //         else{
+  //           let nextButton = menuList[this.navIndex+1]
+  //           this.navIndex += 1
+  //           nextButton.focus();
+  //         }
+  //       }
+  //       else if(command == "select"){
+  //         menuList[this.navIndex].click();
+  //       }
+  //       else if(command == "back"){
+  //         history.back()
+  //       } //todo add navigate back?
   
-      }
+  //     }
 
-      lastNavigationTime = performance.now();
-    }
-
-
-  }
+  //     lastNavigationTime = performance.now();
+  //   }
 
 
-  onKeyPressed = () => (e) => {
-    if(e.key == "r"){
-      if(location.pathname == "/hidden"){
-        setTimeout(resetGame,20)
-      }
-    } 
-    else if(e.key == "p" || e.key == "Escape"){
-      if(location.pathname == "/hidden"){
-        window.changeGUIScreen("/pause");
-        pauseGame();
-      }
-      else if(location.pathname == "/pause"){
-        window.changeGUIScreen("/hidden");
-        unPauseGame();
-      }
-    }
-    else if(Object.keys(navKeys).includes(e.key)){
-      this.navigateMenu(navKeys[e.key]);
-    }
-  }
+  // }
 
-  componentDidMount() {   window.addEventListener('keydown', this.onKeyPressed().bind(this) )    }
+
+  // onKeyPressed = () => (e) => {
+  //   if(e.key == "r"){
+  //     if(location.pathname == "/hidden"){
+  //       setTimeout(resetGame,20)
+  //     }
+  //   } 
+  //   else if(e.key == "p" || e.key == "Escape"){
+  //     if(location.pathname == "/hidden"){
+  //       window.changeGUIScreen("/pause");
+  //       pauseGame();
+  //     }
+  //     else if(location.pathname == "/pause"){
+  //       window.changeGUIScreen("/hidden");
+  //       unPauseGame();
+  //     }
+  //   }
+  //   else if(Object.keys(navKeys).includes(e.key)){
+  //     this.navigateMenu(navKeys[e.key]);
+  //   }
+  // }
+
+  // componentDidMount() {   window.addEventListener('keydown', this.onKeyPressed().bind(this) )    }
   
   
 

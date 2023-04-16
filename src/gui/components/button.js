@@ -64,6 +64,7 @@ const Button = ({alignStart, clickHandler,type, style, children, icon}) => {
     <motion.button 
     className='pixel-button pixel-button--primary' 
     onClick = {clickHandler}
+    whileFocus={style == "disabled" ? {rotate:-1.2}: {scale: 1.05} }
     whileHover={style == "disabled" ? {rotate:-1.2}: {scale: 1.05} }
     whileTap={style == "disabled" ? {rotate:1.2} : { scale: .8}}
     type = {type}

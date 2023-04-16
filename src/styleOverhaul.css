@@ -102,6 +102,7 @@ a{
 
 /* minimalistic GUI CSS */
 
+
 #gui-container{
   display:flex;
   align-items: center;
@@ -886,3 +887,4 @@ input:checked + .switch__inner:before {
 .community-map-grid--2{
   grid-template-columns: 1fr 1fr;
 }
+

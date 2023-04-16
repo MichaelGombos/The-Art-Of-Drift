@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import React, {useRef, useState, useEffect} from "react"
 
 
@@ -5,11 +6,19 @@ import React, {useRef, useState, useEffect} from "react"
 
 const InputSlider = ({minimum,maximum,newValue,setter,sideEffect, children}) => {
     const inputRef = useRef();
+
   
     const onChange = (event) => {
-      setter(event.target.value);
-      sideEffect()
+      console.log("change now")
+      setter(Number(event.target.value));
+      sideEffect ? sideEffect() : ""
     };
+
+    const updateSlider = () => { //for keyboard/controller nav
+      console.log(inputRef.current.value)
+      setter(inputRef.current.value);
+    }
+
     
     const initSlider = () => {
       const slider = inputRef.current;
@@ -35,18 +44,23 @@ const InputSlider = ({minimum,maximum,newValue,setter,sideEffect, children}) => 
     });
 
   return (
-    <div className='particle-limit row w-100 justify-between align-center'>
+    <div className='particle-limit row w-100 justify-between align-center horizantal-navigation-menu'>
     <label htmlFor="particle-selector">{children} ({newValue})</label>
-    <input 
+    <motion.input
+
+whileFocus={ {scale: 1.15} }
+whileHover={ {scale: 1.15} }
+whileTap={ { scale: 1.20}}
       ref={inputRef}
     type="range"
+    data-keyboard-navigation-speed="50"
      min={minimum}
      max={maximum}
     defaultValue={newValue}
     className="slider"
-    onChange={onChange}/>
-  </div>
-  )
+    onChange={onChange}
+    onClick={updateSlider}/>
+    </div>)
 }
 
 export default InputSlider;
