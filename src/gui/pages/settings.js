@@ -8,6 +8,7 @@ import InputSlider from '../components/input-slider.js';
 import ToggleDirectionalCameraButton from '../components/toggle-directional-camera-button.js';
 import ToggleGhostCarButton from '../components/ARCHIVED__toggle-ghost-car-button.js';
 import ToggleStatsButton from '../components/toggle-stats-button.js';
+import ResetGameButton from '../components/reset-game-button.js';
 import InputToggle from '../components/input-toggle.js';
 import Button from '../components/button.js';
 import { logOut } from '../helpers/databaseFacade.js';
@@ -27,7 +28,7 @@ const Settings = ({
   const navigate = useNavigate();
   let [newEnableGhost, setNewEnableGhost] = useState(getEnableGhost());
   let [newParticleLimit,setNewParticleLimit] = useState(getParticleLimit());
-  let [gameDataSafeteyNet,setGameDataSafeteyNet] = useState(3);
+  let [gameDataSafeteyNet,setGameDataSafeteyNet] = useState(10);
   let [newDirectionalCamera, setNewDirectionalCamera] = useState(getDirectionalCamera())
   return (
 
@@ -40,8 +41,14 @@ const Settings = ({
             <Button clickHandler={( () => logOut('/'))}>Log Out</Button>
             <Button clickHandler={( () => navigate(isGuestSession ? "/profile/guest" : "/profile" ))}>View Profile</Button>
             <DeleteGameSaveButton gameDataSafeteyNet={gameDataSafeteyNet} setGameDataSafeteyNet={setGameDataSafeteyNet}/>
-
-            <div className='vertical-navigation-menu w-100'>
+            <ResetGameButton 
+            setNewEnableGhost={setNewEnableGhost}
+            setNewParticleLimit={setNewParticleLimit}
+            setGameDataSafeteyNet={setGameDataSafeteyNet}
+            setNewDirectionalCamera={setNewDirectionalCamera}
+            setShowFPS={setShowFPS}
+            setShowExtraStats={setShowExtraStats}
+            setShowDashboard={setShowDashboard}/>
                 <InputSlider 
               newValue={newParticleLimit} 
               setter={setNewParticleLimit}
@@ -83,7 +90,6 @@ const Settings = ({
               >
                 Enable Ghost Car
               </InputToggle>
-            </div>
 
 
             <ExitSettingsButton isSaving={false} setNewEnableGhost={setNewEnableGhost} setNewParticleLimit={setNewParticleLimit} newEnableGhost={newEnableGhost} newParticleLimit={newParticleLimit} />
