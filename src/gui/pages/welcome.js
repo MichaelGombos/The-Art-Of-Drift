@@ -10,8 +10,8 @@ import {
 const Welcome = () => {
   const navigate = useNavigate();
   return (
-    <div className='menu-container'>
-        <div className='welcome-menu col-2 gap-md'>
+    <div className='vertical-navigation-menu menu-container'>
+        <div className='vertical-navigation-menu welcome-menu col-2 gap-md'>
           <Button clickHandler = {() => navigate("/signup")} style="primary">Sign Up</Button>
           <Button clickHandler = {() => navigate("/signin")} style="light">Sign In</Button>
           <Button clickHandler = {() => guestSignIn("/main",0,1)} style="light">skip (play as guest)</Button>

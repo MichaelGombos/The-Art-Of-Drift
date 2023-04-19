@@ -45,7 +45,7 @@ import { traverseElement, findValidActionsIntree,arrayIncludesArray, arraysEqual
 // http://www.theartofdrift.com/invited?racer=NAME_HASH_0_309&map=0
 // http://localhost:8081/invited?racer=NAME_HASH_0_309&map=0
 
-const home = "/settings"; //for tests
+const home = "/campaign"; //for tests
 
 let currentNavigationInterval = 0;
 let lastNavigationTime = performance.now();
@@ -82,6 +82,7 @@ import CommunityMapsLeaderboard from "./pages/community-maps-leaderboard.js"
 import CommunityMapsAll from "./pages/community-maps-all.js"
 import CommunityMapsLeaderboards from "./pages/community-leaderboards.js"
 import WelcomeAuthSelect from "./pages/welcome-auth-select.js"
+import AccessibleNavigationTest from "./pages/accessible_navigation_test.js"
 
 const Menu = () => {
   let isDeviceValid = true;
@@ -91,7 +92,7 @@ const Menu = () => {
   const [showFPS,setShowFPS] = useState(true);
   const [showExtraStats,setShowExtraStats] = useState(true);
   const [showDashboard,setShowDashboard] = useState(true);
-  const [showAuthStatus,setShowAuthStatus] = useState(true);
+  const [showAuthStatus,setShowAuthStatus] = useState(false);
   const [isGuestSession,setIsGuestSession] = useState(false);
   const [previewMap,setPreviewMap] = useState(
     `{ "spawnAngle" : ${maps[7].spawnAngle} , "lapCount" : ${maps[7].lapCount} , "data" : [${ maps[7].data.map(mapRow => "\n[" + mapRow.map(cell => `"${cell}"`) + "]")}\n] } `
@@ -153,9 +154,7 @@ const Menu = () => {
         setShowAuthStatus(true)
       }
 
-    if(!location.pathname.includes("/") && window.focusFirstButton){
-      window.focusFirstButton()
-    }
+      window.refreshDocumentTree()
   }, [location])
 
   return (
@@ -227,6 +226,7 @@ const Menu = () => {
       <Route  path="/invited" element={<Invited user = {user} loading = {loading} error = {error}/>}/>
       <Route  path="/invited/info" element={<InvitedInfo/>}/>
       <Route  path="/not-supported" element={<NotSupported/>}/>
+      <Route  path="/test" element={<AccessibleNavigationTest/>}/>
       <Route  element={<Navigate to="/"/>}/>
     </Routes>
     
@@ -250,23 +250,30 @@ class GUI extends Component {
     // window.navigateMenu = this.navigateMenu;
     // window.focusFirstButton = this.focusFirstButton;
   }
-
+// [0, 1, 0, 1, 2, 0, 0] (7) [0, 1, 0, 1, 2, 1, 2]
   componentDidMount =() => {
+    this.refreshDocumentTree();
+    window.refreshDocumentTree = this.refreshDocumentTree;
+    window.findActionWithLocation = (location) => () => {
+      
+      console.log("shitfart", findObjectWithLocation([],location,this.documentTree))
+    }
+    window.shitFart = () => {console.log("shitfart")}
+    document.addEventListener("keydown", this.onKeyPressed )
+  }
+  
+  refreshDocumentTree = (locationIndex = 0) => {
     this.baseNode = document.querySelector("#gui-container");
     this.documentTree = (traverseElement(this.baseNode,this.baseNode,[0]))
 
     this.validActionsList = findValidActionsIntree([], this.documentTree)
-    this.navLocation = this.validActionsList[this.validActionsList.length-1]
+    this.navLocation = this.validActionsList[locationIndex]
     this.currentNode = findObjectWithLocation([],this.navLocation,this.documentTree)
-
-    console.log("this is what I am building the list with", this.documentTree),
-    console.log("this is a copy of the validactions list, ", this.validActionsList)
-    document.addEventListener("keydown", this.onKeyPressed )
   }
 
-
-  responsiveNavigation = (direction, isVertical) => {
+  responsiveNavigation = (staticDirection, isVertical) => {
     //input navigation
+    let direction = staticDirection;
     if(this.currentNode.navType == "range" && !isVertical){
       this.currentNode.element.value = Number(this.currentNode.element.value) - direction * this.currentNode.element.dataset.keyboardNavigationSpeed;
       this.currentNode.element.click();
@@ -280,17 +287,18 @@ class GUI extends Component {
     let verticalDepth;
     if(this.currentNode.flowType == "row"){
       verticalDepth = isVertical ? 2 : 1;
+      direction = isVertical ? direction : -direction;
     }
     else{
+      direction = isVertical ? direction : -direction;
       verticalDepth = isVertical ? 1 : 2;
     }
-
+    console.log("my direction" ,direction)
     let tempNewLocation = [...this.navLocation];
     tempNewLocation[this.navLocation.length-verticalDepth] += direction;
 
     //check for valid direct move
     for(let action of this.validActionsList){ 
-      console.log("I didn't go here", action, tempNewLocation)
       if(arraysEqual(action, tempNewLocation)){
         this.navLocation = tempNewLocation;
         console.log("current tile (direct move)", this.navLocation)

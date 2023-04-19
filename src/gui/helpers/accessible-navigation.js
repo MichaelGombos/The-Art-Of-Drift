@@ -9,12 +9,13 @@ export const traverseElement = (parent, element, location) => {
         return "column"
       case(element.tagName == "BUTTON"):
         return "button"
+      case(element.tagName == "A"):
+        return "link"
       case(element.type == "checkbox"):
         return "checkbox"
       case(element.type == "range"):
         return "range"
       default:
-        console.log("how could this be false??", element.type , element.tagName, element)
         return false
     }
   })();
@@ -62,7 +63,6 @@ export const traverseElement = (parent, element, location) => {
   }
   if (!navType){
 
-  console.log("what the failed node looks like" , fillerNode)
     return false;
   }
   return fillerNode;
@@ -78,7 +78,8 @@ export const findValidActionsIntree = (validList, tree) => {
   }
   else if(tree.navType === "button"
   || tree.navType === "checkbox"
-  || tree.navType === "range"){ 
+  || tree.navType === "range"
+  || tree.navType === "link"){ 
     validList.push(tree.location);
   }
   return validList;
@@ -180,11 +181,12 @@ export const findClosestRelative = (validList,location,direction) => {
   }
 
   let nextLocationIndex = listToSearch.findIndex(possibleLocation => {
-    return (arrayIncludesArray(possibleLocation,parentToSearch))})
+    return (startsWithArray(possibleLocation,parentToSearch))})
 
 
   if(nextLocationIndex == -1){
     return findClosestRelative(validList,parentToSearch, direction )
   }
+
   return(listToSearch[nextLocationIndex]);
 }

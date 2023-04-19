@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import {getDirectionalCamera, getEnableGhost, setDirectionalCamera} from "../../game/game.js"
 import {getParticleLimit} from "../../game/graphics.js"
@@ -8,7 +8,7 @@ import InputSlider from '../components/input-slider.js';
 import ToggleDirectionalCameraButton from '../components/toggle-directional-camera-button.js';
 import ToggleGhostCarButton from '../components/ARCHIVED__toggle-ghost-car-button.js';
 import ToggleStatsButton from '../components/toggle-stats-button.js';
-import ResetGameButton from '../components/reset-game-button.js';
+import ResetSettingsButton from '../components/reset-settings-button.js';
 import InputToggle from '../components/input-toggle.js';
 import Button from '../components/button.js';
 import { logOut } from '../helpers/databaseFacade.js';
@@ -26,6 +26,8 @@ const Settings = ({
   setShowDashboard
 }) => {
   const navigate = useNavigate();
+
+  const particleLimitSlider = useRef(null)
   let [newEnableGhost, setNewEnableGhost] = useState(getEnableGhost());
   let [newParticleLimit,setNewParticleLimit] = useState(getParticleLimit());
   let [gameDataSafeteyNet,setGameDataSafeteyNet] = useState(10);
@@ -41,7 +43,8 @@ const Settings = ({
             <Button clickHandler={( () => logOut('/'))}>Log Out</Button>
             <Button clickHandler={( () => navigate(isGuestSession ? "/profile/guest" : "/profile" ))}>View Profile</Button>
             <DeleteGameSaveButton gameDataSafeteyNet={gameDataSafeteyNet} setGameDataSafeteyNet={setGameDataSafeteyNet}/>
-            <ResetGameButton 
+            <ResetSettingsButton 
+            particleLimitSlider={particleLimitSlider}
             setNewEnableGhost={setNewEnableGhost}
             setNewParticleLimit={setNewParticleLimit}
             setGameDataSafeteyNet={setGameDataSafeteyNet}
@@ -50,6 +53,7 @@ const Settings = ({
             setShowExtraStats={setShowExtraStats}
             setShowDashboard={setShowDashboard}/>
                 <InputSlider 
+                parentRef={particleLimitSlider}
               newValue={newParticleLimit} 
               setter={setNewParticleLimit}
               minimum={0}

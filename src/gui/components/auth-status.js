@@ -29,6 +29,7 @@ const AuthStatus = ({isGuestSession, isShown, user, loading, error}) => {
   
       setNameText("error...")
       window.setAsyncLoader(false)
+
     }
     else if(user){
 
@@ -36,11 +37,13 @@ const AuthStatus = ({isGuestSession, isShown, user, loading, error}) => {
       setNameText(profile.displayName)
       setProfileImageUrl(avatarGraphicURLs[profile.avatarId])
       window.setAsyncLoader(false)
+
       })
     }
     else{
       window.setAsyncLoader(false)
     }
+    window.refreshDocumentTree();
   }) 
 
 

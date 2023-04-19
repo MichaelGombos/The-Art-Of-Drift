@@ -11,7 +11,7 @@ const MainMenuNavigation = () => {
   const navigate = useNavigate();
 
   return (
-  <div className="col-6 main-menu__navigation gap-md">
+  <div className="vertical-navigation-menu col-6 main-menu__navigation gap-md">
     <Button style="primary" clickHandler={() => navigate("/campaign") }>campaign</Button>
     <Button style="light" clickHandler={() => navigate("/community-maps")}>community maps</Button>
     <Button style="light" clickHandler={() => navigate("/leaderboards")}>leaderboards</Button>

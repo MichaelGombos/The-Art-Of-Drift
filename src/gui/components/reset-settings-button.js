@@ -1,7 +1,7 @@
 import React from "react"
 import Button from "./button.js";
            
-const ResetGameButton = ({
+const ResetSettingsButton = ({
   setNewEnableGhost,
   setNewParticleLimit,
   setGameDataSafeteyNet,
@@ -25,4 +25,4 @@ const ResetGameButton = ({
   )
 }
 
-export default ResetGameButton;
+export default ResetSettingsButton;

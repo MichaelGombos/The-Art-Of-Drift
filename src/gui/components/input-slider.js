@@ -4,12 +4,11 @@ import React, {useRef, useState, useEffect} from "react"
 
 
 
-const InputSlider = ({minimum,maximum,newValue,setter,sideEffect, children}) => {
-    const inputRef = useRef();
-
+const InputSlider = ({minimum,maximum,newValue,setter,sideEffect, children, parentRef}) => {
+    const inputRef =parentRef ? parentRef : inputRef;; //parent ref for special pages like settings
+    
   
     const onChange = (event) => {
-      console.log("change now")
       setter(Number(event.target.value));
       sideEffect ? sideEffect() : ""
     };
@@ -51,7 +50,7 @@ const InputSlider = ({minimum,maximum,newValue,setter,sideEffect, children}) => 
 whileFocus={ {scale: 1.15} }
 whileHover={ {scale: 1.15} }
 whileTap={ { scale: 1.20}}
-      ref={inputRef}
+      ref={parentRef ? parentRef : inputRef}
     type="range"
     data-keyboard-navigation-speed="50"
      min={minimum}

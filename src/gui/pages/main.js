@@ -7,8 +7,8 @@ import TextLogo from '../components/text-logo.js';
 const Main = () => {
 
   return (
-  <div className="menu-container">
-    <div className="col-2 gap-xl main-menu">
+  <div className="vertical-navigation-menu menu-container">
+    <div className="vertical-navigation-menu col-2 gap-xl main-menu">
 
       <TextLogo size="small" content="main menu"/>
       <MainMenuNavigation/>
