@@ -45,7 +45,7 @@ import { traverseElement, findValidActionsIntree,arrayIncludesArray, arraysEqual
 // http://www.theartofdrift.com/invited?racer=NAME_HASH_0_309&map=0
 // http://localhost:8081/invited?racer=NAME_HASH_0_309&map=0
 
-const home = "/campaign"; //for tests
+const home = "/"; //for tests
 
 let currentNavigationInterval = 0;
 let lastNavigationTime = performance.now();
@@ -146,8 +146,10 @@ const Menu = () => {
     if(
       location.pathname == ("/") ||
       location.pathname == ("/hidden") ||
+      location.pathname == ("/countdown") ||
       location.pathname ==("/welcome") ||
       location.pathname == ("/signup") || 
+      location.pathname == ("/title") || 
       location.pathname.includes("/profile")){
         setShowAuthStatus(false)
       }else{
@@ -155,6 +157,7 @@ const Menu = () => {
       }
 
       window.refreshDocumentTree()
+      console.log("GUI INITIAL MOUNT DOCUMENT REFRESH")
   }, [location])
 
   return (
@@ -252,6 +255,7 @@ class GUI extends Component {
   }
 // [0, 1, 0, 1, 2, 0, 0] (7) [0, 1, 0, 1, 2, 1, 2]
   componentDidMount =() => {
+    
     this.refreshDocumentTree();
     window.refreshDocumentTree = this.refreshDocumentTree;
     window.findActionWithLocation = (location) => () => {
@@ -262,13 +266,31 @@ class GUI extends Component {
     document.addEventListener("keydown", this.onKeyPressed )
   }
   
-  refreshDocumentTree = (locationIndex = 0) => {
+  refreshDocumentTree = () => {
+    let locationIndex; 
+    if(
+      location.pathname == ("/") ||
+      location.pathname == ("/hidden") ||
+      location.pathname == ("/countdown") ||
+      location.pathname ==("/welcome") ||
+      location.pathname == ("/signup") || 
+      location.pathname == ("/title") || 
+      location.pathname.includes("/profile")){
+        locationIndex = 0
+      }else{
+        locationIndex = 1 //for ignoring the authstatus (profile menu)
+      }
+
+   
     this.baseNode = document.querySelector("#gui-container");
     this.documentTree = (traverseElement(this.baseNode,this.baseNode,[0]))
 
     this.validActionsList = findValidActionsIntree([], this.documentTree)
     this.navLocation = this.validActionsList[locationIndex]
     this.currentNode = findObjectWithLocation([],this.navLocation,this.documentTree)
+
+    console.log("finish refreshing document tree, ", this.documentTree)
+    this.currentNode ? this.currentNode.element.focus() : console.log("can't focus current elemtn");
   }
 
   responsiveNavigation = (staticDirection, isVertical) => {
@@ -345,6 +367,7 @@ class GUI extends Component {
     },200)
   }
    onKeyPressed = (e) => {
+     e.preventDefault();
     // e.preventDefault();
     if(e.key == "w"){
       this.responsiveNavigation(-1, true)

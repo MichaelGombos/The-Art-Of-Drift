@@ -5,31 +5,7 @@ import { mapNames } from '../../game/map-data.js';
 
 import { getMedalAmount } from '../helpers/databaseFacade.js';
 
-const Act = ({actIndex, mapIndexArray,medalsRequired, medalsUnlocked}) => {
-  // const isLocked = medalsUnlocked < medalsRequired;
-  const isLocked = false;
-  const navigate = useNavigate();
-  return (
-    <>
-
-          <div className='vertical-navigation-menu act__navigation col-6 gap-sm'>
-            {
-              mapIndexArray.map(mapIndex => {
-                return (
-                <Button style={isLocked ? "disabled" : ""}  key={mapIndex}  clickHandler={
-                  !isLocked ? (() => navigate(`/campaign/${mapIndex}`))
-                  : undefined}>{isLocked ? "locked (" + (medalsRequired - medalsUnlocked) + " medals required)" : mapNames[mapIndex] }
-                  
-                </Button>
-                )
-
-              })
-            }
-          </div>
-    </>
-  )
-
-}
+import CampaignAct from '../components/campaign-act.js';
 
 const Campaign = () => {
   const [medals,setMedals] = useState(0)
@@ -49,21 +25,25 @@ const Campaign = () => {
           <Button style="light" clickHandler={() => navigate(`/main`)}>back
           </Button>
           <div className='horizantal-navigation-menu campaign-menu__acts row justify-center gap-md'>
-            <Act 
+            <CampaignAct 
             actIndex={1} 
             mapIndexArray={[0,1,2,3,13]} 
             medalsRequired={0} 
-            medalsUnlocked={medals}/>
-            <Act 
+            medalsUnlocked={medals}
+            destination={"/campaign"}
+            />
+            <CampaignAct 
             actIndex={2} 
             mapIndexArray={[4,5,6,7]} 
             medalsRequired={6}
-            medalsUnlocked={medals}/>
-            <Act 
+            medalsUnlocked={medals}
+            destination={"/campaign"}/>
+            <CampaignAct 
             actIndex={3} 
             mapIndexArray={[8,9,10,11,12]} 
             medalsRequired={12}
-            medalsUnlocked={medals}/>
+            medalsUnlocked={medals}
+            destination={"/campaign"}/>
           </div>
         </div>
     </div>

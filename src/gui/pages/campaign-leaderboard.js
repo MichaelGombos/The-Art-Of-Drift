@@ -13,7 +13,7 @@ import RaceDatabaseButtons from '../components/race-database-buttons';
 
 import { replays } from "../../game/replay.js"
 import { drawCanvasMap } from '../../game/graphics.js';
-import { mapNames, maps } from '../../game/map-data';
+import { HTMLMapNames, maps } from '../../game/map-data';
 import { getAllReplays } from '../helpers/databaseFacade';
 
 
@@ -31,11 +31,11 @@ const firestore = firebase.firestore();
 
 const LeaderboardTime = ({replayObject,index,mapIndex}) => {
   return(
-    <div className="leaderboard__time row">
+    <div className="vertical-navigation-menu act__navigation leaderboard__time row">
       <div className="time__player-name">
         <p>#{index+1} {replayObject.playerName}</p>
       </div>
-      <div className='time__menu row'>
+      <div className='horizantal-navigation-menu act__navigation time__menu row'>
         <p>{replayObject.time}</p>
         <RaceDatabaseButtons replayObject={replayObject} mapIndex={mapIndex} isTextShort={true}/>
       </div>
@@ -45,7 +45,7 @@ const LeaderboardTime = ({replayObject,index,mapIndex}) => {
 
 const ScrollContainer = ({children}) => {
   return (
-    <div className='scroll-container col-6 gap-md'>
+    <div className='vertical-navigation-menu act__navigation scroll-container col-6 gap-md'>
       {children}
     </div>
   )
@@ -68,12 +68,12 @@ const CampaignLeaderboard = () => {
   const pb = localStorage.getItem(`pb${mapIndex}`);
 
   return(
-    <div className='menu-container'>
-      <div className='campaign-menu col-6 gap-lg'>
+    <div className='vertical-navigation-menu act__navigation menu-container'>
+      <div className='vertical-navigation-menu act__navigation campaign-menu col-6 gap-lg'>
         <div className='leaderboard-menu__header'>
           <h1 className='f-p1'>Campaign <span className='text-secondary-500'>map # {Number(mapIndex)+1}</span></h1>
           <MapCanvasPreview width="col-2" isTiny={true} mapIndex={mapIndex}/>
-          <h2 className="f-h2">{mapNames[mapIndex]}</h2>
+          <h2 className="f-h2" dangerouslySetInnerHTML={{__html: HTMLMapNames[mapIndex]}}></h2>
         </div>
         <Button clickHandler={() => navigate("/leaderboards/campaign")}>Back</Button>
         <ScrollContainer>

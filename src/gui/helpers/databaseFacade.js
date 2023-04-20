@@ -21,7 +21,7 @@ export const getDatabaseTime = () => {
 
 export const printUserProfile = () => {
   const userID = auth.currentUser.uid;
-  console.log("THIS IS YOUR USER OBJECT" , auth.currentUser)
+  // console.log("THIS IS YOUR USER OBJECT" , auth.currentUser)
 }
 
 //--------------AUTH
@@ -417,10 +417,8 @@ export const getAllReplays = async(mapID) => {
     // doc.data() is never undefined for query doc snapshots
       allReplays.push(doc.data())
   });
-  console.log("INSIDE",allReplays);
 
   window.setAsyncLoader(false)
-  console.log("big chungus replay?")
   return allReplays;
 }
 export const deleteReplay = async(UID,mapID) => {
@@ -499,7 +497,6 @@ export const getAllMaps = async() => {
   let allMaps = [];
 
   const querySnapshot = await getDocs(q);
-  console.log(querySnapshot)
   querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
     allMaps.push(doc.data())
@@ -515,7 +512,6 @@ export const getCurrentAuthMaps = async() => {
   let filteredMaps = [];
 
   const querySnapshot = await getDocs(q);
-  console.log(querySnapshot)
   querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
     filteredMaps.push(doc.data())
@@ -531,7 +527,6 @@ export const getUIDMaps = async(UID) => {
   let filteredMaps = [];
 
   const querySnapshot = await getDocs(q);
-  console.log(querySnapshot)
   querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
     filteredMaps.push(doc.data())

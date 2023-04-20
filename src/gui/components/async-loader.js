@@ -11,21 +11,20 @@ const AsyncLoader = () => {
 
   window.setAsyncLoader = (value) => {
     if(fullOverlay && value == false){ 
-      setTimeout(() => setLoading(value),  250) //extra time for actions to mount to the dom.
+      setTimeout(() => {
+        window.refreshDocumentTree()
+        setLoading(value)
+      },  500) //extra time for actions to mount to the dom.
 
       //TODO, function to remap the navigation controls after the actions mount to the dom.
+      
     }
     else{
       setLoading(value)
     }
   }
   const loaderPageList = [
-      /*
-      leaderboards/campaign/mapID
-      leaderboards/community
-      leaderaboards/community/mapID
-      /community-maps/all
-      */
+
      "campaign/",
      "leaderboards/campaign/",
      "leaderboards/community",

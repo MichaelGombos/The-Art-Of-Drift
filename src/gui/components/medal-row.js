@@ -48,8 +48,8 @@ const MedalRow = ({best, medal,currentDiff, setDiff,isGhostEnabled, setNewGhostE
     return "";
   }
   return (  
-    <li className={`medal-row ${unlockedMedals[medal] ? "" : "locked-text"}`}>
-      <div className="medal-row__menu"> 
+    <li className={`horizantal-navigation-menu act__navigation medal-row ${unlockedMedals[medal] ? "" : "locked-text"}`}>
+      <div className="vertical-navigation-menu act__navigation medal-row__menu"> 
       <Button style={currentDiff == medal ? "selected" : "light"} clickHandler={ () => {
         setDiff(medal)
       }
