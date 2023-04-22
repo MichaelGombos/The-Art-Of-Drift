@@ -98,6 +98,7 @@ const Menu = () => {
     `{ "spawnAngle" : ${maps[7].spawnAngle} , "lapCount" : ${maps[7].lapCount} , "data" : [${ maps[7].data.map(mapRow => "\n[" + mapRow.map(cell => `"${cell}"`) + "]")}\n] } `
   );
 
+  const [locationPathHistory,setLocationPathHistory] = useState([]); //allows back to work on pages.
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -157,6 +158,7 @@ const Menu = () => {
       }
 
       window.refreshDocumentTree()
+      setLocationPathHistory(locationPathHistory.concat(location.pathname))
       console.log("GUI INITIAL MOUNT DOCUMENT REFRESH")
   }, [location])
 
@@ -180,7 +182,7 @@ const Menu = () => {
       <Route  path="/signup/email" element={<Signup type={"email"}/>}/>
       <Route  path="/signin/email" element={<Signin/>}/>
       <Route  path="/main" element={<Main setPrevious={setPreviousType}/>}/>
-      <Route  path="/profile" element={<Profile user = {user} loading = {loading} error = {error}/>}/>
+      <Route  path="/profile" element={<Profile locationPathHistory = {locationPathHistory}  user = {user} loading = {loading} error = {error}/>}/>
       <Route  path="/profile/guest" element={<ProfileGuest user = {user} loading = {loading} error = {error}/>}/>
       <Route  path="/profile/edit" element={<ProfileEdit user = {user} loading = {loading} error = {error}/>}/>
       <Route  path="/profile/guest/upgrade/gmail" element={<ProfileUpgrade type="gmail" user = {user} loading = {loading} error = {error}/>}/>
@@ -367,7 +369,6 @@ class GUI extends Component {
     },200)
   }
    onKeyPressed = (e) => {
-     e.preventDefault();
     // e.preventDefault();
     if(e.key == "w"){
       this.responsiveNavigation(-1, true)
@@ -382,6 +383,7 @@ class GUI extends Component {
       this.responsiveNavigation(1, false)
     }
     if(e.key == "Enter"){
+      e.preventDefault();
       this.responsiveAction()
     }
     console.log(e.key)

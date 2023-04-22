@@ -64,7 +64,7 @@ const FinishNavigation = ({newBest,mapIndex,bestReplayObject}) => {
    
 
   return(
-      <nav className="col-6 align-center gap-md">
+      <nav className="vertical-navigation-menu col-6 align-center gap-md">
             {getInSpectateMode() ? 
             <Button clickHandler={() => {
               resetGame(true);

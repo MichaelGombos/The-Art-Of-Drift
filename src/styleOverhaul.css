@@ -53,11 +53,14 @@ Pages
   color:white;
   background-color: var(--shade-100);
 }
-
 a{
-  color: white;
   text-decoration: none;
 }
+a, a:focus{
+  color: white;
+}
+
+
 
 /* utility classes */
 

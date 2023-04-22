@@ -4,8 +4,8 @@ const ProfileTemplate = ({children}) => {
 
 
   return (
-    <div className="dark-background">
-      <div className='menu-container '>
+    <div className="vertical-navigation-menu dark-background">
+      <div className='vertical-navigation-menu menu-container '>
         {children}
       </div>
     </div>

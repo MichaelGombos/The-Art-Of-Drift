@@ -13,8 +13,8 @@ const SignInAuthSelect = () => {
   //type = signup or signin
   const navigate = useNavigate();
   return (
-    <div className='menu-container'>
-        <div className='welcome-menu col-2 gap-md'>
+    <div className='vertical-navigation-menu menu-container'>
+        <div className='vertical-navigation-menu welcome-menu col-2 gap-md'>
         <h1 className="f-h1">Sign <span className="text-secondary-500">in</span> choice</h1>
           <Button clickHandler = {() => navigate("/signin/email")} >Sign in with email</Button>
           <Button clickHandler = {() => gmailSignIn("/main")} style="light" icon="google"          >sign in with google</Button>
@@ -28,8 +28,8 @@ const SignUpAuthSelect = () => {
   //type = signup or signin
   const navigate = useNavigate();
   return (
-    <div className='menu-container'>
-        <div className='welcome-menu col-2 gap-md'>
+    <div className='vertical-navigation-menu menu-container'>
+        <div className='vertical-navigation-menu welcome-menu col-2 gap-md'>
         <h1 className="f-h1">Sign <span className="text-secondary-500">up</span> choice</h1>
           <Button clickHandler = {() => navigate("/signup/email")} >Sign up with email</Button>
           <Button clickHandler = {() => navigate("/signup/gmail")} style="light" icon="google">sign up with google</Button>

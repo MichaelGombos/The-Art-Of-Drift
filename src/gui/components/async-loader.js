@@ -30,7 +30,8 @@ const AsyncLoader = () => {
      "leaderboards/community",
      "leaderboards/community/",
      "community-maps/all",
-     "community-maps/my-maps"
+     "community-maps/my-maps",
+     "community-maps/leaderboard",
   ]
 
   useEffect(() => {

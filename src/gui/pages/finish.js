@@ -90,9 +90,9 @@ const Finish = () => {
       spectateTime = getSpectateTime();
   }, [])
   return (
-    <div className="opaque-background">
-      <div className="menu-container" >
-        <div className="finish-menu col-2 align-center  gap-md">
+    <div className="vertical-navigation-menu opaque-background">
+      <div className="vertical-navigation-menu menu-container" >
+        <div className="vertical-navigation-menu finish-menu col-2 align-center  gap-md">
           <FinishHeader replayObject={replayObject} spectateTime = {spectateTime} playerTime = {playerTime} newBest={newBest} mapIndex={mapIndex} oldPB={oldPB}/>
           <FinishNavigation newBest={newBest} mapIndex={mapIndex} bestReplayObject = {replayObject}/>
         </div>

@@ -11,11 +11,11 @@ const Pause = ({setPrevious}) => {
 
   return (
 
-    <div className="opaque-background">
-    <div className='menu-container'>
-      <div className="paused-menu col-2 align-center gap-lg">
+    <div className="vertical-navigation-menu opaque-background">
+    <div className='vertical-navigation-menu menu-container'>
+      <div className="vertical-navigation-menu paused-menu col-2 align-center gap-lg">
         <h1 className="f-h1">Pause</h1>
-        <div className='col-6 align-center gap-md' >
+        <div className='vertical-navigation-menu col-6 align-center gap-md' >
           <Button style="primary" clickHandler={() => {
             navigate("/hidden");
           unPauseGame();

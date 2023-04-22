@@ -98,7 +98,7 @@ const ProfileGuest = ({ user, loading, error}) => {
 
   return (
       <ProfileTemplate>
-          <div className='col-3 gap-xl'>
+          <div className='vertical-navigation-menu col-3 gap-xl'>
             <h1 className="f-h1">Profile <span className="text-secondary-500">(guest)</span></h1>
             <ProfileForm 
             user = {user}
@@ -108,14 +108,14 @@ const ProfileGuest = ({ user, loading, error}) => {
             setEmail = {setEmail} 
             setPassword = {setPassword}/>
             <p>upgrade your guest account to unlock <span className="text-secondary-500">profile customization,</span> and the ability to <span className="text-secondary-500">upload community maps.</span> Upgrading will <span className="text-secondary-500">transfer your guest account progress</span> to your new account</p>
-            <div className="profile__navigation col-6 gap-sm">
+            <div className=" vertical-navigation-menu profile__navigation col-6 gap-sm">
               <Button alignStart={true}  clickHandler = {() => navigate("/profile/guest/upgrade/email")}>Upgrade to email account</Button>
               <Button alignStart={true} icon="google" clickHandler = {() => navigate("/profile/guest/upgrade/gmail")}>Upgrade to gmail account</Button>
               <Button alignStart={true} clickHandler = {() => navigate(-1)}>Exit</Button> 
             </div>
 
-            <div className="signup-footer col-6 gap-md">
-              <p>Already have an account? <Link className="link-secondary-500" to="/signin">Sign in instead.</Link></p>
+            <div className="vertical-navigation-menu signup-footer col-6 gap-md">
+              <p class="horizantal-navigation-menu">Already have an account? <Link className="link-secondary-500" to="/signin">Sign in instead.</Link></p>
             </div>
           </div>
           <div className='col-3 gap-md'>

@@ -11,8 +11,8 @@ import Button from '../components/button';
 const Leaderboards = () => { 
   const navigate = useNavigate();
   return(
-    <div className='menu-container'>
-      <div className='campaign-menu col-6 gap-md'>
+    <div className='vertical-navigation-menu menu-container'>
+      <div className='vertical-navigation-menu campaign-menu col-6 gap-md'>
         <div className='campaign-menu__header col-6 align-center gap-md'>
           <h1 className='f-h1'>Leaderboards</h1>
         </div>

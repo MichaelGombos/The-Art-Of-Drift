@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import Button from "../components/button.js"
@@ -64,8 +64,9 @@ const ProfileForm = ({ submitHandler, setRacerName,setEmail, racerNamePlaceholde
 }
 
 
-const Profile = ({ user, loading, error}) => {
+const Profile = ({ locationPathHistory, user, loading, error}) => {
 
+  const [firstPageThatWasntProfile, setFirstPageThatWasntProfile] = useState("/")
   const [racerNamePlaceholder, setRacerNamePlaceholder] = useState();
   const [emailPlaceholder,setEmailPlaceholder] = useState();
 
@@ -92,6 +93,11 @@ const Profile = ({ user, loading, error}) => {
     setEmailPlaceholder(user.email)
     })
   }
+  useEffect(() =>{ 
+    setFirstPageThatWasntProfile([...locationPathHistory].reverse().find(locationPath => {
+     return  !locationPath.includes("profile");
+    }))
+  })
 
   // const handleSubmit = (e) => {
   //   console.log(racerName)
@@ -107,7 +113,7 @@ const Profile = ({ user, loading, error}) => {
 
   return (
       <ProfileTemplate>
-          <div className='col-3 gap-xl'>
+          <div className='vertical-navigation-menu col-3 gap-xl'>
             <h1 className="f-h1">Profile</h1>
             <ProfileForm 
             user = {user}
@@ -117,10 +123,10 @@ const Profile = ({ user, loading, error}) => {
             setEmail = {setEmail} 
             setPassword = {setPassword}/>
 
-            <div className="profile__navigation col-6 gap-sm">
+            <div className="vertical-navigation-menu profile__navigation col-6 gap-sm">
               <Button alignStart={true} style="primary" clickHandler = {() => navigate("/profile/edit")}>Edit</Button>
               <Button alignStart={true}  clickHandler = { handleGuestSignIn}>Logout (play as guest)</Button>
-              <Button alignStart={true} clickHandler = {() => navigate(-1)}>Exit</Button> 
+              <Button alignStart={true} clickHandler = {() => navigate(firstPageThatWasntProfile)}>Exit</Button> 
             </div>
 
             {/* <div className="signup-footer col-6 gap-md">

@@ -31,11 +31,11 @@ const firestore = firebase.firestore();
 
 const LeaderboardTime = ({replayObject,index,mapIndex, mapObject}) => {
   return(
-    <div className="leaderboard__time row">
+    <div className="vertical-navigation-menu leaderboard__time row">
       <div className="time__player-name">
         <p>#{index+1} {replayObject.playerName}</p>
       </div>
-      <div className='time__menu row'>
+      <div className='horizantal-navigation-menu time__menu row'>
         <p>{replayObject.time}</p>
         <RaceDatabaseButtons replayObject={replayObject} mapIndex={mapIndex} isTextShort={true} mapObject={mapObject}/>
       </div>
@@ -45,7 +45,7 @@ const LeaderboardTime = ({replayObject,index,mapIndex, mapObject}) => {
 
 const ScrollContainer = ({children}) => {
   return (
-    <div className='scroll-container col-6 gap-md'>
+    <div className='vertical-navigation-menu scroll-container col-6 gap-md'>
       {children}
     </div>
   )
@@ -81,8 +81,8 @@ const CommunityMapsLeaderboard = () => {
 
 
   return(
-    <div className='menu-container'>
-      <div className='campaign-menu col-6 gap-lg'>
+    <div className='vertical-navigation-menu menu-container'>
+      <div className='vertical-navigation-menu campaign-menu col-6 gap-lg'>
         <div className='leaderboard-menu__header'>
           <h1 className='f-p1'>Community <span className='text-secondary-500'>map # {mapId}</span></h1>
             <MapCanvasPreview width="col-2" isTiny={true} communityMapData={communityMapObject.data} />

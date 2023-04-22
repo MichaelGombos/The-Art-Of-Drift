@@ -5,7 +5,7 @@ import React, {useRef, useState, useEffect} from "react"
 
 
 const InputSlider = ({minimum,maximum,newValue,setter,sideEffect, children, parentRef}) => {
-    const inputRef =parentRef ? parentRef : inputRef;; //parent ref for special pages like settings
+    const inputRef = parentRef ? parentRef : useRef(); //parent ref for special pages like settings
     
   
     const onChange = (event) => {

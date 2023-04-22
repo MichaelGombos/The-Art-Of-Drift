@@ -13,7 +13,9 @@ const Invited = ({user,loading,error}) => {
   const navigate = useNavigate();
 
   const playerUID  = searchParams.get("racer");
-  const mapIndex = Number(searchParams.get("map"));
+  const mapIndex = searchParams.get("map");
+
+  console.log("bruh map,", searchParams.get("map"))
 
   getProfileUID(playerUID).then(profile => {
     // setplayerName(profile.displayName)
@@ -31,14 +33,14 @@ const Invited = ({user,loading,error}) => {
 
   return (
 
-    <div className="menu-container clickable" 
+    <button className="text-shade-0 menu-container clickable" 
       onClick={guestSignUpHandler}
     >
         <div className='title-menu col-4'>
           <TextLogo content="the art of drift"/>
           <p className="f-p1 flashing">{`${playerName} says hello!!`}</p>
         </div>
-    </div>
+    </button>
   )
 }
 

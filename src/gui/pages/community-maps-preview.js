@@ -105,14 +105,14 @@ const CommunityMapsPreview = () => {
 
   return (
 
-    <div className={`dark-background  ${mapInformation.isDraft ? "dark-background--saturated" : "" }`}>
-      <div className='menu-container col-6 gap-lg'>
+    <div className={`vertical-navigation-menu dark-background  ${mapInformation.isDraft ? "dark-background--saturated" : "" }`}>
+      <div className='vertical-navigation-menu menu-container col-6 gap-lg'>
 
           <h1 className="f-h2"><span className="text-secondary-500">{mapInformation.isDraft ? "Draft" : "Public "} </span> Community Map</h1>
           <p className="f-p2">" {mapInformation.mapName} "</p>
-          <div className="row w-100 gap-md upload-map__menu">
-          <div className='col-3 gap-xl align-center'>
-            <div className="signup-footer col-6 gap-md">
+          <div className="horizantal-navigation-menu row w-100 gap-md upload-map__menu">
+          <div className='vertical-navigation-menu col-3 gap-xl align-center'>
+            <div className="vertical-navigation-menu signup-footer col-6 gap-md">
                 <div className="map-info-nodes">
                   <MapInfoNode
                   imageSource={avatarGraphicURLs[authorInformation.authorAvatarID]}
