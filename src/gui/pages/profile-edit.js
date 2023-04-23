@@ -28,7 +28,7 @@ const ProfileForm = ({ submitHandler, setRacerName,setEmail, racerNamePlaceholde
   const navigate = useNavigate();
 
   return (
-    <form onSubmit={submitHandler} className="signup-form col-6 gap-md">
+    <form onSubmit={submitHandler} className="vertical-navigation-menu signup-form col-6 gap-md">
       
       <TextInput 
       viewOnly={false}
@@ -115,7 +115,7 @@ const ProfileEdit = ({ user, loading, error}) => {
 
   return (
       <ProfileTemplate>
-          <div className='col-3 gap-xl'>
+          <div className='vertical-navigation-menu col-3 gap-xl'>
             <h1 className="f-h1">Profile <span className="text-secondary-500">(edit)</span></h1>
             <ProfileForm 
             user = {user}
@@ -125,7 +125,7 @@ const ProfileEdit = ({ user, loading, error}) => {
             setEmail = {setEmail} 
             setPassword = {setPassword}/>
 
-            <div className="profile__navigation col-6 gap-sm">
+            <div className="vertical-navigation-menu profile__navigation col-6 gap-sm">
               <Button alignStart={true} style="danger" clickHandler = {() => navigate("/profile")}>Exit without saving</Button>
               <Button alignStart={true} style="primary"  clickHandler = { handleUpdateProfile}>Save changes</Button>
             </div>
@@ -138,7 +138,7 @@ const ProfileEdit = ({ user, loading, error}) => {
               >Plas as guest.</a></p>
             </div> */}
           </div>
-          <div className='col-3 gap-md'>
+          <div className='vertical-navigation-menu col-3 gap-md'>
             <ProfileSelect viewOnly={false} profileAvatarId={profileAvatarId} setProfileAvatarId={setProfileAvatarId} profileVehicleId={profileVehicleId} setProfileVehicleId={setProfileVehicleId}/>
           </div>
     </ProfileTemplate>

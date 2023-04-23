@@ -28,10 +28,10 @@ const ProfileSelect = ({viewOnly, profileAvatarId, setProfileAvatarId,profileVeh
   }
 
   return (
-    <div className='profile-select col-6 gap-xl'>
-        <div className="col-6 align-center gap-md">
+    <div className='vertical-navigation-menu profile-select col-6 gap-xl'>
+        <div className="vertical-navigation-menu col-6 align-center gap-md">
           <p className="f-p3">{!viewOnly ? <span className="text-secondary-500">Select an</span> : "your"} avatar</p>
-          <div className={`profile-scroller row align-center ${viewOnly ? "profile-scroller--view-only" : ""}`}>
+          <div className={`horizantal-navigation-menu profile-scroller row align-center ${viewOnly ? "profile-scroller--view-only" : ""}`}>
               <IconButton clickHandler = {() => (updateID(
                 setProfileAvatarId,
                 profileAvatarId,
@@ -49,9 +49,9 @@ const ProfileSelect = ({viewOnly, profileAvatarId, setProfileAvatarId,profileVeh
           </div>
 
 
-        <div className="col-6 align-center gap-md">
+        <div className="vertical-navigation-menu col-6 align-center gap-md">
           <p className="f-p3">{!viewOnly ? <span className="text-secondary-500">choose </span> : ""}your vehicle</p>
-          <div className={`profile-scroller row align-center ${viewOnly ? "profile-scroller--view-only" : ""}`}>
+          <div className={`horizantal-navigation-menu profile-scroller row align-center ${viewOnly ? "profile-scroller--view-only" : ""}`}>
           <IconButton clickHandler = {() => (updateID(
                 setProfileVehicleId,
                 profileVehicleId,

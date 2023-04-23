@@ -25,7 +25,7 @@ import {
 const SigninForm = ({submitHandler, setEmail,setPassword,}) => {
 
   return (
-    <div className="signup-form col-6 gap-md">
+    <div className="vertical-navigation-menu signup-form col-6 gap-md">
 
     <TextInput id="email" 
       labelText="email"
@@ -59,23 +59,24 @@ const Signin = () => {
   }
 
   const handleGuestSignIn = () => {
-    guestSignIn("/main",1,1)
+    guestSignIn("/main")
     console.log("signed you in as a guest.")
   }
 
   return (
-    <div className='menu-container'>
-        <div className='col-2 gap-xl'>
+    <div className='vertical-navigation-menu menu-container'>
+        <div className='vertical-navigation-menu col-2 gap-xl'>
           <h1 className="f-h1">Sign <span className="text-secondary-500">in</span></h1>
           <SigninForm submitHandler={handleSubmit}
           setEmail = {setEmail} 
           setPassword = {setPassword}/>
-          <div className="signup-footer col-6 gap-md">
-            <p>Dont have an account? <Link className="link-secondary-500" to="/signup">Sign up.</Link></p>
-            <p>Too much to ask? <a 
+          <div className="vertical-navigation-menu signup-footer col-6 gap-md">
+            <p className="vertical-navigation-menu">Dont have an account? <Link className="link-secondary-500" to="/signup"
+            tabIndex={1}>Sign up.</Link></p>
+            <p className="vertical-navigation-menu">Too much to ask? <a 
             className="link-secondary-500" 
             onClick={handleGuestSignIn}
-            
+            tabIndex={1}
             >Plas as guest.</a></p>
           </div>
         </div>

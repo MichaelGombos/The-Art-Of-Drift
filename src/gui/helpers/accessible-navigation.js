@@ -15,6 +15,8 @@ export const traverseElement = (parent, element, location) => {
         return "checkbox"
       case(element.type == "range"):
         return "range"
+      case(element.type == "text"):
+        return "text"
       default:
         return false
     }
@@ -79,6 +81,7 @@ export const findValidActionsIntree = (validList, tree) => {
   else if(tree.navType === "button"
   || tree.navType === "checkbox"
   || tree.navType === "range"
+  || tree.navType === "text"
   || tree.navType === "link"){ 
     validList.push(tree.location);
   }

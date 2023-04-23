@@ -30,7 +30,7 @@ const ProfileForm = ({ submitHandler, setRacerName,setEmail, setPassword, racerN
   const navigate = useNavigate();
 
   return (
-    <form onSubmit={submitHandler} className="signup-form col-6 gap-md">
+    <form onSubmit={submitHandler} className="vertical-navigation-menu signup-form col-6 gap-md">
       
       <TextInput 
       viewOnly={false}
@@ -122,7 +122,7 @@ const ProfileUpgrade = ({type, user, loading, error}) => {
 
   return (
       <ProfileTemplate>
-          <div className='col-3 gap-xl'>
+          <div className='vertical-navigation-menu col-3 gap-xl'>
             <h1 className="f-h1">Profile <span className="text-secondary-500">(upgrade)</span></h1>
             <ProfileForm 
             type={type}
@@ -133,13 +133,13 @@ const ProfileUpgrade = ({type, user, loading, error}) => {
             setEmail = {setEmail} 
             setPassword = {setPassword}/>
 
-            <div className="profile__navigation col-6 gap-sm">
+            <div className="vertical-navigation-menu profile__navigation col-6 gap-sm">
               <Button alignStart={true} style="primary" icon={type == "gmail" ? "google-white" : "" } clickHandler = {handleGuestUpgrade}>Create account</Button>
               <Button alignStart={true} clickHandler = {() => navigate(-1)}>Cancel</Button> 
             </div>
 
           </div>
-          <div className='col-3 gap-md'>
+          <div className='vertical-navigation-menu col-3 gap-md'>
             <ProfileSelect viewOnly={false} profileAvatarId={profileAvatarId} setProfileAvatarId={setProfileAvatarId} profileVehicleId={profileVehicleId} setProfileVehicleId={setProfileVehicleId}/>
           </div>
     </ProfileTemplate>

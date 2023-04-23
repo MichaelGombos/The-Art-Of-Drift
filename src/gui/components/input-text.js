@@ -3,7 +3,7 @@ import React from 'react';
 const TextInput = ({id,type,min,max, labelText, placeholderText, viewOnly, changeHandler}) => {
   return (
 
-  <div className="col-6 text-input gap-md">
+  <div className="vertical-navigation-menu col-6 text-input gap-md">
     <label 
     className={`text-input__label ${viewOnly ? "text-input__label--view-only" : ""}`}
     htmlFor={id}>
@@ -11,7 +11,7 @@ const TextInput = ({id,type,min,max, labelText, placeholderText, viewOnly, chang
       </label>
     <input 
     className={`text-input__text ${viewOnly ? "text-input__text--view-only" : ""}`} 
-    type={type} 
+    type="text"
     onChange={e => changeHandler(e.target.value)} 
     placeholder ={placeholderText}
     minLength={min}

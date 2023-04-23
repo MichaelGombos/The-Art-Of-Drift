@@ -32,7 +32,7 @@ const SignupForm = ({ submitHandler, setRacerName,setEmail,setPassword, guestUpg
   const navigate = useNavigate();
 
   return (
-    <form onSubmit={submitHandler} className="signup-form col-6 gap-md">
+    <form onSubmit={submitHandler} className="vertical-navigation-menu signup-form col-6 gap-md">
       
       <TextInput id="racer-name" 
       labelText="racer name"
@@ -104,8 +104,8 @@ const Signup = ({type}) => {
   }
 
   return (
-    <div className='menu-container'>
-        <div className='col-3 gap-xl'>
+    <div className='horizantal-navigation-menu menu-container'>
+        <div className='vertical-navigation-menu col-3 gap-xl'>
           <h1 className="f-h1">
             {type == "gmail" ? <span className="text-secondary-500">(google) </span> : ""}
              Sign <span className="text-secondary-500">up</span></h1>
@@ -115,15 +115,15 @@ const Signup = ({type}) => {
           setEmail = {setEmail} 
           setPassword = {setPassword}
           type={type}/>
-          <div className="signup-footer col-6 gap-md">
-            <p>Already have an account? <Link className="link-secondary-500" to="/signin">Sign in instead.</Link></p>
-            <p>Too much to ask? <a 
+          <div className="vertical-navigation-menu signup-footer col-6 gap-md">
+            <p className='vertical-navigation-menu'>Already have an account? <Link className="link-secondary-500" to="/signin">Sign in instead.</Link></p>
+            <p className='vertical-navigation-menu'>Too much to ask? <a 
             className="link-secondary-500" 
-            onClick={handleGuestSignIn}
+             tabindex={1} onClick={handleGuestSignIn}
             >Plas as guest.</a></p>
           </div>
         </div>
-        <div className='col-3 gap-md'>
+        <div className='vertical-navigation-menu col-3 gap-md'>
           <ProfileSelect profileAvatarId={profileAvatarId} setProfileAvatarId={setProfileAvatarId} profileVehicleId={profileVehicleId} setProfileVehicleId={setProfileVehicleId}/>
         </div>
     </div>
