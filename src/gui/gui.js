@@ -83,6 +83,8 @@ import CommunityMapsAll from "./pages/community-maps-all.js"
 import CommunityMapsLeaderboards from "./pages/community-leaderboards.js"
 import WelcomeAuthSelect from "./pages/welcome-auth-select.js"
 import AccessibleNavigationTest from "./pages/accessible_navigation_test.js"
+import getGamePadHeldDirections from "../game/gamepad.js"
+import { checkForCommonItem } from "./helpers/util.js"
 
 const Menu = () => {
   let isDeviceValid = true;
@@ -252,6 +254,12 @@ class GUI extends Component {
     this.validActionsStringList
     this.documentTree
     this.currentNode;
+    this.gamePadInputs = [];
+    this.inputTick = 0;
+    this.navigationInputTypeMap = {
+      navigation: ["nav-positive-vertical", "nav-negative-vertical",'nav-positive-horizantal',"nav-negative-horizantal" ],
+      action: ["nav-select","nav-back","nav-pause","nav-reset" ]
+    }
     // window.navigateMenu = this.navigateMenu;
     // window.focusFirstButton = this.focusFirstButton;
   }
@@ -266,8 +274,58 @@ class GUI extends Component {
     }
     window.shitFart = () => {console.log("shitfart")}
     document.addEventListener("keydown", this.onKeyPressed )
+
+    setInterval(() =>{
+      this.gamePadInputs = getGamePadHeldDirections();
+      
+      console.log(this.gamePadInputs)
+      //needs a limit for the amount of the same input we will allow at once.
+      if(checkForCommonItem(this.gamePadInputs, this.navigationInputTypeMap.navigation)  && this.inputTick > 15){
+        if(this.gamePadInputs.includes("nav-positive-vertical")){
+          this.responsiveNavigation(-1, true)
+        }
+        if(this.gamePadInputs.includes("nav-negative-vertical")){
+          this.responsiveNavigation(1, true)
+        }
+        if(this.gamePadInputs.includes("nav-positive-horizantal")){
+          this.responsiveNavigation(-1, false)
+        }
+        if(this.gamePadInputs.includes("nav-negative-horizantal")){
+          this.responsiveNavigation(1, false)
+        }
+        this.inputTick = 0;
+      }
+      if(checkForCommonItem(this.gamePadInputs, this.navigationInputTypeMap.action) && this.inputTick > 40){
+        if(this.gamePadInputs.includes("nav-select")){
+          this.responsiveAction("Enter") 
+        }
+        if(this.gamePadInputs.includes("nav-back") || this.gamePadInputs.includes("nav-pause")){
+          if(location.pathname == "/hidden"){
+            window.changeGUIScreen("/pause");
+            pauseGame();
+          }
+          else if(location.pathname == "/pause"){
+            window.changeGUIScreen("/hidden");
+            unPauseGame();
+          }
+          else if(this.gamePadInputs.includes("nav-back")){
+            this.responsiveAction("Escape") 
+          }
+        }
+        if(this.gamePadInputs.includes("nav-reset")){
+          if(location.pathname == "/hidden"){
+            setTimeout(resetGame,20)
+          }
+        }
+        this.inputTick = 0;
+      }
+      console.log(this.inputTick)
+      this.inputTick++;
+    },10 ) //TODO add larger delay for navigation, smaller delay for actions..
   }
-  
+
+  //need a limiter for the amount of inputs I want to allow at once...
+
   refreshDocumentTree = () => {
     let locationIndex; 
     if(
@@ -305,6 +363,9 @@ class GUI extends Component {
     }
     else if(this.currentNode.navType == "checkbox" && !isVertical){
       this.currentNode.element.click();
+      return;
+    }
+    else if(this.currentNode.navType == "text" && document.activeElement == this.currentNode.element){
       return;
     }
     //movement navigation
@@ -356,20 +417,37 @@ class GUI extends Component {
     
   }
 
-  responsiveAction = () => { //like when enter is pressed
-    if(this.currentNode.navType == "checkbox"){
+  responsiveAction = (type) => { //like when enter is pressed
+    if(type == "Enter"){
+      if(this.currentNode.navType == "checkbox"){
+        this.currentNode.element.click();
+        return;
+      }
+      else if(this.currentNode.navType == "text"){
+        this.currentNode.element.blur();
+        return;
+      }
       this.currentNode.element.click();
-      return;
+      let tempActionNode = this.currentNode
+      tempActionNode.element.classList.add('held-down')
+      setTimeout(() => {
+      tempActionNode.element.classList.remove('held-down')
+      },200)
     }
-    this.currentNode.element.click();
-    let tempActionNode = this.currentNode
-    tempActionNode.element.classList.add('held-down')
-    setTimeout(() => {
-    tempActionNode.element.classList.remove('held-down')
-    },200)
+    else if(type == "Escape"){
+      if(this.currentNode.navType == "text"){
+        this.currentNode.element.blur();
+        return;
+      }else{
+        //go back
+        this.props.navigate(-1)
+      }
+    }
+
   }
    onKeyPressed = (e) => {
     // e.preventDefault();
+    //TODO replace with switch statement.
     if(e.key == "w"){
       this.responsiveNavigation(-1, true)
     }
@@ -382,10 +460,43 @@ class GUI extends Component {
     if(e.key == "a"){
       this.responsiveNavigation(1, false)
     }
-    if(e.key == "Enter"){
+    if(e.key == "Enter" || e.key == " "){
       e.preventDefault();
-      this.responsiveAction()
+      this.responsiveAction("Enter") 
     }
+    if(e.key == "Escape" || e.key == "p"){
+      if(location.pathname == "/hidden"){
+        window.changeGUIScreen("/pause");
+        pauseGame();
+      }
+      else if(location.pathname == "/pause"){
+        window.changeGUIScreen("/hidden");
+        unPauseGame();
+      }
+      else if(e.key == "Escape"){
+        e.preventDefault();
+        this.responsiveAction("Escape") 
+      }
+    }
+    if(e.key == "r"){
+      if(location.pathname == "/hidden"){
+        setTimeout(resetGame,20)
+      }
+    }
+
+      //     if(command == "pause" && currentNavigationInterval > validNavigationInterval * 2){
+  //       if(location.pathname == "/hidden"){
+  //         window.changeGUIScreen("/pause");
+  //         pauseGame();
+  //       }
+  //       else if(location.pathname == "/pause"){
+  //         window.changeGUIScreen("/hidden");
+  //         unPauseGame();
+  //       }
+  //     }
+  //     else if(command == "reset"){
+  //       setTimeout(resetGame,20)
+  //     }
     console.log(e.key)
   }
   // focusFirstButton = () => {
@@ -490,6 +601,12 @@ class GUI extends Component {
   render() {return <Menu/>}
 }
 
+function navigationHookWrapper(Component) { //bandaid to add router navigation to GUI class component
+  return function WrappedComponent(props) {
+    const navigate = useNavigate();
+    return <Component {...props} navigate={navigate} />;
+  }
+}
 
-export default GUI;
+export default navigationHookWrapper(GUI);
 

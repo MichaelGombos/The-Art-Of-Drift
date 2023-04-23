@@ -47,16 +47,20 @@ function getGamepadStatus() {
     const pct = `${Math.round(val * 100)}%`;
     if(val){
       if(i == 0){
-        window.navigateMenu("select")
+        // window.navigateMenu("select")
+        game_pad_held_directions.unshift(`nav-select`)
       }     
       else if (i == 1){
-        window.navigateMenu("back")
+        // window.navigateMenu("back")
+        game_pad_held_directions.unshift(`nav-back`)
       }
       else if( i == 9 || i == 8){
-        window.navigateMenu("pause")
+        // window.navigateMenu("pause")
+        game_pad_held_directions.unshift(`nav-pause`)
       }
       else if( i == 3){
-        window.navigateMenu("reset")
+        // window.navigateMenu("reset")
+        game_pad_held_directions.unshift(`nav-reset`)
       }
       else if (i == 6){
         game_pad_held_directions.unshift(`down@${val.toFixed(2)}`)
@@ -73,21 +77,25 @@ function getGamepadStatus() {
       if(i == 0){
         if(axis <0){
           game_pad_held_directions.unshift(`left@${axis.toFixed(2)}`)
+          if(location.pathname != "/hidden" && Math.abs(axis) > .4){
+            game_pad_held_directions.unshift(`nav-negative-horizantal`)
+          }
         }
         else{
+          if(location.pathname != "/hidden" && Math.abs(axis) > .4){
+            game_pad_held_directions.unshift(`nav-positive-horizantal`)
+          }
           game_pad_held_directions.unshift(`right@${axis.toFixed(2)}`)
         }
       }
       if(i == 1){
-        if(axis < 0){
-          if(!getRunning()){
-            window.navigateMenu("up")
-          }
+        if(location.pathname != "/hidden" && axis < 0 && Math.abs(axis) > .4){
+          game_pad_held_directions.unshift(`nav-positive-vertical`)
+          // window.navigateMenu("up")
         }
-        else{
-          if(!getRunning()){
-            window.navigateMenu("down")
-          }
+        else if(location.pathname != "/hidden" && axis > 0 && Math.abs(axis) > .4){
+          game_pad_held_directions.unshift(`nav-negative-vertical`)
+          // window.navigateMenu("down")
         }
       }
     }
