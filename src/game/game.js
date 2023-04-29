@@ -85,6 +85,130 @@ const keys = {
   83: directions.down
 }
 
+const commandToDirectionMap = {
+  accelerate: "up",
+  reverse: "down",
+  turnleft: "left",
+  turnright: "right",
+  brake: "brake"
+}
+
+const keyboardToCommandMap = {
+  "Backspace" : "",
+  "Tab" : "",
+  "Enter" : "", 
+  "ShiftLeft" : commandToDirectionMap.brake,
+  "ShiftRight" : "",
+  "ControlLeft" : "",
+  "ControlRight" : "",
+  "AltLeft" : "",
+  "AltRight" : "",
+  "Pause" : "",
+  "CapsLock" : "",
+  "Escape" : "",
+  "Space" : "",
+  "PageUp" : "",
+  "PageDown" : "",
+  "End" : "",
+  "Home" : "",
+  "ArrowLeft" : "",
+  "ArrowUp" : "",
+  "ArrowRight" : "",
+  "ArrowDown"  : "",
+  "PrintScreen"  : "",
+  "Insert"  : "",
+  "Delete"  : "",
+  "Digit0"  : "",
+  "Digit1"  : "",
+  "Digit2" : "",
+   "Digit3" : "",
+  "Digit4"  : "",
+  "Digit5"  : "",
+  "Digit6" : "",
+   "Digit7"  : "",
+  "Digit8" : "",
+   "Digit9"  : "",
+  "KeyA"  : commandToDirectionMap.turnleft,
+  "KeyB" : "",
+   "KeyC"  : "",
+  "KeyD" : commandToDirectionMap.turnright,
+   "KeyE" : "",
+  "KeyF"  : "",
+  "KeyG" : "",
+  "KeyH" : "",
+  "KeyI" : "",
+   "KeyJ" : "",
+  "KeyK" : "",
+   "KeyL" : "",
+   "KeyM" : "",
+  "KeyN" : "",
+   "KeyO" : "",
+   "KeyP"  : "",
+  "KeyQ"  : "",
+  "KeyR" : "",
+  "KeyS" : commandToDirectionMap.reverse,
+  "KeyT": "",
+   "KeyU" : "",
+  "KeyV" : "",
+  "KeyW" : commandToDirectionMap.accelerate,
+  "KeyX" : "",
+  "KeyY" : "",
+  "KeyZ" : "",
+  "MetaLeft": "",
+  "MetaRight" : "",
+  "ContextMenu" : "",
+  "Numpad0": "",
+   "Numpad1" : "",
+  "Numpad2": "",
+   "Numpad3": "",
+   "Numpad4": "",
+  "Numpad5" : "",
+  "Numpad6" : "",
+  "Numpad7": "",
+   "Numpad8" : "",
+  "Numpad9": "",
+   "NumpadMultiply": "", 
+  "NumpadAdd" : "",
+  "NumpadSubtract": "",
+   "NumpadDecimal" : "",
+  "NumpadDivide": "",
+   "F1": "",
+   "F2" : "",
+  "F3" : "",
+  "F4": "",
+   "F5": "",
+   "F6" : "",
+  "F7" : "",
+  "F8" : "",
+  "F9" : "",
+  "F10" : "",
+  "F11": "",
+   "F12" : "",
+  "NumLock" : "",
+  "ScrollLock" : "",
+  "Semicolon": "",
+  "Equal": "",
+  "Comma": "",
+  "Minus": "",
+  "Period": "",
+   "Slash": "",
+  "Backquote": "",
+  "BracketLeft": "",
+  "Backslash": "",
+  "BracketRight": "",
+  "Quote": "",
+}
+
+const keyboardCodes = [
+  "Backspace", "Tab", "Enter", "ShiftLeft", "ShiftRight", "ControlLeft", "ControlRight", "AltLeft", "AltRight", "Pause", "CapsLock", "Escape", "Space", "PageUp", "PageDown", "End", "Home", "ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown", "PrintScreen", "Insert", "Delete", "Digit0", "Digit1", "Digit2", "Digit3", "Digit4", "Digit5", "Digit6", "Digit7", "Digit8", "Digit9", "KeyA", "KeyB", "KeyC", "KeyD", "KeyE", "KeyF", "KeyG", "KeyH", "KeyI", "KeyJ", "KeyK", "KeyL", "KeyM", "KeyN", "KeyO", "KeyP", "KeyQ", "KeyR", "KeyS", "KeyT", "KeyU", "KeyV", "KeyW", "KeyX", "KeyY", "KeyZ", "MetaLeft", "MetaRight", "ContextMenu", "Numpad0", "Numpad1", "Numpad2", "Numpad3", "Numpad4", "Numpad5", "Numpad6", "Numpad7", "Numpad8", "Numpad9", "NumpadMultiply", "NumpadAdd", "NumpadSubtract", "NumpadDecimal", "NumpadDivide", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "NumLock", "ScrollLock", "", "", "", "", "", "", "Semicolon", "Equal", "Comma", "Minus", "Period", "Slash", "Backquote", "BracketLeft", "Backslash", "BracketRight", "Quote", 
+]
+
+const controllerCodesMap = {
+  buttons : [0,1,2,3,4,5,8,9,10,11,12,13,14,15,17] ,//not sure what 19 is.. maybe the home button?
+  triggers : [6,7],
+  axels : [0,1,2,3] //will have code to check if triggers or axels are the ones being affected, and allow a "pressure" value to be sent to the input
+}
+
 const tileTypes = ['road', 'wall', 'dirt', 'spawn', 'finish-up', 'finish-down', 'bumper', 'check-point-left-road', 'check-point-right-road', 'check-point-left-dirt', 'check-point-right-dirt']
 
 let mapData = {map:[[1]],
@@ -444,11 +568,14 @@ const placeCharacter = () => {
         if(direction.includes("@")){
           pressure = direction.slice(direction.indexOf("@")+1)
         }
-        if (direction.includes(directions.down)) {
+        if (direction.includes(commandToDirectionMap.reverse)) {
           car.accelerate(false,pressure)
         }
-        if (direction.includes(directions.up)) {
-            car.accelerate(true,pressure)
+        if (direction.includes(commandToDirectionMap.accelerate)) {
+          car.accelerate(true,pressure)
+        }
+        if (direction.includes(commandToDirectionMap.brake)) {
+          car.engageBrakes(pressure)
         }
       }
   }
@@ -583,7 +710,8 @@ const step = (newtime) => {
 //listeners 
 
 document.addEventListener("keydown", (e) => {
-  const dir = keys[e.which];
+  console.log("keydown", e.code, e.key, e.which, e)
+  const dir = keyboardToCommandMap[e.code];
   //check if current focus isn't an input
   if(document.activeElement.tagName != "INPUT"){
     if (dir == "up" || dir == "down") {
@@ -597,7 +725,7 @@ document.addEventListener("keydown", (e) => {
 })
 
 document.addEventListener("keyup", (e) => {
-  const dir = keys[e.which];
+  const dir = keyboardToCommandMap[e.code];
   const index = held_directions.indexOf(dir);
   if (index > -1) {
       held_directions.splice(index, 1)

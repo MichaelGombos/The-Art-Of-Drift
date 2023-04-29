@@ -8,9 +8,9 @@ import {addParticle, createDirtParticle} from "./graphics.js"
 
 //defines car physics 
 const createCar = (isGhost) => {
-    let acceleration = .040;
+    let acceleration = .07;
     const friction = .003;
-    const maxSpeed = 25;
+    const maxSpeed = 40;
     const maxLaps = 5;
     let lap = 0;
     let checkPointLap = 0;
@@ -277,43 +277,43 @@ const createCar = (isGhost) => {
             case (Math.abs(speed) > 5 * maxSpeed/6):
                 tireGrip = 1.5
                 turningSpeed = 3.75
-                acceleration = .04;
+                acceleration = .02;
                 break;
 
             case (Math.abs(speed) > 3 * maxSpeed/4):
                 tireGrip = 1.7
                 turningSpeed = 4
-                acceleration = 0.05;
+                acceleration = 0.03;
                 break;
 
             case (Math.abs(speed) > maxSpeed/2):
                 tireGrip = 1.9
                 turningSpeed = 4.5
-                acceleration = .06;
+                acceleration = .04;
                 break;
 
             case (Math.abs(speed) > maxSpeed/4):
                 tireGrip = 2.05
                 turningSpeed = 5
-                acceleration = .07;
+                acceleration = .05;
                 break;
 
             case (Math.abs(speed) > maxSpeed/6):
                 tireGrip = 2.1
                 turningSpeed = 5
-                acceleration = .07;
+                acceleration = .06;
                 break;
 
             case (Math.abs(speed) > maxSpeed/8):
                 tireGrip = 2.15
                 turningSpeed = 5
-                acceleration = 0.06;
+                acceleration = 0.07;
                 break;
 
             case (Math.abs(speed) >= 0):
                 tireGrip = 2.2
                 turningSpeed = 5
-                acceleration = 0.05;
+                acceleration = 0.08;
                 break;
             default:
                 turningSpeed = 10
@@ -345,32 +345,70 @@ const createCar = (isGhost) => {
 
     //car controls  
 
-    const engageBrakes = () => {
-        speed -= acceleration *  5;
+    const engageBrakes = (pressure = 1) => {
+
+
+        if(speed > 0){
+
+                speed -= (acceleration *  4) * pressure;
         
-        if(speed > driftForce){
-            driftForce = speed*2;
+                if(speed > driftForce){
+                    driftForce = speed*2;
+                }
+                else{
+                    driftForce -= .1;
+                }
         }
-        else{
-            driftForce -= .1;
+        else if(speed < 0){
+            speed += (acceleration *  4) * pressure;
+        
+            if(speed > driftForce){
+                driftForce = speed*2;
+            }
+            else{
+                driftForce -= .1;
+            }
         }
+
     }    
+
 
     const accelerate = ( forward) => {
         if (Math.abs(speed) <= maxSpeed && !engineLock) {
+            let diff = angle.facing - angle.moving;
+            if(diff < 0){
+                diff += 360;
+             }
+
             if (forward) {
-                if(speed < maxSpeed/4){
-                    speed += acceleration * 2;
-                }
-                speed += acceleration;
+                if(diff < 90 || diff > 270) {//we are facing forwards
+                    speed += acceleration;
+                 }
+                 else{ // backwards
+                    console.log("diff",diff)
+                    speed -= acceleration;
+                 }
             } 
             else {
-                if(speed > 0){
-                    engageBrakes()
-                }
-                else{
-                    speed -= acceleration/1.2;
-                }
+                if(diff < 90 || diff > 270) {//we are facing forwards
+                    if(speed > 0){
+                        engageBrakes()
+                    }
+                    else{
+                        speed -= acceleration;
+                    }
+                 }
+                 else{ // backwards
+                    if(speed < 0){
+                        engageBrakes()
+                    }
+                    else{
+                        speed += acceleration;
+                    }
+                 }
+
+
+                
             }
         }
     }
@@ -621,6 +659,7 @@ const createCar = (isGhost) => {
         applyFriction,
         turn,
         accelerate,
+        engageBrakes,
         reduceSpeed,
         collision
     }
