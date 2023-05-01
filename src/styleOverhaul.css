@@ -317,6 +317,31 @@ button{
   height:32px;
 } 
 
+.icon-button__selector img{
+  /* keybinds menu */
+  width:80%;
+  height:80%;
+  image-rendering: pixelated;
+}
+.key-display-active{
+  position:relative;
+  animation: wave_vertical 2s ease-in-out infinite;
+}
+
+@keyframes wave_vertical {
+  0% {
+    top:0px;
+  }
+  50%{
+    top:4px;
+  }
+  50%{
+    top:-4px;
+  }
+  100%{
+    top:0px;
+  }
+}
 /* ------- signup screen ------- */
 
 .text-input{
@@ -545,6 +570,31 @@ button{
 
 /* settings page  */
 
+/* settings / keybinds */
+.keybind-list-grid{
+  align-items: center;
+  display:grid;
+  grid-auto-flow: row;
+  gap:32px;
+  width: 100%;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.keybind-list-grid h2{
+ width:fit-content;
+}
+.keyboard-displays, .controller-displays{
+  gap:16px;
+}
+.primary-display, .secondary-display{
+  background-color:grey;
+  width:30%;
+  height:30%;
+  aspect-ratio: 1/1;
+}
+
+.key-display-active {
+  background-color:rgba(255, 255, 255, 0.23);
+}
 /* input slider component */
 
 

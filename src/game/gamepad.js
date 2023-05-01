@@ -1,8 +1,11 @@
+
+import { controllerCodesMap , controllerToCommandMap} from "../gui/helpers/controls";
 import { getRunning } from "./main";
 
 const haveEvents = 'ongamepadconnected' in window;
 const controllers = {};
 let game_pad_held_directions = [];
+let full_game_pad_status = []
 
 function connecthandler(e) {
   addgamepad(e.gamepad);
@@ -24,6 +27,9 @@ function removegamepad(gamepad) {
 function getGamePadHeldDirections() {
   return game_pad_held_directions;
 }
+export function getFullGamePadStatus() { 
+  return full_game_pad_status;
+}
 //rewrite this to return controller input.
 function getGamepadStatus() {
 
@@ -32,6 +38,10 @@ function getGamepadStatus() {
   }
 
   game_pad_held_directions = [];
+  full_game_pad_status = [
+    false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,
+  ]; //booleans for which value is off or on 0-> 19
+
   const controller = controllers[0];
 
   //buttons
@@ -52,7 +62,9 @@ function getGamepadStatus() {
       }     
       else if (i == 1){
         // window.navigateMenu("back")
-        game_pad_held_directions.unshift(`nav-back`)
+        if(!getRunning()){
+          game_pad_held_directions.unshift(`nav-back`)
+        }
       }
       else if( i == 9 || i == 8){
         // window.navigateMenu("pause")
@@ -62,11 +74,17 @@ function getGamepadStatus() {
         // window.navigateMenu("reset")
         game_pad_held_directions.unshift(`nav-reset`)
       }
-      else if (i == 6){
-        game_pad_held_directions.unshift(`down@${val.toFixed(2)}`)
+
+
+      if(controllerCodesMap.triggers.includes(i)){
+          full_game_pad_status[i] = true;
+          game_pad_held_directions.unshift(`${controllerToCommandMap[i].command}@${val.toFixed(2)}`)
       }
-      else if(i == 7){
-        game_pad_held_directions.unshift(`up@${val.toFixed(2)}`)
+      else if(controllerCodesMap.buttons.includes(i)){
+        full_game_pad_status[i] = true;
+        if(controllerToCommandMap[i].command){
+          game_pad_held_directions.unshift(controllerToCommandMap[i].command)
+        }
       }
     }
   });
@@ -74,21 +92,29 @@ function getGamepadStatus() {
   //sticks
   controller.axes.forEach((axis, i) => {
     if(Math.abs(axis) > .025){
-      if(i == 0){
+      if(i == 0){ //left analog, horizantal
+        full_game_pad_status[18] = true;
         if(axis <0){
-          game_pad_held_directions.unshift(`left@${axis.toFixed(2)}`)
+          //find key from controllerToCommandMap, check if that key exists on the "pressure key list" (to determine whether to send over the pressure) then throw that sucker onto the gamePadHeldDirections
           if(location.pathname != "/hidden" && Math.abs(axis) > .4){
             game_pad_held_directions.unshift(`nav-negative-horizantal`)
+          }
+          if(controllerCodesMap.turningStick == "leftAnalog"){
+            full_game_pad_status[18] = true;
+            game_pad_held_directions.unshift(`left@${axis.toFixed(2)}`)
           }
         }
         else{
           if(location.pathname != "/hidden" && Math.abs(axis) > .4){
             game_pad_held_directions.unshift(`nav-positive-horizantal`)
           }
-          game_pad_held_directions.unshift(`right@${axis.toFixed(2)}`)
+          if(controllerCodesMap.turningStick == "leftAnalog"){
+            game_pad_held_directions.unshift(`right@${axis.toFixed(2)}`)
+          }
         }
       }
-      if(i == 1){
+      if(i == 1){ //right analog, vertical
+        full_game_pad_status[19] = true;
         if(location.pathname != "/hidden" && axis < 0 && Math.abs(axis) > .4){
           game_pad_held_directions.unshift(`nav-positive-vertical`)
           // window.navigateMenu("up")
@@ -96,6 +122,19 @@ function getGamepadStatus() {
         else if(location.pathname != "/hidden" && axis > 0 && Math.abs(axis) > .4){
           game_pad_held_directions.unshift(`nav-negative-vertical`)
           // window.navigateMenu("down")
+        }
+      }
+      if( i == 2){ //right analog, horizantal
+        full_game_pad_status[19] = true;
+        if(axis <0){
+          if(controllerCodesMap.turningStick == "rightAnalog"){
+            game_pad_held_directions.unshift(`left@${axis.toFixed(2)}`)
+          }
+        }
+        else{
+          if(controllerCodesMap.turningStick == "rightAnalog"){
+            game_pad_held_directions.unshift(`right@${axis.toFixed(2)}`)
+          }
         }
       }
     }

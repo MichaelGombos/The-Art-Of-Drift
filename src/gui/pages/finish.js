@@ -20,7 +20,6 @@ firebase.initializeApp({
 
 const firestore = firebase.firestore();
 
-localStorage.clear();
 let newBest = false;
 let playerTime;
 let spectateTime;

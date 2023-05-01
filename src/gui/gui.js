@@ -4,7 +4,6 @@ import {pauseGame,unPauseGame,resetGame, turnOffGame} from "../game/main.js"
 //pages
 import Finish from "./pages/finish.js"
 import Hidden from "./pages/hidden.js"
-import MapSelect from "./pages/ARCHIVED__map-select.js"
 import Title from "./pages/title.js"
 import Pause from "./pages/pause.js"
 import Main from "./pages/main.js"
@@ -14,7 +13,6 @@ import Invited from "./pages/invited.js"
 
 import React, {Component, useEffect, useState} from 'react';
 import { Route, Routes, useNavigate, Navigate, useLocation} from "react-router-dom";
-import InvitedPreview from "./pages/ARCHIVED__invited-preview.js"
 import MapImport from "./pages/map-import.js"
 import NotSupported from "./pages/not-supported.js"
 import Countdown from "./pages/countdown.js"
@@ -40,7 +38,7 @@ import ResultBanner from "./components/result-banner.js"
 
 import MapMaker from "../mapmaker/mapmaker.js"
 
-import { traverseElement, findValidActionsIntree,arrayIncludesArray, arraysEqual,startsWithArray , findObjectWithLocation , convertMultiDimArrayToStringArray, findClosestSibling,findClosestRelative} from "./helpers/accessible-navigation.js"
+import { traverseElement, findValidActionsIntree, arraysEqual , findObjectWithLocation ,  findClosestSibling,findClosestRelative} from "./helpers/accessible-navigation.js"
 
 // http://www.theartofdrift.com/invited?racer=NAME_HASH_0_309&map=0
 // http://localhost:8081/invited?racer=NAME_HASH_0_309&map=0
@@ -85,6 +83,7 @@ import WelcomeAuthSelect from "./pages/welcome-auth-select.js"
 import AccessibleNavigationTest from "./pages/accessible_navigation_test.js"
 import getGamePadHeldDirections from "../game/gamepad.js"
 import { checkForCommonItem } from "./helpers/util.js"
+import SettingsKeybinds from "./pages/settings-keybinds.js"
 
 const Menu = () => {
   let isDeviceValid = true;
@@ -158,10 +157,9 @@ const Menu = () => {
       }else{
         setShowAuthStatus(true)
       }
-
+      window.stopWatchingInputs ? window.stopWatchingInputs() : "";
       window.refreshDocumentTree()
       setLocationPathHistory(locationPathHistory.concat(location.pathname))
-      console.log("GUI INITIAL MOUNT DOCUMENT REFRESH")
   }, [location])
 
   return (
@@ -222,6 +220,7 @@ const Menu = () => {
       showDashboard={showDashboard}
       setShowDashboard={setShowDashboard}
        />} />
+      <Route  path="/settings/keybinds" element={<SettingsKeybinds/>}/>
       <Route  path="/countdown" element={<Countdown/>}/>
       <Route  path="/hidden" element={<Hidden  
       showFPS={showFPS}
@@ -278,7 +277,6 @@ class GUI extends Component {
     setInterval(() =>{
       this.gamePadInputs = getGamePadHeldDirections();
       
-      console.log(this.gamePadInputs)
       //needs a limit for the amount of the same input we will allow at once.
       if(checkForCommonItem(this.gamePadInputs, this.navigationInputTypeMap.navigation)  && this.inputTick > 15){
         if(this.gamePadInputs.includes("nav-positive-vertical")){
@@ -319,7 +317,6 @@ class GUI extends Component {
         }
         this.inputTick = 0;
       }
-      console.log(this.inputTick)
       this.inputTick++;
     },10 ) //TODO add larger delay for navigation, smaller delay for actions..
   }
@@ -349,7 +346,7 @@ class GUI extends Component {
     this.navLocation = this.validActionsList[locationIndex]
     this.currentNode = findObjectWithLocation([],this.navLocation,this.documentTree)
 
-    console.log("finish refreshing document tree, ", this.documentTree)
+    // console.log("finish refreshing document tree, ", this.documentTree)
     this.currentNode ? this.currentNode.element.focus() : console.log("can't focus current elemtn");
   }
 
@@ -378,7 +375,6 @@ class GUI extends Component {
       direction = isVertical ? direction : -direction;
       verticalDepth = isVertical ? 1 : 2;
     }
-    console.log("my direction" ,direction)
     let tempNewLocation = [...this.navLocation];
     tempNewLocation[this.navLocation.length-verticalDepth] += direction;
 
@@ -386,7 +382,7 @@ class GUI extends Component {
     for(let action of this.validActionsList){ 
       if(arraysEqual(action, tempNewLocation)){
         this.navLocation = tempNewLocation;
-        console.log("current tile (direct move)", this.navLocation)
+        // console.log("current tile (direct move)", this.navLocation)
         this.currentNode = findObjectWithLocation([],this.navLocation,this.documentTree)
         this.currentNode.element.focus()
         
@@ -396,21 +392,19 @@ class GUI extends Component {
 
     //recersively check ancestors for the closes valid relative
     if(findClosestSibling(this.validActionsList,this.navLocation, direction)){
-      console.log("closest sibling " , findClosestSibling(this.validActionsList,this.navLocation,direction))
+      // console.log("closest sibling " , findClosestSibling(this.validActionsList,this.navLocation,direction))
       this.navLocation = findClosestSibling(this.validActionsList,this.navLocation,direction);
     }
     else if(findClosestRelative(this.validActionsList,this.navLocation,direction)){
-      console.log("closest cousin" , findClosestRelative(this.validActionsList,this.navLocation,direction))
+      // console.log("closest cousin" , findClosestRelative(this.validActionsList,this.navLocation,direction))
       this.navLocation = findClosestRelative(this.validActionsList,this.navLocation,direction)
     }
     else{
-      console.log("no closest sibling above.", this.navLocation)
-
+      // no closes sibling above
     }
 
-    console.log("current tile (recursive move)", this.navLocation)
+    // console.log("current tile (recursive move)", this.navLocation)
     this.currentNode = findObjectWithLocation([],this.navLocation,this.documentTree)
-    console.log("this is the one!!", this.currentNode.element)
     this.currentNode.element.focus()
   
 

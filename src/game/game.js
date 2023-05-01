@@ -25,6 +25,9 @@ import {maps} from "./map-data.js"
 import {generateMiniMap,updateMiniMapPlayers} from "./mini-map.js"
 import getGamePadHeldDirections from "./gamepad.js"
 import { decompressMapData } from "./map-compression.js"
+import { commandList, commandMap, commandToDirectionMap, controllerCodesMap, keyboardToCommandMap } from "../gui/helpers/controls.js"
+
+
 
 let debug = 0;
 
@@ -49,6 +52,7 @@ const tilePixelCount = parseInt(
 );
 const carSize = tilePixelCount;
 let held_directions = []; 
+let full_keyboard_held_keys = []; //only used in the keybind settings page.
 let ghost_held_directions = []; 
 let ghost_inputs = []
 let ghost_stats = []
@@ -65,149 +69,6 @@ let spectateTime;
 let frameCount = 0;
 let fpsInterval, startTime, now, then, elapsed;
 
-/* Direction key state */
-const directions = {
-  up: "up",
-  down: "down",
-  left: "left",
-  right: "right",
-}
-const keys = {
-  16: directions.down,
-  32: directions.down,
-  38: directions.up,
-  37: directions.left,
-  39: directions.right,
-  40: directions.down,
-  87: directions.up,
-  65: directions.left,
-  68: directions.right,
-  83: directions.down
-}
-
-const commandToDirectionMap = {
-  accelerate: "up",
-  reverse: "down",
-  turnleft: "left",
-  turnright: "right",
-  brake: "brake"
-}
-
-const keyboardToCommandMap = {
-  "Backspace" : "",
-  "Tab" : "",
-  "Enter" : "", 
-  "ShiftLeft" : commandToDirectionMap.brake,
-  "ShiftRight" : "",
-  "ControlLeft" : "",
-  "ControlRight" : "",
-  "AltLeft" : "",
-  "AltRight" : "",
-  "Pause" : "",
-  "CapsLock" : "",
-  "Escape" : "",
-  "Space" : "",
-  "PageUp" : "",
-  "PageDown" : "",
-  "End" : "",
-  "Home" : "",
-  "ArrowLeft" : "",
-  "ArrowUp" : "",
-  "ArrowRight" : "",
-  "ArrowDown"  : "",
-  "PrintScreen"  : "",
-  "Insert"  : "",
-  "Delete"  : "",
-  "Digit0"  : "",
-  "Digit1"  : "",
-  "Digit2" : "",
-   "Digit3" : "",
-  "Digit4"  : "",
-  "Digit5"  : "",
-  "Digit6" : "",
-   "Digit7"  : "",
-  "Digit8" : "",
-   "Digit9"  : "",
-  "KeyA"  : commandToDirectionMap.turnleft,
-  "KeyB" : "",
-   "KeyC"  : "",
-  "KeyD" : commandToDirectionMap.turnright,
-   "KeyE" : "",
-  "KeyF"  : "",
-  "KeyG" : "",
-  "KeyH" : "",
-  "KeyI" : "",
-   "KeyJ" : "",
-  "KeyK" : "",
-   "KeyL" : "",
-   "KeyM" : "",
-  "KeyN" : "",
-   "KeyO" : "",
-   "KeyP"  : "",
-  "KeyQ"  : "",
-  "KeyR" : "",
-  "KeyS" : commandToDirectionMap.reverse,
-  "KeyT": "",
-   "KeyU" : "",
-  "KeyV" : "",
-  "KeyW" : commandToDirectionMap.accelerate,
-  "KeyX" : "",
-  "KeyY" : "",
-  "KeyZ" : "",
-  "MetaLeft": "",
-  "MetaRight" : "",
-  "ContextMenu" : "",
-  "Numpad0": "",
-   "Numpad1" : "",
-  "Numpad2": "",
-   "Numpad3": "",
-   "Numpad4": "",
-  "Numpad5" : "",
-  "Numpad6" : "",
-  "Numpad7": "",
-   "Numpad8" : "",
-  "Numpad9": "",
-   "NumpadMultiply": "", 
-  "NumpadAdd" : "",
-  "NumpadSubtract": "",
-   "NumpadDecimal" : "",
-  "NumpadDivide": "",
-   "F1": "",
-   "F2" : "",
-  "F3" : "",
-  "F4": "",
-   "F5": "",
-   "F6" : "",
-  "F7" : "",
-  "F8" : "",
-  "F9" : "",
-  "F10" : "",
-  "F11": "",
-   "F12" : "",
-  "NumLock" : "",
-  "ScrollLock" : "",
-  "Semicolon": "",
-  "Equal": "",
-  "Comma": "",
-  "Minus": "",
-  "Period": "",
-   "Slash": "",
-  "Backquote": "",
-  "BracketLeft": "",
-  "Backslash": "",
-  "BracketRight": "",
-  "Quote": "",
-}
-
-const keyboardCodes = [
-  "Backspace", "Tab", "Enter", "ShiftLeft", "ShiftRight", "ControlLeft", "ControlRight", "AltLeft", "AltRight", "Pause", "CapsLock", "Escape", "Space", "PageUp", "PageDown", "End", "Home", "ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown", "PrintScreen", "Insert", "Delete", "Digit0", "Digit1", "Digit2", "Digit3", "Digit4", "Digit5", "Digit6", "Digit7", "Digit8", "Digit9", "KeyA", "KeyB", "KeyC", "KeyD", "KeyE", "KeyF", "KeyG", "KeyH", "KeyI", "KeyJ", "KeyK", "KeyL", "KeyM", "KeyN", "KeyO", "KeyP", "KeyQ", "KeyR", "KeyS", "KeyT", "KeyU", "KeyV", "KeyW", "KeyX", "KeyY", "KeyZ", "MetaLeft", "MetaRight", "ContextMenu", "Numpad0", "Numpad1", "Numpad2", "Numpad3", "Numpad4", "Numpad5", "Numpad6", "Numpad7", "Numpad8", "Numpad9", "NumpadMultiply", "NumpadAdd", "NumpadSubtract", "NumpadDecimal", "NumpadDivide", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "NumLock", "ScrollLock", "", "", "", "", "", "", "Semicolon", "Equal", "Comma", "Minus", "Period", "Slash", "Backquote", "BracketLeft", "Backslash", "BracketRight", "Quote", 
-]
-
-const controllerCodesMap = {
-  buttons : [0,1,2,3,4,5,8,9,10,11,12,13,14,15,17] ,//not sure what 19 is.. maybe the home button?
-  triggers : [6,7],
-  axels : [0,1,2,3] //will have code to check if triggers or axels are the ones being affected, and allow a "pressure" value to be sent to the input
-}
 
 const tileTypes = ['road', 'wall', 'dirt', 'spawn', 'finish-up', 'finish-down', 'bumper', 'check-point-left-road', 'check-point-right-road', 'check-point-left-dirt', 'check-point-right-dirt']
 
@@ -242,6 +103,8 @@ const setEnableGhost = (check) => {
 const setDirectionalCamera = (value) => {isDirectionalCameraOn = value}
 
 const getTargetFps = () => {return targetFps}
+
+const getFullKeyboardHeldKeys = () => {return full_keyboard_held_keys}
 
 const getReqAnim = () => {return reqAnim}
 
@@ -551,10 +414,10 @@ const placeCharacter = () => {
               pressure = direction.slice(direction.indexOf("@")+1)
             }
 
-            if (direction.includes(directions.right)) {
+            if (direction.includes(commandToDirectionMap.turnright)) {
               car.turn("right",pressure);
               car.setTurning(true)
-            } else if (direction.includes(directions.left)) {
+            } else if (direction.includes(commandToDirectionMap.turnleft)) {
                 car.turn("left",pressure);
                 car.setTurning(true)
             }
@@ -710,7 +573,7 @@ const step = (newtime) => {
 //listeners 
 
 document.addEventListener("keydown", (e) => {
-  console.log("keydown", e.code, e.key, e.which, e)
+  // console.log("keydown", e.code, e.key, e.which, e)
   const dir = keyboardToCommandMap[e.code];
   //check if current focus isn't an input
   if(document.activeElement.tagName != "INPUT"){
@@ -718,18 +581,26 @@ document.addEventListener("keydown", (e) => {
       e.preventDefault();
     }
   }
-
+  if(full_keyboard_held_keys.indexOf(e.code) === -1){
+    full_keyboard_held_keys.unshift(e.code)
+  }
   if (dir && held_directions.indexOf(dir) === -1) {
       held_directions.unshift(dir)
   }
+  console.log("full_keyboard_held_keys",full_keyboard_held_keys)
 })
 
 document.addEventListener("keyup", (e) => {
   const dir = keyboardToCommandMap[e.code];
-  const index = held_directions.indexOf(dir);
-  if (index > -1) {
-      held_directions.splice(index, 1)
+  const keyCode = e.code;
+  const heldDirectionIndex = held_directions.indexOf(dir);
+  const fullHeldDirectionIndex = full_keyboard_held_keys.indexOf(keyCode);
+  if (heldDirectionIndex > -1) {
+      held_directions.splice(heldDirectionIndex, 1)
   }
+  if (fullHeldDirectionIndex > -1) {
+    full_keyboard_held_keys.splice(fullHeldDirectionIndex, 1)
+}
 });
 
 export {
@@ -757,7 +628,8 @@ export {
   getReplayArray,
   getReplayObject,
   getReplayString,
+  getFullKeyboardHeldKeys,
   setMapData,
   setSpectateTime,
-  setDirectionalCamera
+  setDirectionalCamera,
 }

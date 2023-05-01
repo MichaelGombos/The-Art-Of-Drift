@@ -40,8 +40,9 @@ const Settings = ({
           <h1 className="f-h1">Settings</h1>
           <div  className="settings-wrapper col-2 align-center gap-md vertical-navigation-menu">
             {/* placeholder */}
-            <Button clickHandler={( () => logOut('/'))}>Log Out</Button>
             <Button clickHandler={( () => navigate(isGuestSession ? "/profile/guest" : "/profile" ))}>View Profile</Button>
+            <Button clickHandler={( () => navigate("/settings/keybinds" ))}>View Controls</Button>
+            <Button style="danger" clickHandler={( () => logOut('/'))}>Log Out</Button>
             <DeleteGameSaveButton gameDataSafeteyNet={gameDataSafeteyNet} setGameDataSafeteyNet={setGameDataSafeteyNet}/>
             <ResetSettingsButton 
             particleLimitSlider={particleLimitSlider}
