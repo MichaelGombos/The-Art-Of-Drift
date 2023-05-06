@@ -184,9 +184,9 @@ const generateFrameParticles = (speed, x,y ,driftForce, onDirt,angle) => {
   if (driftForce > 4.5 && !onDirt) {
       // createDriftParticle(x, y, driftForce, angle);
 
-      addParticle("tire_tracks",1,x, y, driftForce, angle.facing)
+      addParticle("tire_tracks",1,x, y, driftForce, angle.facing, (driftForce-4.5) / 2.5) //magic number to get to 7, the max drift force.
       if(driftForce > 5){
-        
+
         addParticle("road_dust",speed/20,x + (Math.floor(Math.random() * 60) - 30 ) , y, driftForce, angle.moving)
         addParticle("road_dust",speed/20,x + (Math.floor(Math.random() * 60) - 30 ), y, driftForce, angle.moving)
         addParticle("road_dust",speed/20,x, y + (Math.floor(Math.random() * 60) - 30 ), driftForce, angle.moving)
@@ -498,7 +498,7 @@ const spriteDetailsMap = {
   },
 }
 
-const addParticle = (type = "road_dust", scaleMultiplier, carX= 69,carY = 69, driftForce = 2, carAngle = 24) => {
+const addParticle = (type = "road_dust", scaleMultiplier, carX= 69,carY = 69, driftForce = 2, carAngle = 24,opacityMultiplier = null) => {
   let newParticle
   
 
@@ -515,7 +515,8 @@ const addParticle = (type = "road_dust", scaleMultiplier, carX= 69,carY = 69, dr
     newParticle.angle = carAngle
      + spriteDetailsMap[type].angleOffset
       + ( Math.floor(Math.random() * spriteDetailsMap[type].angleVariance) - spriteDetailsMap[type].angleVariance/2);
-    newParticle.alpha = spriteDetailsMap[type].alpha;
+    newParticle.alpha = opacityMultiplier !== null ? opacityMultiplier.toFixed(1) : spriteDetailsMap[type].alpha;
+    console.log("IS IT TRUE?", opacityMultiplier, opacityMultiplier != null, newParticle.alpha) 
     newParticle.x = carX / 2;
     newParticle.y = carY / 2;
     newParticle.anchor.set(spriteDetailsMap[type].anchor[0],spriteDetailsMap[type].anchor[1])

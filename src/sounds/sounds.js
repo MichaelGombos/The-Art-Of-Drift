@@ -12,6 +12,15 @@ roadDrift ,
 dirtDrive ,
 maxSpeed  )
 
+const dirtDriveLoop = new Howl({
+  src: [dirtDrive],
+  loop:true,
+  volume:1
+})
+dirtDriveLoop.play();
+// dirtDriveLoop.rate(4);
+//rate *4 for top speed..
+
 const roadSkidLoop = new Howl({
   src: [roadSkid],
   loop:true,
@@ -69,6 +78,9 @@ export const engineTransition = (index1, index2) => { //dec vol s1 inc vol s2
 export const tireSqualTransition = (start,end) => {
   roadSkidLoop.fade(start,end,2000)
 }
+export const dirtDriveTempoUpdate = (tempo) => {
+  dirtDriveLoop.rate(tempo)
+}
 window.tireSqualTransition = tireSqualTransition;
 //TODO function that stops all game sounds. on pause/unpause?
 
@@ -114,11 +126,14 @@ export const generateFrameSounds = (speed, x,y ,driftForce, onDirt,angle) => {
   if(speed > 0 && onDirt){
     if(!isDrivingOnDirt){
       isDrivingOnDirt = true;
+      dirtDriveLoop.play();
       //make driving on dirt sound
     }
+    dirtDriveTempoUpdate(1 + (speed * 4 / 10)) //10 is a magic int for maxspeed 
   }
   else{
     isDrivingOnDirt = false;
+    dirtDriveLoop.stop();
   }
   if (driftForce > 4.5 && !onDirt) {
       // createDriftParticle(x, y, driftForce, angle);
@@ -135,8 +150,8 @@ export const generateFrameSounds = (speed, x,y ,driftForce, onDirt,angle) => {
         if(!isDriftingOnRoad){
           isDriftingOnRoad = true;
           //make drifting on road sound
+          
         }
-
       }
       else{
         isDriftingOnRoad = false;

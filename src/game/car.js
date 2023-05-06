@@ -545,7 +545,7 @@ const createCar = (isGhost) => {
                 onDirt = true;
                 if(!isGhost){
                     if (speed > 1 ) {
-                        speed = speed / 1.055;
+                        speed = speed / 1.025;
                         // createDirtParticle(x, y);
                         
                     }
