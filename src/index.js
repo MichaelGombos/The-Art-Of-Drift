@@ -6,7 +6,7 @@ import "./styleOverhaul.css"
 import "./game/main.js"
 import GUI from "./gui/gui.js";
 
-import "./sounds/tests.js" //tests
+import "./sounds/sounds.js" //tests
 
 const container = document.getElementById("gui-container");
 const root = ReactDOMClient.createRoot(container)

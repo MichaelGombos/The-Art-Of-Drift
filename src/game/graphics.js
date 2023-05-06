@@ -186,6 +186,7 @@ const generateFrameParticles = (speed, x,y ,driftForce, onDirt,angle) => {
 
       addParticle("tire_tracks",1,x, y, driftForce, angle.facing)
       if(driftForce > 5){
+        
         addParticle("road_dust",speed/20,x + (Math.floor(Math.random() * 60) - 30 ) , y, driftForce, angle.moving)
         addParticle("road_dust",speed/20,x + (Math.floor(Math.random() * 60) - 30 ), y, driftForce, angle.moving)
         addParticle("road_dust",speed/20,x, y + (Math.floor(Math.random() * 60) - 30 ), driftForce, angle.moving)

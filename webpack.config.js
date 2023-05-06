@@ -40,7 +40,7 @@ module.exports = {
         type: "asset/resource"        
       },
       {
-        test: [/\.(woff|eot|mp4|wav)$/, /favicon-16x16\.png$/],
+        test: [/\.(woff|eot|mp4|wav|flac)$/, /favicon-16x16\.png$/],
         type: 'asset/resource',
         generator: {
             filename: '[name][ext]'
