@@ -450,7 +450,7 @@ const placeCharacter = () => {
   car.updateAngleLock()
   car.stabalizeDriftForce();
   car.stabalizeAngle()
-  car.updateHandling();
+  car.updateGear();
   if (car.getSpeed() != 0) {
       car.collision(tilePixelCount, rows, columns, mapData.map)
       //friction

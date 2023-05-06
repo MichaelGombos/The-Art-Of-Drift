@@ -171,7 +171,7 @@ let particleLimit = 1000;
 
 const generateFrameParticles = (speed, x,y ,driftForce, onDirt,angle) => {
   let domParticles = Array.from(mapParticles.children) 
-  if(speed > 16){
+  if(speed > 9){
 
     addParticle("max_speed",1, x,y,driftForce,angle.moving)
 

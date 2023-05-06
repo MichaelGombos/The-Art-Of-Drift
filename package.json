@@ -19,6 +19,7 @@
   "dependencies": {
     "firebase": "^9.16.0",
     "framer-motion": "^10.0.1",
+    "howler": "^2.2.3",
     "netlify-cli": "^12.10.0",
     "pixi.js": "^7.2.3",
     "raw-loader": "^4.0.2",

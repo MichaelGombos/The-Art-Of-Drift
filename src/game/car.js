@@ -5,12 +5,14 @@ import {
 import { characterSprite } from "./elements.js";
 
 import {addParticle, createDirtParticle} from "./graphics.js"
+import { engineTransition } from "../sounds/tests.js";
 
 //defines car physics 
 const createCar = (isGhost) => {
-    let acceleration = .07;
+    let gear = 0;
+    let acceleration = .15;
     const friction = .003;
-    const maxSpeed = 40;
+    const maxSpeed = 10;
     const maxLaps = 5;
     let lap = 0;
     let checkPointLap = 0;
@@ -271,46 +273,74 @@ const createCar = (isGhost) => {
 
     }
 
-    const updateHandling = () => { //turning speed & tiregrip
+    const updateGear = () => { //turning speed & tiregrip
         switch (true) {
 
             case (Math.abs(speed) > 5 * maxSpeed/6):
+                if(gear != 5){
+                    engineTransition(gear, 5)
+                }
+                gear = 5;
                 tireGrip = 1.5
                 turningSpeed = 3.75
                 acceleration = .02;
                 break;
 
             case (Math.abs(speed) > 3 * maxSpeed/4):
+                if(gear != 4){
+                    engineTransition(gear, 4)
+                }
+                gear = 4;
                 tireGrip = 1.7
                 turningSpeed = 4
                 acceleration = 0.03;
                 break;
 
             case (Math.abs(speed) > maxSpeed/2):
+                if(gear != 3){
+                    engineTransition(gear, 3)
+                }
+                gear = 3;
                 tireGrip = 1.9
                 turningSpeed = 4.5
                 acceleration = .04;
                 break;
 
-            case (Math.abs(speed) > maxSpeed/4):
+            case (Math.abs(speed) > maxSpeed/4):  //only barley getting here.
+                if(gear != 2){
+                    engineTransition(gear, 2)
+                }
+                gear = 2;
                 tireGrip = 2.05
                 turningSpeed = 5
                 acceleration = .05;
                 break;
 
             case (Math.abs(speed) > maxSpeed/6):
+                if(gear != 1){
+                    engineTransition(gear, 1)
+                }
+                gear = 1;
                 tireGrip = 2.1
                 turningSpeed = 5
                 acceleration = .06;
                 break;
 
             case (Math.abs(speed) > maxSpeed/8):
+                if(gear != 1){
+                    engineTransition(gear, 1)
+                }
+                gear = 1;
                 tireGrip = 2.15
                 turningSpeed = 5
                 acceleration = 0.07;
                 break;
 
             case (Math.abs(speed) >= 0):
+                if(gear != 0){
+                    engineTransition(gear, 0)
+                }
+                gear = 0;
                 tireGrip = 2.2
                 turningSpeed = 5
                 acceleration = 0.08;
@@ -655,7 +685,7 @@ const createCar = (isGhost) => {
         updateAngleLock,
         stabalizeDriftForce,
         stabalizeAngle,
-        updateHandling,
+        updateGear,
         applyFriction,
         turn,
         accelerate,

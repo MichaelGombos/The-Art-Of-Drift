@@ -71,7 +71,7 @@ const Dashboard = ({showInfo}) => {
       <ul className="hidden-menu__dashboard">
             <div className="inputs col-6 align-center gap-md">
   
-              <li>{(stats.speed*5).toFixed(2)} MPH</li>
+              <li>{(stats.speed*10).toFixed(2)} MPH</li>
               <img id="steering-wheel" style = {{transform: `rotate(${steeringAngle*90}deg)`}}src={steering_wheel}/>
   
               <div className="col-6 gap-md" id="pedals">
