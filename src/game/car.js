@@ -5,7 +5,7 @@ import {
 import { characterSprite } from "./elements.js";
 
 import {addParticle, createDirtParticle} from "./graphics.js"
-import { engineTransition, generateCollisionSound } from "../sounds/sounds.js";
+import { engineTransition, generateCollisionSound, generateLapIncreaseSound } from "../sounds/sounds.js";
 
 //defines car physics 
 const createCar = (isGhost) => {
@@ -371,6 +371,7 @@ const createCar = (isGhost) => {
 
     const increaseLaps = () => {
         if(checkPointLap >= 2){
+            generateLapIncreaseSound();
             lap++;
             checkPointLap = 0
         }

@@ -8,11 +8,39 @@ import maxSpeed  from "./game/max speed on.flac"
 import collisionBounce from "./game/collision_bounce.wav"
 import collisionWall from "./game/sqeal then crash.wav"
 
+import countdown from "./game/countdown.wav"
+import lapIncrease from "./game/lapincrease.wav"
+import raceFinish from "./game/racefinish.wav"
+
 console.log("console test", engineIdle,
 roadSkid  ,
 roadDrift ,
 dirtDrive ,
 maxSpeed  )
+
+const raceFinishSound = new Howl ({
+  src: [raceFinish],
+  loop:false,
+  volume:.5,
+})
+
+const lapIncreaseSound = new Howl ({
+  src: [lapIncrease],
+  loop:false,
+  volume:1,
+})
+
+const countdownSound = new Howl({
+  src: [countdown],
+  loop:false,
+  volume:1,
+  sprite: {
+    0 : [ 0 , 500],
+    1 : [500, 500 ],
+    2 : [1160, 600],
+    3 : [1800, 800]
+  }
+})
 
 const collisionWallSound = new Howl({
   src: [collisionWall] ,
@@ -32,15 +60,14 @@ const collisionBounceSound = new Howl({
 const maxSpeedSound = new Howl({
   src: [maxSpeed],
   loop:false,
-  volume:.1
+  volume:.5
 })
 
 const dirtDriveLoop = new Howl({
   src: [dirtDrive],
   loop:true,
-  volume:0
+  volume:.5
 })
-dirtDriveLoop.play();
 // dirtDriveLoop.rate(4);
 //rate *4 for top speed..
 
@@ -142,6 +169,18 @@ export const generateCollisionSound = (isWall) => {
     collisionBounceSound.play();
   }
 }
+
+export const generateCountdownSound = (index) => {
+  countdownSound.play(String(index));
+}
+export const generateRaceFinishSound = () => {
+  raceFinishSound.play();
+}
+export const generateLapIncreaseSound = () => {
+  lapIncreaseSound.play();
+}
+window.countdown = generateCountdownSound
+
 export const generateFrameSounds = (speed, x,y ,driftForce, onDirt,angle) => {
 
   if(speed > 9){

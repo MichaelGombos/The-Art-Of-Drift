@@ -26,7 +26,7 @@ import {generateMiniMap,updateMiniMapPlayers} from "./mini-map.js"
 import getGamePadHeldDirections from "./gamepad.js"
 import { decompressMapData } from "./map-compression.js"
 import { commandList, commandMap, commandToDirectionMap, controllerCodesMap, keyboardToCommandMap } from "../gui/helpers/controls.js"
-import { generateFrameSounds } from "../sounds/sounds.js"
+import { generateFrameSounds, generateRaceFinishSound } from "../sounds/sounds.js"
 
 
 
@@ -266,6 +266,7 @@ const checkGameOver = (currentLap) => {
   if (currentLap >= maxLaps) {
       car.setEngineLock(true); //disbales acceleration
       ghostCar.setEngineLock(true); //disbales acceleration
+      generateRaceFinishSound();
 
       window.updateGameOver(true)
       window.changeGUIScreen("/finish")

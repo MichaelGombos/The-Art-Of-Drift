@@ -6,28 +6,40 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 import Hidden from './hidden.js';
+import { generateCountdownSound } from '../../sounds/sounds.js';
 
+const counterToTextMap = {
+  "3" : "Three",
+  "2" : "Three",
+  "1" : "Two",
+  "0" : "One",
+  "-1" : "GO!"
+}
 
 const Countdown = () => {
   const navigate = useNavigate();
   const [counter, setCounter] = useState(3);
 
   React.useEffect(() => {
-    counter > 0 && setTimeout(() => {
+
+    if(counter < 0){
+      navigate("/hidden");
+      resetGame();
+      console.log("just unpaused on god", getRunning())   
+     }
+
+    counter >= 0 && setTimeout(() => {
+      generateCountdownSound(3-counter)
       setCounter(counter - 1)
     }, 1000);
 
-    if(counter == 0){
-      navigate("/hidden");
-      resetGame();
-      console.log("just unpaused on god", getRunning())
-    }
+
   }, [counter]);
 
   return (
     <>
       <div className="countdown">
-        <p className='f-p1'>{counter}</p>
+        <p className='f-p1'>{counterToTextMap[String(counter)]}</p>
       </div>
       <Hidden/>
     </>
