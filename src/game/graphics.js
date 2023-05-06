@@ -500,7 +500,8 @@ const spriteDetailsMap = {
 
 const addParticle = (type = "road_dust", scaleMultiplier, carX= 69,carY = 69, driftForce = 2, carAngle = 24,opacityMultiplier = null) => {
   let newParticle
-  
+  console.log("particle data", type , scaleMultiplier, carX,carY , driftForce, carAngle ,opacityMultiplier ) 
+
 
   if(spriteDetailsMap[type].tick > spriteDetailsMap[type].frequency){
 
@@ -516,7 +517,6 @@ const addParticle = (type = "road_dust", scaleMultiplier, carX= 69,carY = 69, dr
      + spriteDetailsMap[type].angleOffset
       + ( Math.floor(Math.random() * spriteDetailsMap[type].angleVariance) - spriteDetailsMap[type].angleVariance/2);
     newParticle.alpha = opacityMultiplier !== null ? opacityMultiplier.toFixed(1) : spriteDetailsMap[type].alpha;
-    console.log("IS IT TRUE?", opacityMultiplier, opacityMultiplier != null, newParticle.alpha) 
     newParticle.x = carX / 2;
     newParticle.y = carY / 2;
     newParticle.anchor.set(spriteDetailsMap[type].anchor[0],spriteDetailsMap[type].anchor[1])

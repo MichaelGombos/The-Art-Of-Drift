@@ -5,6 +5,8 @@ import roadSkid  from "./game/tires_squal_loop.wav"
 import roadDrift from "./game/drifting on the road.wav"
 import dirtDrive from "./game/driving on gravel road.wav"
 import maxSpeed  from "./game/max speed on.flac"
+import collisionBounce from "./game/collision_bounce.wav"
+import collisionWall from "./game/sqeal then crash.wav"
 
 console.log("console test", engineIdle,
 roadSkid  ,
@@ -12,10 +14,31 @@ roadDrift ,
 dirtDrive ,
 maxSpeed  )
 
+const collisionWallSound = new Howl({
+  src: [collisionWall] ,
+  loop: false,
+  volume: 1,
+  sprite: {
+    main : [400,5000]
+  }
+})
+
+const collisionBounceSound = new Howl({
+  src: [collisionBounce] ,
+  loop: false,
+  volume: 1
+})
+
+const maxSpeedSound = new Howl({
+  src: [maxSpeed],
+  loop:false,
+  volume:.1
+})
+
 const dirtDriveLoop = new Howl({
   src: [dirtDrive],
   loop:true,
-  volume:1
+  volume:0
 })
 dirtDriveLoop.play();
 // dirtDriveLoop.rate(4);
@@ -111,13 +134,22 @@ let currentMaxSpeedVolume = 0;
 let currentDriftingRoadVolume = 0;
 let currentDrivingDirtVolume = 0;
 let currentSkiddingVolume = 0;
-
+export const generateCollisionSound = (isWall) => {
+  if(isWall){
+    collisionWallSound.play("main");
+  }
+  else{
+    collisionBounceSound.play();
+  }
+}
 export const generateFrameSounds = (speed, x,y ,driftForce, onDirt,angle) => {
 
   if(speed > 9){
     if(!isAtMaxSpeed){
       isAtMaxSpeed = true;
+      maxSpeedSound.play() // will eventually have limiter so this isn't spammed..
       //make max speed sound
+
     }
   }
   else{

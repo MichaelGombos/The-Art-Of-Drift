@@ -5,7 +5,7 @@ import {
 import { characterSprite } from "./elements.js";
 
 import {addParticle, createDirtParticle} from "./graphics.js"
-import { engineTransition } from "../sounds/sounds.js";
+import { engineTransition, generateCollisionSound } from "../sounds/sounds.js";
 
 //defines car physics 
 const createCar = (isGhost) => {
@@ -39,6 +39,8 @@ const createCar = (isGhost) => {
     let underSteering = 1;
     
     let onDirt = false;
+    let onWall = false;
+    let onBounce = false;
     let onFinish = {
         up: false,
         down: false
@@ -66,6 +68,8 @@ const createCar = (isGhost) => {
     const getTurningSpeed = () => {return turningSpeed};
     const getAcceleration = () => {return acceleration};
     const getOnDirt = () => {return onDirt}
+    const getOnWall = () => {return onWall}
+    const getOnBoucne = () => {return onBounce}
     const getStats = () => {
         return [
             x.toFixed(2),
@@ -124,8 +128,8 @@ const createCar = (isGhost) => {
         checkPointLap = 0;
     }
 
-    const reduceSpeed = () => { //wall/border
-        speed = speed/1.25; 
+    const reduceSpeed = (multiplier = 1) => { //wall/border
+        speed = speed/1.25 / multiplier; 
     }
 
     const compareFacingRelativeToMoving = (facingAngle, movingAngle) => { // 1 right 0 middle - 1l eft 
@@ -530,16 +534,38 @@ const createCar = (isGhost) => {
 
             //walls
             if (collidingWithValue(1,"y",mapData,tilePixelCount)) {
-                addParticle("collision_wall",speed/10, x,y,driftForce,angle)
-                reduceSpeed()
-                newY = y;
+                
+                let tempAngle = angle.moving
+                angle.moving = 360 - tempAngle;
+                angle.facing = 360 - tempAngle;
+                addParticle("collision_wall",.2 + (speed/10), x,y,driftForce,angle.facing)
+                reduceSpeed(6)
+                newY = y + (speed * Math.sin(angle.moving * Math.PI / 180));
+                if(!onWall){
+                    generateCollisionSound(true)
+                }
+                onWall = true;
+            }
+            else if (collidingWithValue(1,"x",mapData,tilePixelCount)) {
+
+                let tempAngle = angle.moving
+                angle.moving = 180 - tempAngle;
+                angle.facing = 180 - tempAngle;
+
+                addParticle("collision_wall",.2 + (speed/10), x,y,driftForce,angle.facing)
+                generateCollisionSound(true)
+                reduceSpeed(6)
+                newX = x + (speed * Math.cos(angle.moving * Math.PI / 180));
+
+                if(!onWall){
+                    generateCollisionSound(true)
+                }
+                onWall = true;
+            }
+            else{
+                onWall = false;
             }
 
-            if (collidingWithValue(1,"x",mapData,tilePixelCount)) {
-                addParticle("collision_wall",speed/10, x,y,driftForce,angle)
-                reduceSpeed()
-                newX = x;
-            }
             //dirt
             if (collidingWithValue(2,"y",mapData,tilePixelCount) || collidingWithValue(2,"x",mapData,tilePixelCount)) {
                 onDirt = true;
@@ -632,8 +658,9 @@ const createCar = (isGhost) => {
                 let tempAngle = angle.moving
                 angle.moving = 360 - tempAngle;
                 angle.facing = 360 - tempAngle;
+                addParticle("collision_bounce",1, x,y,driftForce,angle.facing)
+                generateCollisionSound(false)
 
-                addParticle("collision_bounce",1, x,y,driftForce,angle)
                 newY = y + (speed * Math.sin(angle.moving * Math.PI / 180));
 
             }
@@ -644,7 +671,9 @@ const createCar = (isGhost) => {
                 angle.moving = 180 - tempAngle;
                 angle.facing = 180 - tempAngle;
 
-                addParticle("collision_bounce",1, x,y,driftForce,angle)
+                addParticle("collision_bounce",1, x,y,driftForce,angle.facing)
+                generateCollisionSound(false)
+
                 newX = x + (speed * Math.cos(angle.moving * Math.PI / 180));
 
             }
