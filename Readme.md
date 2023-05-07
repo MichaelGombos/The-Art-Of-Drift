@@ -70,6 +70,9 @@ This game is played with wasd and the arrow keys to control the car. Shift, spac
 - publish on steam/itch.io
 
 ### ALPHA PRE RELEASE BACKLOG 
+- add audio settings
+- add mute audio button
+- add callout card with audio+link to artist when a song plays on a track.
 - fix ghost particles on replay & medals
 - fix zoom effect on replay
 - add shake effect + debris for camera on dirt? 

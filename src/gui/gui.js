@@ -10,6 +10,7 @@ import Main from "./pages/main.js"
 import Settings from "./pages/settings.js"
 import Leaderboards from "./pages/leaderboards.js"
 import Invited from "./pages/invited.js"
+import Dialogue from "./pages/dialogue.js"
 
 import React, {Component, useEffect, useState} from 'react';
 import { Route, Routes, useNavigate, Navigate, useLocation} from "react-router-dom";
@@ -43,7 +44,7 @@ import { traverseElement, findValidActionsIntree, arraysEqual , findObjectWithLo
 // http://www.theartofdrift.com/invited?racer=NAME_HASH_0_309&map=0
 // http://localhost:8081/invited?racer=NAME_HASH_0_309&map=0
 
-const home = "/"; //for tests
+const home = "/dialogue/1"; //for tests
 
 let currentNavigationInterval = 0;
 let lastNavigationTime = performance.now();
@@ -142,6 +143,7 @@ const Menu = () => {
     if(
     !location.pathname.includes("/pause") &&
     !location.pathname.includes("/hidden") &&
+    !location.pathname.includes("/dialogue") &&
     !location.pathname.includes("/countdown") &&
     !location.pathname.includes("/finish") &&
     !location.pathname.includes("/settings")){
@@ -155,6 +157,7 @@ const Menu = () => {
       location.pathname ==("/welcome") ||
       location.pathname == ("/signup") || 
       location.pathname == ("/title") || 
+      !location.pathname.includes("/dialogue") ||
       location.pathname.includes("/profile")){
         setShowAuthStatus(false)
       }else{
@@ -236,6 +239,7 @@ const Menu = () => {
       <Route  path="/invited/info" element={<InvitedInfo/>}/>
       <Route  path="/not-supported" element={<NotSupported/>}/>
       <Route  path="/test" element={<AccessibleNavigationTest/>}/>
+      <Route  path="/dialogue/:id" element={<Dialogue/>}/>
       <Route  element={<Navigate to="/"/>}/>
     </Routes>
     

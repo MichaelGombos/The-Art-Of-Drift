@@ -207,12 +207,15 @@ let currentRunningTrack;
 export const transitionMusic = (trackIDToEnable, restart) => {
   console.log("transition", currentRunningTrack, trackIDToEnable)
 
-  if(restart){
-    trackIDtoLoopMap[trackIDToEnable].seek(0)
+  if(Object.keys(trackIDtoLoopMap).includes(trackIDToEnable)){
+
+    if(restart){
+      trackIDtoLoopMap[trackIDToEnable].seek(0)
+    }
+    trackIDtoLoopMap[trackIDToEnable].fade(0,.2, 2000)
+    currentRunningTrack = trackIDToEnable;
   }
-  trackIDToEnable ? trackIDtoLoopMap[trackIDToEnable].fade(0,.2, 2000) : "" //if no track given, go silent
   currentRunningTrack ? trackIDtoLoopMap[currentRunningTrack].fade(.2,0, 2000) : "" //if not previous track, do nothing
-  currentRunningTrack = trackIDToEnable;
 }
 
 export const transitionMusicBasedOffLocation = () => {

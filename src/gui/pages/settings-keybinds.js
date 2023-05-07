@@ -116,7 +116,7 @@ const commandList = [
   "brake"
 ]
 
-const controllerToImageMap = {
+export const controllerToImageMap = {
   0 :   controller_00,
   1 :   controller_01,
   2 :   controller_02,
@@ -137,7 +137,7 @@ const controllerToImageMap = {
   19 :  controller_19,
 }
 
-const keyboardToImageMap = {
+export const keyboardToImageMap = {
   "Backspace" : false,
   "Tab" : false,
   "Enter" : false, 

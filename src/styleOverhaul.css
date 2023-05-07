@@ -963,3 +963,17 @@ input:checked + .switch__inner:before {
   grid-template-columns: 1fr 1fr;
 }
 
+/* dialogue */
+
+.dialogue-text{
+
+}
+.dialogue-image{
+  position: relative;
+  top: 4px;
+  margin-left: 3px;
+  margin-right: 3px;
+  display: inline;
+  height: 19px;
+  width: 19px;
+}
