@@ -24,6 +24,7 @@ import selectedRight from "../../assets/buttons/button-selected-right.png";
 
 import google from "../../assets/buttons/google.svg"
 import googleWhite from "../../assets/buttons/google-white.svg"
+import { generateMouseClickSound, generateMouseHoverSound } from '../../sounds/sounds';
 
 const buttonImageUrlMap = {
   danger : {
@@ -63,7 +64,11 @@ const Button = ({alignStart, clickHandler,type, style, children, icon}) => {
   return(
     <motion.button 
     className='pixel-button pixel-button--primary' 
-    onClick = {clickHandler}
+    onClick = {() => {
+      clickHandler();
+      generateMouseClickSound();
+    }}
+    onHoverStart = {generateMouseHoverSound}
     whileFocus={style == "disabled" ? {rotate:-1.2}: {scale: 1.05} }
     whileHover={style == "disabled" ? {rotate:-1.2}: {scale: 1.05} }
     whileTap={style == "disabled" ? {rotate:1.2} : { scale: .8}}

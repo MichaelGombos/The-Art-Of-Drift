@@ -84,6 +84,7 @@ import AccessibleNavigationTest from "./pages/accessible_navigation_test.js"
 import getGamePadHeldDirections from "../game/gamepad.js"
 import { checkForCommonItem } from "./helpers/util.js"
 import SettingsKeybinds from "./pages/settings-keybinds.js"
+import { generateMouseClickSound, generateMouseHoverSound, generatePauseSound } from "../sounds/sounds.js"
 
 const Menu = () => {
   let isDeviceValid = true;
@@ -300,6 +301,7 @@ class GUI extends Component {
         if(this.gamePadInputs.includes("nav-back") || this.gamePadInputs.includes("nav-pause")){
           if(location.pathname == "/hidden"){
             window.changeGUIScreen("/pause");
+            generatePauseSound();
             pauseGame();
           }
           else if(location.pathname == "/pause"){
@@ -385,7 +387,7 @@ class GUI extends Component {
         // console.log("current tile (direct move)", this.navLocation)
         this.currentNode = findObjectWithLocation([],this.navLocation,this.documentTree)
         this.currentNode.element.focus()
-        
+        generateMouseHoverSound();
         return;
       }
     }
@@ -406,7 +408,7 @@ class GUI extends Component {
     // console.log("current tile (recursive move)", this.navLocation)
     this.currentNode = findObjectWithLocation([],this.navLocation,this.documentTree)
     this.currentNode.element.focus()
-  
+    generateMouseHoverSound();
 
     
   }
@@ -462,6 +464,7 @@ class GUI extends Component {
       if(location.pathname == "/hidden"){
         window.changeGUIScreen("/pause");
         pauseGame();
+        generatePauseSound();
       }
       else if(location.pathname == "/pause"){
         window.changeGUIScreen("/hidden");

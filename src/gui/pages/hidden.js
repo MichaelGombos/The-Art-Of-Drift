@@ -11,20 +11,22 @@ import iconResetUrl from "../../assets/icons/reset.png"
 import GameInfo from '../components/hidden-game-info.js';
 import ExtraStats from '../components/hidden-extra-stats.js';
 import Dashboard from '../components/hidden-dashboard.js';
+import { generatePauseSound } from '../../sounds/sounds.js';
 
 const OpenMenuButton = () => {
   const navigate = useNavigate();
   return(
     <IconButton  iconUrl={iconPauseUrl} clickHandler={() => {
+      generatePauseSound();
       navigate("/pause");
       pauseGame();
-      } }>Open menu</IconButton>
+      } }></IconButton>
   )
 }
 
 const ResetGameButton = () => {
   return (
-    <IconButton  iconUrl={iconResetUrl} clickHandler={() => {setTimeout(resetGame,1)}}>Reset</IconButton>
+    <IconButton  iconUrl={iconResetUrl} clickHandler={() => {setTimeout(resetGame,1)}}></IconButton>
   )
 }
 

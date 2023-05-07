@@ -1,12 +1,16 @@
 import React from 'react';
 
 import {motion} from 'framer-motion';
+import { generateMouseClickSound } from '../../sounds/sounds';
 
 const IconButton = ({style, zref ,clickHandler, iconUrl, children}) => {
   return(
     <motion.button 
     ref={zref}
-    onClick={clickHandler} 
+    onClick = {() => {
+      clickHandler();
+      generateMouseClickSound();
+    }}
     className={` ${style == "key-selector" ? "icon-button__selector icon-button" : "icon-button"}`}
     whileHover={{ scale: 1.5}}
     whileTap={{ scale: .8}}>

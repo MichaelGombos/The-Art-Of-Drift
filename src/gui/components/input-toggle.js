@@ -1,5 +1,6 @@
 import { motion, useMotionValue , AnimatePresence} from "framer-motion";
 import React, {useRef, useState, useEffect} from "react"
+import { generateCheckBoxClickSound } from "../../sounds/sounds";
 
 
 
@@ -9,11 +10,13 @@ const InputToggle = ({newValue,setter,children}) => {
     const [isChildFocused,setIsChildFocused] = useState(false);
     const onChange = (event) => {
       setter(event.target.checked);
+      generateCheckBoxClickSound(event.target.checked)
+      console.log(event.target.checked);
     };
   
     const updateCheckbox = () => { //for keyboard/controller nav
       setter(inputRef.current.value);
-      console.log(isChildFocused);
+      
     }
   return (
     <div className='horizantal-navigation-menu particle-limit row w-100 justify-between align-center '>

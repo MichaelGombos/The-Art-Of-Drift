@@ -1,5 +1,6 @@
 
 import { controllerCodesMap , controllerToCommandMap} from "../gui/helpers/controls";
+import { generatePauseSound } from "../sounds/sounds";
 import { getRunning } from "./main";
 
 const haveEvents = 'ongamepadconnected' in window;

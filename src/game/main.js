@@ -1,3 +1,4 @@
+import { muteAllGameSounds, unmuteAllGameSounds } from "../sounds/sounds.js";
 import {
     getReqAnim,
     step,
@@ -43,12 +44,14 @@ const turnOffGame = () => {
 
 const unPauseGame = () => {
     if(!running){
+        unmuteAllGameSounds()
         running = true;
         step();
     }
 }
 
 const pauseGame = () => {
+    muteAllGameSounds()
     running = false;
     return;
 }

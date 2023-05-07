@@ -1,5 +1,5 @@
 import {Howl, Howler} from 'howler';
-
+//car
 import engineIdle from "./game/idle_engine.wav"
 import roadSkid  from "./game/tires_squal_loop.wav"
 import roadDrift from "./game/drifting on the road.wav"
@@ -7,16 +7,59 @@ import dirtDrive from "./game/driving on gravel road.wav"
 import maxSpeed  from "./game/max speed on.flac"
 import collisionBounce from "./game/collision_bounce.wav"
 import collisionWall from "./game/sqeal then crash.wav"
-
+//game
 import countdown from "./game/countdown.wav"
 import lapIncrease from "./game/lapincrease.wav"
 import raceFinish from "./game/racefinish.wav"
+//gui
+import mouseHover from "./game/mousehover.mp3"
+import mouseClick from "./game/mouseclick.wav"
+import pauseOpen from "./game/pause.wav"
+import errorClick from "./game/errorclick.wav"
+import checkBoxClick from "./game/checkbox.wav"
 
 console.log("console test", engineIdle,
 roadSkid  ,
 roadDrift ,
 dirtDrive ,
 maxSpeed  )
+
+const checkBoxClickSound = new Howl ({
+  src: [checkBoxClick],
+  loop:false,
+  volume:2,
+  sprite : {
+    'turning-on' : [2000, 200],
+    'turning-off' : [4000,300]
+  }
+})
+
+const errorClickSound = new Howl ({
+  src: [errorClick],
+  loop:false,
+  volume:2,
+})
+
+const pauseOpenSound = new Howl ({
+  src: [pauseOpen],
+  loop:false,
+  volume:2,
+})
+
+const mouseClickSound = new Howl ({
+  src: [mouseClick],
+  loop:false,
+  volume:2,
+  sprite: {
+    main: [200, 1000]
+  }
+})
+
+const mouseHoverSound = new Howl ({
+  src: [mouseHover],
+  loop:false,
+  volume:2,
+})
 
 const raceFinishSound = new Howl ({
   src: [raceFinish],
@@ -33,7 +76,7 @@ const lapIncreaseSound = new Howl ({
 const countdownSound = new Howl({
   src: [countdown],
   loop:false,
-  volume:1,
+  volume:.2,
   sprite: {
     0 : [ 0 , 500],
     1 : [500, 500 ],
@@ -179,6 +222,7 @@ export const generateRaceFinishSound = () => {
 export const generateLapIncreaseSound = () => {
   lapIncreaseSound.play();
 }
+
 window.countdown = generateCountdownSound
 
 export const generateFrameSounds = (speed, x,y ,driftForce, onDirt,angle) => {
@@ -235,3 +279,45 @@ export const generateFrameSounds = (speed, x,y ,driftForce, onDirt,angle) => {
   }
  
 }
+
+//gui
+
+export const generateMouseHoverSound = () => {
+  mouseHoverSound.play();
+}
+
+export const generateMouseClickSound = () => {
+  mouseClickSound.play("main") //main
+}
+
+export const generatePauseSound = () => {
+  pauseOpenSound.play();
+}
+
+export const generateErrorClickSound = () => {
+  errorClickSound.play()
+}
+
+export const generateCheckBoxClickSound = (isChecked) => {
+  checkBoxClickSound.play(!isChecked ? "turning-on" : "turning-off")
+}
+
+export const muteAllGameSounds = () => {
+  collisionWallSound.mute(true)
+  collisionBounceSound.mute(true)
+  maxSpeedSound.mute(true)
+  dirtDriveLoop.mute(true)
+  roadSkidLoop.mute(true)
+  engineIdleLoop.mute(true)
+}
+
+export const unmuteAllGameSounds = () => {
+  collisionWallSound.mute(false)
+  collisionBounceSound.mute(false)
+  maxSpeedSound.mute(false)
+  dirtDriveLoop.mute(false)
+  roadSkidLoop.mute(false)
+  engineIdleLoop.mute(false)
+}
+
+window.type = generateCheckBoxClickSound

@@ -97,7 +97,7 @@ const Settings = ({
               </InputToggle>
 
 
-            <ExitSettingsButton isSaving={false} setNewEnableGhost={setNewEnableGhost} setNewParticleLimit={setNewParticleLimit} newEnableGhost={newEnableGhost} newParticleLimit={newParticleLimit} />
+            <ExitSettingsButton isSaving={false} setNewDirectionalCamera = {setNewDirectionalCamera}  setNewEnableGhost={setNewEnableGhost} setNewParticleLimit={setNewParticleLimit} newEnableGhost={newEnableGhost} newParticleLimit={newParticleLimit} />
             <ExitSettingsButton isSaving={true} setNewEnableGhost={setNewEnableGhost} setNewParticleLimit={setNewParticleLimit} setNewDirectionalCamera = {setNewDirectionalCamera} newEnableGhost={newEnableGhost} newParticleLimit={newParticleLimit} newDirectionalCamera={newDirectionalCamera}/>
           </div>
         </div>
