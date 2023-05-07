@@ -31,8 +31,7 @@ This game is played with wasd and the arrow keys to control the car. Shift, spac
 
 ## RoadMap
 
-### Upcoming Release 1.0.0
-
+### FINISHED ALPHA PRE RELEASE ROADMAP
 - (done) add interaction for profile selector 
 - (done) add email login w/firebase
 - (done) add error banner for database functions
@@ -44,24 +43,50 @@ This game is played with wasd and the arrow keys to control the car. Shift, spac
 - (done) add community maps pages
 - (done) fix replays crashing randomly[b1]
 - (done) fix infinite async loads on finish navigation
-- add publish/set to draft flow for maps
+- (done) add publish/set to draft flow for maps
 - (done) fix huge particle bug on replay
 - remake replays for all maps
 - (done) compress replay stats (4 min replay is 1.3mb)
 - (done) update car sprite to use new graphics
-- add controller/keyboard support for navigation & framer animations
-- add custom keybinds
-- update particle layer to use pixi js
-- add pixel art assets for particles
-- add sounds
-- commision logo
-- add dialogue system
-- add tutorial level
-- fix game time being tied to fps [b2]
-- publish this games design doc, game description, create full feature list
-- add credits
-- commision trailer
-- release :)
+- (done) add controller/keyboard support for navigation & framer animations
+- (done) add custom keybinds
+- (done) update particle layer to use pixi js
+- (done) add pixel art assets for particles
+- (done) add sfx
+- (done) add music
+
+### REMAINING ALPHA PRE RELEASE ROADMAP
+- dialogue system
+- tutorial level
+- credits
+- logo 
+- seperate alpha & beta prerelease
+- fix game time bug [b2]
+- finish backlog
+- feedback
+- revisions
+- official release
+- trailer
+- publish on steam/itch.io
+
+### ALPHA PRE RELEASE BACKLOG 
+- fix ghost particles on replay & medals
+- fix zoom effect on replay
+- add shake effect + debris for camera on dirt? 
+- add arrow keys for gui navigation
+- add keyboard/controller support for map maker
+- update guest system to not require login to customize profile+car
+- add zoom feature to map maker
+- update the tab key to use the navigatin system
+- fix the space key on text input
+- fix car not behaving the same while backwards
+- add the rest of the car styles + profile avatars
+- update ghost default avatar to be a robot
+- update navigation to increase in location depth while searching for a neighbor. (instead of only searching for the next index on the valid action list) This will allow me to have a 9x9 grid and navigate up/down/left/right even if each individual cell has alot of nesting. Because right now the navigation really only works if there is only 1 level of nesting ex (1 column that has 5 rows of buttons)
+- fix how the best time is sent to the server
+- fix the bug where you always are getting the best time even if its slower
+- add a progression graph to each level
+- add 26 more maps, so there are 3 acts in total.
 
 ### bugs
 

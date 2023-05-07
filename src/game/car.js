@@ -5,7 +5,7 @@ import {
 import { characterSprite } from "./elements.js";
 
 import {addParticle, createDirtParticle} from "./graphics.js"
-import { engineTransition, generateCollisionSound, generateLapIncreaseSound } from "../sounds/sounds.js";
+import { engineTransition, generateCollisionSound, generateLapIncreaseSound } from "../sounds/sfx.js";
 
 //defines car physics 
 const createCar = (isGhost) => {

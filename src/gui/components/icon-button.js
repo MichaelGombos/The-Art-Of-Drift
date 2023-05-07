@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {motion} from 'framer-motion';
-import { generateMouseClickSound } from '../../sounds/sounds';
+import { generateMouseClickSound } from '../../sounds/sfx';
 
 const IconButton = ({style, zref ,clickHandler, iconUrl, children}) => {
   return(

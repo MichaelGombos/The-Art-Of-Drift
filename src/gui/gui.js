@@ -84,7 +84,8 @@ import AccessibleNavigationTest from "./pages/accessible_navigation_test.js"
 import getGamePadHeldDirections from "../game/gamepad.js"
 import { checkForCommonItem } from "./helpers/util.js"
 import SettingsKeybinds from "./pages/settings-keybinds.js"
-import { generateMouseClickSound, generateMouseHoverSound, generatePauseSound } from "../sounds/sounds.js"
+import { generateMouseClickSound, generateMouseHoverSound, generatePauseSound } from "../sounds/sfx.js"
+import { transitionMusicBasedOffLocation } from "../sounds/music.js"
 
 const Menu = () => {
   let isDeviceValid = true;
@@ -136,6 +137,7 @@ const Menu = () => {
   }, [])
 
   useEffect(() => {
+    transitionMusicBasedOffLocation()
     // http://localhost:8080/invited?racer=J&map=0
     if(
     !location.pathname.includes("/pause") &&

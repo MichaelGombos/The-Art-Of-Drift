@@ -1,4 +1,4 @@
-import { muteAllGameSounds, unmuteAllGameSounds } from "../sounds/sounds.js";
+import { muteAllGameSounds, unmuteAllGameSounds } from "../sounds/sfx.js";
 import {
     getReqAnim,
     step,

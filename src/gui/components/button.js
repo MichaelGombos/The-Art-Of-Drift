@@ -24,7 +24,7 @@ import selectedRight from "../../assets/buttons/button-selected-right.png";
 
 import google from "../../assets/buttons/google.svg"
 import googleWhite from "../../assets/buttons/google-white.svg"
-import { generateMouseClickSound, generateMouseHoverSound } from '../../sounds/sounds';
+import { generateMouseClickSound, generateMouseHoverSound } from '../../sounds/sfx';
 
 const buttonImageUrlMap = {
   danger : {

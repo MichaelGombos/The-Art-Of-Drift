@@ -11,7 +11,7 @@ import iconResetUrl from "../../assets/icons/reset.png"
 import GameInfo from '../components/hidden-game-info.js';
 import ExtraStats from '../components/hidden-extra-stats.js';
 import Dashboard from '../components/hidden-dashboard.js';
-import { generatePauseSound } from '../../sounds/sounds.js';
+import { generatePauseSound } from '../../sounds/sfx.js';
 
 const OpenMenuButton = () => {
   const navigate = useNavigate();

@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 import Hidden from './hidden.js';
-import { generateCountdownSound } from '../../sounds/sounds.js';
+import { generateCountdownSound } from '../../sounds/sfx.js';
 
 const counterToTextMap = {
   "3" : "Three",

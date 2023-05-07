@@ -1,6 +1,6 @@
 import { motion, useMotionValue , AnimatePresence} from "framer-motion";
 import React, {useRef, useState, useEffect} from "react"
-import { generateCheckBoxClickSound } from "../../sounds/sounds";
+import { generateCheckBoxClickSound } from "../../sounds/sfx";
 
 
 
