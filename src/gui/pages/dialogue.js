@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { unPauseGame } from '../../game/main.js';
 
 import Button from '../components/button.js';
 import { commandMap } from '../helpers/controls.js';
@@ -78,7 +79,7 @@ const dialogueBodyList = {
     <p className="f-p2 dialogue-text"> 
     Bounce tiles are dark blue, if you hit a bounce tile you will shoot off the same way light bounces off a mirror.</p>,
     <p className="f-p2 dialogue-text"> 
-    The finish tile is bright green, if you hit a finish tile your lap will increase, you can see the total and current laps at the start of the screen, once you reach 3 you have completed the race.</p>
+    The finish tile is bright green, if you hit a finish tile your lap will increase, you can see the total and current laps at the top middle of the screen, once you reach 3 you have completed the race.</p>
   ]
   ,
   haveFun : [
@@ -121,6 +122,7 @@ const Dialogue = () => {
             }
             else{
               navigate("/hidden")
+              unPauseGame();
             }
           }}>{
             dialogueIndex < tutorialDialogue[params.id].body.length - 1 ? "Next": "Close"}</Button>

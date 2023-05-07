@@ -92,6 +92,13 @@ const tileTypes = [
   { tileName:"check-point-r-road",  value:8, color: "rgb(187, 187, 187)"},
   { tileName:"check-point-l-dirt", value:9, color: "rgb(72, 183, 216)"},
   { tileName:"check-point-r-dirt", value:10 ,color: "rgb(216, 216, 216)"},
+
+  { tileName:"tutorial-trigger-0", value:11, color: "#47694d"},
+  { tileName:"tutorial-trigger-1",  value:12, color:  "#4f7555"},
+  { tileName:"tutorial-trigger-2",  value:13, color: "#598561"},
+  { tileName:"tutorial-trigger-3",  value:14, color: "#65966e"},
+  { tileName:"tutorial-trigger-4", value:15, color: "#77b582"},
+  { tileName:"tutorial-trigger-5", value:16 ,color: "#87cc93"},
 ]
 
 let painting = false;

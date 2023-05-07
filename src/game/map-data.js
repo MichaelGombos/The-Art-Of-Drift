@@ -13,6 +13,7 @@ import map11 from "./maps/map11.js"
 import map12 from "./maps/map12.js"
 import map13 from "./maps/map13.js"
 import map14 from "./maps/map14-campaign-test.js"
+import tutorial from "./maps/tutorial.js"
 
 let freeplay = mapfreeplay;
 
@@ -78,4 +79,4 @@ const mapDescriptions = [
   "this should be the third one.."
 ]
 
-export {freeplay,maps, mapNames,mapDescriptions, HTMLMapNames};
+export {tutorial, freeplay,maps, mapNames,mapDescriptions, HTMLMapNames};

@@ -54,10 +54,10 @@ This game is played with wasd and the arrow keys to control the car. Shift, spac
 - (done) add pixel art assets for particles
 - (done) add sfx
 - (done) add music
+- (done) dialogue system
+- (done)  tutorial level
 
 ### REMAINING ALPHA PRE RELEASE ROADMAP
-- dialogue system
-- tutorial level
 - credits
 - logo 
 - seperate alpha & beta prerelease
@@ -70,6 +70,7 @@ This game is played with wasd and the arrow keys to control the car. Shift, spac
 - publish on steam/itch.io
 
 ### ALPHA PRE RELEASE BACKLOG 
+- add speech to tutorial
 - add audio settings
 - add mute audio button
 - add callout card with audio+link to artist when a song plays on a track.

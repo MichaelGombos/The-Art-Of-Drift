@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { startGame, resetGame, unPauseGame} from "../../game/main.js"
 import {setGameMapIndex, setMapData} from "../../game/game.js"
-import {freeplay, test } from  "../../game/map-data.js"
+import {freeplay, test, tutorial } from  "../../game/map-data.js"
 import Button from './button.js';
 
 const MainMenuNavigation = () => {
@@ -13,6 +13,16 @@ const MainMenuNavigation = () => {
   return (
   <div className="vertical-navigation-menu col-6 main-menu__navigation gap-md">
     <Button style="primary" clickHandler={() => navigate("/campaign") }>campaign</Button>
+    <Button style="light" clickHandler={()=> {
+      setGameMapIndex(undefined)
+      setMapData(tutorial,{
+        inputs:"[]",
+        stats:"[]"
+      });
+      resetGame();
+      navigate("/hidden")
+    }}
+    >Tutorial</Button>
     <Button style="light" clickHandler={() => navigate("/community-maps")}>community maps</Button>
     <Button style="light" clickHandler={() => navigate("/leaderboards")}>leaderboards</Button>
     <Button style="light" clickHandler={()=> {

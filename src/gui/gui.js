@@ -44,7 +44,7 @@ import { traverseElement, findValidActionsIntree, arraysEqual , findObjectWithLo
 // http://www.theartofdrift.com/invited?racer=NAME_HASH_0_309&map=0
 // http://localhost:8081/invited?racer=NAME_HASH_0_309&map=0
 
-const home = "/dialogue/1"; //for tests
+const home = "/"; //for tests
 
 let currentNavigationInterval = 0;
 let lastNavigationTime = performance.now();
@@ -450,18 +450,21 @@ class GUI extends Component {
    onKeyPressed = (e) => {
     // e.preventDefault();
     //TODO replace with switch statement.
-    if(e.key == "w"){
-      this.responsiveNavigation(-1, true)
+    if(location.pathname !== "/hidden"){
+      if(e.key == "w"){
+        this.responsiveNavigation(-1, true)
+      }
+      if(e.key == "s"){
+        this.responsiveNavigation(1, true)
+      }
+      if(e.key == "d"){
+        this.responsiveNavigation(-1, false)
+      }
+      if(e.key == "a"){
+        this.responsiveNavigation(1, false)
+      }
     }
-    if(e.key == "s"){
-      this.responsiveNavigation(1, true)
-    }
-    if(e.key == "d"){
-      this.responsiveNavigation(-1, false)
-    }
-    if(e.key == "a"){
-      this.responsiveNavigation(1, false)
-    }
+    
     if(e.key == "Enter" || e.key == " "){
       e.preventDefault();
       this.responsiveAction("Enter") 

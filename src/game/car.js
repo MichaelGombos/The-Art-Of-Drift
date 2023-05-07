@@ -6,6 +6,7 @@ import { characterSprite } from "./elements.js";
 
 import {addParticle, createDirtParticle} from "./graphics.js"
 import { engineTransition, generateCollisionSound, generateLapIncreaseSound } from "../sounds/sfx.js";
+import { pauseGame } from "./main.js";
 
 //defines car physics 
 const createCar = (isGhost) => {
@@ -38,6 +39,7 @@ const createCar = (isGhost) => {
     let turningSpeed = 3.5;
     let underSteering = 1;
     
+    let onTutorialIndex = 0;
     let onDirt = false;
     let onWall = false;
     let onBounce = false;
@@ -511,6 +513,7 @@ const createCar = (isGhost) => {
             let newY = y + (speedStep * Math.sin(angle.moving * Math.PI / 180));
             if(axis == "y"){
                 if(mapData[Math.floor(newY / tilePixelCount)][Math.floor(x / tilePixelCount)] == value){
+                    if(value== 11){}
                     return true;
                 }
             }
@@ -678,6 +681,37 @@ const createCar = (isGhost) => {
                 newX = x + (speed * Math.cos(angle.moving * Math.PI / 180));
 
             }
+
+            let collidingWithTutorialList = [
+                collidingWithValue(11,"y",mapData,tilePixelCount)||
+                collidingWithValue(11,"x",mapData,tilePixelCount),
+                collidingWithValue(12,"y",mapData,tilePixelCount)||
+                collidingWithValue(12,"x",mapData,tilePixelCount),
+                collidingWithValue(13,"y",mapData,tilePixelCount)||
+                collidingWithValue(13,"x",mapData,tilePixelCount),
+                collidingWithValue(14,"y",mapData,tilePixelCount)||
+                collidingWithValue(14,"x",mapData,tilePixelCount),
+                collidingWithValue(15,"y",mapData,tilePixelCount)||
+                collidingWithValue(15,"x",mapData,tilePixelCount),
+                collidingWithValue(16,"y",mapData,tilePixelCount)||
+                collidingWithValue(16,"x",mapData,tilePixelCount)            ]
+            if (
+                collidingWithTutorialList.findIndex(truthExpression => {
+                    return (truthExpression == true)}) > -1) { //tutorial triggers
+                    onTutorialIndex = collidingWithTutorialList.findIndex(truthExpression => {
+                        return (truthExpression == true)
+                    });
+            } 
+            else {
+                if (onTutorialIndex > -1 ) {
+                    //exiting the finish line 
+                    pauseGame();
+                    window.changeGUIScreen(`dialogue/${onTutorialIndex}`)
+                    onTutorialIndex = -1;
+                }
+                onTutorialIndex = -1;
+            }
+            
         }
 
         x = newX;

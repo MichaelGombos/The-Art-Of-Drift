@@ -269,6 +269,24 @@ const drawCanvasMapColor = (context,mapData) => {
         case (10): //check-point-right-dirt
           context.fillStyle = "#bf6f4a";
           break;
+        case (11): //tutorial-trigger 0
+          context.fillStyle = "#47694d";
+          break;
+        case (12): //tutorial-trigger 1
+          context.fillStyle = "#4f7555";
+          break;
+        case (13): //tutorial-trigger 2 
+          context.fillStyle = "#598561";
+          break;
+        case (14): //tutorial-trigger 3 
+          context.fillStyle = "#65966e";
+          break;
+        case (15): //tutorial-trigger 4 
+          context.fillStyle = "#77b582";
+          break;
+        case (16): //tutorial-trigger 5
+          context.fillStyle = "#87cc93";
+          break;
         default:
           context.fillStyle = "white";
           break;
