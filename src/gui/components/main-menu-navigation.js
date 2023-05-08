@@ -35,6 +35,7 @@ const MainMenuNavigation = () => {
       navigate("/hidden")
     }}
     >Free Play</Button>
+    <Button style="light" clickHandler={() => navigate("/credits")}>credits</Button>
     <a className="col-6"  href="https://github.com/MichaelGombos/browser-driving-demo" target="_blank"> <Button style="light"  >Source Code</Button> </a>
     <Button style="light" clickHandler={() => {
       navigate("/settings");

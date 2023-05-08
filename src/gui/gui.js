@@ -87,6 +87,7 @@ import { checkForCommonItem } from "./helpers/util.js"
 import SettingsKeybinds from "./pages/settings-keybinds.js"
 import { generateMouseClickSound, generateMouseHoverSound, generatePauseSound } from "../sounds/sfx.js"
 import { transitionMusicBasedOffLocation } from "../sounds/music.js"
+import Credits from "./pages/credits.js"
 
 const Menu = () => {
   let isDeviceValid = true;
@@ -240,6 +241,7 @@ const Menu = () => {
       <Route  path="/not-supported" element={<NotSupported/>}/>
       <Route  path="/test" element={<AccessibleNavigationTest/>}/>
       <Route  path="/dialogue/:id" element={<Dialogue/>}/>
+      <Route  path="/credits" element={<Credits/>}/>
       <Route  element={<Navigate to="/"/>}/>
     </Routes>
     

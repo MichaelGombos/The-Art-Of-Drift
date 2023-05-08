@@ -56,7 +56,7 @@ Pages
 a{
   text-decoration: none;
 }
-a, a:focus{
+a, a:focus, a:hover{
   color: white;
 }
 
@@ -976,4 +976,16 @@ input:checked + .switch__inner:before {
   display: inline;
   height: 19px;
   width: 19px;
+}
+
+/* credits */
+
+.infinite-credit-wrap{
+  overflow:hidden;
+  max-height:400px;
+}
+
+.infinite-credit-text{
+  margin-top:300px;
+  position:relative;
 }
