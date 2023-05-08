@@ -3,8 +3,8 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1">
 
   <!-- loader css -->
-  <style type="text/css">
 
+  <style type="text/css">
      :root{
          --loader-500: #FFA800;
      }
@@ -12,13 +12,22 @@
         margin: 0;
      }
      .loader {
+      font-family: 'NESCyrillic';
+      src: url('../src/fonts/NESCyrillic.woff2') format('woff2');
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
       width: 100%;
       height: 100vh;
+      display:flex;
+      justify-content: center;
+      align-items: center;
       position: fixed;
+      color:white;
       background: white
-      url("./loader.gif") center
+      url('loader.gif') center
       no-repeat;
-      background-size:200px 200px;
+      background-size:500px 500px;
       image-rendering: pixelated;
       z-index: 3;
       }
@@ -26,8 +35,9 @@
   </head>
   <body tabindex="-2">
      <main>
-      <!-- <div class="loader">
-      </div> -->
+      <div class="loader">
+         <p>Loading...</p>
+      </div>
         <div id="game">
            <div div class="vertical-navigation-menu" id="gui-container">
 
@@ -90,8 +100,8 @@
       }, 50)
       }
       
-      // window.addEventListener("load", () => { setTimeout(
-      // fadeOutEffect, 200)}); 
+      window.addEventListener("load", () => { setTimeout(
+      fadeOutEffect, 200)}); 
 
    </script>
   

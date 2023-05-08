@@ -36,11 +36,11 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.(jpg|jpeg|png|svg|gif)$/,
-        type: "asset/resource"        
+        test: /\.(jpg|jpeg|png|svg)$/,
+        type: "asset/resource" 
       },
       {
-        test: [/\.(woff|eot|mp4|wav|flac|mp3)$/, /favicon-16x16\.png$/],
+        test: [/\.(woff|eot|mp4|wav|flac|mp3|gif)$/, /favicon-16x16\.png$/],
         type: 'asset/resource',
         generator: {
             filename: '[name][ext]'
