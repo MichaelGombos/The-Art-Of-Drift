@@ -1,5 +1,4 @@
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/firestore';
+import { firestore } from '../db/firebase.js';
 import { useDocumentData, useCollectionData} from 'react-firebase-hooks/firestore';
 
 import React, { useEffect } from 'react';
@@ -10,17 +9,7 @@ import { maps } from '../../game/map-data.js';
 import { setMapData, setEnableGhost,setGameMapIndex } from '../../game/game.js';
 import { resetGame } from '../../game/main.js';
 
-firebase.initializeApp({
-  apiKey: "AIzaSyDTGF6K4sLCAszEdJlBZsbFahZiFr-zkA8",
-  authDomain: "the-art-of-drift.firebaseapp.com",
-  projectId: "the-art-of-drift",
-  storageBucket: "the-art-of-drift.appspot.com",
-  messagingSenderId: "469347431957",
-  appId: "1:469347431957:web:35dbf2311619fad7f6801c",
-  measurementId: "G-68K0WQF6PS"
-})
 
-const firestore = firebase.firestore();
 
 const InvitedPreview = () => {
   let [searchParams, setSearchParams] = useSearchParams();
