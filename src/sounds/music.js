@@ -39,22 +39,22 @@ Maps
 
 import {Howl, Howler} from 'howler';
 
-import menuMusic from "./music/menu La_montagne.mp3"
-import creditsMusic from "./music/credits 2020-03-17.wav"
-import pauseMusic from "./music/pause 2020-06-20-bass.wav"
-import race1 from "./music/01 Race of the Wasp.wav"
-import race2 from "./music/02 2020-03-18.wav"
-import race3 from "./music/03 chiptuned.flac"
-import race4 from "./music/04 Black Diamond.mp3"
-import race5 from "./music/05 drum and bass ld47.wav"
-import race6 from "./music/06 Spring theory.mp3"
-import race7 from "./music/07 Dark Ritual.wav"
-import race8 from "./music/08 sad-trap-beat.mp3"
-import race9 from "./music/09 Raining Bits.flac"
-import race10 from "./music/10 2018-12-11-3.mp3"
-import race11 from "./music/11 dayum.wav"
-import race12 from "./music/12 My Friends Will Cry.flac"
-import race13 from "./music/13 Winning the Race.mp3"
+import menuMusic from "./music/menu-la-montagne.mp3"
+import creditsMusic from "./music/credits-2020-03-17.mp3"
+import pauseMusic from "./music/pause-2020-06-20-bass.mp3"
+import race1 from "./music/01-Race-of-the-Wasp.mp3"
+import race2 from "./music/02-2020-03-18.mp3"
+import race3 from "./music/03-chiptuned.mp3"
+import race4 from "./music/04-Black-Diamond.mp3"
+import race5 from "./music/05-drum-and-bass-ld47.mp3"
+import race6 from "./music/06-Spring-theory.mp3"
+import race7 from "./music/07-Dark-Ritual.mp3"
+import race8 from "./music/08-sad-trap-beat.mp3"
+import race9 from "./music/09-Raining-Bits.mp3"
+import race10 from "./music/10-2018-12-11-3.mp3"
+import race11 from "./music/11-dayum.mp3"
+import race12 from "./music/12-My-Friends-Will-Cry.mp3"
+import race13 from "./music/13-Winning-the-Race.mp3"
 import { getGameMapIndex } from '../game/game';
 
 const menuMusicLoop = new Howl ({
