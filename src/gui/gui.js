@@ -423,13 +423,14 @@ class GUI extends Component {
   }
 
   responsiveAction = (type) => { //like when enter is pressed
-    if(type == "Enter"){
+    if(type == "Enter" || type=="EnterSpace"){
       if(this.currentNode.navType == "checkbox"){
         this.currentNode.element.click();
         return;
       }
       else if(this.currentNode.navType == "text"){
-        this.currentNode.element.blur();
+        type == "Enter" ? this.currentNode.element.blur() : ""
+        
         return;
       }
       this.currentNode.element.click();
@@ -451,7 +452,7 @@ class GUI extends Component {
 
   }
    onKeyPressed = (e) => {
-    // e.preventDefault();
+
     //TODO replace with switch statement.
     if(location.pathname !== "/hidden"){
       if(e.key == "w"  || e.key == "ArrowUp" ){
@@ -476,9 +477,13 @@ class GUI extends Component {
       }
     }
     
-    if(e.key == "Enter" || e.key == " "){
-      e.preventDefault();
+    if(e.key == "Enter" ){
       this.responsiveAction("Enter") 
+      e.preventDefault();
+    }
+    if(e.key == " "){
+      this.responsiveAction("EnterSpace") 
+      return false;
     }
     if(e.key == "Escape" || e.key == "p"){
       if(location.pathname == "/hidden"){
@@ -499,121 +504,12 @@ class GUI extends Component {
       if(location.pathname == "/hidden"){
         setTimeout(resetGame,20)
       }
+
+      
     }
 
-      //     if(command == "pause" && currentNavigationInterval > validNavigationInterval * 2){
-  //       if(location.pathname == "/hidden"){
-  //         window.changeGUIScreen("/pause");
-  //         pauseGame();
-  //       }
-  //       else if(location.pathname == "/pause"){
-  //         window.changeGUIScreen("/hidden");
-  //         unPauseGame();
-  //       }
-  //     }
-  //     else if(command == "reset"){
-  //       setTimeout(resetGame,20)
-  //     }
     console.log(e.key)
   }
-  // focusFirstButton = () => {
-  //   let menuList = Array.from(document.querySelector("#game").querySelectorAll("button,select ,input, .title"));
-  //   menuList[0].focus();
-  //   this.setState ({navIndex:0})
-  // }
-  // navigateMenu = (command) => {
-  //   let menuList = Array.from(document.querySelector("#game").querySelectorAll("button,select ,input, .title"));
-  //   currentNavigationInterval = performance.now() - lastNavigationTime;
-  //   let validTime = currentNavigationInterval > validNavigationInterval;
-  //   if(validTime){
-  //     if(command == "pause" && currentNavigationInterval > validNavigationInterval * 2){
-  //       if(location.pathname == "/hidden"){
-  //         window.changeGUIScreen("/pause");
-  //         pauseGame();
-  //       }
-  //       else if(location.pathname == "/pause"){
-  //         window.changeGUIScreen("/hidden");
-  //         unPauseGame();
-  //       }
-  //     }
-  //     else if(command == "reset"){
-  //       setTimeout(resetGame,20)
-  //     }
-      
-  //     else if(document.querySelector(".menu")){
-
-  //       let firstButton = menuList[0]
-  //       let lastButton = menuList[menuList.length-1];
-  //       let lastIndex = menuList.length-1;
-  
-  //       if(this.navIndex == null || this.navIndex == 0){
-  //         this.navIndex = 0;
-  //         firstButton.focus();
-  //       }
-  //       if(command == "up"){
-  //         if(document.activeElement == firstButton){ 
-  //           this.navIndex = lastIndex;
-  //           lastButton.focus();
-  //         }
-  //         else{
-  //           let previousButton = menuList[this.navIndex-1];
-  //           this.navIndex -= 1;
-  //           previousButton.focus();
-  //         }
-  //       }
-  //       else if(command == "down"){
-  //         if(document.activeElement == lastButton){ 
-  //           this.navIndex = 0;
-  //           firstButton.focus();
-  //         }
-  //         else{
-  //           let nextButton = menuList[this.navIndex+1]
-  //           this.navIndex += 1
-  //           nextButton.focus();
-  //         }
-  //       }
-  //       else if(command == "select"){
-  //         menuList[this.navIndex].click();
-  //       }
-  //       else if(command == "back"){
-  //         history.back()
-  //       } //todo add navigate back?
-  
-  //     }
-
-  //     lastNavigationTime = performance.now();
-  //   }
-
-
-  // }
-
-
-  // onKeyPressed = () => (e) => {
-  //   if(e.key == "r"){
-  //     if(location.pathname == "/hidden"){
-  //       setTimeout(resetGame,20)
-  //     }
-  //   } 
-  //   else if(e.key == "p" || e.key == "Escape"){
-  //     if(location.pathname == "/hidden"){
-  //       window.changeGUIScreen("/pause");
-  //       pauseGame();
-  //     }
-  //     else if(location.pathname == "/pause"){
-  //       window.changeGUIScreen("/hidden");
-  //       unPauseGame();
-  //     }
-  //   }
-  //   else if(Object.keys(navKeys).includes(e.key)){
-  //     this.navigateMenu(navKeys[e.key]);
-  //   }
-  // }
-
-  // componentDidMount() {   window.addEventListener('keydown', this.onKeyPressed().bind(this) )    }
-  
-  
-
-
   ref = React.createRef();
   render() {return <Menu/>}
 }
