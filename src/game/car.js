@@ -13,7 +13,7 @@ const createCar = (isGhost) => {
     let gear = 0;
     let acceleration = .15;
     const friction = .003;
-    const maxSpeed = 10;
+    const maxSpeed = 12;
     const maxLaps = 5;
     let lap = 0;
     let checkPointLap = 0;

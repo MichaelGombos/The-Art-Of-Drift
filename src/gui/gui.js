@@ -88,6 +88,7 @@ import SettingsKeybinds from "./pages/settings-keybinds.js"
 import { generateMouseClickSound, generateMouseHoverSound, generatePauseSound } from "../sounds/sfx.js"
 import { transitionMusicBasedOffLocation } from "../sounds/music.js"
 import Credits from "./pages/credits.js"
+import { getFullKeyboardHeldKeys } from "../game/game.js"
 
 const Menu = () => {
   let isDeviceValid = true;
@@ -453,17 +454,25 @@ class GUI extends Component {
     // e.preventDefault();
     //TODO replace with switch statement.
     if(location.pathname !== "/hidden"){
-      if(e.key == "w"){
+      if(e.key == "w"  || e.key == "ArrowUp" ){
         this.responsiveNavigation(-1, true)
       }
-      if(e.key == "s"){
+      if(e.key == "s" || e.key == "ArrowDown" ){
         this.responsiveNavigation(1, true)
       }
-      if(e.key == "d"){
+      if(e.key == "d" || e.key == "ArrowRight" ){
         this.responsiveNavigation(-1, false)
       }
-      if(e.key == "a"){
+      if(e.key == "a" || e.key == "ArrowLeft" ){
         this.responsiveNavigation(1, false)
+      }
+      if(e.key == "Tab" && !getFullKeyboardHeldKeys().includes("ShiftLeft")){
+        this.responsiveNavigation(-1, false)
+        e.preventDefault()
+      }
+      if(e.key == "Tab" && getFullKeyboardHeldKeys().includes("ShiftLeft")){
+        this.responsiveNavigation(1, false)
+        e.preventDefault()
       }
     }
     

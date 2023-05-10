@@ -7,7 +7,7 @@ The art of drift is a racing game built in javascript.
 
 ## Where to play
 
-You can play this game online at [www.TheArtOfDrift.com](https://www.TheArtOfDrift.com)
+You can play this game online at [www.beta.TheArtOfDrift.com](https://www.beta.TheArtOfDrift.com)
 
 ## How to play?
 
@@ -88,7 +88,7 @@ https://freesound.org/people/Doctor_Dreamchip/sounds/511279/
 
 ## RoadMap
 
-### FINISHED ALPHA PRE RELEASE ROADMAP
+### FINISHED BETA PRE RELEASE ROADMAP
 - (done) add interaction for profile selector 
 - (done) add email login w/firebase
 - (done) add error banner for database functions
@@ -113,11 +113,11 @@ https://freesound.org/people/Doctor_Dreamchip/sounds/511279/
 - (done) add music
 - (done) dialogue system
 - (done)  tutorial level
-- (done)credits
+- (done) credits
+- (done) seperate alpha & beta prerelease
 
-### REMAINING ALPHA PRE RELEASE ROADMAP
+### REMAINING BETA PRE RELEASE ROADMAP
 - logo 
-- seperate alpha & beta prerelease
 - fix game time bug [b2]
 - finish backlog
 - feedback
@@ -126,12 +126,16 @@ https://freesound.org/people/Doctor_Dreamchip/sounds/511279/
 - trailer
 - publish on steam/itch.io
 
-### ALPHA PRE RELEASE BACKLOG 
+### BETA PRE RELEASE BACKLOG 
+- compress music (causing multiple minute load times)
+- fix title screen loading gif
 - add speech to tutorial
 - add audio settings
 - add mute audio button
 - add callout card with audio+link to artist when a song plays on a track.
+- fix car not behaving the same while backwards
 - fix ghost particles on replay & medals
+- re record all replays
 - fix zoom effect on replay
 - add shake effect + debris for camera on dirt? 
 - add arrow keys for gui navigation
@@ -140,7 +144,6 @@ https://freesound.org/people/Doctor_Dreamchip/sounds/511279/
 - add zoom feature to map maker
 - update the tab key to use the navigatin system
 - fix the space key on text input
-- fix car not behaving the same while backwards
 - add the rest of the car styles + profile avatars
 - update ghost default avatar to be a robot
 - update navigation to increase in location depth while searching for a neighbor. (instead of only searching for the next index on the valid action list) This will allow me to have a 9x9 grid and navigate up/down/left/right even if each individual cell has alot of nesting. Because right now the navigation really only works if there is only 1 level of nesting ex (1 column that has 5 rows of buttons)
