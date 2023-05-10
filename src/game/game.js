@@ -65,6 +65,7 @@ let reqAnim;
 let isPaused = true;
 let inSpectateMode;
 let spectateTime;
+let replayFinishTime;
 
 
 let frameCount = 0;
@@ -266,6 +267,7 @@ const checkGameOver = (currentLap) => {
   if (currentLap >= maxLaps) {
       car.setEngineLock(true); //disbales acceleration
       ghostCar.setEngineLock(true); //disbales acceleration
+      replayFinishTime = timeString;
       generateRaceFinishSound();
 
       window.updateGameOver(true)
@@ -635,4 +637,5 @@ export {
   setMapData,
   setSpectateTime,
   setDirectionalCamera,
+  getReplayFinishTime
 }

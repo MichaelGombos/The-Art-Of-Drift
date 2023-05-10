@@ -1,49 +1,23 @@
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/firestore';
-
 import React, { useMemo , useState} from 'react';
-import {  getTimeString, getGameMapIndex, getReplayArray,  getInSpectateMode, getSpectateTime, getReplayObject } from '../../game/game.js';
+import {  getTimeString, getGameMapIndex, getReplayArray,  getInSpectateMode, getSpectateTime, getReplayObject, getReplayFinishTime } from '../../game/game.js';
 
 import FinishHeader from '../components/finish-header.js';
 import FinishNavigation from '../components/finish-navigation.js';
 import { addReplay, getCurrentAuthProfile, getCurrentAuthReplay, getDatabaseTime } from '../helpers/databaseFacade.js';
 
-firebase.initializeApp({
-  apiKey: "AIzaSyDTGF6K4sLCAszEdJlBZsbFahZiFr-zkA8",
-  authDomain: "the-art-of-drift.firebaseapp.com",
-  projectId: "the-art-of-drift",
-  storageBucket: "the-art-of-drift.appspot.com",
-  messagingSenderId: "469347431957",
-  appId: "1:469347431957:web:35dbf2311619fad7f6801c",
-  measurementId: "G-68K0WQF6PS"
-})
 
-const firestore = firebase.firestore();
 
 let newBest = false;
 let playerTime;
 let spectateTime;
 
 const sendTime = async(mapIndex,replayObject) => {
-
   addReplay(mapIndex,replayObject)
 
-
-  // pName = `NAME_HASH_${Math.floor(Math.random()*10)}_${Math.floor(Math.random()*500)}`
-  // //firebase
-  // const leaderboardPlayerRef = firestore.collection("leaderboards").doc("desktop").collection(`map${Number(mapIndex)+1}`).doc(pName)
-
-  // await leaderboardPlayerRef.set({
-  //   time: time,
-  //   playerName : pName,
-  //   playerInputs: replay,
-  //   playerColor: color,
-  //   createdAt: firebase.firestore.FieldValue.serverTimestamp()
-  // })
 }
 
 const checkBest = (setter, index, oldPB) => {
-  const finishTime = getTimeString();
+  const finishTime = getReplayFinishTime();
   if(!getInSpectateMode() && finishTime < oldPB || !oldPB){
     //post to localStorage and to Database
     const gameReplayObject = getReplayObject();
