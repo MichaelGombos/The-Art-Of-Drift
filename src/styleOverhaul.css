@@ -989,3 +989,20 @@ input:checked + .switch__inner:before {
   margin-top:300px;
   position:relative;
 }
+
+/* audio button  */
+
+.audio-control{
+  position: absolute;
+  z-index: 5;
+  top: 16;
+  left: 16;
+  width: 64px;
+  height : 64px;
+}
+
+.audio-control img{
+  width:45px;
+  height:45px;
+  image-rendering: pixelated;
+}
