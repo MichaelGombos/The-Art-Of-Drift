@@ -13,6 +13,8 @@ import InputToggle from '../components/input-toggle.js';
 import Button from '../components/button.js';
 import { logOut } from '../helpers/databaseFacade.js';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { getMusicMultipler, setMusicMultiplier } from '../../sounds/music.js';
+import { getSFXMultiplier, setSFXMultiplier } from '../../sounds/sfx.js';
 
 const {useState} = React
 
@@ -29,9 +31,22 @@ const Settings = ({
 
   const particleLimitSlider = useRef(null)
   let [newEnableGhost, setNewEnableGhost] = useState(getEnableGhost());
+  let [newSfxSound, setNewSfxSound] = useState((getSFXMultiplier() * 100).toFixed(2));
+  let [newMusicSound, setNewMusicSound] = useState((getMusicMultipler() * 100).toFixed(2));
   let [newParticleLimit,setNewParticleLimit] = useState(getParticleLimit());
   let [gameDataSafeteyNet,setGameDataSafeteyNet] = useState(10);
   let [newDirectionalCamera, setNewDirectionalCamera] = useState(getDirectionalCamera())
+
+  const setStatefulMusic = (newVal) => {
+    setNewMusicSound(newVal);
+    setMusicMultiplier(newVal);
+  }
+
+  const setStatefulSFX = newVal => {
+    setNewSfxSound(newVal);
+    setSFXMultiplier(newVal);
+  }
+
   return (
 
     <div className="vertical-navigation-menu opaque-background">
@@ -53,6 +68,22 @@ const Settings = ({
             setShowFPS={setShowFPS}
             setShowExtraStats={setShowExtraStats}
             setShowDashboard={setShowDashboard}/>
+
+            <InputSlider 
+          newValue={newSfxSound} 
+          setter={setStatefulSFX}
+          minimum={0}
+          maximum={100}>
+            SFX Sound
+          </InputSlider>
+                <InputSlider 
+              newValue={newMusicSound} 
+              setter={setStatefulMusic}
+              minimum={0}
+              maximum={100}>
+                Music Sound
+              </InputSlider>
+              
                 <InputSlider 
                 parentRef={particleLimitSlider}
               newValue={newParticleLimit} 
