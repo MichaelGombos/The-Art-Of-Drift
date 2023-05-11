@@ -77,6 +77,19 @@ dirtDrive ,
 maxSpeed  )
 import "../sounds/music.js"
 
+let SFXMultiplier = 1;
+
+let currentEngineIndex;
+export const setSFXMultiplier = (newMultiplier) => {
+  SFXMultiplier = newMultiplier / 100;
+}
+
+Window.setSFX = setSFXMultiplier;
+
+export const  getSFXMultiplier = () => {
+  return SFXMultiplier; 
+}
+
 const checkBoxClickSound = new Howl ({
   src: [checkBoxClick],
   loop:false,
@@ -218,11 +231,12 @@ let engineIdIdleList = [engine_0, engine_1, engine_2, engine_3, engine_4, engine
 // }, 3000) 
 
 export const engineTransition = (index1, index2) => { //dec vol s1 inc vol s2
-  engineIdleLoop.fade(.2,0, 2000, engineIdIdleList[index1])
-  engineIdleLoop.fade(0,.2, 2000, engineIdIdleList[index2])
+  currentEngineIndex = index2;
+  engineIdleLoop.fade(.2 * SFXMultiplier,0, 2000, engineIdIdleList[index1])
+  engineIdleLoop.fade(0,.2 * SFXMultiplier, 2000, engineIdIdleList[index2])
 }
 export const tireSqualTransition = (start,end) => {
-  roadSkidLoop.fade(start,end,2000)
+  roadSkidLoop.fade(start * SFXMultiplier,end * SFXMultiplier,2000)
 }
 export const dirtDriveTempoUpdate = (tempo) => {
   dirtDriveLoop.rate(tempo)
@@ -260,20 +274,25 @@ let currentSkiddingVolume = 0;
 export const generateCollisionSound = (isWall) => {
   if(isWall){
     collisionWallSound.play("main");
+    collisionWallSound.volume(.2 * SFXMultiplier)
   }
   else{
     collisionBounceSound.play();
+    collisionBounceSound.volume(.2 * SFXMultiplier)
   }
 }
 
 export const generateCountdownSound = (index) => {
   countdownSound.play(String(index));
+  countdownSound.volume(.2 * SFXMultiplier)
 }
 export const generateRaceFinishSound = () => {
   raceFinishSound.play();
+  raceFinishSound.volume(.2 * SFXMultiplier)
 }
 export const generateLapIncreaseSound = () => {
   lapIncreaseSound.play();
+  lapIncreaseSound.volume(.2 * SFXMultiplier)
 }
 
 window.countdown = generateCountdownSound
@@ -284,6 +303,7 @@ export const generateFrameSounds = (speed, x,y ,driftForce, onDirt,angle) => {
     if(!isAtMaxSpeed){
       isAtMaxSpeed = true;
       maxSpeedSound.play() // will eventually have limiter so this isn't spammed..
+      maxSpeedSound.volume(.2 * SFXMultiplier)
       //make max speed sound
 
     }
@@ -295,6 +315,7 @@ export const generateFrameSounds = (speed, x,y ,driftForce, onDirt,angle) => {
     if(!isDrivingOnDirt){
       isDrivingOnDirt = true;
       dirtDriveLoop.play();
+      dirtDriveLoop.volume(.2 * SFXMultiplier)
       //make driving on dirt sound
     }
     dirtDriveTempoUpdate(1 + (speed * 4 / 10)) //10 is a magic int for maxspeed 
@@ -308,6 +329,7 @@ export const generateFrameSounds = (speed, x,y ,driftForce, onDirt,angle) => {
       if(!isSkiddingOnRoad){
         isSkiddingOnRoad = true;
         roadSkidLoop.play();
+        roadSkidLoop.volume(.2 * SFXMultiplier)
         //make skidding on dirt sound
       }
       tireSqualTransition(currentSkiddingVolume, Number((driftForce / 7).toFixed(2)))
@@ -337,22 +359,27 @@ export const generateFrameSounds = (speed, x,y ,driftForce, onDirt,angle) => {
 
 export const generateMouseHoverSound = () => {
   mouseHoverSound.play();
+  mouseHoverSound.volume(.2 * SFXMultiplier)
 }
 
 export const generateMouseClickSound = () => {
   mouseClickSound.play("main") //main
+  mouseClickSound.volume(.2 * SFXMultiplier)
 }
 
 export const generatePauseSound = () => {
   pauseOpenSound.play();
+  pauseOpenSound.volume(.2 * SFXMultiplier)
 }
 
 export const generateErrorClickSound = () => {
   errorClickSound.play()
+  errorClickSound.volume(.2 * SFXMultiplier)
 }
 
 export const generateCheckBoxClickSound = (isChecked) => {
   checkBoxClickSound.play(!isChecked ? "turning-on" : "turning-off")
+  checkBoxClickSound.volume(.2 * SFXMultiplier)
 }
 
 export const muteAllGameSounds = () => {

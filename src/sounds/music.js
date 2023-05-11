@@ -57,6 +57,22 @@ import race12 from "./music/12-My-Friends-Will-Cry.mp3"
 import race13 from "./music/13-Winning-the-Race.mp3"
 import { getGameMapIndex } from '../game/game';
 
+
+let musicMultiplier = 1;
+
+
+export const setMusicMultiplier = (newMultiplier) => {
+  musicMultiplier = newMultiplier / 100;
+  trackIDtoLoopMap[currentRunningTrack].volume(.2 * musicMultiplier)
+}
+
+export const getMusicMultipler = () => {return musicMultiplier}
+
+Window.setMusic = setMusicMultiplier;
+export const getMusicMultiplier = () => {
+  return musicMultiplier; 
+}
+
 const menuMusicLoop = new Howl ({
   src: [menuMusic],
   loop:true,
@@ -207,13 +223,13 @@ let currentRunningTrack;
 export const transitionMusic = (trackIDToEnable, restart) => {
   console.log("transition", currentRunningTrack, trackIDToEnable)
 
-  currentRunningTrack ? trackIDtoLoopMap[currentRunningTrack].fade(.2,0, 2000) : "" //if not previous track, do nothing
+  currentRunningTrack ? trackIDtoLoopMap[currentRunningTrack].fade(.2 * musicMultiplier,0, 2000) : "" //if not previous track, do nothing
   if(Object.keys(trackIDtoLoopMap).includes(trackIDToEnable)){
 
     if(restart){
       trackIDtoLoopMap[trackIDToEnable].seek(0)
     }
-    trackIDtoLoopMap[trackIDToEnable].fade(0,.2, 2000)
+    trackIDtoLoopMap[trackIDToEnable].fade(0,.2 * musicMultiplier , 2000)
     currentRunningTrack = trackIDToEnable;
   }
 }
