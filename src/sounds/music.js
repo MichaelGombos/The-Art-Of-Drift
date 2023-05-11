@@ -59,7 +59,22 @@ import { getGameMapIndex } from '../game/game';
 
 
 let musicMultiplier = 1;
+let unmutedMusicMultiplier = 0;
+let isMusicMuted = false;
 
+export const muteMusicMultiplier = () => {
+  unmutedMusicMultiplier = musicMultiplier;
+  musicMultiplier = 0;
+  trackIDtoLoopMap[currentRunningTrack].volume(0)
+}
+
+export const unmuteMusicMutlipler = () => {
+  musicMultiplier = unmutedMusicMultiplier;
+  trackIDtoLoopMap[currentRunningTrack].volume(musicMultiplier)
+}
+
+window.muteMusic = muteMusicMultiplier;
+window.unmuteMusic = unmuteMusicMutlipler;
 
 export const setMusicMultiplier = (newMultiplier) => {
   musicMultiplier = newMultiplier / 100;

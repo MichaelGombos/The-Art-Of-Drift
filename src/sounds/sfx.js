@@ -76,13 +76,31 @@ roadDrift ,
 dirtDrive ,
 maxSpeed  )
 import "../sounds/music.js"
+import { getRunning } from '../game/main';
 
 let SFXMultiplier = 1;
+let unMutedSFXMultiplier = 0;
 
-let currentEngineIndex;
+let currentEngineIndex = 0;
 export const setSFXMultiplier = (newMultiplier) => {
-  SFXMultiplier = newMultiplier / 100;
+  SFXMultiplier = newMultiplier / 100; 
+  // this should also unmute the SFX multiplier
 }
+
+export const muteSFXMultiplier = () => {
+  unMutedSFXMultiplier = SFXMultiplier;
+  SFXMultiplier = 0;
+  engineIdleLoop.volume(0, engineIdIdleList[currentEngineIndex]);
+}
+
+
+export const unmuteSFXMultiplier = () => {
+  SFXMultiplier = unMutedSFXMultiplier;
+  getRunning() ?   engineIdleLoop.volume(SFXMultiplier, engineIdIdleList[currentEngineIndex]) : ""
+}
+
+window.muteSFX = muteSFXMultiplier;
+window.unmuteSFX = unmuteSFXMultiplier;
 
 Window.setSFX = setSFXMultiplier;
 

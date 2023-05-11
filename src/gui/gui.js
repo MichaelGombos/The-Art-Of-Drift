@@ -89,6 +89,7 @@ import { generateMouseClickSound, generateMouseHoverSound, generatePauseSound } 
 import { transitionMusicBasedOffLocation } from "../sounds/music.js"
 import Credits from "./pages/credits.js"
 import { getFullKeyboardHeldKeys } from "../game/game.js"
+import AudioControl from "./components/audio-control.js"
 
 const Menu = () => {
   let isDeviceValid = true;
@@ -99,6 +100,7 @@ const Menu = () => {
   const [showExtraStats,setShowExtraStats] = useState(true);
   const [showDashboard,setShowDashboard] = useState(true);
   const [showAuthStatus,setShowAuthStatus] = useState(false);
+  const [showAudioControl, setShowAudioControl] = useState(false);
   const [isGuestSession,setIsGuestSession] = useState(false);
   const [previewMap,setPreviewMap] = useState(
     `{ "spawnAngle" : ${maps[7].spawnAngle} , "lapCount" : ${maps[7].lapCount} , "data" : [${ maps[7].data.map(mapRow => "\n[" + mapRow.map(cell => `"${cell}"`) + "]")}\n] } `
@@ -106,6 +108,7 @@ const Menu = () => {
 
   const [locationPathHistory,setLocationPathHistory] = useState([]); //allows back to work on pages.
 
+  window.giveAuthStatus = () => console.log(showAuthStatus)
   const location = useLocation();
   const navigate = useNavigate();
   window.changeGUIScreen = navigate;
@@ -159,12 +162,18 @@ const Menu = () => {
       location.pathname ==("/welcome") ||
       location.pathname == ("/signup") || 
       location.pathname == ("/title") || 
-      !location.pathname.includes("/dialogue") ||
+      location.pathname.includes("/dialogue") ||
       location.pathname.includes("/profile")){
         setShowAuthStatus(false)
       }else{
         setShowAuthStatus(true)
       }
+
+    if(location.pathname == "/"){
+      setShowAudioControl(false)
+    }else{
+      setShowAudioControl(true)
+    }
       window.stopWatchingInputs ? window.stopWatchingInputs() : "";
       window.refreshDocumentTree()
       setLocationPathHistory(locationPathHistory.concat(location.pathname))
@@ -179,6 +188,8 @@ const Menu = () => {
     user = {user}
     loading = {loading}
     error = {error}/>
+    <AudioControl
+    isShown = {showAudioControl}/>
     <ResultBanner/>
     <AsyncLoader loading={loading} user={user} />
     <Routes>
