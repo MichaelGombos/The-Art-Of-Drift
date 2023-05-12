@@ -203,7 +203,8 @@ const Menu = () => {
       <Route  path="/main" element={<Main setPrevious={setPreviousType}/>}/>
       <Route  path="/profile" element={<Profile locationPathHistory = {locationPathHistory}  user = {user} loading = {loading} error = {error}/>}/>
       <Route  path="/profile/guest" element={<ProfileGuest user = {user} loading = {loading} error = {error}/>}/>
-      <Route  path="/profile/edit" element={<ProfileEdit user = {user} loading = {loading} error = {error}/>}/>
+      <Route  path="/profile/edit" element={<ProfileEdit isGuest={false} user = {user} loading = {loading} error = {error}/>}/>
+      <Route  path="/profile/guest/edit" element={<ProfileEdit isGuest={true} user = {user} loading = {loading} error = {error}/>}/>
       <Route  path="/profile/guest/upgrade/gmail" element={<ProfileUpgrade type="gmail" user = {user} loading = {loading} error = {error}/>}/>
       <Route  path="/profile/guest/upgrade/email" element={<ProfileUpgrade type="email" user = {user} loading = {loading} error = {error}/>}/>
       <Route  path="/campaign" element={<Campaign/>} />

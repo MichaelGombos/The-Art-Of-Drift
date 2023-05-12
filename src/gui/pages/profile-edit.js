@@ -63,8 +63,30 @@ const ProfileForm = ({ submitHandler, setRacerName,setEmail, racerNamePlaceholde
   )
 }
 
+const GuestProfileForm = ({  setRacerName, racerNamePlaceholder}) => {
 
-const ProfileEdit = ({ user, loading, error}) => {
+  const navigate = useNavigate();
+
+  return (
+    <form  className="signup-form col-6 gap-md">
+      
+      <TextInput 
+      viewOnly={true}
+      id="racer-name" 
+      labelText="racer name"
+      placeholderText={racerNamePlaceholder}
+      changeHandler={setRacerName}
+      min={6}
+      max={20}
+      />
+
+    </form>
+    
+  )
+}
+
+
+const ProfileEdit = ({ user, loading, error, isGuest}) => {
 
   const [racerNamePlaceholder, setRacerNamePlaceholder] = useState();
   const [emailPlaceholder,setEmailPlaceholder] = useState();
@@ -104,9 +126,24 @@ const ProfileEdit = ({ user, loading, error}) => {
   //   emailSignUp("/main",email,password,racerName,profileAvatarId,profileVehicleId)
   // }
 
-  const handleUpdateProfile = () => {
-    console.log("updating with this information",racerName,profileAvatarId,profileVehicleId);
-    updateProfile("/profile" , racerName,profileAvatarId,profileVehicleId)
+  const handleExitAndSave = () => {
+    if(isGuest) {
+      updateProfile("/profile" , racerName ? racerName : racerNamePlaceholder,profileAvatarId,profileVehicleId)
+    }
+    else{
+      updateProfile("/profile/guest" , racerName ? racerName : racerNamePlaceholder,profileAvatarId,profileVehicleId)
+    }
+  }
+
+  const handleExitWithoutSaving = () => {
+    if(isGuest) {
+
+      navigate("/profile/guest")
+    }
+    else {
+
+      navigate("/profile")
+    }
   }
 
   const handleGuestSignIn = () => {
@@ -117,17 +154,29 @@ const ProfileEdit = ({ user, loading, error}) => {
       <ProfileTemplate>
           <div className='vertical-navigation-menu col-3 gap-xl'>
             <h1 className="f-h1">Profile <span className="text-secondary-500">(edit)</span></h1>
-            <ProfileForm 
-            user = {user}
-            setRacerName = {setRacerName} 
-            racerNamePlaceholder = {racerNamePlaceholder}
-            emailPlaceholder = {emailPlaceholder}
-            setEmail = {setEmail} 
-            setPassword = {setPassword}/>
+            {!isGuest ?
+
+              <ProfileForm 
+              user = {user}
+              setRacerName = {setRacerName} 
+              racerNamePlaceholder = {racerNamePlaceholder}
+              emailPlaceholder = {emailPlaceholder}
+              setEmail = {setEmail} 
+              setPassword = {setPassword}/>
+              :
+              <GuestProfileForm
+              user = {user}
+              setRacerName = {setRacerName} 
+              racerNamePlaceholder = {racerNamePlaceholder}
+              emailPlaceholder = {emailPlaceholder}
+              setEmail = {setEmail} 
+              setPassword = {setPassword}
+              />
+            }
 
             <div className="vertical-navigation-menu profile__navigation col-6 gap-sm">
-              <Button alignStart={true} style="danger" clickHandler = {() => navigate("/profile")}>Exit without saving</Button>
-              <Button alignStart={true} style="primary"  clickHandler = { handleUpdateProfile}>Save changes</Button>
+              <Button alignStart={true} style="danger" clickHandler = { handleExitWithoutSaving}>Exit without saving</Button>
+              <Button alignStart={true} style="primary"  clickHandler = { handleExitAndSave}>Save changes</Button>
             </div>
 
             {/* <div className="signup-footer col-6 gap-md">

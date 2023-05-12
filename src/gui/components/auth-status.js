@@ -8,7 +8,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import IconButton from "./icon-button";
 
 import { auth } from "../helpers/firebase";
-import { avatarGraphicURLs, vehicleGraphicURLs } from '../helpers/profileGraphicUrls.js';
+import { avatarGraphicURLs, vehicleMidGraphicURLs } from '../helpers/profileGraphicUrls.js';
 
 
 import detailsIconUrl from "../../assets/icons/details.png"
@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 const AuthStatus = ({isGuestSession, isShown, user, loading, error}) => {
   const [nameText, setNameText] = useState("Logged Out.");
   const [profileImageUrl, setProfileImageUrl] = useState(avatarGraphicURLs[0]);
+  const [vehicleImageUrl, setVehicleImageUrl] = useState(vehicleMidGraphicURLs[0]);
   const navigate = useNavigate();
 
   let textElement;
@@ -36,6 +37,7 @@ const AuthStatus = ({isGuestSession, isShown, user, loading, error}) => {
       getCurrentAuthProfile().then(profile => {
       setNameText(profile.displayName)
       setProfileImageUrl(avatarGraphicURLs[profile.avatarId])
+      setVehicleImageUrl(vehicleMidGraphicURLs[profile.vehicleID])
       window.setAsyncLoader(false)
 
       })
@@ -51,6 +53,8 @@ const AuthStatus = ({isGuestSession, isShown, user, loading, error}) => {
   if(isShown){
     return (
       <div className=" vertical-navigation-menu auth-status">
+        <img className="auth-status__image-car"
+        src={vehicleImageUrl}/>
         <img className="auth-status__image"
         src={profileImageUrl}/>
         <p className="auth-status__name f-p3">{nameText}</p>
