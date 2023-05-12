@@ -108,7 +108,7 @@ const Profile = ({ locationPathHistory, user, loading, error}) => {
 
 
   const handleGuestSignIn = () => {
-    guestSignIn("/profile/guest",0,1)
+    guestSignIn("/profile/guest")
   }
 
   return (

@@ -463,7 +463,7 @@ button{
 .hidden-menu__extra-stats{
   position:absolute;
   top:var(--gap-xl);
-  left:var(--gap-xl);
+  left: calc(var(--gap-xl) *3);
 }
 
 .hidden-menu__dashboard{

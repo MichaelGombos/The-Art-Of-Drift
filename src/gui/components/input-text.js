@@ -9,15 +9,19 @@ const TextInput = ({id,type,min,max, labelText, placeholderText, viewOnly, chang
     htmlFor={id}>
       {labelText}
       </label>
-    <input 
-    className={`text-input__text ${viewOnly ? "text-input__text--view-only" : ""}`} 
+    {!viewOnly ?     <input 
+    className={`text-input__text`} 
     type="text"
     onChange={e => changeHandler(e.target.value)} 
     placeholder ={placeholderText}
     minLength={min}
     maxLength={max}
     required={true}
-    />
+    /> :
+    <p 
+    className="text-input__text__view-only" >{placeholderText}</p>
+    }
+
   </div>
   )
 }

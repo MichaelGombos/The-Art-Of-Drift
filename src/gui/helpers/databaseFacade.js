@@ -81,7 +81,7 @@ export const emailSignIn = (destination,email,password) => {
     window.setAsyncLoader(false)
   })
 }
-export const guestSignIn = (destination, AID,VID) => {
+export const guestSignIn = (destination, AID = 99,VID = 0) => {
   window.setAsyncLoader(true)
   signInAnonymously(auth)
   .then( async(cred) => {

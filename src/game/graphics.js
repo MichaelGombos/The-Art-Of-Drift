@@ -6,11 +6,15 @@ import { getDirectionalCamera } from "./game.js";
 
 import vehicleTopDownGraphicCampaignURL from "../assets/game-vehicles/campaign-police-3.png"
 
-import vehicleTopDownGraphic1 from "../assets/game-vehicles/jeep-9.png"
-import vehicleTopDownGraphic2 from "../assets/game-vehicles/hatchback-9.png"
-import vehicleTopDownGraphic3 from "../assets/game-vehicles/sedan-1-9.png"
-import vehicleTopDownGraphic4 from "../assets/game-vehicles/taxi-1-9.png"
-import vehicleTopDownGraphic5 from "../assets/game-vehicles/van-1-9.png"
+import vehicleTopDownGraphic1 from "../assets/vehicles-top/car1.png"
+import vehicleTopDownGraphic2 from "../assets/vehicles-top/car2.png"
+import vehicleTopDownGraphic3 from "../assets/vehicles-top/car3.png"
+import vehicleTopDownGraphic4 from "../assets/vehicles-top/car4.png"
+import vehicleTopDownGraphic5 from "../assets/vehicles-top/car5.png"
+import vehicleTopDownGraphic6 from "../assets/vehicles-top/car6.png"
+import vehicleTopDownGraphic7 from "../assets/vehicles-top/car7.png"
+import vehicleTopDownGraphic8 from "../assets/vehicles-top/car8.png"
+import vehicleTopDownGraphic9 from "../assets/vehicles-top/car9.png"
 
 //particles
 
@@ -107,7 +111,17 @@ const playerColors = {
   black : "saturate(3169%) hue-rotate(337deg) brightness(36%) contrast(100%)"
 }
 
-const vehicleTopDownGraphicURLs = [vehicleTopDownGraphic1,vehicleTopDownGraphic2,vehicleTopDownGraphic3,vehicleTopDownGraphic4,vehicleTopDownGraphic5]
+const vehicleTopDownGraphicURLs = [
+  vehicleTopDownGraphic1,
+  vehicleTopDownGraphic2,
+  vehicleTopDownGraphic3,
+  vehicleTopDownGraphic4,
+  vehicleTopDownGraphic5,
+  vehicleTopDownGraphic6,
+  vehicleTopDownGraphic7,
+  vehicleTopDownGraphic8,
+  vehicleTopDownGraphic9
+]
 
 let animatedParticleTick = 0; //used to confirm if we should place a particle or wait.
 let staticParticleTick = 0; //used to confirm if we should place a particle or wait.
