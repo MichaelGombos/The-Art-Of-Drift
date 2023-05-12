@@ -39,7 +39,7 @@ import ResultBanner from "./components/result-banner.js"
 
 import MapMaker from "../mapmaker/mapmaker.js"
 
-import { traverseElement, findValidActionsIntree, arraysEqual , findObjectWithLocation ,  findClosestSibling,findClosestRelative} from "./helpers/accessible-navigation.js"
+import { traverseElement, findValidActionsIntree, arraysEqual , findObjectWithLocation ,  findClosestSibling,findClosestRelative, findObjectWithElement} from "./helpers/accessible-navigation.js"
 
 // http://www.theartofdrift.com/invited?racer=NAME_HASH_0_309&map=0
 // http://localhost:8081/invited?racer=NAME_HASH_0_309&map=0
@@ -369,11 +369,25 @@ class GUI extends Component {
     this.navLocation = this.validActionsList[locationIndex]
     this.currentNode = findObjectWithLocation([],this.navLocation,this.documentTree)
 
+    Window.setNavLocation = (location) => {
+      this.navLocation = location
+      this.currentNode = findObjectWithLocation([],location,this.documentTree)
+      this.currentNode.element.focus()
+      console.log("current node we are focusing", this.currentNode.element, location, this.documentTree)
+    }
+
+    Window.getObjectWithElement = (element) => {
+      console.log("found this element..",element,  findObjectWithElement([], element, this.documentTree))
+      return (findObjectWithElement([], element, this.documentTree))
+    }
+
+    Window.getDocTree = () => {return this.documentTree}
+
     // console.log("finish refreshing document tree, ", this.documentTree)
     this.currentNode ? this.currentNode.element.focus() : console.log("can't focus current elemtn");
   }
 
-  responsiveNavigation = (staticDirection, isVertical) => {
+  responsiveNavigation = (staticDirection, isVertical , textByPass = false) => {
     //input navigation
     let direction = staticDirection;
     if(this.currentNode.navType == "range" && !isVertical){
@@ -386,7 +400,10 @@ class GUI extends Component {
       return;
     }
     else if(this.currentNode.navType == "text" && document.activeElement == this.currentNode.element){
-      return;
+      if(!textByPass){
+        return; //stops you from navigating away from text
+      }
+
     }
     //movement navigation
     let verticalDepth;
@@ -441,7 +458,7 @@ class GUI extends Component {
         return;
       }
       else if(this.currentNode.navType == "text"){
-        type == "Enter" ? this.currentNode.element.blur() : ""
+        type == "Enter" ? this.responsiveNavigation(1, true, true) : ""
         
         return;
       }
@@ -480,18 +497,18 @@ class GUI extends Component {
         this.responsiveNavigation(1, false)
       }
       if(e.key == "Tab" && !getFullKeyboardHeldKeys().includes("ShiftLeft")){
-        this.responsiveNavigation(-1, false)
+        this.responsiveNavigation(-1, false,true)
         e.preventDefault()
       }
       if(e.key == "Tab" && getFullKeyboardHeldKeys().includes("ShiftLeft")){
-        this.responsiveNavigation(1, false)
+        this.responsiveNavigation(1, false,true)
         e.preventDefault()
       }
     }
     
     if(e.key == "Enter" ){
-      this.responsiveAction("Enter") 
       e.preventDefault();
+      this.responsiveAction("Enter") 
     }
     if(e.key == " "){
       this.responsiveAction("EnterSpace") 

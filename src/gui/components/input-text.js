@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 const TextInput = ({id,type,min,max, labelText, placeholderText, viewOnly, changeHandler}) => {
+  const inputRef = useRef(null)
+
   return (
 
   <div className="vertical-navigation-menu col-6 text-input gap-md">
@@ -10,6 +12,11 @@ const TextInput = ({id,type,min,max, labelText, placeholderText, viewOnly, chang
       {labelText}
       </label>
     {!viewOnly ?     <input 
+
+    ref = {inputRef}
+    onClick = {(() => {
+      Window.setNavLocation( Window.getObjectWithElement(inputRef.current).location);
+    } )}
     className={`text-input__text`} 
     type="text"
     onChange={e => changeHandler(e.target.value)} 

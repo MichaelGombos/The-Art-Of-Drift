@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import {motion} from 'framer-motion';
 
@@ -59,14 +59,19 @@ const iconMap = {
   "google-white":googleWhite
 }
 
+
 const Button = ({alignStart, clickHandler,type, style, children, icon}) => {
+  const buttonRef = useRef(null)
+
   if(!style) style="light";
   return(
     <motion.button 
+    ref = {buttonRef}
     className='pixel-button pixel-button--primary' 
     onClick = {() => {
       clickHandler();
       generateMouseClickSound();
+      // Window.setNavLocation( Window.getObjectWithElement(buttonRef.current).location);
     }}
     onHoverStart = {generateMouseHoverSound}
     whileFocus={style == "disabled" ? {rotate:-1.2}: {scale: 1.05} }

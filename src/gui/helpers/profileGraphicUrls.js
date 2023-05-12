@@ -235,7 +235,7 @@ const vehicleGraphicURLs = [ //side
   vehicleUrl9
 ]
 
-const vehicleMidGraphicURLs = [ //side top
+const vehicleMidGraphicURLs = [ //mid
   vehicleUrl1mid,
   vehicleUrl2mid,
   vehicleUrl3mid,

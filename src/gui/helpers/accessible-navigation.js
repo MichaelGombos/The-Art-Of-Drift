@@ -132,6 +132,21 @@ export const findObjectWithLocation = (validObjects,location,tree) => {
   }
   return validObjects[0];
 }
+
+export const findObjectWithElement = (validObjects,element,tree) => {
+  if(tree.children.length > 0){
+    for(let child of tree.children){
+      findObjectWithElement(validObjects, element, child)
+    }
+  }
+
+  if(tree.element == element){
+    validObjects.push(tree);
+  }
+  return validObjects[0];
+}
+
+
 export const convertMultiDimArrayToStringArray = (arr) => {
   return arr.toString();
 } 
