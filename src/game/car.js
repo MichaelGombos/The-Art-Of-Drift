@@ -12,7 +12,7 @@ import { pauseGame } from "./main.js";
 const createCar = (isGhost) => {
     let gear = 0;
     let acceleration = .15;
-    const friction = .003;
+    const friction = .006;
     const maxSpeed = 12;
     const maxLaps = 5;
     let lap = 0;
@@ -342,13 +342,32 @@ const createCar = (isGhost) => {
                 acceleration = 0.07;
                 break;
 
-            case (Math.abs(speed) >= 0):
+            case (Math.abs(speed) > maxSpeed/16):
+                if(gear != 1){
+                    engineTransition(gear, 1)
+                }
+                gear = 1;
+                tireGrip = 2.15
+                turningSpeed = 4
+                acceleration = 0.07;
+                break;
+
+            case (Math.abs(speed) > 0):
                 if(gear != 0){
                     engineTransition(gear, 0)
                 }
                 gear = 0;
                 tireGrip = 2.2
-                turningSpeed = 5
+                turningSpeed = 3
+                acceleration = 0.08;
+                break;
+            case (Math.abs(speed) == 0):
+                if(gear != 0){
+                    engineTransition(gear, 0)
+                }
+                gear = 0;
+                tireGrip = 2.2
+                turningSpeed = 0
                 acceleration = 0.08;
                 break;
             default:
@@ -575,7 +594,7 @@ const createCar = (isGhost) => {
             if (collidingWithValue(2,"y",mapData,tilePixelCount) || collidingWithValue(2,"x",mapData,tilePixelCount)) {
                 onDirt = true;
                 if(!isGhost){
-                    if (speed > 1 ) {
+                    if (Math.abs(speed) > 1 ) {
                         speed = speed / 1.025;
                         // createDirtParticle(x, y);
                         
