@@ -301,7 +301,7 @@ const placeGhost = (stepCount) => {
     
     ghost_inputs = mapData.replay.inputs[stepCount];
     ghost_stats = mapData.replay.stats[stepCount];
-
+    console.log("ghost stats be ballin!", ghost_stats)
     if(inSpectateMode){
       car.setX(ghostCar.getX());
       car.setY(ghostCar.getY());

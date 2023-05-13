@@ -91,7 +91,7 @@ const createCar = (isGhost) => {
         angle.moving = Number(stats[3]);
         onDirt =  stats[4];
         driftForce = Number(stats[5]);
-        driftForce = Number(stats[6]);
+        speed = Number(stats[6]);
     }
     const setX = (value) => {x = value}
     const setY = (value) => {y = value}
