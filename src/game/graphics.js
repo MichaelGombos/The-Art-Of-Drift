@@ -1,6 +1,6 @@
 import { Application, Sprite, AnimatedSprite, Texture } from 'pixi.js';
 
-import {map,camera, mapParticles, ghostCharacter, characterSprite, ghostCharacterSprite, ghostCharacterNameTag , particleLayer} from "./elements.js"
+import {map,camera, mapParticles, ghostCharacter, characterSprite, ghostCharacterSprite, ghostCharacterNameTag , particleLayer, cameraShakeContainer} from "./elements.js"
 import { getDirectionalCamera } from "./game.js";
 
 
@@ -128,6 +128,16 @@ let staticParticleTick = 0; //used to confirm if we should place a particle or w
 
 map.insertBefore(mapParticles , ghostCharacter);
 
+export const updateCameraShake = (driftForce) => {
+
+  if(driftForce > 4){
+    const randomX = (Math.floor(Math.random() * 10) - 5) * (driftForce - 4)
+    const randomY = (Math.floor(Math.random() * 10) - 5) * (driftForce - 4)
+    
+    cameraShakeContainer.style.transform =  `translate3d( ${randomX}px, ${randomY}px, 0 )`
+
+  }
+}
 const updateCameraScale = (speed) => {
   camera.style.scale = 2 - (Math.abs(speed)/25)
 }

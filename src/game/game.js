@@ -19,7 +19,8 @@ import {
   drawCanvasMapColor,
   updateCameraScale,
   updateCameraAngle,
-  createParticleLayer
+  createParticleLayer,
+  updateCameraShake
 } from "./graphics.js"
 import {maps} from "./map-data.js"
 import {generateMiniMap,updateMiniMapPlayers} from "./mini-map.js"
@@ -305,6 +306,7 @@ const placeGhost = (stepCount) => {
     if(inSpectateMode){
       car.setX(ghostCar.getX());
       car.setY(ghostCar.getY());
+      updateCameraShake(ghostCar.getSpeed())
       updateCameraScale(ghostCar.getSpeed())
       updateCameraAngle(ghostCar.getAngle())
     }
@@ -394,6 +396,7 @@ const placeGhost = (stepCount) => {
 
 const placeCharacter = () => {
   if(!inSpectateMode){
+    updateCameraShake(car.getDriftForce())
     updateCameraScale(car.getSpeed())
     updateCameraAngle(car.getAngle())
   }

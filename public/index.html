@@ -48,26 +48,28 @@
                <canvas id="map-canvas" width="350" height="350"></canvas>
                <canvas id="player-canvas" width="350" height="350"></canvas>
           </div>
-           
-           <div class="camera">
-              <div class="map pixel-art">
-                 <div class="map-grid"> 
-                 </div>
-                 <canvas id="game-canvas"> 
-                 </canvas>
-                 <div id="particle-layer">
+           <div class="camera-shake-container">
+            <div class="camera">
+               <div class="map pixel-art">
+                  <div class="map-grid"> 
+                  </div>
+                  <canvas id="game-canvas"> 
+                  </canvas>
+                  <div id="particle-layer">
+ 
+                  </div>
+                  <div class="ghost" facing="down" walking="true" angle="0">
+                     <p class="driver-name"></p>
+                     <div class="ghost_spritesheet pixel-art"></div>
+                  </div>
+                  <div class="character" facing="down" walking="true" angle="0">
+                     <div class="character_spritesheet pixel-art"></div>
+                  </div>
+                  
+   
+               </div>
+         </div>
 
-                 </div>
-                 <div class="ghost" facing="down" walking="true" angle="0">
-                    <p class="driver-name"></p>
-                    <div class="ghost_spritesheet pixel-art"></div>
-                 </div>
-                 <div class="character" facing="down" walking="true" angle="0">
-                    <div class="character_spritesheet pixel-art"></div>
-                 </div>
-                 
-  
-              </div>
            </div>
         </div>
      </main>

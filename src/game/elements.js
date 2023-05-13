@@ -37,8 +37,10 @@ const mapCanvas = document.querySelector("#map-canvas")
 const gameCanvas = document.querySelector("#game-canvas");
 const playerCanvas = document.querySelector("#player-canvas")
 const camera = document.querySelector(".camera")
+const cameraShakeContainer = document.querySelector(".camera-shake-container")
 
 export {
+    cameraShakeContainer,
   particleLayer, 
   character,
   characterSprite,

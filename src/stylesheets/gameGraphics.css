@@ -9,6 +9,10 @@
   z-index:-1;
 }
 
+.camera-shake-container{
+  transition: transform 200ms;
+}
+
 .map {
   image-rendering: pixelated;
   background-size: 100%;
