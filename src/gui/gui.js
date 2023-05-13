@@ -90,6 +90,7 @@ import { transitionMusicBasedOffLocation } from "../sounds/music.js"
 import Credits from "./pages/credits.js"
 import { getFullKeyboardHeldKeys } from "../game/game.js"
 import AudioControl from "./components/audio-control.js"
+import MusicSource from "./components/MusicSource.js"
 
 const Menu = () => {
   let isDeviceValid = true;
@@ -190,6 +191,7 @@ const Menu = () => {
     error = {error}/>
     <AudioControl
     isShown = {showAudioControl}/>
+    <MusicSource/>
     <ResultBanner/>
     <AsyncLoader loading={loading} user={user} />
     <Routes>
@@ -321,7 +323,7 @@ class GUI extends Component {
         }
         if(this.gamePadInputs.includes("nav-back") || this.gamePadInputs.includes("nav-pause")){
           if(location.pathname == "/hidden"){
-            window.changeGUIScreen("/pause");
+            window.changeGUIScreen("/pause"); //this shouldn't work.. using wrong indow.
             generatePauseSound();
             pauseGame();
           }

@@ -1006,3 +1006,28 @@ input:checked + .switch__inner:before {
   height:45px;
   image-rendering: pixelated;
 }
+
+.music-source{
+  position: absolute;
+  bottom:-50px;
+  left:16px;
+  display:flex;
+  flex-direction: row;
+  image-rendering: pixelated;
+  align-items: center;
+  gap:32px;
+  background-color: rgba(0, 0, 0, 0.224);
+  padding:8px 32px;
+}
+
+.music-source--shown{
+  animation: peekAboveFold 4s ease-out;
+}
+
+
+@keyframes peekAboveFold {
+  0% {    bottom:-50px; }
+  10% {   bottom:40px;}
+  90% {   bottom:40px;}
+  100% {  bottom:-50px;}
+}

@@ -234,11 +234,96 @@ const trackIDtoLoopMap = {
   "12" : race12Loop,
   "13" : race13Loop,
 }
+
+const trackIDtoSongInformationMap = {
+  "pause" : {
+    author : "Doctor_Dreamchip",
+    title : "2020-06-20 Bass",
+    source : "https://freesound.org/people/Doctor_Dreamchip/sounds/524619/"
+  },
+  "menu" : {
+    author : "Komiku",
+    title : "La Montagne",
+    source : "https://opengameart.org/content/la-montagne"
+  },
+  "credits" : {
+    author : "Doctor_Dreamchip",
+    title : "2020-03-17 Lofi Trip Hop",
+    source : "https://freesound.org/people/Doctor_Dreamchip/sounds/511279/"
+  },
+  "1" : {
+    author : "OwlishMedia",
+    title : "Race of the Wasp",
+    source : "https://opengameart.org/content/race-of-the-wasp"
+  },
+  "2" : {
+    author : "Doctor_Dreamchip",
+    title : "2020-03-18 Synthwave",
+    source : "https://freesound.org/people/Doctor_Dreamchip/sounds/511278/"
+  },
+  "3" : {
+    author : "bertsz",
+    title : "Ciptuned Rock tune",
+    source : "https://opengameart.org/content/ciptuned-rock-tune"
+  },
+  "4" : {
+    author : "Joth",
+    title : "Black Diamond",
+    source : "https://opengameart.org/content/black-diamond"
+  },
+  "5" :{
+    author : "bertsz",
+    title : "Drum and bass",
+    source : "https://opengameart.org/content/drum-and-bass"
+  },
+  "6" : {
+    author : "jobromedia",
+    title : "Spring theory",
+    source : "https://opengameart.org/content/spring-theory"
+  },
+  "7" : {
+    author : "Of Far Different Nature",
+    title : "Dark Ritual",
+    source : "https://opengameart.org/content/dark-ritual"
+  },
+  "8" :{
+    author : "3M4",
+    title : "sad trap beat",
+    source : "https://freesound.org/people/3M4/sounds/474438/"
+  },
+  "9" : {
+    author : "Gundatsch",
+    title : "Raining Bits",
+    source : "https://opengameart.org/content/raining-bits"
+  },
+  "10" : {
+    author : "Doctor_Dreamchip",
+    title : "2018-12-11-3",
+    source : "https://freesound.org/people/Doctor_Dreamchip/sounds/458089/"
+  },
+  "11" : {
+    author : "loveless1017",
+    title : "Dayum",
+    source : "https://freesound.org/people/loveless1017/sounds/455443/"
+  },
+  "12" : {
+    author : "Christovix",
+    title : "My Friends Will Cry",
+    source : "https://opengameart.org/content/my-friends-will-cry"
+  },
+  "13" : {
+    author : "section31",
+    title : "Winning the Race",
+    source : "https://opengameart.org/content/winning-the-race"
+  },
+}
+
 let currentRunningTrack;
 export const transitionMusic = (trackIDToEnable, restart) => {
   console.log("transition", currentRunningTrack, trackIDToEnable)
-
+  
   currentRunningTrack ? trackIDtoLoopMap[currentRunningTrack].fade(.2 * musicMultiplier,0, 2000) : "" //if not previous track, do nothing
+
   if(Object.keys(trackIDtoLoopMap).includes(trackIDToEnable)){
 
     if(restart){
@@ -246,6 +331,9 @@ export const transitionMusic = (trackIDToEnable, restart) => {
     }
     trackIDtoLoopMap[trackIDToEnable].fade(0,.2 * musicMultiplier , 2000)
     currentRunningTrack = trackIDToEnable;
+
+      Window.showMusicSource(trackIDtoSongInformationMap[currentRunningTrack])
+    
   }
 }
 
