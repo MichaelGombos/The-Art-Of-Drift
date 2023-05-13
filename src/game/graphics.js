@@ -193,7 +193,8 @@ const colorGhostCar = (color) => {
 let particles = [];
 let particleLimit = 1000;
 
-const generateFrameParticles = (speed, x,y ,driftForce, onDirt,angle) => {
+const generateFrameParticles = (rawSpeed, x,y ,driftForce, onDirt,angle) => {
+  let speed = Math.abs(rawSpeed)
   let domParticles = Array.from(mapParticles.children) 
   if(speed > 9){
 

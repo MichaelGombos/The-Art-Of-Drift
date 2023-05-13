@@ -223,7 +223,7 @@ const createCar = (isGhost) => {
     }
 
     const stabalizeDriftForce = () => {
-        if (speed < .5 || driftForce <= 1.05) {
+        if (Math.abs(speed) < .5 || driftForce <= 1.05) {
             driftForce = 1;
         } 
         else if (driftForce > 7){
@@ -384,13 +384,13 @@ const createCar = (isGhost) => {
 
     const engageBrakes = (pressure = 1) => {
 
-
+        let absSpeed = Math.abs(speed)
         if(speed > 0){
 
                 speed -= (acceleration *  4) * pressure;
         
                 if(speed > driftForce){
-                    driftForce = speed*2;
+                    driftForce = absSpeed*2;
                 }
                 else{
                     driftForce -= .1;
@@ -399,11 +399,13 @@ const createCar = (isGhost) => {
         else if(speed < 0){
             speed += (acceleration *  4) * pressure;
         
-            if(speed > driftForce){
-                driftForce = speed*2;
+            if(absSpeed > driftForce){
+                console.log("happening yes?")
+                driftForce = absSpeed*2;
             }
             else{
                 driftForce -= .1;
+                console.log("happening no?")
             }
         }
 
@@ -422,7 +424,6 @@ const createCar = (isGhost) => {
                     speed += acceleration;
                  }
                  else{ // backwards
-                    console.log("diff",diff)
                     speed -= acceleration;
                  }
             } 
