@@ -74,16 +74,16 @@ const replays = [
 {
   easy: {
     replay: map1Easy,
-    time: "00:00:48.747"
+    time: "00:01:38.014"
   },
   normal: {
     replay: map1Normal,
-    time: "00:00:36.747"
+    time: "00:01:08.284"
   }
   ,
   hard: {
     replay: map1Hard,
-    time: "00:00:48.465"
+    time: "00:01:01.465"
   },
   author: { 
     replay: map1Author,

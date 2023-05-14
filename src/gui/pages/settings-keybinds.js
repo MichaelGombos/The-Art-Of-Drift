@@ -107,6 +107,7 @@ import controller_19 from "../../assets/keys/controller/19_axis_2_3.png"
 
 import { getFullGamePadStatus } from '../../game/gamepad.js';
 import IconButton from '../components/icon-button.js';
+import { refreshDialogue } from '../../sounds/dialogue.js';
 
 const commandList = [
   "accelerate",
@@ -327,6 +328,7 @@ const KeybindModifierRow = ({watchingRef,setWatchingRef, command, watchingInterv
   }
   window.stopWatchingInputs = () => {
     stopWatchingInputs();
+    refreshDialogue(); //tuturial dialogue depends on keybinds for audio.
   }
   const handleModifierPress = (reference, command, isController, isPrimary) => (e) => {
     clearInterval(watchingIntervalID);

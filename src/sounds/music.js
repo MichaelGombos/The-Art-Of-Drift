@@ -58,7 +58,7 @@ import race13 from "./music/13-Winning-the-Race.mp3"
 import { getGameMapIndex } from '../game/game';
 
 
-let musicMultiplier = 1;
+let musicMultiplier = .2;
 let unmutedMusicMultiplier = 0;
 let isMusicMuted = false;
 

@@ -1,7 +1,8 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { unPauseGame } from '../../game/main.js';
+import { getTutorialDialogueAudio, playSoundChunk, stopCurrentDialogueAudio } from '../../sounds/dialogue.js';
 
 import Button from '../components/button.js';
 import { commandMap } from '../helpers/controls.js';
@@ -21,6 +22,7 @@ const keyImageFromKeyId = (keycode, isKeyboard)  => {
   }
 }
 const dialogueBodyList = {
+
   accelerate : [
     <p className="f-p2 dialogue-text"> 
     Accelerating will slowly increase your cars speed. Once you reach certain speeds, your car will change gears, begin to accelerate slower, and lose grip on the road faster</p>
@@ -91,12 +93,12 @@ const dialogueBodyList = {
 
 }
 const tutorialDialogue = [
-  {type: "Tutorial" , header: "How to accelerate" , body: dialogueBodyList.accelerate},
-  {type: "Tutorial" , header: "How to brake" , body: dialogueBodyList.brake},
-  {type: "Tutorial" , header: "How to reverse" , body: dialogueBodyList.reverse},
-  {type: "Tutorial" , header: "How to turn" , body: dialogueBodyList.turn},
-  {type: "Tutorial" , header: "Tile Types" , body: dialogueBodyList.tiles},
-  {type: "Tutorial" , header: "Have Fun ! :)" , body: dialogueBodyList.haveFun},
+  {type: "Tutorial" , dialogue: "accelerate", header: "How to accelerate" , body: dialogueBodyList.accelerate},
+  {type: "Tutorial" ,  dialogue: "brake", header: "How to brake" , body: dialogueBodyList.brake},
+  {type: "Tutorial" ,  dialogue: "reverse", header: "How to reverse" , body: dialogueBodyList.reverse},
+  {type: "Tutorial" ,  dialogue: "turn", header: "How to turn" , body: dialogueBodyList.turn},
+  {type: "Tutorial" ,  dialogue: "tiles", header: "Tile Types" , body: dialogueBodyList.tiles},
+  {type: "Tutorial" , dialogue: "end" , header: "Have Fun ! :)" , body: dialogueBodyList.haveFun},
 ]
 
 //tutorial text shortcode to image (for controls based on keybinds)
@@ -106,6 +108,17 @@ const Dialogue = () => {
   const params = useParams();
   const [dialogueIndex,setDialogueIndex] = useState(0)
   const [maxDialogueIndex,setMaxDialogueIndex] = useState(tutorialDialogue[params.id].length)
+  let soundChunk = tutorialDialogue[params.id][0]
+
+  useEffect( () => {
+
+
+    if(location.pathname.includes("dialogue")){
+
+      soundChunk = getTutorialDialogueAudio()[tutorialDialogue[params.id].dialogue][dialogueIndex]
+      playSoundChunk(soundChunk)
+    }
+  }, [dialogueIndex])
   return (
 
     <div className="vertical-navigation-menu opaque-background">
@@ -119,10 +132,12 @@ const Dialogue = () => {
           <Button clickHandler={() => {
             if(dialogueIndex < tutorialDialogue[params.id].body.length - 1){
               setDialogueIndex(dialogueIndex+1) 
+              stopCurrentDialogueAudio();
             }
             else{
               navigate("/hidden")
               unPauseGame();
+              stopCurrentDialogueAudio();
             }
           }}>{
             dialogueIndex < tutorialDialogue[params.id].body.length - 1 ? "Next": "Close"}</Button>

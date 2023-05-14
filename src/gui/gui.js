@@ -44,6 +44,8 @@ import { traverseElement, findValidActionsIntree, arraysEqual , findObjectWithLo
 // http://www.theartofdrift.com/invited?racer=NAME_HASH_0_309&map=0
 // http://localhost:8081/invited?racer=NAME_HASH_0_309&map=0
 
+import "../sounds/dialogue.js"
+
 const home = "/"; //for tests
 
 let currentNavigationInterval = 0;

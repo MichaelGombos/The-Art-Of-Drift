@@ -40,6 +40,7 @@ const createCar = (isGhost) => {
     let underSteering = 1;
     
     let onTutorialIndex = 0;
+    let onTutorial= 0;
     let onDirt = false;
     let onWall = false;
     let onBounce = false;
@@ -721,15 +722,17 @@ const createCar = (isGhost) => {
                     onTutorialIndex = collidingWithTutorialList.findIndex(truthExpression => {
                         return (truthExpression == true)
                     });
+                    onTutorial = true;
             } 
             else {
-                if (onTutorialIndex > -1 ) {
+                if (onTutorialIndex > -1 && onTutorial == true) {
                     //exiting the finish line 
                     pauseGame();
                     window.changeGUIScreen(`dialogue/${onTutorialIndex}`)
                     onTutorialIndex = -1;
                 }
                 onTutorialIndex = -1;
+                onTutorial = false;
             }
             
         }
