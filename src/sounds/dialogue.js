@@ -94,7 +94,7 @@ import F9Key              from "./dialogue/tutorial/keyboardKeys/F9.m4a";
 import F10Key              from "./dialogue/tutorial/keyboardKeys/F10.m4a";
 import F11Key              from "./dialogue/tutorial/keyboardKeys/F11.m4a";
 import F12Key              from "./dialogue/tutorial/keyboardKeys/F12.m4a";
-import NumLockKey              from "./dialogue/tutorial/keyboardKeys/NumLock.m4a";
+import NumLockKey              from "./dialogue/tutorial/keyboardKeys/NumLock_test.m4a";
 import ScrollLockKey              from "./dialogue/tutorial/keyboardKeys/ScrollLock.m4a";
 import SemicolonKey              from "./dialogue/tutorial/keyboardKeys/Semicolon.m4a";
 import EqualKey              from "./dialogue/tutorial/keyboardKeys/Equal.m4a";
