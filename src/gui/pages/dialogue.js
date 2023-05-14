@@ -5,6 +5,7 @@ import { unPauseGame } from '../../game/main.js';
 import { getTutorialDialogueAudio, playSoundChunk, stopCurrentDialogueAudio } from '../../sounds/dialogue.js';
 
 import Button from '../components/button.js';
+import DialogueControl from '../components/dialogue-control.js';
 import { commandMap } from '../helpers/controls.js';
 import { controllerToImageMap, keyboardToImageMap } from './settings-keybinds.js';
 
@@ -93,11 +94,11 @@ const dialogueBodyList = {
 
 }
 const tutorialDialogue = [
-  {type: "Tutorial" , dialogue: "accelerate", header: "How to accelerate" , body: dialogueBodyList.accelerate},
-  {type: "Tutorial" ,  dialogue: "brake", header: "How to brake" , body: dialogueBodyList.brake},
-  {type: "Tutorial" ,  dialogue: "reverse", header: "How to reverse" , body: dialogueBodyList.reverse},
-  {type: "Tutorial" ,  dialogue: "turn", header: "How to turn" , body: dialogueBodyList.turn},
-  {type: "Tutorial" ,  dialogue: "tiles", header: "Tile Types" , body: dialogueBodyList.tiles},
+  {type: "Tutorial" , dialogue: "accelerate", header: "Acceleration" , body: dialogueBodyList.accelerate},
+  {type: "Tutorial" ,  dialogue: "brake", header: "The Brakes" , body: dialogueBodyList.brake},
+  {type: "Tutorial" ,  dialogue: "reverse", header: "Reversing" , body: dialogueBodyList.reverse},
+  {type: "Tutorial" ,  dialogue: "turn", header: "Turning" , body: dialogueBodyList.turn},
+  {type: "Tutorial" ,  dialogue: "tiles", header: "Tiles" , body: dialogueBodyList.tiles},
   {type: "Tutorial" , dialogue: "end" , header: "Have Fun ! :)" , body: dialogueBodyList.haveFun},
 ]
 
@@ -123,11 +124,12 @@ const Dialogue = () => {
 
     <div className="vertical-navigation-menu opaque-background">
     <div className='vertical-navigation-menu menu-container'>
-      <div className="vertical-navigation-menu paused-menu col-3 align-center gap-lg">
+      <div className="vertical-navigation-menu dialogue-menu-container col-3 align-center gap-lg">
         <h1 className="f-h1">{tutorialDialogue[params.id].type}</h1>
-        <div className='vertical-navigation-menu col-6 align-center gap-md' >
+        <div className='vertical-navigation-menu col-6 align-center dialogue-menu gap-md' >
 
           <h1 className="f-h1 text-secondary-500">{tutorialDialogue[params.id].header} ({dialogueIndex+1} / {tutorialDialogue[params.id].body.length})</h1>
+          <DialogueControl/>
           {tutorialDialogue[params.id].body[dialogueIndex]}
           <Button clickHandler={() => {
             if(dialogueIndex < tutorialDialogue[params.id].body.length - 1){

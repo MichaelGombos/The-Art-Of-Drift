@@ -10,41 +10,36 @@ import unMuteAudioUrl from "../../assets/icons/soundOn.png"
 import { useNavigate } from "react-router-dom";
 import { muteMusicMultiplier, unmuteMusicMutlipler } from "../../sounds/music";
 import { muteSFXMultiplier, unmuteSFXMultiplier } from "../../sounds/sfx";
-import { muteDialogueMultipler } from "../../sounds/dialogue";
+import { getDialogueMuted, muteDialogueMultipler, setDialogueMuted, unmuteDialogueMultipler } from "../../sounds/dialogue";
 
 
-const AudioControl = ({isShown}) => {
-  let [audioDisabled, setAudioDisabled] = useState(false)
+const DialogueControl = ({}) => {
+  let [audioDisabled, setAudioDisabled] = useState(getDialogueMuted())
 
   const handleStatefulAudioToggle = () => {
     
     if(audioDisabled) {
-      unmuteMusicMutlipler();
-      unmuteSFXMultiplier();
+      unmuteDialogueMultipler();
+      setDialogueMuted(false)
       setAudioDisabled(false)
     }
     else{
-      muteMusicMultiplier();
-      muteSFXMultiplier();
       muteDialogueMultipler();
       setAudioDisabled(true)
+      setDialogueMuted(true)
     }
-    console.log("yoo!", audioDisabled)
+    console.log("yoo!", audioDisabled , getDialogueMuted())
   }
 
-  if(isShown){
     return (
-      <div className=" vertical-navigation-menu audio-control">
+      <div className=" vertical-navigation-menu dialogue-control">
         <IconButton
         clickHandler={handleStatefulAudioToggle}
         iconUrl = {audioDisabled ? muteAudioUrl : unMuteAudioUrl}/>
       </div>
     )
-  }
-  else{
-    return;
-  }
+  
 
 }
 
-export default AudioControl;
+export default DialogueControl;

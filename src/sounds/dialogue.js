@@ -149,8 +149,56 @@ import dialogue_turn_3                  from        "./dialogue/tutorial/dialogu
 import dialogue_turn_intro                  from        "./dialogue/tutorial/dialogueParts/dialogue_turn_intro.m4a"
 import dialogue_end_blooper from   "./dialogue/tutorial/dialogueParts/turningBlooper.m4a"
 
-
+let dialogueMultiplier = .2;
+let unmutedDialogueMultiplier = 0;
 let currentPlayingSound;
+let isMuted = true;
+
+export const getDialogueMuted = () => isMuted;
+export const setDialogueMuted = (dialogueMuted) => isMuted = dialogueMuted;
+export const muteDialogueMultipler = () => {
+  unmutedDialogueMultiplier = dialogueMultiplier;
+  dialogueMultiplier = 0;
+
+  if(Array.isArray(currentPlayingSound)){
+    for(let sound of currentPlayingSound){
+      sound.volume(0)
+      sound.stop()
+    }
+  }else{
+
+    currentPlayingSound.volume(0);
+    currentPlayingSound.stop();
+  }
+}
+
+
+export const unmuteDialogueMultipler = () => {
+  dialogueMultiplier = 0.2;
+
+  if(Array.isArray(currentPlayingSound)){
+    for(let sound of currentPlayingSound){
+
+      sound.volume(dialogueMultiplier)
+      sound.seek(0);
+      sound.play();
+    }
+  }
+  else{
+
+    currentPlayingSound.volume(dialogueMultiplier)
+    currentPlayingSound.seek(0);
+    currentPlayingSound.play();
+    console.log(currentPlayingSound, dialogueMultiplier)
+  }
+}
+
+export const setDialogueMultipler = (multipler) => {
+  dialogueMultiplier = multipler;
+}
+
+export const getDialogueMultipler = () => {return dialogueMultiplier}
+
 const testSoundWow = new Howl ({
   src: [QuoteKey],
   loop:false,
@@ -343,6 +391,7 @@ const playSoundsSequentially = (sounds) => {
 
   const playNextSound = () => {
     if (index < sounds.length) {
+      sounds[index].volume(dialogueMultiplier)
       sounds[index].once('end', playNextSound);
       sounds[index].play();
       currentPlayingSound = sounds;
@@ -474,6 +523,7 @@ export const playSoundChunk = (soundChunk) => {
     playSoundsSequentially(soundChunk)
   }
   else{ //individual sound
+    soundChunk.volume(dialogueMultiplier )
     soundChunk.play()
     currentPlayingSound = soundChunk;
   }

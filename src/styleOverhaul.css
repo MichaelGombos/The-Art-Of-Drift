@@ -965,6 +965,19 @@ input:checked + .switch__inner:before {
 
 /* dialogue */
 
+.dialogue-menu-container{
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+}
+
+.dialogue-menu{
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+}
+
+
 .dialogue-text{
 
 }
@@ -976,6 +989,14 @@ input:checked + .switch__inner:before {
   display: inline;
   height: 19px;
   width: 19px;
+}
+
+
+.dialogue-control{
+  position: relative;
+  z-index: 5;
+  width: 64px;
+  height : 64px;
 }
 
 /* credits */
@@ -995,11 +1016,12 @@ input:checked + .switch__inner:before {
 .audio-control{
   position: absolute;
   z-index: 5;
-  top: 16;
-  left: 16;
+  top: 16px;
+  left: 16px;
   width: 64px;
   height : 64px;
 }
+
 
 .audio-control img{
   width:45px;
