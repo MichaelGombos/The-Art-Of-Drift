@@ -46,7 +46,6 @@ const UnlockedMedal = ({newBest,playerTime,oldPB,mapIndex}) => {
       return;
     }
 
-    console.log("Ok, so you should have just unlocked the medal in the " + playerTimeHighestIndex + " index...")
 
     return(
       <div className="row unlocked-medal gap-sm f-p2">
@@ -58,7 +57,6 @@ const UnlockedMedal = ({newBest,playerTime,oldPB,mapIndex}) => {
 }
 
 const FinishHeader = ({replayObject, spectateTime,newBest,mapIndex, oldPB}) => {
-  console.log("THIS IS THE HEADER!!" , replayObject);
   return (
     <div className="finish__header col-6 align-center">
       {getInSpectateMode() ?  <h1 className="f-p1">Replay Over</h1> : <h1 className="f-h1">Finish</h1>}

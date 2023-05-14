@@ -39,6 +39,8 @@ let car = createCar(false);
 let ghostCar = createCar(true);
 let ghostStep = 0; //kind of like dubstep, but for ghosts. 
 let maxLaps = undefined;
+let mapAngle = undefined;
+let mapAutoDrive = undefined;
 let replayExport = {
   inputs : [],
   stats : ["peanut butter jelly time!"]
@@ -46,8 +48,9 @@ let replayExport = {
 
 let mapIndex;
 
+
 let targetFps = 60;
-let currentFps = 0;
+let currentFps = 60;
 
 const tilePixelCount = parseInt(
   getComputedStyle(document.documentElement).getPropertyValue('--tile-pixel-count')
@@ -71,6 +74,9 @@ let replayFinishTime;
 
 let frameCount = 0;
 let fpsInterval, startTime, now, then, elapsed;
+let dt;
+let performanceRightNow = 0;
+let performanceThen = performanceRightNow;
 
 
 const tileTypes = ['road', 'wall', 'dirt', 'spawn', 'finish-up', 'finish-down', 'bumper', 'check-point-left-road', 'check-point-right-road', 'check-point-left-dirt', 'check-point-right-dirt']
@@ -166,9 +172,15 @@ const updateCarSpawnPosition = () => {
     ghostCar.setAngle(maps[mapIndex].spawnAngle,maps[mapIndex].spawnAngle)
   }
   else{
-    characterSprite.style.transform = `rotate(${45}deg)`
-    car.setAngle(45,45)
+    characterSprite.style.transform = `rotate(${mapAngle}deg)`
+    car.setAngle(mapAngle,mapAngle)
   }
+  if(mapAutoDrive){
+    car.setSpeed(10)
+  }
+  else{
+  }
+
   car.setX(spawn.x * tilePixelCount)
   car.setY(spawn.y * tilePixelCount)
   ghostCar.setX(spawn.x * tilePixelCount)
@@ -208,8 +220,9 @@ const resetCarValues = () => {
 const setMapData = (map,replayJSON) => {
 
   nameGhost('');
-  console.log(replayJSON)
   maxLaps = map.lapCount;
+  mapAngle = map.spawnAngle;
+  mapAutoDrive = map.autoDrive;
   mapData = {
     map:decompressMapData(map.data),
     replay: {
@@ -235,7 +248,6 @@ const generateMap = (inputData) => {
   gameCanvas.width = inputData[0].length;
   gameCanvas.height = inputData.length;
   createParticleLayer(inputData[0].length, inputData.length)
-  console.log("particle layer created...")
   rows = inputData.length;
   columns = inputData[0].length;
   drawCanvasMapColor(gameCanvas.getContext("2d"),inputData);
@@ -302,7 +314,6 @@ const placeGhost = (stepCount) => {
     
     ghost_inputs = mapData.replay.inputs[stepCount];
     ghost_stats = mapData.replay.stats[stepCount];
-    console.log("ghost stats be ballin!", ghost_stats)
     if(inSpectateMode){
       car.setX(ghostCar.getX());
       car.setY(ghostCar.getY());
@@ -453,13 +464,13 @@ const placeCharacter = () => {
 
   replayExport.inputs.push([...held_directions])
   replayExport.stats.push(car.getStats())
-  // console.log(replayExport);
   car.updateAngleLock()
   car.stabalizeDriftForce();
   car.stabalizeAngle()
   car.updateGear();
   if (car.getSpeed() != 0) {
-      car.collision(tilePixelCount, rows, columns, mapData.map)
+      car.collision( 1 / currentFps * 60 , tilePixelCount, rows, columns, mapData.map)
+      // car.collision( 1  , tilePixelCount, rows, columns, mapData.map)
       //friction
       car.applyFriction();
   }
@@ -553,6 +564,8 @@ const step = (newtime) => {
     lastRunTime = now
     elapsed = now - then;
 
+
+
     // if enough time has elapsed, draw the next frame
 
     if (elapsed > fpsInterval) {
@@ -562,7 +575,7 @@ const step = (newtime) => {
         then = now - (elapsed % fpsInterval);
 
         //draw stuff
-        renderNewFrame()
+        renderNewFrame( )
 
         let sinceStart = now-startTime;
         currentFps = Math.round(1000 / (sinceStart / ++frameCount) * 100) / 100
@@ -581,7 +594,6 @@ const step = (newtime) => {
 //listeners 
 
 document.addEventListener("keydown", (e) => {
-  // console.log("keydown", e.code, e.key, e.which, e)
   const dir = keyboardToCommandMap[e.code];
   //check if current focus isn't an input
   if(document.activeElement.tagName != "INPUT"){
@@ -595,7 +607,6 @@ document.addEventListener("keydown", (e) => {
   if (dir && held_directions.indexOf(dir) === -1) {
       held_directions.unshift(dir)
   }
-  console.log("full_keyboard_held_keys",full_keyboard_held_keys)
 })
 
 document.addEventListener("keyup", (e) => {

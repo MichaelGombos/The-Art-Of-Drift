@@ -38,12 +38,10 @@ const AsyncLoader = () => {
     const newFullOverlay = (() => {
       for(let pageURL of loaderPageList){
         if(guiLocation.pathname.includes(pageURL)){
-          console.log("full overlay fr" , guiLocation.pathname, pageURL)
           return true;
         }
       }
       
-      console.log("not full overlay" , guiLocation.pathname)
       return false;
     })();
     setFullOverlay(newFullOverlay)

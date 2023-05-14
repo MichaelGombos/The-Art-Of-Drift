@@ -158,10 +158,9 @@ const nameGhost = (name) => {
 
 const drawPlayerVehicle = (vehicleID) => {
   //set background image to car graphic
-  console.log("before drawing??")
   characterSprite.style.backgroundImage = `url(${vehicleTopDownGraphicURLs[vehicleID]})`
 
-  console.log("drawing??" , vehicleID ,vehicleTopDownGraphicURLs[vehicleID] , characterSprite.style.backgroundImage ) 
+  
 }
 
 const drawGhostVehicle = (vehicleID) => {
@@ -179,15 +178,12 @@ const colorPlayerCar = () => {
 
 const colorGhostCar = (color) => {
   if(ghostColors[color]){
-    console.log("inside1 ")
     ghostCharacterSprite.style.filter = ghostColors[color];
   }
   else if(playerColors[color]){
-    console.log("inside2 ")
     ghostCharacterSprite.style.filter = playerColors[color]
   }
 
-  console.log("AM I TRYING TO COLOR?", color, ghostCharacterSprite.style.filter)
 }
 
 let particles = [];
@@ -543,8 +539,7 @@ const spriteDetailsMap = {
 
 const addParticle = (type = "road_dust", scaleMultiplier, carX= 69,carY = 69, driftForce = 2, carAngle = 24,opacityMultiplier = null) => {
   let newParticle
-  console.log("particle data", type , scaleMultiplier, carX,carY , driftForce, carAngle ,opacityMultiplier ) 
-
+ 
 
   if(spriteDetailsMap[type].tick > spriteDetailsMap[type].frequency){
 
@@ -572,7 +567,6 @@ const addParticle = (type = "road_dust", scaleMultiplier, carX= 69,carY = 69, dr
     spriteDetailsMap[type].tick = 0;
   }
   else{
-    console.log("increasing tick instead...")
     spriteDetailsMap[type].tick = spriteDetailsMap[type].tick+1;
   }
 

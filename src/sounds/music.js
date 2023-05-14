@@ -320,7 +320,6 @@ const trackIDtoSongInformationMap = {
 
 let currentRunningTrack;
 export const transitionMusic = (trackIDToEnable, restart) => {
-  console.log("transition", currentRunningTrack, trackIDToEnable)
   
   currentRunningTrack ? trackIDtoLoopMap[currentRunningTrack].fade(.2 * musicMultiplier,0, 2000) : "" //if not previous track, do nothing
 
@@ -353,8 +352,6 @@ export const transitionMusicBasedOffLocation = () => {
   currentRunningTrack != "1" && (
   location.pathname.includes("/hidden"))
   ){ //get the current track id then play a race. For now we are just using a filler...
-    console.log("index..", )
-    console.log("soo... This is what should have played" , String(Number(getGameMapIndex())+1))
     transitionMusic(String(Number(getGameMapIndex())+1), true)
   }
   else if ( //Silence
@@ -374,7 +371,6 @@ export const transitionMusicBasedOffLocation = () => {
     transitionMusic("credits", true)
   }
   else if (currentRunningTrack != "menu") { //menu music
-    console.log("turning on?", location.pathname)
     transitionMusic("menu")
   }
 }

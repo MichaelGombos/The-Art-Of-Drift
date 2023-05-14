@@ -12,7 +12,6 @@ const MusicSource = () => {
   })
   Window.showMusicSource = (songInformation) => {//there is definitely a better way to share functions across game/compoennts.
     setMusicSourceShownAnimationOn(true)
-    console.log("This is the song information that I WOULD have shown if i CARED!!!", songInformation)
     setTimeout(() => {
       setMusicSourceShownAnimationOn(false)
     } , 4000)

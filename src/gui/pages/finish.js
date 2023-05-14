@@ -37,11 +37,9 @@ const checkBest = (setter, index, oldPB) => {
       sendTime(index, replayObject)
       setter(replayObject)
 
-      console.log("but itshould actually be sending here?")
     })
 
 
-    console.log("send it!");
 
     return true;
   }

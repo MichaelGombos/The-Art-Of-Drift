@@ -6,6 +6,7 @@ import { startGame, resetGame, unPauseGame} from "../../game/main.js"
 import {setGameMapIndex, setMapData} from "../../game/game.js"
 import {freeplay, test, tutorial } from  "../../game/map-data.js"
 import Button from './button.js';
+import deltaTimeTest from '../../game/maps/deltaTimeTest.js';
 
 const MainMenuNavigation = () => {
   const navigate = useNavigate();
@@ -35,6 +36,16 @@ const MainMenuNavigation = () => {
       navigate("/hidden")
     }}
     >Free Play</Button>
+    <Button style="light" clickHandler={()=> {
+      setGameMapIndex(undefined)
+      setMapData(deltaTimeTest,{
+        inputs:"[]",
+        stats:"[]"
+      });
+      resetGame();
+      navigate("/hidden")
+    }}
+    >Delta Time Tests</Button>
     <Button style="light" clickHandler={() => navigate("/credits")}>credits</Button>
     <a className="col-6"  href="https://github.com/MichaelGombos/browser-driving-demo" target="_blank"> <Button style="light"  >Source Code</Button> </a>
     <Button style="light" clickHandler={() => {

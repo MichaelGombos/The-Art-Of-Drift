@@ -377,7 +377,6 @@ class GUI extends Component {
       this.navLocation = location
       this.currentNode = findObjectWithLocation([],location,this.documentTree)
       this.currentNode.element.focus()
-      console.log("current node we are focusing", this.currentNode.element, location, this.documentTree)
     }
 
     Window.getObjectWithElement = (element) => {
@@ -541,7 +540,6 @@ class GUI extends Component {
       
     }
 
-    console.log(e.key)
   }
   ref = React.createRef();
   render() {return <Menu/>}

@@ -8,7 +8,6 @@ const ResultBanner = () => {
   const addToResultList = (isError,message) => {
     resultList.push({isError,message})
     setStatefulResultList([...resultList]);
-    console.log(resultList,statefulResultList)
 
     setInterval(() => {
       resultList.shift();
@@ -17,14 +16,13 @@ const ResultBanner = () => {
   }
 
   useEffect(()=> {
-    console.log("result changed?")
   },[resultList])
 
 
 
   window.addResultMessage = addToResultList;
   //need to have a timer to naturally remove errors from the list slowly.
-
+  return ""
   return (
     <div className="result-banner__container">
       {statefulResultList.map((result,index) => {

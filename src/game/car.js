@@ -85,6 +85,7 @@ const createCar = (isGhost) => {
         ]
     }
     //setters 
+    const setAutoDrive = (newDrive) => {autoDrive = newDrive}
     const setStats = (stats) => {
         x = Number(stats[0]);
         y = Number(stats[1]);
@@ -104,6 +105,7 @@ const createCar = (isGhost) => {
     const setAngle = (moving,facing) => {
         angle = {moving,facing}
     }
+    const setSpeed = (newSpeed) => {speed = newSpeed}
 
     const resetValues = (inSpectateMode) => {
         isSpectating = inSpectateMode
@@ -549,9 +551,9 @@ const createCar = (isGhost) => {
     }
 
 
-    const collision = (tilePixelCount, rows, columns, mapData) => {
-        let newX = x + (speed * Math.cos(angle.moving * Math.PI / 180));
-        let newY = y + (speed * Math.sin(angle.moving * Math.PI / 180));
+    const collision = (dt, tilePixelCount, rows, columns, mapData) => {
+        let newX = x + (speed * dt) * Math.cos(angle.moving * Math.PI / 180);
+        let newY = y + (speed * dt) * Math.sin(angle.moving * Math.PI / 180);
 
         //make sure we are in map bounds
 
@@ -761,6 +763,7 @@ const createCar = (isGhost) => {
         getOnDirt,
         getStats,
         //setters
+        setSpeed,
         setStats,
         setX,
         setY,

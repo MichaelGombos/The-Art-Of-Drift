@@ -69,12 +69,6 @@ import mouseClick from "./sfx/mouseclick.wav"
 import pauseOpen from "./sfx/pause.wav"
 import errorClick from "./sfx/errorclick.wav"
 import checkBoxClick from "./sfx/checkbox.wav"
-
-console.log("console test", engineIdle,
-roadSkid  ,
-roadDrift ,
-dirtDrive ,
-maxSpeed  )
 import "../sounds/music.js"
 import { getRunning } from '../game/main';
 
@@ -265,9 +259,7 @@ window.tireSqualTransition = tireSqualTransition;
 window.engineStop = () => {
   for(let sound of engineIdIdleList){
     engineIdleLoop.stop(sound);
-    console.log(sound);
   }
-  console.log("hello.")
 }
 
 window.engineTransition = engineTransition;
@@ -351,7 +343,6 @@ export const generateFrameSounds = (speed, x,y ,driftForce, onDirt,angle) => {
         //make skidding on dirt sound
       }
       tireSqualTransition(currentSkiddingVolume, Number((driftForce / 7).toFixed(2)))
-      console.log(currentSkiddingVolume, Number((driftForce / 7).toFixed(2)))
       currentSkiddingVolume = ((driftForce - 4.5)/3).toFixed(2)
 
       if(driftForce > 5){
