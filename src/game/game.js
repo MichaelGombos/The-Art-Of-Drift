@@ -48,6 +48,7 @@ let replayExport = {
 
 let mapIndex;
 
+let timeDeltaMultipler = 1; // this value is set to 1 / currentFps * 60 each frame
 
 let targetFps = 60;
 let currentFps = 60;
@@ -406,6 +407,7 @@ const placeGhost = (stepCount) => {
 
 
 const placeCharacter = () => {
+  car.setTimeDeltaMultiplier(1 / currentFps * 60 );
   if(!inSpectateMode){
     updateCameraShake(car.getDriftForce())
     updateCameraScale(car.getSpeed())
@@ -469,8 +471,8 @@ const placeCharacter = () => {
   car.stabalizeAngle()
   car.updateGear();
   if (car.getSpeed() != 0) {
-      car.collision( 1 / currentFps * 60 , tilePixelCount, rows, columns, mapData.map)
-      // car.collision( 1  , tilePixelCount, rows, columns, mapData.map)
+      // car.collision( 1 / currentFps * 60 , tilePixelCount, rows, columns, mapData.map)
+      car.collision(tilePixelCount, rows, columns, mapData.map)
       //friction
       car.applyFriction();
   }

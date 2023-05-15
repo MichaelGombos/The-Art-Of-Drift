@@ -87,8 +87,8 @@ const replays = [
   },
   author: { 
     replay: map1Author,
-    time: "00:00:25.451"
-  }
+    time: "00:00:53.881"
+  } //just in case... 
 },
  {
   easy: {

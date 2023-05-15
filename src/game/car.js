@@ -20,6 +20,7 @@ const createCar = (isGhost) => {
     let driftForce = 1;
     let turnTime = 0;
     let tireGripTime = 0;
+    let carTimeDeltaMultiplier = 1;
 
     let x = 0;
     let y = 0;
@@ -484,8 +485,8 @@ const createCar = (isGhost) => {
             }
 
 
-            angle.facing += turningSpeed * pressure;
-            angle.moving += turningSpeed / driftForce;
+            angle.facing += (turningSpeed * carTimeDeltaMultiplier) * pressure;
+            angle.moving += (turningSpeed * carTimeDeltaMultiplier) / driftForce;
 
 
         } else if (direction === "left" && !angleLock.left) {
@@ -497,8 +498,8 @@ const createCar = (isGhost) => {
 
 
 
-            angle.facing -= turningSpeed * Math.abs(pressure);
-            angle.moving -= turningSpeed / driftForce;
+            angle.facing -= (turningSpeed * carTimeDeltaMultiplier) * Math.abs(pressure);
+            angle.moving -= (turningSpeed * carTimeDeltaMultiplier) / driftForce;
 
             //degree correction
             if (angle.facing < 0) {
@@ -550,10 +551,13 @@ const createCar = (isGhost) => {
 
     }
 
+    const setTimeDeltaMultiplier = (value) => {
+        carTimeDeltaMultiplier = value;
+    }
 
-    const collision = (dt, tilePixelCount, rows, columns, mapData) => {
-        let newX = x + (speed * dt) * Math.cos(angle.moving * Math.PI / 180);
-        let newY = y + (speed * dt) * Math.sin(angle.moving * Math.PI / 180);
+    const collision = (tilePixelCount, rows, columns, mapData) => {
+        let newX = x + (speed * carTimeDeltaMultiplier) * Math.cos(angle.moving * Math.PI / 180);
+        let newY = y + (speed * carTimeDeltaMultiplier) * Math.sin(angle.moving * Math.PI / 180);
 
         //make sure we are in map bounds
 
@@ -598,7 +602,7 @@ const createCar = (isGhost) => {
                 onDirt = true;
                 if(!isGhost){
                     if (Math.abs(speed) > 1 ) {
-                        speed = speed / 1.025;
+                        speed = speed / 1.025 ;
                         // createDirtParticle(x, y);
                         
                     }
@@ -764,6 +768,7 @@ const createCar = (isGhost) => {
         getStats,
         //setters
         setSpeed,
+        setTimeDeltaMultiplier,
         setStats,
         setX,
         setY,
