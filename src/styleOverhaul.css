@@ -477,7 +477,7 @@ button{
   position:absolute;
   bottom:var(--gap-xl);
   left:var(--gap-xl);
-  z-index:0;
+  z-index:1;
 }
 
 #map-canvas{
