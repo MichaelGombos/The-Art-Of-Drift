@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 
 import {getDirectionalCamera, getEnableGhost, setDirectionalCamera} from "../../game/game.js"
-import {getParticleLimit} from "../../game/graphics.js"
+import {getIntensityMultipler, getParticleLimit, getSmoothnessMultiplier} from "../../game/graphics.js"
 import DeleteGameSaveButton from '../components/delete-game-save-button.js';
 import ExitSettingsButton from '../components/exit-settings-button.js';
 import InputSlider from '../components/input-slider.js';
@@ -36,6 +36,10 @@ const Settings = ({
   let [newParticleLimit,setNewParticleLimit] = useState(getParticleLimit());
   let [gameDataSafeteyNet,setGameDataSafeteyNet] = useState(10);
   let [newDirectionalCamera, setNewDirectionalCamera] = useState(getDirectionalCamera())
+
+  let [newSmoothnessMultipler, setNewSmoothnessMultipler] = useState(getSmoothnessMultiplier() / 2)
+  let [newIntensityMultiplier , setNewIntensityMultiplier ] = useState(getIntensityMultipler() * 100)
+
 
   const setStatefulMusic = (newVal) => {
     setNewMusicSound(newVal);
@@ -84,6 +88,21 @@ const Settings = ({
                 Music Sound
               </InputSlider>
               
+              <InputSlider 
+              newValue={newSmoothnessMultipler} 
+              setter={setNewSmoothnessMultipler}
+              minimum={0}
+              maximum={200}>
+                Camera shake (smoothness)
+              </InputSlider>
+                <InputSlider 
+              newValue={newIntensityMultiplier} 
+              setter={setNewIntensityMultiplier}
+              minimum={0}
+              maximum={200}>
+                Camera shake (distance)
+              </InputSlider>
+
                 <InputSlider 
                 parentRef={particleLimitSlider}
               newValue={newParticleLimit} 
@@ -129,7 +148,17 @@ const Settings = ({
 
 
             <ExitSettingsButton isSaving={false} setNewDirectionalCamera = {setNewDirectionalCamera}  setNewEnableGhost={setNewEnableGhost} setNewParticleLimit={setNewParticleLimit} newEnableGhost={newEnableGhost} newParticleLimit={newParticleLimit} />
-            <ExitSettingsButton isSaving={true} setNewEnableGhost={setNewEnableGhost} setNewParticleLimit={setNewParticleLimit} setNewDirectionalCamera = {setNewDirectionalCamera} newEnableGhost={newEnableGhost} newParticleLimit={newParticleLimit} newDirectionalCamera={newDirectionalCamera}/>
+            <ExitSettingsButton 
+            isSaving={true} 
+            setNewEnableGhost={setNewEnableGhost} 
+            setNewParticleLimit={setNewParticleLimit} 
+            setNewDirectionalCamera = {setNewDirectionalCamera} 
+            newEnableGhost={newEnableGhost} 
+            newParticleLimit={newParticleLimit} 
+            newDirectionalCamera={newDirectionalCamera}
+            newIntensityMultiplier = {newIntensityMultiplier}
+            newSmoothnessMultipler = {newSmoothnessMultipler}
+            />
           </div>
         </div>
       </div>

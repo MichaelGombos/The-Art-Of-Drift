@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import { getDirectionalCamera, getEnableGhost, setDirectionalCamera, setEnableGhost } from "../../game/game";
-import { getParticleLimit, setParticleLimit } from "../../game/graphics";
+import { getParticleLimit, setIntensityMultipler, setParticleLimit, setSmoothnessMultiplier } from "../../game/graphics";
 import Button from "./button";
 
 const ExitSettingsButton = ({
@@ -12,7 +12,9 @@ const ExitSettingsButton = ({
   newEnableGhost, 
   newParticleLimit, 
   setNewDirectionalCamera, 
-  newDirectionalCamera
+  newDirectionalCamera,
+  newIntensityMultiplier, 
+  newSmoothnessMultipler 
 }) => {
   const navigate = useNavigate();
 
@@ -23,6 +25,8 @@ const ExitSettingsButton = ({
           setEnableGhost(newEnableGhost);
           setParticleLimit(newParticleLimit);
           setDirectionalCamera(newDirectionalCamera);
+          setIntensityMultipler(newIntensityMultiplier / 100)
+          setSmoothnessMultiplier(newSmoothnessMultipler * 2)
         }}>Save and exit</Button>
       )
     }

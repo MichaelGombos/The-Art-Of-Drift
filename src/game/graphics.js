@@ -128,13 +128,24 @@ let staticParticleTick = 0; //used to confirm if we should place a particle or w
 
 map.insertBefore(mapParticles , ghostCharacter);
 
+let intensityMultiplier = 1;
+let smoothnessMultiplier = 100;
+
+export const setIntensityMultipler = value => intensityMultiplier = value;
+export const getIntensityMultipler = () => intensityMultiplier
+
+export const setSmoothnessMultiplier = value => smoothnessMultiplier = value;
+export const getSmoothnessMultiplier = () => smoothnessMultiplier;
+
 export const updateCameraShake = (driftForce) => {
 
   if(driftForce > 4){
-    const randomX = (Math.floor(Math.random() * 10) - 5) * (driftForce - 4)
-    const randomY = (Math.floor(Math.random() * 10) - 5) * (driftForce - 4)
+    const randomX = (Math.floor(Math.random() * 10) - 5) * (driftForce - 4) * intensityMultiplier
+    const randomY = (Math.floor(Math.random() * 10) - 5) * (driftForce - 4) * intensityMultiplier
     
     cameraShakeContainer.style.transform =  `translate3d( ${randomX}px, ${randomY}px, 0 )`
+
+    cameraShakeContainer.style.transition =  `transform ${smoothnessMultiplier}ms`
 
   }
 }
