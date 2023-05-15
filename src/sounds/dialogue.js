@@ -165,8 +165,7 @@ export const muteDialogueMultipler = () => {
       sound.volume(0)
       sound.stop()
     }
-  }else{
-
+  }else if(currentPlayingSound){
     currentPlayingSound.volume(0);
     currentPlayingSound.stop();
   }
@@ -184,8 +183,7 @@ export const unmuteDialogueMultipler = () => {
       sound.play();
     }
   }
-  else{
-
+  else if(currentPlayingSound){
     currentPlayingSound.volume(dialogueMultiplier)
     currentPlayingSound.seek(0);
     currentPlayingSound.play();

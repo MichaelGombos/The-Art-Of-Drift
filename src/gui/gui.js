@@ -465,12 +465,14 @@ class GUI extends Component {
         
         return;
       }
-      this.currentNode.element.click();
-      let tempActionNode = this.currentNode
-      tempActionNode.element.classList.add('held-down')
-      setTimeout(() => {
-      tempActionNode.element.classList.remove('held-down')
-      },200)
+      else {
+        this.currentNode.element.click();
+        let tempActionNode = this.currentNode
+        tempActionNode.element.classList.add('held-down')
+        setTimeout(() => {
+        tempActionNode.element.classList.remove('held-down')
+        },200)
+      }
     }
     else if(type == "Escape"){
       if(this.currentNode.navType == "text"){
@@ -514,6 +516,7 @@ class GUI extends Component {
       this.responsiveAction("Enter") 
     }
     if(e.key == " "){
+      e.preventDefault();
       this.responsiveAction("EnterSpace") 
       return false;
     }
