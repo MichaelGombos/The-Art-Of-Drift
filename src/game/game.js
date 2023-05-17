@@ -97,8 +97,8 @@ let gridCellSize = pixelSize * tilePixelCount;
 let milliseconds = 0;
 let timeString = "00:00:00";
 
-let enableGhost = false;
-let isDirectionalCameraOn = false;
+let enableGhost = localStorage.getItem("isGhostEnabled") ? localStorage.getItem("isGhostEnabled") :  false;
+let isDirectionalCameraOn = localStorage.getItem("isDirectionalCameraEnabled") ? localStorage.getItem("isDirectionalCameraEnabled") : false;
 
 // functions
 const setGameMapIndex = (index) => {

@@ -44,11 +44,13 @@ const Settings = ({
   const setStatefulMusic = (newVal) => {
     setNewMusicSound(newVal);
     setMusicMultiplier(newVal);
+    localStorage.setItem("musicMultiplier", newVal)
   }
 
   const setStatefulSFX = newVal => {
     setNewSfxSound(newVal);
     setSFXMultiplier(newVal);
+    localStorage.setItem("SFXMultiplier", newVal)
   }
 
   return (

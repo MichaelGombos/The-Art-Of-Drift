@@ -23,10 +23,15 @@ const ExitSettingsButton = ({
         <Button style="primary" clickHandler={() => {
           navigate(-1);
           setEnableGhost(newEnableGhost);
+          localStorage.setItem("isGhostEnabled",newEnableGhost)
           setParticleLimit(newParticleLimit);
+          localStorage.setItem("particleLimit",newParticleLimit)
           setDirectionalCamera(newDirectionalCamera);
+          localStorage.setItem("isDirectionalCameraEnabled", newDirectionalCamera)
           setIntensityMultipler(newIntensityMultiplier / 100)
+          localStorage.setItem("intensityMultiplier", newIntensityMultiplier / 100)
           setSmoothnessMultiplier(newSmoothnessMultipler * 2)
+          localStorage.setItem("smoothnessMultiplier", newSmoothnessMultipler * 2)
         }}>Save and exit</Button>
       )
     }

@@ -128,8 +128,8 @@ let staticParticleTick = 0; //used to confirm if we should place a particle or w
 
 map.insertBefore(mapParticles , ghostCharacter);
 
-let intensityMultiplier = 1;
-let smoothnessMultiplier = 100;
+let intensityMultiplier = localStorage.getItem("intensityMultiplier") ?  localStorage.getItem("intensityMultiplier")  : 1;
+let smoothnessMultiplier = localStorage.getItem("smoothnessMultiplier") ? localStorage.getItem("smoothnessMultiplier") : 100;
 
 export const setIntensityMultipler = value => intensityMultiplier = value;
 export const getIntensityMultipler = () => intensityMultiplier
@@ -198,7 +198,7 @@ const colorGhostCar = (color) => {
 }
 
 let particles = [];
-let particleLimit = 1000;
+let particleLimit = localStorage.getItem("particleLimit") ? localStorage.getItem("particleLimit") : 1000;
 
 const generateFrameParticles = (rawSpeed, x,y ,driftForce, onDirt,angle) => {
   let speed = Math.abs(rawSpeed)
