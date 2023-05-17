@@ -46,7 +46,7 @@ const AuthStatus = ({isGuestSession, isShown, user, loading, error}) => {
       window.setAsyncLoader(false)
     }
     window.refreshDocumentTree();
-  }) 
+  }, [loading, error, user]) 
 
 
 

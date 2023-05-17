@@ -296,6 +296,7 @@ export const getCurrentAuthProfile = async() => {
   const docRef = doc(db, "users", auth.currentUser.uid);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
+    console.log("just grapped the player data :D")
     window.setAsyncLoader(false)
     return docSnap.data();
   } else {
