@@ -87,7 +87,7 @@ import AccessibleNavigationTest from "./pages/accessible_navigation_test.js"
 import getGamePadHeldDirections from "../game/gamepad.js"
 import { checkForCommonItem } from "./helpers/util.js"
 import SettingsKeybinds from "./pages/settings-keybinds.js"
-import { generateMouseClickSound, generateMouseHoverSound, generatePauseSound } from "../sounds/sfx.js"
+import { generateMouseClickSound, generateMouseHoverSound, generatePauseSound, updateSFXLocation } from "../sounds/sfx.js"
 import { transitionMusicBasedOffLocation } from "../sounds/music.js"
 import Credits from "./pages/credits.js"
 import { getFullKeyboardHeldKeys } from "../game/game.js"
@@ -146,6 +146,7 @@ const Menu = () => {
   }, [])
 
   useEffect(() => {
+    updateSFXLocation()
     transitionMusicBasedOffLocation()
     // http://localhost:8080/invited?racer=J&map=0
     if(

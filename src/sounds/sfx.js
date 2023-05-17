@@ -76,6 +76,16 @@ let SFXMultiplier = localStorage.getItem("SFXMultipler") ? localStorage.getItem(
 let unMutedSFXMultiplier = 0;
 
 let currentEngineIndex = 0;
+
+export const updateSFXLocation = () => {
+  if(location.pathname !== "/hidden"){
+    engineIdleLoop.mute(true)
+  }
+  else{
+    engineIdleLoop.mute(false)
+  }
+}
+
 export const setSFXMultiplier = (newMultiplier) => {
   SFXMultiplier = newMultiplier / 100; 
   // this should also unmute the SFX multiplier
