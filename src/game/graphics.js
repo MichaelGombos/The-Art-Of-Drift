@@ -1,7 +1,7 @@
 import { Application, Sprite, AnimatedSprite, Texture } from 'pixi.js';
 
 import {map,camera, mapParticles, ghostCharacter, characterSprite, ghostCharacterSprite, ghostCharacterNameTag , particleLayer, cameraShakeContainer} from "./elements.js"
-import { getDirectionalCamera } from "./game.js";
+import { getDirectionalCamera, getPlayerCarObject } from "./game.js";
 
 
 import vehicleTopDownGraphicCampaignURL from "../assets/game-vehicles/campaign-police-3.png"
@@ -150,10 +150,10 @@ export const updateCameraShake = (driftForce) => {
   }
 }
 const updateCameraScale = (speed) => {
-  camera.style.scale = 2 - (Math.abs(speed)/25)
+  camera.style.scale = 2 - (Math.abs(speed)/getPlayerCarObject().getMaxSpeed())
 }
 const updateCameraAngle = (angle) => {
-  if(getDirectionalCamera()){
+  if(getDirectionalCamera() == true){
     camera.style.transform = `rotate(${-angle.facing + 270}deg)`
   }
   else{

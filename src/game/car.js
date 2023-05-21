@@ -13,14 +13,15 @@ const createCar = (isGhost) => {
     let gear = 0;
     let acceleration = .15;
     const friction = .006;
-    const maxSpeed = 12;
+    const maxSpeed = 25;
     const maxLaps = 5;
     let lap = 0;
     let checkPointLap = 0;
     let driftForce = 1;
+    let driftForceMax = 12;
     let turnTime = 0;
     let tireGripTime = 0;
-    let carTimeDeltaMultiplier = 1;
+    let dt = 16.67;
 
     let x = 0;
     let y = 0;
@@ -85,7 +86,11 @@ const createCar = (isGhost) => {
             speed
         ]
     }
+    const getDt = () => {return dt}
+    const getMaxSpeed = () => {return maxSpeed}
     //setters 
+    const setDt = (value) => {dt = value * 16.67 * 2
+    console.log("THIS IS DT!!", dt)}
     const setAutoDrive = (newDrive) => {autoDrive = newDrive}
     const setStats = (stats) => {
         x = Number(stats[0]);
@@ -151,6 +156,9 @@ const createCar = (isGhost) => {
             return 0;
         }
     }
+
+    let isAccelerating = false;
+    const updateAccelerating = (value) => {isAccelerating = value} 
 
     const updateAngleLock = () => {
 
@@ -227,14 +235,14 @@ const createCar = (isGhost) => {
     }
 
     const stabalizeDriftForce = () => {
-        if (Math.abs(speed) < .5 || driftForce <= 1.05) {
+        if (Math.abs(speed) < .5 || driftForce <= 1.2) {
             driftForce = 1;
         } 
-        else if (driftForce > 7){
-            driftForce = 7;
+        else if (driftForce > driftForceMax){
+            driftForce = driftForceMax;
         }
-        else if (driftForce > 1.05) {
-            driftForce -= .02;
+        else if (driftForce > 1.2) {
+            driftForce -= .2 * dt;
         }
     }
 
@@ -265,18 +273,18 @@ const createCar = (isGhost) => {
         }
         else if (movingAngle > facingAngle) {
             if((Math.abs(movingAngle - facingAngle) > 180)){ //long way home fix 
-                angle.moving =  angle.moving + tireGrip;
+                angle.moving =  angle.moving + tireGrip * dt;
             }
             else{
-                angle.moving = angle.moving - tireGrip;
+                angle.moving = angle.moving - tireGrip * dt;
             }
         }
         else if (movingAngle < facingAngle) {
             if((Math.abs(movingAngle - facingAngle) > 180)){ //long way home fix 
-                angle.moving = angle.moving - tireGrip;
+                angle.moving = angle.moving - tireGrip * dt;
             }
             else{
-                angle.moving =  angle.moving + tireGrip;
+                angle.moving =  angle.moving + tireGrip * dt;
 
             }
         }
@@ -291,9 +299,9 @@ const createCar = (isGhost) => {
                     engineTransition(gear, 5)
                 }
                 gear = 5;
-                tireGrip = 1.5
-                turningSpeed = 3.75
-                acceleration = .02;
+                tireGrip = 2.4
+                turningSpeed = 5
+                acceleration = .060;
                 break;
 
             case (Math.abs(speed) > 3 * maxSpeed/4):
@@ -301,9 +309,9 @@ const createCar = (isGhost) => {
                     engineTransition(gear, 4)
                 }
                 gear = 4;
-                tireGrip = 1.7
-                turningSpeed = 4
-                acceleration = 0.03;
+                tireGrip = 2.5
+                turningSpeed = 5.25
+                acceleration = 0.08;
                 break;
 
             case (Math.abs(speed) > maxSpeed/2):
@@ -311,9 +319,9 @@ const createCar = (isGhost) => {
                     engineTransition(gear, 3)
                 }
                 gear = 3;
-                tireGrip = 1.9
-                turningSpeed = 4.5
-                acceleration = .04;
+                tireGrip = 2.6
+                turningSpeed =  5.5
+                acceleration = .12;
                 break;
 
             case (Math.abs(speed) > maxSpeed/4):  //only barley getting here.
@@ -321,9 +329,9 @@ const createCar = (isGhost) => {
                     engineTransition(gear, 2)
                 }
                 gear = 2;
-                tireGrip = 2.05
-                turningSpeed = 5
-                acceleration = .05;
+                tireGrip = 2.7
+                turningSpeed = 6
+                acceleration = .15;
                 break;
 
             case (Math.abs(speed) > maxSpeed/6):
@@ -331,9 +339,9 @@ const createCar = (isGhost) => {
                     engineTransition(gear, 1)
                 }
                 gear = 1;
-                tireGrip = 2.1
-                turningSpeed = 5
-                acceleration = .06;
+                tireGrip = 2.75
+                turningSpeed = 6
+                acceleration = .12;
                 break;
 
             case (Math.abs(speed) > maxSpeed/8):
@@ -341,9 +349,9 @@ const createCar = (isGhost) => {
                     engineTransition(gear, 1)
                 }
                 gear = 1;
-                tireGrip = 2.15
-                turningSpeed = 5
-                acceleration = 0.07;
+                tireGrip = 3
+                turningSpeed = 6.25
+                acceleration = 0.1;
                 break;
 
             case (Math.abs(speed) > maxSpeed/16):
@@ -351,9 +359,9 @@ const createCar = (isGhost) => {
                     engineTransition(gear, 1)
                 }
                 gear = 1;
-                tireGrip = 2.15
-                turningSpeed = 4
-                acceleration = 0.07;
+                tireGrip = 3.25
+                turningSpeed = 6.5
+                acceleration = 0.09;
                 break;
 
             case (Math.abs(speed) > 0):
@@ -361,18 +369,18 @@ const createCar = (isGhost) => {
                     engineTransition(gear, 0)
                 }
                 gear = 0;
-                tireGrip = 2.2
-                turningSpeed = 3
-                acceleration = 0.08;
+                tireGrip = 3.5
+                turningSpeed = 7
+                acceleration = 0.07;
                 break;
             case (Math.abs(speed) == 0):
                 if(gear != 0){
                     engineTransition(gear, 0)
                 }
                 gear = 0;
-                tireGrip = 2.2
+                tireGrip = 4
                 turningSpeed = 0
-                acceleration = 0.08;
+                acceleration = 0.05;
                 break;
             default:
                 turningSpeed = 10
@@ -410,25 +418,23 @@ const createCar = (isGhost) => {
         let absSpeed = Math.abs(speed)
         if(speed > 0){
 
-                speed -= (acceleration *  4) * pressure;
+                speed -= (acceleration * 2) * pressure;
         
-                if(speed > driftForce){
-                    driftForce = absSpeed*2;
+                if(gear > 1){
+                    driftForce = absSpeed* 2 * dt;
                 }
                 else{
-                    driftForce -= .1;
+                    driftForce -= .1 * dt;
                 }
         }
         else if(speed < 0){
-            speed += (acceleration *  4) * pressure;
+            speed += (acceleration *  2) * pressure;
         
             if(absSpeed > driftForce){
-                console.log("happening yes?")
-                driftForce = absSpeed*2;
+                driftForce = absSpeed*2 * dt;
             }
             else{
-                driftForce -= .1;
-                console.log("happening no?")
+                driftForce -= .1 * dt;
             }
         }
 
@@ -478,28 +484,48 @@ const createCar = (isGhost) => {
         //compareAngles 
         pressure = Math.abs(pressure).toFixed(2);
         if (direction === "right" && !angleLock.right) {
-            if (driftForce <= 1.7) {
-                driftForce += .1;
-            } else if (driftForce > 1.7 && driftForce < 5 && pressure > .5) {
-                driftForce += 0.055;
+            if (driftForce <= driftForceMax / 2) {
+                if(isAccelerating){
+                    driftForce += .221 * dt;
+                }
+                else{
+                    driftForce += .215 * dt;
+                }
+            } else if (driftForce > driftForceMax / 2 && pressure > .5) {
+                if(isAccelerating){
+                    driftForce += .1 * dt;
+                }
+                else{
+                    driftForce += .05 * dt;
+                }
             }
 
 
-            angle.facing += (turningSpeed * carTimeDeltaMultiplier) * pressure;
-            angle.moving += (turningSpeed * carTimeDeltaMultiplier) / driftForce;
+            angle.facing += (turningSpeed * dt ) * pressure;
+            angle.moving += (turningSpeed * dt ) / driftForce;
 
 
         } else if (direction === "left" && !angleLock.left) {
-            if (driftForce <= 1.7) {
-                driftForce += .1;
-            } else if (driftForce > 1.7 && driftForce < 5 && pressure > .5) {
-                driftForce += 0.055;
+            if (driftForce <= driftForceMax / 2) {
+                if(isAccelerating){
+                    driftForce += .221 * dt;
+                }
+                else{
+                    driftForce += .215 * dt;
+                }
+            } else if (driftForce > driftForceMax / 2 && pressure > .5) {
+                if(isAccelerating){
+                    driftForce += .1 * dt;
+                }
+                else{
+                    driftForce += .05 * dt;
+                }
             }
 
 
 
-            angle.facing -= (turningSpeed * carTimeDeltaMultiplier) * Math.abs(pressure);
-            angle.moving -= (turningSpeed * carTimeDeltaMultiplier) / driftForce;
+            angle.facing -= (turningSpeed * dt ) * Math.abs(pressure);
+            angle.moving -= (turningSpeed * dt ) / driftForce;
 
             //degree correction
             if (angle.facing < 0) {
@@ -551,13 +577,10 @@ const createCar = (isGhost) => {
 
     }
 
-    const setTimeDeltaMultiplier = (value) => {
-        carTimeDeltaMultiplier = value;
-    }
 
     const collision = (tilePixelCount, rows, columns, mapData) => {
-        let newX = x + (speed * carTimeDeltaMultiplier) * Math.cos(angle.moving * Math.PI / 180);
-        let newY = y + (speed * carTimeDeltaMultiplier) * Math.sin(angle.moving * Math.PI / 180);
+        let newX = x + (speed * dt) * Math.cos(angle.moving * Math.PI / 180);
+        let newY = y + (speed * dt) * Math.sin(angle.moving * Math.PI / 180);
 
         //make sure we are in map bounds
 
@@ -600,14 +623,17 @@ const createCar = (isGhost) => {
             //dirt
             if (collidingWithValue(2,"y",mapData,tilePixelCount) || collidingWithValue(2,"x",mapData,tilePixelCount)) {
                 onDirt = true;
+                if(driftForce < 3){
+                    driftForce = 3;
+                }
                 if(!isGhost){
                     if (Math.abs(speed) > 1 ) {
-                        speed = speed / 1.025 ;
+                        speed = speed / (1.020) ;
+
+
                         // createDirtParticle(x, y);
-                        
                     }
                     if(turning){
-                        driftForce += .05;
                     }
                 }
             } else {
@@ -766,18 +792,21 @@ const createCar = (isGhost) => {
         getAcceleration,
         getOnDirt,
         getStats,
+        getDt,
+        getMaxSpeed,
         //setters
         setSpeed,
-        setTimeDeltaMultiplier,
         setStats,
         setX,
         setY,
         setEngineLock,
         setTurning,
         setAngle,
+        setDt,
         //functions
         resetValues,
         updateAngleLock,
+        updateAccelerating,
         stabalizeDriftForce,
         stabalizeAngle,
         updateGear,

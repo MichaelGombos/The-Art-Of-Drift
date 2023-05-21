@@ -93,15 +93,15 @@ const replays = [
  {
   easy: {
     replay: map2Easy,
-    time: "00:00:44.878"
+    time: "00:01:29.566"
   },
   normal: {
     replay: map2Normal,
-    time: "00:00:38.253"
+    time: "00:01:15.637"
   },
   hard: {
     replay: map2Hard,
-    time: "00:00:33.7.5"
+    time: "00:01:10.333"
   },
   author: {
     replay: map2Author,

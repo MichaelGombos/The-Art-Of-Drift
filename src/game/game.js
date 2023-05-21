@@ -75,7 +75,7 @@ let replayFinishTime;
 
 let frameCount = 0;
 let fpsInterval, startTime, now, then, elapsed;
-let dt;
+let dt = 16.67;
 let performanceRightNow = 0;
 let performanceThen = performanceRightNow;
 
@@ -93,7 +93,6 @@ let pixelSize = parseInt(
   getComputedStyle(document.documentElement).getPropertyValue('--pixel-size')
 );
 let gridCellSize = pixelSize * tilePixelCount;
-
 let milliseconds = 0;
 let timeString = "00:00:00";
 
@@ -139,6 +138,8 @@ const getTilePixelCount = () => {return tilePixelCount}
 const getInSpectateMode = () => {return inSpectateMode}
 
 const getSpectateTime = () => {return spectateTime}
+
+const getPlayerCarObject = () => {return car}
 
 const getStats = () => {
   const target = inSpectateMode ? ghostCar : car;
@@ -202,7 +203,7 @@ const resetCarValues = () => {
   
   frameCount = 0;
   fpsInterval = 1000 / targetFps;
-  then = window.performance.now();
+  then = performance.now();
   startTime = then;
   
   car.resetValues(inSpectateMode)
@@ -407,7 +408,7 @@ const placeGhost = (stepCount) => {
 
 
 const placeCharacter = () => {
-  car.setTimeDeltaMultiplier(1 / currentFps * 60 );
+  car.setDt(dt);
   if(!inSpectateMode){
     updateCameraShake(car.getDriftForce())
     updateCameraScale(car.getSpeed())
@@ -448,18 +449,23 @@ const placeCharacter = () => {
       }
       for(let direction of held_directions){
         let pressure = 1;
+        car.updateAccelerating(false)
         if(direction.includes("@")){
           pressure = direction.slice(direction.indexOf("@")+1)
         }
         if (direction.includes(commandToDirectionMap.reverse)) {
           car.accelerate(false,pressure)
+          car.updateAccelerating(true)
         }
         if (direction.includes(commandToDirectionMap.accelerate)) {
           car.accelerate(true,pressure)
+          car.updateAccelerating(true)
         }
         if (direction.includes(commandToDirectionMap.brake)) {
           car.engageBrakes(pressure)
         }
+
+
       }
   }
 
@@ -546,49 +552,50 @@ const renderNewFrame = () => {
 }
 
 const step = (newtime) => {
-  if(!getRunning()){
+  dt = (newtime - lastRunTime) / 1000
+  if (!getRunning()) {
     isPaused = true;
     return;
   } 
-  if(getRunning()){
-    if(isPaused){
-      pauseBuffer = (performance.now() - lastRunTime);
-      pauseBuffers.push(pauseBuffer);
-      pauseBuffer = 0;
-    }
+
+  if (isPaused) {
+    pauseBuffer = performance.now() - lastRunTime;
+    pauseBuffers.push(pauseBuffer);
+    pauseBuffer = 0;
     isPaused = false;
-    //take last paused time, subtract from current time, push to paused array.
+  }
+
+  reqAnim = window.requestAnimationFrame(step);
+
+  now = newtime;
+  lastRunTime = now;
+  elapsed = now - then;
+
+  if (elapsed > fpsInterval) {
+    then = now - (elapsed % fpsInterval);
 
 
-    reqAnim = window.requestAnimationFrame(step);
-
-    now = newtime;
-    lastRunTime = now
-    elapsed = now - then;
-
-
-
-    // if enough time has elapsed, draw the next frame
-
-    if (elapsed > fpsInterval) {
-
-        // Get ready for next frame by setting then=now, but...
-        // Also, adjust for fpsInterval not being multiple of 16.67
-        then = now - (elapsed % fpsInterval);
-
-        //draw stuff
-        renderNewFrame( )
-
-        let sinceStart = now-startTime;
-        currentFps = Math.round(1000 / (sinceStart / ++frameCount) * 100) / 100
-        timeString = msToTime(Math.round(sinceStart - pauseBuffers.reduce((buffer, reduce) => buffer+reduce)));
-        lastRunTime = performance.now()
-        window.updateStatsGameInfo && window.updateStatsGameInfo(getStats());
-        window.updateExtraStats && window.updateExtraStats(getStats());
-        window.updateDashboard && window.updateDashboard(getStats());
+    
+    for(let i = 0; i < (Math.floor(60/currentFps)) ; i++){
+      renderNewFrame();
+      //this works compared to having a delta time multiplier. But I am noticing camera stuttering at low fps (<20)
     }
 
-    return;
+
+    let accumulatedTime = now - startTime - pauseBuffers.reduce((buffer, reduce) => buffer + reduce);
+    currentFps = Math.round(1000 / (accumulatedTime / ++frameCount) * 100) / 100;
+    timeString = msToTime(Math.round(accumulatedTime));
+    lastRunTime = performance.now();
+
+    if (window.updateStatsGameInfo) {
+      window.updateStatsGameInfo(getStats());
+    }
+    if (window.updateExtraStats) {
+      window.updateExtraStats(getStats());
+    }
+    if (window.updateDashboard) {
+      window.updateDashboard(getStats());
+    }
   }
 }
 
@@ -627,6 +634,7 @@ document.addEventListener("keyup", (e) => {
 export {
   generateMap,
   getTargetFps,
+  getPlayerCarObject,
   getReqAnim,
   getTilePixelCount,
   getTimeString,
