@@ -6,12 +6,14 @@
   overflow: hidden;
   position:relative;
   transition: scale 150ms;
-  z-index:-1;
+
 }
 
 .camera-shake-container{
+  position:relative;
   transform: translate3d(0px, 0px, 0px);
   transition: transform 200ms;
+  z-index:-2;
 }
 
 .map {
