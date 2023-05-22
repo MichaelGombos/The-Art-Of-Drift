@@ -10,7 +10,7 @@ import { auth } from "../helpers/firebase.js";
 import { colorGhostCar, drawGhostVehicle, drawPlayerVehicle } from "../../game/graphics.js";
 
 
-const FinishNavigation = ({newBest,mapIndex,bestReplayObject}) => {
+const FinishNavigation = ({newBest, mapIndex,bestReplayObject}) => {
 
   const navigate = useNavigate();
   const [inviteCopied, setInviteCopied] = useState(false);
@@ -65,23 +65,28 @@ const FinishNavigation = ({newBest,mapIndex,bestReplayObject}) => {
 
   return(
       <nav className="vertical-navigation-menu col-6 align-center gap-md">
+            <Button 
+            style="primary"
+            
+            clickHandler={() => {
+
+              resetGame();
+              navigate("/hidden")
+            }}>Race Again</Button>  
             {getInSpectateMode() ? 
             <Button clickHandler={() => {
               resetGame(true);
               navigate("/hidden");
             }}>Watch Again</Button>
           : 
-          <Button style={inviteCopied ? "disabled" : "primary"} className = {inviteCopied ? "disabled" : ""}clickHandler={() => {
+          <Button style={inviteCopied ? "disabled" : "light"} className = {inviteCopied ? "disabled" : ""}clickHandler={() => {
             copyToClipboard(`http://www.theartofdrift.com/invited?racer=${auth.currentUser.uid}&map=${mapIndex}`).then(setAndResetInviteCopied());
           }}>{inviteCopied ? "Copied!" : "Copy Invite Link"}</Button>}
 
           <Button className = {replayCopied ? "disabled" : ""}clickHandler={() => {
             copyToClipboard(packageReplay(getReplayObject())).then(setReplayCopied(true)).then(setAndResetReplayCopied());
           }}>{replayCopied ? "Copied!" : "Copy Replay Object"}</Button>
-            <Button clickHandler={() => {
-              resetGame();
-              navigate("/hidden")
-            }}>Race Again</Button>  
+
             {newBest ? 
             <Button clickHandler = {()=> {
               racePB(mapIndex,bestReplayObject);

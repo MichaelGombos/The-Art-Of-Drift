@@ -53,19 +53,24 @@ const Finish = () => {
   const [replayObject, setReplayObject] = useState({big:"chungus"})
 
   const mapIndex = getGameMapIndex();
-  let oldPB;
+  const [oldPB,setOldPB] = useState("unset");
+  const [playerTime,setPlayerTime] = useState("unset");
   useMemo(async() => {
-      oldPB = await getCurrentAuthReplay(mapIndex)
-      newBest = checkBest(setReplayObject, mapIndex, oldPB);
-      playerTime = getTimeString();
-      spectateTime = getSpectateTime();
+      getCurrentAuthReplay(mapIndex).then(oldBest => {
+        setOldPB(oldBest.time);
+
+
+        newBest = checkBest(setReplayObject, mapIndex, oldBest.time);
+        setPlayerTime(getReplayFinishTime());
+        spectateTime = getSpectateTime();
+      })
   }, [])
   return (
     <div className="vertical-navigation-menu opaque-background">
       <div className="vertical-navigation-menu menu-container" >
         <div className="vertical-navigation-menu finish-menu col-2 align-center  gap-md">
           <FinishHeader replayObject={replayObject} spectateTime = {spectateTime} playerTime = {playerTime} newBest={newBest} mapIndex={mapIndex} oldPB={oldPB}/>
-          <FinishNavigation newBest={newBest} mapIndex={mapIndex} bestReplayObject = {replayObject}/>
+          <FinishNavigation newBest={newBest} mapIndex={mapIndex} bestReplayObject = {replayObject} playerTime = {playerTime}/>
         </div>
       </div>
     </div>
