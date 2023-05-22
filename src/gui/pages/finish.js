@@ -1,9 +1,9 @@
 import React, { useMemo , useState} from 'react';
-import {  getTimeString, getGameMapIndex, getReplayArray,  getInSpectateMode, getSpectateTime, getReplayObject, getReplayFinishTime } from '../../game/game.js';
+import {  getTimeString, getGameMapIndex, getReplayArray,  getInSpectateMode, getSpectateTime, getReplayObject, getReplayFinishTime, getReplayFinishSeconds } from '../../game/game.js';
 
 import FinishHeader from '../components/finish-header.js';
 import FinishNavigation from '../components/finish-navigation.js';
-import { addReplay, getCurrentAuthProfile, getCurrentAuthReplay, getDatabaseTime } from '../helpers/databaseFacade.js';
+import { addReplay, addToMapHistory, getCurrentAuthProfile, getCurrentAuthReplay, getDatabaseTime, getMapHistory } from '../helpers/databaseFacade.js';
 
 
 
@@ -13,11 +13,14 @@ let spectateTime;
 
 const sendTime = async(mapIndex,replayObject) => {
   addReplay(mapIndex,replayObject)
-
+  console.log("map History", getMapHistory())
 }
 
 const checkBest = (setter, index, oldPB) => {
   const finishTime = getReplayFinishTime();
+  const finishSeconds = getReplayFinishSeconds();
+
+
   if(!getInSpectateMode() && finishTime < oldPB || !oldPB){
     //post to localStorage and to Database
     const gameReplayObject = getReplayObject();
@@ -41,7 +44,14 @@ const checkBest = (setter, index, oldPB) => {
 
 
 
+
     return true;
+  }
+  else if(!getInSpectateMode()){
+    const historyDate = new Date;
+    addToMapHistory(index,{time : finishTime, timeSeconds: finishSeconds, createdAt:`${historyDate.getMonth()}/${historyDate.getDay()}/${historyDate.getFullYear()}-${historyDate.getHours()}:${historyDate.getMinutes()}`}) //database time not yet supported in arrays.
+    console.log("databasetime", getDatabaseTime()) 
+    return false;
   }
   else{
     return false;
@@ -53,14 +63,14 @@ const Finish = () => {
   const [replayObject, setReplayObject] = useState({big:"chungus"})
 
   const mapIndex = getGameMapIndex();
-  const [oldPB,setOldPB] = useState("unset");
+  const [oldPB,setOldPB] = useState("00:00:00:00");
   const [playerTime,setPlayerTime] = useState("unset");
   useMemo(async() => {
       getCurrentAuthReplay(mapIndex).then(oldBest => {
-        setOldPB(oldBest.time);
+       setOldPB(oldBest ? oldBest.time : oldPB);
 
 
-        newBest = checkBest(setReplayObject, mapIndex, oldBest.time);
+        newBest = checkBest(setReplayObject, mapIndex, oldBest ? oldBest.time : oldPB);
         setPlayerTime(getReplayFinishTime());
         spectateTime = getSpectateTime();
       })

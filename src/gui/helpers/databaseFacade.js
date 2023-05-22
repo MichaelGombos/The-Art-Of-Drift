@@ -329,6 +329,48 @@ export const deleteProfileUID = async(UID) => {
   window.setAsyncLoader(false)
 }
 
+//-------------- DB - PROGRESSIon
+export const getMapHistory = async( mapID) => {
+  window.setAsyncLoader(true)
+
+  const id = auth.currentUser.uid;
+  const docRef = doc(db, `users/${id}/runs`, `map${mapID}`)
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    window.setAsyncLoader(false)
+    return docSnap.data();
+  } else {
+    // doc.data() will be undefined in this case
+    console.log("map history!");
+    window.setAsyncLoader(false)
+  }
+}
+
+export const addToMapHistory = async(mapID,replayInfo) => {
+  window.setAsyncLoader(true)
+  try {
+    const id = auth.currentUser.uid;
+    getMapHistory(mapID).then(history => {
+      console.log("this is history..." , history)
+    setDoc(doc(db, `users/${id}/runs`, `map${mapID}`), history == undefined  ? {runsSubObject : [{
+      "date": replayInfo.createdAt,
+      "timeSeconds": replayInfo.timeSeconds,
+      "time": replayInfo.time
+    }]} : {runsSubObject : history.runsSubObject.concat({
+      "date": replayInfo.createdAt,
+      "timeSeconds": replayInfo.timeSeconds,
+      "time": replayInfo.time
+    })});
+
+    window.addResultMessage(false,`replay added to map history`)
+    window.setAsyncLoader(false)
+    })
+  } catch (e) {
+    console.error("unable to add replay ", e);
+    window.addResultMessage(true,`unable to add to map history`)
+    window.setAsyncLoader(false)
+  }
+}
 
 //--------------DB-LEADERBOARD
 
@@ -345,6 +387,7 @@ export const addReplay = async(mapID,replayInfo) => {
     window.setAsyncLoader(false)
   }
 }
+
 
 export const addUIDReplay = async(UID, mapID,replayInfo) => {
   window.setAsyncLoader(true)

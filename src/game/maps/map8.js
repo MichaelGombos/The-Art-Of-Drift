@@ -1,6 +1,6 @@
 export default 
 
-{ "spawnAngle" : 270 , "lapCount" : 10 , "data" : [
+{ "spawnAngle" : 270 , "lapCount" : 2 , "data" : [
   ["135t2","3t10","162t2"],
   ["135t2","3t10","162t2"],
   ["135t2","3t10","162t2"],

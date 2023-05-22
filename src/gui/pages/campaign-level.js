@@ -47,6 +47,7 @@ const CampaignLevel = () => {
               mapIndex={mapIndex}
               difficulty={"easy"}
               isGhostEnabled={false}>race solo</RaceLocalButton>
+              <Button clickHandler={() => navigate(`/campaign/progression/${mapIndex}`)}>Progression</Button>
               <Button clickHandler={() => navigate(`/leaderboards/campaign/${mapIndex}`)}>Leaderboard</Button>
               <Button clickHandler={() => navigate(`/campaign`)}>Back</Button>
             </div>

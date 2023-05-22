@@ -95,6 +95,7 @@ import AudioControl from "./components/audio-control.js"
 import MusicSource from "./components/MusicSource.js"
 import TestNested from "./pages/test_nested.js"
 import RotateDevice from "./pages/rotate-device.js"
+import Progression from "./pages/progression.js"
 
 const Menu = () => {
   let isDeviceValid = true;
@@ -223,6 +224,7 @@ const Menu = () => {
       <Route  path="/profile/guest/upgrade/email" element={<ProfileUpgrade type="email" user = {user} loading = {loading} error = {error}/>}/>
       <Route  path="/campaign" element={<Campaign/>} />
       <Route  path="/campaign/:mapIndex" element={<CampaignLevel/>} />
+      <Route  path="/campaign/progression/:id" element={<Progression/>} />
       <Route  path="/community-maps" element={<CommunityMaps/>} />    
       <Route  path="/community-maps/create" element={<MapMaker 
       mode='create'

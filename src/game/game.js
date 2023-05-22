@@ -71,6 +71,8 @@ let isPaused = true;
 let inSpectateMode;
 let spectateTime;
 let replayFinishTime;
+let replayFinishSeconds;
+let accumulatedTime;
 
 
 let frameCount = 0;
@@ -132,6 +134,8 @@ const getDirectionalCamera = () => {return isDirectionalCameraOn}
 const getTimeString = () => {return timeString}
 
 const getReplayFinishTime = () => {return replayFinishTime};
+
+const getReplayFinishSeconds = () => {return replayFinishSeconds}
 
 const getTilePixelCount = () => {return tilePixelCount}
 
@@ -283,6 +287,7 @@ const checkGameOver = (currentLap) => {
       car.setEngineLock(true); //disbales acceleration
       ghostCar.setEngineLock(true); //disbales acceleration
       replayFinishTime = timeString;
+      replayFinishSeconds = accumulatedTime;
       generateRaceFinishSound();
 
       window.updateGameOver(true)
@@ -582,7 +587,7 @@ const step = (newtime) => {
     }
 
 
-    let accumulatedTime = now - startTime - pauseBuffers.reduce((buffer, reduce) => buffer + reduce);
+    accumulatedTime = now - startTime - pauseBuffers.reduce((buffer, reduce) => buffer + reduce);
     currentFps = Math.round(1000 / (accumulatedTime / ++frameCount) * 100) / 100;
     timeString = msToTime(Math.round(accumulatedTime));
     lastRunTime = performance.now();
@@ -666,5 +671,6 @@ export {
   setMapData,
   setSpectateTime,
   setDirectionalCamera,
-  getReplayFinishTime
+  getReplayFinishTime,
+  getReplayFinishSeconds
 }

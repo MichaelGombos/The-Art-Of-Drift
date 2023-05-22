@@ -456,11 +456,15 @@ button{
   position: absolute;
   bottom:16px;
   display: flex;
-  flex-direction: row;
+  flex-direction: row-reverse;
+  align-items: center;
   justify-content: space-evenly;
   width: 100%;
 }
-
+.hidden-menu_controls .drive-controls{
+  display:flex;
+  flex-direction: column-reverse;
+}
 .hidden-menu_controls button{
   width:100px;
   height:100px;
