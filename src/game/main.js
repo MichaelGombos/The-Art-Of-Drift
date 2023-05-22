@@ -3,7 +3,8 @@ import {
     getReqAnim,
     step,
     resetCarValues,
-    renderFirstFrame
+    renderFirstFrame,
+    getPlayerCarObject
 } from "./game.js"
 
 import{
@@ -33,6 +34,7 @@ const startGame = () => {
     clearParticles();
     resetCarValues();
     renderFirstFrame();
+    unPauseGame();
 }
 
 const getGameOn = () => {
@@ -57,8 +59,10 @@ const pauseGame = () => {
 }
 
 const getRunning = () => {
-    return running}
+    return running
+}
 
+Window.getRunning = getRunning
 
 
 export {
