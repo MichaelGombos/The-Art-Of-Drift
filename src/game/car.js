@@ -89,8 +89,7 @@ const createCar = (isGhost) => {
     const getDt = () => {return dt}
     const getMaxSpeed = () => {return maxSpeed}
     //setters 
-    const setDt = (value) => {dt = value * 16.67 * 2
-    console.log("THIS IS DT!!", dt)}
+    const setDt = (value) => {dt = value * 16.67 * 2}
     const setAutoDrive = (newDrive) => {autoDrive = newDrive}
     const setStats = (stats) => {
         x = Number(stats[0]);

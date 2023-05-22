@@ -343,6 +343,9 @@ const getParticleLimit = () => {
 let app 
 const createParticleLayer = (width,height) => {
   particleLayer.innerHTML = ''
+  if(app) {
+    app.destroy();
+  }
   app = new Application({ width: width, height: height , backgroundAlpha: 0  });
   particleLayer.appendChild(app.view) 
 }
