@@ -92,129 +92,129 @@ const menuMusicLoop = new Howl ({
   src: [menuMusic],
   loop:true,
   volume:0,
+  preload:false
 })
 
-menuMusicLoop.play();
 
 const creditsMusicLoop = new Howl ({
   src: [creditsMusic],
   loop:true,
   volume:0,
+  preload:false
 })
 
-creditsMusicLoop.play();
 
 const pauseMusicLoop = new Howl ({
   src: [pauseMusic],
   loop:true,
   volume:0,
+  preload:false
 })
 
-pauseMusicLoop.play();
 
 const race1Loop = new Howl ({
   src: [race1],
   loop:true,
   volume:0,
+  preload:false
 })
 
-race1Loop.play();
 
 const race2Loop = new Howl ({
   src: [race2],
   loop:true,
   volume:0,
+  preload:false
 })
 
-race2Loop.play();
 
 const race3Loop = new Howl ({
   src: [race3],
   loop:true,
   volume:0,
+  preload:false
 })
 
-race3Loop.play();
 
 const race4Loop = new Howl ({
   src: [race4],
   loop:true,
   volume:0,
+  preload:false
 })
 
-race4Loop.play();
 
 const race5Loop = new Howl ({
   src: [race5],
   loop:true,
   volume:0,
+  preload:false
 })
 
-race5Loop.play();
 
 const race6Loop = new Howl ({
   src: [race6],
   loop:true,
   volume:0,
+  preload:false
 })
 
-race6Loop.play();
 
 const race7Loop = new Howl ({
   src: [race7],
   loop:true,
   volume:0,
+  preload:false
 })
 
-race7Loop.play();
 
 const race8Loop = new Howl ({
   src: [race8],
   loop:true,
   volume:0,
+  preload:false
 })
 
-race8Loop.play();
 
 const race9Loop = new Howl ({
   src: [race9],
   loop:true,
   volume:0,
+  preload:false
 })
 
-race9Loop.play();
 
 const race10Loop = new Howl ({
   src: [race10],
   loop:true,
   volume:0,
+  preload:false
 })
 
-race10Loop.play();
 
 const race11Loop = new Howl ({
   src: [race11],
   loop:true,
   volume:0,
+  preload:false
 })
 
-race11Loop.play();
 
 const race12Loop = new Howl ({
   src: [race12],
   loop:true,
   volume:0,
+  preload:false
 })
 
-race12Loop.play();
 
 const race13Loop = new Howl ({
   src: [race13],
   loop:true,
   volume:0,
+  preload:false
 })
 
-race13Loop.play();
 
 const trackIDtoLoopMap = {
   "pause" : pauseMusicLoop,
@@ -328,6 +328,9 @@ export const transitionMusic = (trackIDToEnable, restart) => {
     if(restart){
       trackIDtoLoopMap[trackIDToEnable].seek(0)
     }
+
+    trackIDtoLoopMap[trackIDToEnable].load()
+    trackIDtoLoopMap[trackIDToEnable].play();
     trackIDtoLoopMap[trackIDToEnable].fade(0,.2 * musicMultiplier , 2000)
     currentRunningTrack = trackIDToEnable;
 

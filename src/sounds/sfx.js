@@ -121,19 +121,22 @@ const checkBoxClickSound = new Howl ({
   sprite : {
     'turning-on' : [2000, 200],
     'turning-off' : [4000,300]
-  }
+  },
+  preload:false
 })
 
 const errorClickSound = new Howl ({
   src: [errorClick],
   loop:false,
   volume:2,
+  preload:false
 })
 
 const pauseOpenSound = new Howl ({
   src: [pauseOpen],
   loop:false,
   volume:2,
+  preload:false
 })
 
 const mouseClickSound = new Howl ({
@@ -142,25 +145,29 @@ const mouseClickSound = new Howl ({
   volume:2,
   sprite: {
     main: [200, 1000]
-  }
+  },
+  preload:false
 })
 
 const mouseHoverSound = new Howl ({
   src: [mouseHover],
   loop:false,
   volume:2,
+  preload:false
 })
 
 const raceFinishSound = new Howl ({
   src: [raceFinish],
   loop:false,
   volume:.5,
+  preload:false
 })
 
 const lapIncreaseSound = new Howl ({
   src: [lapIncrease],
   loop:false,
   volume:1,
+  preload:false
 })
 
 const countdownSound = new Howl({
@@ -172,7 +179,8 @@ const countdownSound = new Howl({
     1 : [500, 500 ],
     2 : [1160, 600],
     3 : [1800, 800]
-  }
+  },
+  preload:false
 })
 
 const collisionWallSound = new Howl({
@@ -181,19 +189,22 @@ const collisionWallSound = new Howl({
   volume: 1,
   sprite: {
     main : [400,5000]
-  }
+  },
+  preload:false
 })
 
 const collisionBounceSound = new Howl({
   src: [collisionBounce] ,
   loop: false,
-  volume: 1
+  volume: 1,
+  preload:false
 })
 
 const maxSpeedSound = new Howl({
   src: [maxSpeed],
   loop:false,
-  volume:.5
+  volume:.5,
+  preload:false
 })
 
 const dirtDriveLoop = new Howl({
@@ -295,24 +306,29 @@ let currentDrivingDirtVolume = 0;
 let currentSkiddingVolume = 0;
 export const generateCollisionSound = (isWall) => {
   if(isWall){
+    collisionWallSound.load();
     collisionWallSound.play("main");
     collisionWallSound.volume(.2 * SFXMultiplier)
   }
   else{
+    collisionBounceSound.load();
     collisionBounceSound.play();
     collisionBounceSound.volume(.2 * SFXMultiplier)
   }
 }
 
 export const generateCountdownSound = (index) => {
+  countdownSound.load(String(index))
   countdownSound.play(String(index));
   countdownSound.volume(.2 * SFXMultiplier)
 }
 export const generateRaceFinishSound = () => {
+  raceFinishSound.load();
   raceFinishSound.play();
   raceFinishSound.volume(.2 * SFXMultiplier)
 }
 export const generateLapIncreaseSound = () => {
+  lapIncreaseSound.load();
   lapIncreaseSound.play();
   lapIncreaseSound.volume(.2 * SFXMultiplier)
 }
@@ -324,6 +340,7 @@ export const generateFrameSounds = (speed, x,y ,driftForce, onDirt,angle) => {
   if(speed > 9){
     if(!isAtMaxSpeed){
       isAtMaxSpeed = true;
+      maxSpeedSound.load() 
       maxSpeedSound.play() // will eventually have limiter so this isn't spammed..
       maxSpeedSound.volume(.2 * SFXMultiplier)
       //make max speed sound
@@ -379,26 +396,31 @@ export const generateFrameSounds = (speed, x,y ,driftForce, onDirt,angle) => {
 //gui
 
 export const generateMouseHoverSound = () => {
+  mouseHoverSound.load();
   mouseHoverSound.play();
   mouseHoverSound.volume(.2 * SFXMultiplier)
 }
 
 export const generateMouseClickSound = () => {
+  mouseClickSound.load("main") 
   mouseClickSound.play("main") //main
   mouseClickSound.volume(.2 * SFXMultiplier)
 }
 
 export const generatePauseSound = () => {
+  pauseOpenSound.load();
   pauseOpenSound.play();
   pauseOpenSound.volume(.2 * SFXMultiplier)
 }
 
 export const generateErrorClickSound = () => {
+  errorClickSound.load()
   errorClickSound.play()
   errorClickSound.volume(.2 * SFXMultiplier)
 }
 
 export const generateCheckBoxClickSound = (isChecked) => {
+  checkBoxClickSound.load(!isChecked ? "turning-on" : "turning-off")
   checkBoxClickSound.play(!isChecked ? "turning-on" : "turning-off")
   checkBoxClickSound.volume(.2 * SFXMultiplier)
 }
