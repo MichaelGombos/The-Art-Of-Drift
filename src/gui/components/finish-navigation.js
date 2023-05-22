@@ -82,11 +82,15 @@ const FinishNavigation = ({newBest,mapIndex,bestReplayObject}) => {
               resetGame();
               navigate("/hidden")
             }}>Race Again</Button>  
-            {newBest && 
+            {newBest ? 
             <Button clickHandler = {()=> {
               racePB(mapIndex,bestReplayObject);
-              }}>Race New Best</Button>
+              }}>Race New Best</Button> :  <Button clickHandler = {()=> {
+                racePB(mapIndex,bestReplayObject);
+                }}>Race Best</Button> 
             }
+
+
           {
             getGameMapIndex() ?
             <Button clickHandler={() => {

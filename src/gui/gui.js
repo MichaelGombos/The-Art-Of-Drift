@@ -392,6 +392,7 @@ class GUI extends Component {
   }
 
   responsiveNavigation = (staticDirection, isVertical , textByPass = false) => {
+    console.log("THE WHOLE TREE", this.documentTree)
     //input navigation
     let direction = staticDirection;
     if(this.currentNode.navType == "range" && !isVertical){
