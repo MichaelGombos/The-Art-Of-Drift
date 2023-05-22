@@ -14,7 +14,13 @@ const ExitSettingsButton = ({
   setNewDirectionalCamera, 
   newDirectionalCamera,
   newIntensityMultiplier, 
-  newSmoothnessMultipler 
+  newSmoothnessMultipler ,
+  newShowFPS        , 
+  setShowFPS        ,
+  newShowExtraStats ,
+  setShowExtraStats ,
+  newShowDashboard  ,
+  setShowDashboard  
 }) => {
   const navigate = useNavigate();
 
@@ -32,6 +38,15 @@ const ExitSettingsButton = ({
           localStorage.setItem("intensityMultiplier", newIntensityMultiplier / 100)
           setSmoothnessMultiplier(newSmoothnessMultipler * 2)
           localStorage.setItem("smoothnessMultiplier", newSmoothnessMultipler * 2)
+
+          setShowFPS(newShowFPS)
+          localStorage.setItem("showFPS",newShowFPS)
+          setShowExtraStats(newShowExtraStats)
+          localStorage.setItem("showExtraStats",newShowExtraStats)
+          setShowDashboard(newShowDashboard)
+          localStorage.setItem("showDashboard",newShowDashboard)
+          
+
         }}>Save and exit</Button>
       )
     }

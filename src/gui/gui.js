@@ -99,9 +99,9 @@ const Menu = () => {
   
   const [user, loading, error] = useIdToken(auth);
   const [previousType,setPreviousType] = useState('title')
-  const [showFPS,setShowFPS] = useState(true);
-  const [showExtraStats,setShowExtraStats] = useState(true);
-  const [showDashboard,setShowDashboard] = useState(true);
+  const [showFPS,setShowFPS] = useState(localStorage.getItem("showFPS") ? JSON.parse(localStorage.getItem("showFPS")) : true);
+  const [showExtraStats,setShowExtraStats] = useState(localStorage.getItem("showExtraStats") ? JSON.parse(localStorage.getItem("showExtraStats")) : true);
+  const [showDashboard,setShowDashboard] = useState(localStorage.getItem("showDashboard") ? JSON.parse(localStorage.getItem("showDashboard")) : true);
   const [showAuthStatus,setShowAuthStatus] = useState(false);
   const [showAudioControl, setShowAudioControl] = useState(false);
   const [isGuestSession,setIsGuestSession] = useState(false);

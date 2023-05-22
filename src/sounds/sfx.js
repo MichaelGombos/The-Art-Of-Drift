@@ -72,7 +72,9 @@ import checkBoxClick from "./sfx/checkbox.wav"
 import "../sounds/music.js"
 import { getRunning } from '../game/main';
 
-let SFXMultiplier = localStorage.getItem("SFXMultipler") ? localStorage.getItem("SFXMultipler")  :  1;
+let SFXMultiplier = localStorage.getItem("SFXMultiplier") > 0 ? JSON.parse(localStorage.getItem("SFXMultiplier")) / 100  :  1;
+
+
 let unMutedSFXMultiplier = 0;
 
 let currentEngineIndex = 0;

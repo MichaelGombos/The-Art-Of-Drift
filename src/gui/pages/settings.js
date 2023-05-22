@@ -30,6 +30,10 @@ const Settings = ({
   const navigate = useNavigate();
 
   const particleLimitSlider = useRef(null)
+  let [newShowFPS, setNewShowFPS] = useState(showFPS)
+  let [newShowExtraStats,setNewShowExtraStats] = useState(showExtraStats)
+  let [newShowDashboard,setNewShowDashboard] = useState(showDashboard)
+
   let [newEnableGhost, setNewEnableGhost] = useState(getEnableGhost());
   let [newSfxSound, setNewSfxSound] = useState((getSFXMultiplier() * 100).toFixed(2));
   let [newMusicSound, setNewMusicSound] = useState((getMusicMultipler() * 100).toFixed(2));
@@ -121,22 +125,22 @@ const Settings = ({
               </InputToggle>
 
               <InputToggle 
-              newValue={showExtraStats} 
-              setter={setShowExtraStats}
+              newValue={newShowExtraStats} 
+              setter={setNewShowExtraStats}
               >
                 Show Extra Stats
               </InputToggle>
 
               <InputToggle 
-              newValue={showFPS} 
-              setter={setShowFPS}
+              newValue={newShowFPS} 
+              setter={setNewShowFPS}
               >
                 Show FPS
               </InputToggle>
 
               <InputToggle 
-              newValue={showDashboard} 
-              setter={setShowDashboard}
+              newValue={newShowDashboard} 
+              setter={setNewShowDashboard}
               >
                 Show dashboard
               </InputToggle>
@@ -160,6 +164,12 @@ const Settings = ({
             newDirectionalCamera={newDirectionalCamera}
             newIntensityMultiplier = {newIntensityMultiplier}
             newSmoothnessMultipler = {newSmoothnessMultipler}
+            newShowFPS           = {newShowFPS            }  
+            setShowFPS        = {setShowFPS         }  
+            newShowExtraStats    = {newShowExtraStats     }  
+            setShowExtraStats = {setShowExtraStats  }  
+            newShowDashboard     = {newShowDashboard      }    
+            setShowDashboard  = {setShowDashboard   }    
             />
           </div>
         </div>
