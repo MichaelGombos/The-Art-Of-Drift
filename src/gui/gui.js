@@ -305,7 +305,7 @@ class GUI extends Component {
       this.gamePadInputs = getGamePadHeldDirections();
       
       //needs a limit for the amount of the same input we will allow at once.
-      if(checkForCommonItem(this.gamePadInputs, this.navigationInputTypeMap.navigation)  && this.inputTick > 15){
+      if(checkForCommonItem(this.gamePadInputs, this.navigationInputTypeMap.navigation)  && this.inputTick > 12){
         if(this.gamePadInputs.includes("nav-positive-vertical")){
           this.responsiveNavigation(-1, true)
         }
@@ -428,6 +428,8 @@ class GUI extends Component {
         this.navLocation = tempNewLocation;
         // console.log("current tile (direct move)", this.navLocation)
         this.currentNode = findObjectWithLocation([],this.navLocation,this.documentTree)
+
+        document.activeElement.blur()
         this.currentNode.element.focus()
         generateMouseHoverSound();
         return;

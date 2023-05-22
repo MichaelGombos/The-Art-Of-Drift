@@ -60,6 +60,10 @@ a, a:focus, a:hover{
   color: white;
 }
 
+*:focus{
+  outline: 2px solid var(--secondary-500);
+}
+
 
 
 /* utility classes */
