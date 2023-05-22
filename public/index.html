@@ -85,11 +85,13 @@
    </script>
 
    <script type="module">
+      let loaded = false;
       function fadeOutEffect() {
       var zoomTarget = document.querySelector(".menu-container");
       var fadeTarget = document.querySelector(".loader");
       var fadeEffect =  setInterval(function () {
-         if (!fadeTarget.style.opacity) {
+         if(fadeTarget){
+            if (!fadeTarget.style.opacity) {
                fadeTarget.style.opacity = 1;
          }
          if (fadeTarget.style.opacity > 0) {
@@ -98,10 +100,18 @@
                clearInterval(fadeEffect);
                fadeTarget.remove();
          }
+         }
+
       zoomTarget.classList.add("zoom-in");
       }, 50)
       }
-      
+
+      Window.setProfileLoaded = () => {
+         if(loaded == false){
+         setTimeout( fadeOutEffect, 200)
+         loaded = true;
+         }
+      }
       window.addEventListener("load", () => { setTimeout(
       fadeOutEffect, 200)}); 
 

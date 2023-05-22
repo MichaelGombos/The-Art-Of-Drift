@@ -39,7 +39,7 @@ const AuthStatus = ({isGuestSession, isShown, user, loading, error}) => {
       setProfileImageUrl(avatarGraphicURLs[profile.avatarId])
       setVehicleImageUrl(vehicleMidGraphicURLs[profile.vehicleID])
       window.setAsyncLoader(false)
-
+      Window.setProfileLoaded()
       })
     }
     else{
