@@ -346,7 +346,7 @@ const createParticleLayer = (width,height) => {
   if(app) {
     app.destroy();
   }
-  app = new Application({ width: width, height: height , backgroundAlpha: 0  });
+  app = new Application({ width: width * 4, height: height * 4 , backgroundAlpha: 0  }); //magic
   particleLayer.appendChild(app.view) 
 }
 
@@ -569,8 +569,8 @@ const addParticle = (type = "road_dust", scaleMultiplier, carX= 69,carY = 69, dr
      + spriteDetailsMap[type].angleOffset
       + ( Math.floor(Math.random() * spriteDetailsMap[type].angleVariance) - spriteDetailsMap[type].angleVariance/2);
     newParticle.alpha = opacityMultiplier !== null ? opacityMultiplier.toFixed(1) : spriteDetailsMap[type].alpha;
-    newParticle.x = carX / 2;
-    newParticle.y = carY / 2;
+    newParticle.x = carX * 2; //magic number for particlelayer widthMultiplier / pixel size
+    newParticle.y = carY * 2;
     newParticle.anchor.set(spriteDetailsMap[type].anchor[0],spriteDetailsMap[type].anchor[1])
     newParticle.width = 128;
     newParticle.height = 128;

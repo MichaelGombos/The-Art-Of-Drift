@@ -210,7 +210,7 @@ const resetCarValues = () => {
   ghostCar.resetValues(inSpectateMode);
 
   createParticleLayer(getMapDataDimensions().width, getMapDataDimensions().height)
-
+  console.log("PARTICLE LAYER DIMENSIONS", getMapDataDimensions().width, getMapDataDimensions().height)
   updateCarSpawnPosition();
   ghostStep = 0;
   milliseconds = 0;
@@ -515,8 +515,8 @@ const placeCharacter = () => {
       car.setY(bottomLimit);
       car.reduceSpeed()
   }
-  const camera_left = pixelSize * camera.clientWidth/2;
-  const camera_top = pixelSize * camera.clientHeight/2;
+  const camera_left =  camera.clientWidth /2  ; //magic number
+  const camera_top =  camera.clientHeight /2;
 
   map.style.transform = `translate3d( ${-car.getX()*pixelSize+camera_left}px, ${-car.getY()*pixelSize+camera_top}px, 0 )`;
 

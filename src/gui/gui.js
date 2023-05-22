@@ -93,6 +93,7 @@ import Credits from "./pages/credits.js"
 import { getFullKeyboardHeldKeys } from "../game/game.js"
 import AudioControl from "./components/audio-control.js"
 import MusicSource from "./components/MusicSource.js"
+import TestNested from "./pages/test_nested.js"
 
 const Menu = () => {
   let isDeviceValid = true;
@@ -260,6 +261,7 @@ const Menu = () => {
       <Route  path="/test" element={<AccessibleNavigationTest/>}/>
       <Route  path="/dialogue/:id" element={<Dialogue/>}/>
       <Route  path="/credits" element={<Credits/>}/>
+      <Route  path="/test-nested" element={<TestNested/>}/>
       <Route  element={<Navigate to="/"/>}/>
     </Routes>
     
@@ -446,6 +448,8 @@ class GUI extends Component {
       // console.log("closest cousin" , findClosestRelative(this.validActionsList,this.navLocation,direction))
       this.navLocation = findClosestRelative(this.validActionsList,this.navLocation,direction)
     }
+
+
     else{
       // no closes sibling above
     }
