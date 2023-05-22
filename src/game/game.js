@@ -602,7 +602,7 @@ const step = (newtime) => {
 
 //listeners 
 
-document.addEventListener("keydown", (e) => {
+export const handleGameInputDown = (e) => {
   const dir = keyboardToCommandMap[e.code];
   //check if current focus isn't an input
   if(document.activeElement.tagName != "INPUT"){
@@ -616,9 +616,9 @@ document.addEventListener("keydown", (e) => {
   if (dir && held_directions.indexOf(dir) === -1) {
       held_directions.unshift(dir)
   }
-})
+}
 
-document.addEventListener("keyup", (e) => {
+export const handleGameInputUp = (e) => {
   const dir = keyboardToCommandMap[e.code];
   const keyCode = e.code;
   const heldDirectionIndex = held_directions.indexOf(dir);
@@ -629,7 +629,12 @@ document.addEventListener("keyup", (e) => {
   if (fullHeldDirectionIndex > -1) {
     full_keyboard_held_keys.splice(fullHeldDirectionIndex, 1)
 }
-});
+}
+
+document.addEventListener("keydown",handleGameInputDown)
+
+
+document.addEventListener("keyup", handleGameInputUp);
 
 export {
   generateMap,

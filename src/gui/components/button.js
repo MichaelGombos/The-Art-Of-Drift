@@ -60,7 +60,7 @@ const iconMap = {
 }
 
 
-const Button = ({alignStart, clickHandler,type, style, children, icon}) => {
+const Button = ({alignStart, clickHandler,type, style, children, icon,onMouseDown, onMouseUp,onTouchStart, onTouchEnd}) => {
   const buttonRef = useRef(null)
 
   if(!style) style="light";
@@ -73,6 +73,10 @@ const Button = ({alignStart, clickHandler,type, style, children, icon}) => {
       generateMouseClickSound();
       // Window.setNavLocation( Window.getObjectWithElement(buttonRef.current).location);
     }}
+    onMouseDown = {onMouseDown}
+    onMouseUp = {onMouseUp}
+    onTouchStart = {onTouchStart}
+    onTouchEnd = {onTouchEnd}
     onHoverStart = {generateMouseHoverSound}
     whileFocus={style == "disabled" ? {rotate:-1.2}: {scale: 1.05} }
     whileHover={style == "disabled" ? {rotate:-1.2}: {scale: 1.05} }

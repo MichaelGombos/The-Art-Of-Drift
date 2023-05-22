@@ -94,6 +94,7 @@ import { getFullKeyboardHeldKeys } from "../game/game.js"
 import AudioControl from "./components/audio-control.js"
 import MusicSource from "./components/MusicSource.js"
 import TestNested from "./pages/test_nested.js"
+import RotateDevice from "./pages/rotate-device.js"
 
 const Menu = () => {
   let isDeviceValid = true;
@@ -109,6 +110,7 @@ const Menu = () => {
   const [previewMap,setPreviewMap] = useState(
     `{ "spawnAngle" : ${maps[7].spawnAngle} , "lapCount" : ${maps[7].lapCount} , "data" : [${ maps[7].data.map(mapRow => "\n[" + mapRow.map(cell => `"${cell}"`) + "]")}\n] } `
   );
+  const [showMobileControls,setShowMobileControls] = useState(false)
 
   const [locationPathHistory,setLocationPathHistory] = useState([]); //allows back to work on pages.
 
@@ -118,15 +120,21 @@ const Menu = () => {
   window.changeGUIScreen = navigate;
 
   const handleResize = () => {
-    if(window.innerWidth < 788){
+    if(window.innerHeight > window.innerWidth){
       isDeviceValid = false;
-      navigate("/not-supported")
+      navigate("/rotate-device")
     }
     else{
       if(!isDeviceValid){
         isDeviceValid = true;
         navigate(home)
       }
+    }
+
+    if(window.innerHeight < 800 || window.innerWidth < 800){
+      setShowMobileControls(true);
+    }else{
+      setShowMobileControls(false);
     }
   }
 
@@ -249,6 +257,7 @@ const Menu = () => {
       <Route  path="/settings/keybinds" element={<SettingsKeybinds/>}/>
       <Route  path="/countdown" element={<Countdown/>}/>
       <Route  path="/hidden" element={<Hidden  
+      showMobileControls={showMobileControls}
       showFPS={showFPS}
       showExtraStats={showExtraStats}
       showDashboard={showDashboard}
@@ -262,6 +271,7 @@ const Menu = () => {
       <Route  path="/dialogue/:id" element={<Dialogue/>}/>
       <Route  path="/credits" element={<Credits/>}/>
       <Route  path="/test-nested" element={<TestNested/>}/>
+      <Route  path="/rotate-device" element={<RotateDevice/>}/>
       <Route  element={<Navigate to="/"/>}/>
     </Routes>
     
