@@ -23,6 +23,12 @@ const MobileControls = ({showMobileControls}) => {
           onTouchEnd={(() => {
             handleGameInputUp({code: "KeyS" , preventDefault: () => {}})
           })}
+          onMouseDown={(() => {
+            handleGameInputDown({code: "KeyS" , preventDefault: () => {}})
+          })}
+          onMouseUp={(() => {
+            handleGameInputUp({code: "KeyS" , preventDefault: () => {}})
+          })}
           ></IconButton>  
           <IconButton
           iconUrl={arrowUpKey}
@@ -30,6 +36,12 @@ const MobileControls = ({showMobileControls}) => {
             handleGameInputDown({code: "KeyW" , preventDefault: () => {}})
           })}
           onTouchEnd={(() => {
+            handleGameInputUp({code: "KeyW" , preventDefault: () => {}})
+          })}
+          onMouseDown={(() => {
+            handleGameInputDown({code: "KeyW" , preventDefault: () => {}})
+          })}
+          onMouseUp={(() => {
             handleGameInputUp({code: "KeyW" , preventDefault: () => {}})
           })}
           ></IconButton>
@@ -43,6 +55,12 @@ const MobileControls = ({showMobileControls}) => {
             onTouchEnd={(() => {
               handleGameInputUp({code: "KeyA" , preventDefault: () => {}})
             })}
+            onMouseDown={(() => {
+              handleGameInputDown({code: "KeyA" , preventDefault: () => {}})
+            })}
+            onMouseUp={(() => {
+              handleGameInputUp({code: "KeyA" , preventDefault: () => {}})
+            })}
           ></IconButton>  
           <IconButton
             onTouchStart={(() => {
@@ -50,6 +68,12 @@ const MobileControls = ({showMobileControls}) => {
             })}
             iconUrl={arrowRightKey}
             onTouchEnd={(() => {
+              handleGameInputUp({code: "KeyD" , preventDefault: () => {}})
+            })}
+            onMouseDown={(() => {
+              handleGameInputDown({code: "KeyD" , preventDefault: () => {}})
+            })}
+            onMouseUp={(() => {
               handleGameInputUp({code: "KeyD" , preventDefault: () => {}})
             })}
           ></IconButton>

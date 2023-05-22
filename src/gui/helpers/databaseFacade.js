@@ -411,10 +411,11 @@ export const getCurrentAuthReplay = async( mapID) => {
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
     window.setAsyncLoader(false)
+    console.log("INSIDE OF THE CURRENT AUTH REPLAY FUNCTION" , docSnap.data())
     return docSnap.data();
   } else {
     // doc.data() will be undefined in this case
-    console.log("cant get guest amount!");
+    console.log("UNABLE TO RETRIEVE AUTH REPLAY!!!", docSnap, mapID, id);
     window.setAsyncLoader(false)
   }
 }

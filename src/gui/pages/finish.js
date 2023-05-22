@@ -21,8 +21,9 @@ const checkBest = (setter, index, oldPB) => {
   const finishSeconds = getReplayFinishSeconds();
 
 
-  if(!getInSpectateMode() && finishTime < oldPB || !oldPB){
+  if(!getInSpectateMode() && finishTime < oldPB || !oldPB || oldPB == "00:00:00.000"){
     //post to localStorage and to Database
+    //TODO shorten this.
     const gameReplayObject = getReplayObject();
     getCurrentAuthProfile().then((profile) => {
       const replayObject = {
@@ -48,6 +49,24 @@ const checkBest = (setter, index, oldPB) => {
     return true;
   }
   else if(!getInSpectateMode()){
+    const gameReplayObject = getReplayObject();
+    getCurrentAuthProfile().then((profile) => {
+      const replayObject = {
+        time: finishTime,
+        playerName : profile.displayName,
+        replay: {
+          inputs: JSON.stringify(gameReplayObject.inputs),
+          stats: JSON.stringify(gameReplayObject.stats)
+        },
+        playerVehicle: profile.vehicleID,
+        playerAvatar: profile.avatarId,
+        createdAt: getDatabaseTime()
+      }
+      setter(replayObject)
+
+    })
+
+
     const historyDate = new Date;
     addToMapHistory(index,{time : finishTime, timeSeconds: finishSeconds, createdAt:`${historyDate.getMonth()}/${historyDate.getDay()}/${historyDate.getFullYear()}-${historyDate.getHours()}:${historyDate.getMinutes()}`}) //database time not yet supported in arrays.
     console.log("databasetime", getDatabaseTime()) 
@@ -63,18 +82,22 @@ const Finish = () => {
   const [replayObject, setReplayObject] = useState({big:"chungus"})
 
   const mapIndex = getGameMapIndex();
-  const [oldPB,setOldPB] = useState("00:00:00:00");
+  const [oldPB,setOldPB] = useState("00:00:00.000");
   const [playerTime,setPlayerTime] = useState("unset");
-  useMemo(async() => {
-      getCurrentAuthReplay(mapIndex).then(oldBest => {
-       setOldPB(oldBest ? oldBest.time : oldPB);
+  useMemo( () => {
+    getCurrentAuthReplay(mapIndex).then((oldBest) => {
+      console.log("This is the differehcnec, ", oldBest, oldPB, mapIndex)
+      setOldPB(oldBest ? oldBest.time : oldPB);
+
+      newBest = checkBest(setReplayObject, mapIndex, oldBest ? oldBest.time : oldPB);
+      setPlayerTime(getReplayFinishTime());
+      spectateTime = getSpectateTime();
+    })
+  }
+
+  , [])
 
 
-        newBest = checkBest(setReplayObject, mapIndex, oldBest ? oldBest.time : oldPB);
-        setPlayerTime(getReplayFinishTime());
-        spectateTime = getSpectateTime();
-      })
-  }, [])
   return (
     <div className="vertical-navigation-menu opaque-background">
       <div className="vertical-navigation-menu menu-container" >

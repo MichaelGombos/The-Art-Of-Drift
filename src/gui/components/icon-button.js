@@ -8,7 +8,7 @@ const IconButton = ({style, zref ,clickHandler, iconUrl, children, onMouseDown, 
     <motion.button 
     ref={zref}
     onClick = {() => {
-      clickHandler();
+      clickHandler ? clickHandler() : "";
       generateMouseClickSound();
     }}
     className={` ${style == "key-selector" ? "icon-button__selector icon-button" : "icon-button"}`}
