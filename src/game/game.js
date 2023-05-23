@@ -151,6 +151,7 @@ const getStats = () => {
   return {
     fps : currentFps,
     time: timeString,
+    checkPoint: target.getCheckpointLap(),
     lap:  `${target.getLap()}/${maxLaps}`,
     x: target.getX().toFixed(2),
     y: target.getY().toFixed(2),
@@ -205,6 +206,7 @@ const resetCarValues = () => {
   pauseBuffers = [0];
   lastRunTime = performance.now();
   
+  
   frameCount = 0;
   fpsInterval = 1000 / targetFps;
   then = performance.now();
@@ -222,6 +224,8 @@ const resetCarValues = () => {
     inputs: [],
     stats: []
   };
+
+  
 }
 const setMapData = (map,replayJSON) => {
 

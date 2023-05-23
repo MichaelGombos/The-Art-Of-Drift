@@ -22,6 +22,7 @@ const ExtraStats = ({showFPS,showInfo}) => {
         {showInfo ? <>
         <li>X <span id="x">{stats.x}</span></li>
         <li>Y <span id="y">{stats.y}</span></li>
+        <li>CHECKPOINT <span id="under-steer">{stats.checkpoint}</span></li>
         <li>ACCELERATION <span id="under-steer">{stats.acceleration}</span></li>
 
         <li>TILE SPEED <span id="speed">{stats.speed}</span></li>

@@ -61,6 +61,7 @@ const createCar = (isGhost) => {
     const getInSpectateMode = () => {return isSpectating}
     const getMaxLaps = () => {return maxLaps}
     const getLap = () => {return lap}
+    const getCheckpointLap = () => { console.log("checkpoint", checkPointLap) ; return checkPointLap}
     const getAngle = () => {return angle}
     const getDriftForce = () => {return driftForce}
     const getX = () => {return x}
@@ -136,6 +137,7 @@ const createCar = (isGhost) => {
         }
         lap = 0;
         checkPointLap = 0;
+        console.log("just cleared checkpoints..." , checkPointLap)
     }
 
     const reduceSpeed = (multiplier = 1) => { //wall/border
@@ -548,8 +550,8 @@ const createCar = (isGhost) => {
 
         let count = 0;
         let speedSteps = []
-        if(speed > 4){
-            for(let i = speed; i >= 4;  i-=4){
+        if(speed > 2){
+            for(let i = speed; i >= 2;  i-=4){
                 count++;
             }
             for(let c = 1; c <= count; c++){
@@ -780,6 +782,7 @@ const createCar = (isGhost) => {
         getInSpectateMode,
         getMaxLaps,
         getLap,
+        getCheckpointLap,
         getAngle,
         getDriftForce,
         getX,

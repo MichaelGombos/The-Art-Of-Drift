@@ -423,6 +423,17 @@ const MapSizeMenu = ({newMapRows,setNewMapRows,newMapColumns,setNewMapColumns,ma
   )
 }
 
+const ResetmapButton = ({mapMakerCanvasRef}) => {
+  return (
+
+    <Button style="danger" clickHandler={(
+      ()=> {
+        generateCanvasMapColor(mapMakerCanvasRef.current, generateDefaultMapData(rows,columns))
+      }
+    )} >Clear map</Button>
+  )
+}
+
 const MapInfoMenu = ({lapCount,setLapCount,spawnAngle , setSpawnAngle}) => {
   const spawnAngleGraphic = useRef('null')
   const handleSpawnAngleChange = () => {
@@ -619,6 +630,7 @@ const MapMakerMenu = ({
           setNewMapColumns = {setNewMapColumns}
           mapMakerCanvasRef = {mapMakerCanvasRef}
         /> */}
+        <ResetmapButton mapMakerCanvasRef={mapMakerCanvasRef}/>
         <MapInfoMenu
           lapCount = {lapCount}
           setLapCount = {setLapCount}
