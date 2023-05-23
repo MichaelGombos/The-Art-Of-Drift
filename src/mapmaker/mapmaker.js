@@ -112,8 +112,8 @@ let spawnTile =
   element : null
 }
 
-let rows = 150;
-let columns = 150;
+let rows = 1000;
+let columns = 1000;
 
 //functions
 
@@ -612,13 +612,13 @@ const MapMakerMenu = ({
         <ImageOverlayMenu 
         setShowOverlay={setShowOverlay}
         mapMakerCanvasOverlayRef={mapMakerCanvasOverlayRef}/>
-        <MapSizeMenu 
+        {/* <MapSizeMenu 
           newMapRows = {newMapRows}
           setNewMapRows = {setNewMapRows}
           newMapColumns = {newMapColumns}
           setNewMapColumns = {setNewMapColumns}
           mapMakerCanvasRef = {mapMakerCanvasRef}
-        />
+        /> */}
         <MapInfoMenu
           lapCount = {lapCount}
           setLapCount = {setLapCount}
