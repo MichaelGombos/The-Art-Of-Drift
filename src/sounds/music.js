@@ -319,9 +319,17 @@ const trackIDtoSongInformationMap = {
 }
 
 let currentRunningTrack;
+let currentRunningTemp;
 export const transitionMusic = (trackIDToEnable, restart) => {
   
-  currentRunningTrack ? trackIDtoLoopMap[currentRunningTrack].fade(.2 * musicMultiplier,0, 2000) : "" //if not previous track, do nothing
+
+  if(currentRunningTrack){
+    trackIDtoLoopMap[currentRunningTrack].fade(.2 * musicMultiplier,0, 2000)
+    currentRunningTemp = JSON.parse(JSON.stringify(currentRunningTrack))
+    setTimeout( () => {
+      trackIDtoLoopMap[currentRunningTemp].stop()
+    } , 2000)
+  }
 
   if(Object.keys(trackIDtoLoopMap).includes(trackIDToEnable)){
 
