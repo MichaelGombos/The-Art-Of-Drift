@@ -1083,3 +1083,62 @@ input:checked + .switch__inner:before {
   100% {  bottom:-50px;}
 }
 
+/* MOBILE STYLES */
+
+
+#gui-container{
+  zoom:0.4;
+}
+.background{
+  zoom:2.4;
+}
+
+@media only screen and (min-height : 300px){
+  #gui-container{
+    zoom:0.45;
+  }
+  .background{
+    zoom:2.1
+  }
+}
+
+
+@media only screen and (min-height : 350px){
+  #gui-container{
+    zoom:0.5;
+  }
+  .background{
+    zoom:1.9;
+  }
+}
+
+
+@media only screen and (min-height : 400px){
+  #gui-container{
+    zoom:0.6;
+  }
+  .background{
+    zoom:1.6;
+  }
+}
+
+
+@media only screen and (min-height : 500px){
+  #gui-container{
+    zoom:0.7;
+  }
+  .background{
+    zoom:1.4;
+  }
+}
+
+
+@media only screen and (min-height : 650px){
+  #gui-container{
+    zoom:1
+  }
+  .background{
+    zoom:1;
+  }
+}
+
