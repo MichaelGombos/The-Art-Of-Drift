@@ -97,6 +97,25 @@ import TestNested from "./pages/test_nested.js"
 import RotateDevice from "./pages/rotate-device.js"
 import Progression from "./pages/progression.js"
 
+//disable mobile scroll 
+window.addEventListener("scroll", preventMotion, false);
+window.addEventListener("touchmove", preventMotion, false);
+
+function preventMotion(event)
+{
+    window.scrollTo(0, 0);
+    event.preventDefault();
+    event.stopPropagation();
+}
+//disable mobile long tap
+window.oncontextmenu = function(event) {
+  event.preventDefault();
+  event.stopPropagation();
+  return false;
+};
+
+
+
 const Menu = () => {
   let isDeviceValid = true;
   

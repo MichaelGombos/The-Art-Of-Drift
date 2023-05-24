@@ -458,12 +458,16 @@ button{
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
   width: 100%;
+  opacity: 0.5;
 }
 .hidden-menu_controls .drive-controls{
   display:flex;
   flex-direction: column-reverse;
+}
+.drive-controls,.steer-controls{
+  padding:0 50px;
 }
 .hidden-menu_controls button{
   width:100px;
@@ -1092,6 +1096,9 @@ input:checked + .switch__inner:before {
 .background{
   zoom:2.4;
 }
+.hidden-menu_controls{
+  zoom: 3;
+}
 
 @media only screen and (min-height : 300px){
   #gui-container{
@@ -1099,6 +1106,9 @@ input:checked + .switch__inner:before {
   }
   .background{
     zoom:2.1
+  }
+  .hidden-menu_controls{
+    zoom: 2.5;
   }
 }
 
@@ -1134,6 +1144,9 @@ input:checked + .switch__inner:before {
 
 
 @media only screen and (min-height : 650px){
+  .hidden-menu_controls{
+    zoom: 1.5;
+  }
   #gui-container{
     zoom:1
   }
@@ -1141,4 +1154,6 @@ input:checked + .switch__inner:before {
     zoom:1;
   }
 }
+
+
 
