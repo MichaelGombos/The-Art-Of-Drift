@@ -27,11 +27,15 @@ Pages
 */
 
 :root {
+  touch-action: pan-x pan-y;
+  height: 100% ;
+  
   --pixel-size: 2px;
   --tile-pixel-count: 2;
   --grid-cell: calc( var(--pixel-size) * var(--tile-pixel-count));
   --rows: 20;
   --columns: 20;
+
 
 
   --shade-100: #131313;
