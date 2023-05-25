@@ -104,7 +104,21 @@ window.oncontextmenu = function(event) {
   event.stopPropagation();
   return false;
 };
+//disable mobile zoom
+document.addEventListener("gesturestart", function (e) {
+	e.preventDefault();
+    document.body.style.zoom = 0.99;
+});
 
+document.addEventListener("gesturechange", function (e) {
+	e.preventDefault();
+
+  document.body.style.zoom = 0.99;
+});
+document.addEventListener("gestureend", function (e) {
+	  e.preventDefault();
+    document.body.style.zoom = 1;
+});
 
 
 const Menu = () => {
