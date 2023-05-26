@@ -18,7 +18,8 @@ const MainMenuNavigation = () => {
       setGameMapIndex(undefined)
       setMapData(tutorial,{
         inputs:"[]",
-        stats:"[]"
+        stats:"[]",
+        runtimes:"[]"
       });
       resetGame();
       navigate("/hidden")
@@ -30,7 +31,8 @@ const MainMenuNavigation = () => {
       setGameMapIndex(undefined)
       setMapData(freeplay,{
         inputs:"[]",
-        stats:"[]"
+        stats:"[]",
+        runtimes:"[]"
       });
       resetGame();
       navigate("/hidden")
@@ -40,7 +42,8 @@ const MainMenuNavigation = () => {
       setGameMapIndex(undefined)
       setMapData(deltaTimeTest,{
         inputs:"[]",
-        stats:"[]"
+        stats:"[]",
+        runtimes:"[]"
       });
       resetGame();
       navigate("/hidden")

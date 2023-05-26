@@ -28,6 +28,7 @@ import getGamePadHeldDirections from "./gamepad.js"
 import { decompressMapData } from "./map-compression.js"
 import { commandList, commandMap, commandToDirectionMap, controllerCodesMap, keyboardToCommandMap } from "../gui/helpers/controls.js"
 import { generateFrameSounds, generateRaceFinishSound } from "../sounds/sfx.js"
+import { findClosestIndex } from "../gui/helpers/util.js"
 
 
 
@@ -43,15 +44,17 @@ let mapAngle = undefined;
 let mapAutoDrive = undefined;
 let replayExport = {
   inputs : [],
-  stats : ["peanut butter jelly time!"]
+  stats : ["peanut butter jelly time!"],
+  runtimes : []
 }
 
 let mapIndex;
 
 let timeDeltaMultipler = 1; // this value is set to 1 / currentFps * 60 each frame
 
-let targetFps = 60;
+let targetFps = 20;
 let currentFps = 60;
+const fpsInterval60 = 1000 / 60;
 
 const tilePixelCount = parseInt(
   getComputedStyle(document.documentElement).getPropertyValue('--tile-pixel-count')
@@ -62,6 +65,7 @@ let full_keyboard_held_keys = []; //only used in the keybind settings page.
 let ghost_held_directions = []; 
 let ghost_inputs = []
 let ghost_stats = []
+let ghost_runtime = []
 
 let pauseBuffers = [];
 let pauseBuffer = 0;
@@ -222,7 +226,8 @@ const resetCarValues = () => {
   milliseconds = 0;
   replayExport = {
     inputs: [],
-    stats: []
+    stats: [],
+    runtimes: []
   };
 
   
@@ -237,7 +242,8 @@ const setMapData = (map,replayJSON) => {
     map:decompressMapData(map.data),
     replay: {
       inputs: JSON.parse(replayJSON.inputs),
-      stats: JSON.parse(replayJSON.stats)
+      stats: JSON.parse(replayJSON.stats),
+      runtimes: JSON.parse([replayJSON.runtimes])
     }
   };
   generateMap(mapData.map)
@@ -320,11 +326,32 @@ function msToTime(s) {
   return pad(hrs) + ':' + pad(mins) + ':' + pad(secs) + '.' + pad(ms, 3);
 }
 
+
+//TODO 
+/*
+Going to cap the games physics at 60FPS. 
+
+Every placement to request animation frame will come with a runtime.
+
+If you are running 60fps, and watching a 30fps replay, then there is expected to be half the amount of frames. So on each frame, we will compare the current and next frame. If the next frame time is > the current runtime, we will display this frame, if not, we will display the current frame again.
+
+If you are running 30 fps, and watching a 60fps replay, there is expected to be double the amount of frames.
+We need some way to skip frames.
+
+We could have a second function that only handling location the closes replay step index based on an array of runtimes, and our current runtime.
+
+If we call this right before placeCharacter, then we can be sure which ghost step to use each time.
+*/
 const placeGhost = (stepCount) => {
     //ghost_held_directions = mapData.replay.inputs[stepCount]
-    
-    ghost_inputs = mapData.replay.inputs[stepCount];
-    ghost_stats = mapData.replay.stats[stepCount];
+    const closestGhostStepIndex = findClosestIndex(mapData.replay.runtimes, accumulatedTime);
+
+    ghost_inputs = mapData.replay.inputs[closestGhostStepIndex];
+    ghost_stats = mapData.replay.stats[closestGhostStepIndex];
+    ghost_runtime = mapData.replay.runtimes[closestGhostStepIndex];
+
+    console.log("ghost runtime vs accumulated time", closestGhostStepIndex, ghost_runtime, accumulatedTime);
+
     if(inSpectateMode){
       car.setX(ghostCar.getX());
       car.setY(ghostCar.getY());
@@ -479,8 +506,6 @@ const placeCharacter = () => {
   }
 
 
-  replayExport.inputs.push([...held_directions])
-  replayExport.stats.push(car.getStats())
   car.updateAngleLock()
   car.stabalizeDriftForce();
   car.stabalizeAngle()
@@ -539,6 +564,12 @@ const placeCharacter = () => {
 
 }
 
+const pushReplayInformation = () => {
+  replayExport.inputs.push([...held_directions])
+  replayExport.stats.push(car.getStats())
+  replayExport.runtimes.push(accumulatedTime);
+}
+
 const setTargetFps = (target) => { targetFps = target}
 
 const renderFirstFrame = () => {
@@ -561,7 +592,7 @@ const renderNewFrame = () => {
 }
 
 const step = (newtime) => {
-  dt = (newtime - lastRunTime) / 1000
+  dt = (performance.now() - lastRunTime) / 1000
   if (!getRunning()) {
     isPaused = true;
     return;
@@ -577,18 +608,16 @@ const step = (newtime) => {
   reqAnim = window.requestAnimationFrame(step);
 
   now = newtime;
-  lastRunTime = now;
   elapsed = now - then;
 
+  pushReplayInformation();
   if (elapsed > fpsInterval) {
     then = now - (elapsed % fpsInterval);
-
-
-    
-    for(let i = 0; i < (Math.floor(60/currentFps)) ; i++){
-      renderNewFrame();
-      //this works compared to having a delta time multiplier. But I am noticing camera stuttering at low fps (<20)
-    }
+    renderNewFrame();
+    // for(let i = 0; i < (Math.floor(60/currentFps)) ; i++){
+    //   renderNewFrame();
+    //   //this works compared to having a delta time multiplier. But I am noticing camera stuttering at low fps (<20)
+    // }
 
 
     accumulatedTime = now - startTime - pauseBuffers.reduce((buffer, reduce) => buffer + reduce);

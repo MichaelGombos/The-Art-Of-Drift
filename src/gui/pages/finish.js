@@ -31,7 +31,8 @@ const checkBest = (setter, index, oldPB) => {
         playerName : profile.displayName,
         replay: {
           inputs: JSON.stringify(gameReplayObject.inputs),
-          stats: JSON.stringify(gameReplayObject.stats)
+          stats: JSON.stringify(gameReplayObject.stats),
+          runtimes : JSON.stringify(gameReplayObject.runtimes)
         },
         playerVehicle: profile.vehicleID,
         playerAvatar: profile.avatarId,
@@ -56,7 +57,8 @@ const checkBest = (setter, index, oldPB) => {
         playerName : profile.displayName,
         replay: {
           inputs: JSON.stringify(gameReplayObject.inputs),
-          stats: JSON.stringify(gameReplayObject.stats)
+          stats: JSON.stringify(gameReplayObject.stats),
+          runtimes : JSON.stringify(gameReplayObject.runtimes)
         },
         playerVehicle: profile.vehicleID,
         playerAvatar: profile.avatarId,

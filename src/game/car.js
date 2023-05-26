@@ -61,7 +61,7 @@ const createCar = (isGhost) => {
     const getInSpectateMode = () => {return isSpectating}
     const getMaxLaps = () => {return maxLaps}
     const getLap = () => {return lap}
-    const getCheckpointLap = () => { console.log("checkpoint", checkPointLap) ; return checkPointLap}
+    const getCheckpointLap = () => {  return checkPointLap}
     const getAngle = () => {return angle}
     const getDriftForce = () => {return driftForce}
     const getX = () => {return x}
@@ -302,7 +302,7 @@ const createCar = (isGhost) => {
                 gear = 5;
                 tireGrip = 2.2
                 turningSpeed = 6
-                acceleration = .060;
+                acceleration = .060 * dt;
                 break;
 
             case (Math.abs(speed) > 3 * maxSpeed/4):
@@ -312,7 +312,7 @@ const createCar = (isGhost) => {
                 gear = 4;
                 tireGrip = 2.7
                 turningSpeed = 7
-                acceleration = 0.08;
+                acceleration = 0.08 * dt;
                 break;
 
             case (Math.abs(speed) > maxSpeed/2):
@@ -322,7 +322,7 @@ const createCar = (isGhost) => {
                 gear = 3;
                 tireGrip = 3
                 turningSpeed =  8
-                acceleration = .12;
+                acceleration = .12 * dt;
                 break;
 
             case (Math.abs(speed) > maxSpeed/4):  //only barley getting here.
@@ -332,7 +332,7 @@ const createCar = (isGhost) => {
                 gear = 2;
                 tireGrip = 3.4
                 turningSpeed = 9
-                acceleration = .15;
+                acceleration = .15 * dt;
                 break;
 
             case (Math.abs(speed) > maxSpeed/6):
@@ -342,7 +342,7 @@ const createCar = (isGhost) => {
                 gear = 1;
                 tireGrip = 4
                 turningSpeed = 8
-                acceleration = .12;
+                acceleration = .12 * dt;
                 break;
 
             case (Math.abs(speed) > maxSpeed/8):
@@ -352,7 +352,7 @@ const createCar = (isGhost) => {
                 gear = 1;
                 tireGrip = 4.25
                 turningSpeed = 7
-                acceleration = 0.1;
+                acceleration = 0.1 * dt;
                 break;
 
             case (Math.abs(speed) > maxSpeed/16):
@@ -362,7 +362,7 @@ const createCar = (isGhost) => {
                 gear = 1;
                 tireGrip = 4.5
                 turningSpeed = 6
-                acceleration = 0.09;
+                acceleration = 0.09 * dt;
                 break;
 
             case (Math.abs(speed) > 0):
@@ -372,7 +372,7 @@ const createCar = (isGhost) => {
                 gear = 0;
                 tireGrip = 4.75
                 turningSpeed = 5
-                acceleration = 0.07;
+                acceleration = 0.07 * dt;
                 break;
             case (Math.abs(speed) == 0):
                 if(gear != 0){
@@ -381,7 +381,7 @@ const createCar = (isGhost) => {
                 gear = 0;
                 tireGrip = 5
                 turningSpeed = 0
-                acceleration = 0.05;
+                acceleration = 0.05 * dt;
                 break;
             default:
                 turningSpeed = 10
@@ -393,9 +393,9 @@ const createCar = (isGhost) => {
         if (Math.abs(speed) < 0.003) {
             speed = 0;
         } else if (speed > 0) {
-            speed -= friction;
+            speed -= friction *dt;
         } else if (speed < 0) {
-            speed += friction;
+            speed += friction *dt;
         }
     }
 
@@ -485,6 +485,8 @@ const createCar = (isGhost) => {
 
     const turn = (direction, pressure = 1) => {
         //compareAngles 
+
+        console.log("DT THO", dt)
         pressure = Math.abs(pressure).toFixed(2);
         if (direction === "right" && !angleLock.right) {
             if (driftForce <= driftForceMax / 2) {
@@ -630,8 +632,8 @@ const createCar = (isGhost) => {
                     driftForce = 4;
                 }
                 if(!isGhost){
-                    if (Math.abs(speed) > 1 ) {
-                        speed = speed / (1.020) ;
+                    if (Math.abs(speed) > 4 ) {
+                        speed = speed - (.30 * (dt)) ;
 
 
                         // createDirtParticle(x, y);

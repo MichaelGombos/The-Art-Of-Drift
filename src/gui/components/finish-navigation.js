@@ -44,7 +44,8 @@ const FinishNavigation = ({newBest, mapIndex,bestReplayObject}) => {
   const packageReplay = (information) => {
     return "export default \n\n" + JSON.stringify({
       inputs: JSON.stringify(information.inputs),
-      stats: JSON.stringify(information.stats)
+      stats: JSON.stringify(information.stats),
+      runtimes: JSON.stringify(information.runtimes)
     })
   }
 
