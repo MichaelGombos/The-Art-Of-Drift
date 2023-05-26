@@ -862,7 +862,7 @@ input:checked + .switch__inner:before {
 .canvas-overlay__image{
   position:absolute;
   width: 90%;
-  top: 15%;
+  top: 35%;
   left: 5%;
   opacity: .3;
   pointer-events: none;

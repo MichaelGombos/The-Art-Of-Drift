@@ -13,7 +13,7 @@ const createCar = (isGhost) => {
     let gear = 0;
     let acceleration = .15;
     const friction = .006;
-    const maxSpeed = 15;
+    const maxSpeed = 25;
     const maxLaps = 5;
     let lap = 0;
     let checkPointLap = 0;
@@ -626,8 +626,8 @@ const createCar = (isGhost) => {
             //dirt
             if (collidingWithValue(2,"y",mapData,tilePixelCount) || collidingWithValue(2,"x",mapData,tilePixelCount)) {
                 onDirt = true;
-                if(driftForce < 2){
-                    driftForce = 2;
+                if(driftForce < 4){
+                    driftForce = 4;
                 }
                 if(!isGhost){
                     if (Math.abs(speed) > 1 ) {
