@@ -70,6 +70,7 @@ let ghost_runtime = []
 let pauseBuffers = [];
 let pauseBuffer = 0;
 let lastRunTime = 0;
+let lastTickTime = 0;
 let reqAnim;
 let isPaused = true;
 let inSpectateMode;
@@ -81,9 +82,7 @@ let accumulatedTime;
 
 let frameCount = 0;
 let fpsInterval, startTime, now, then, elapsed;
-let dt = 16.67;
-let performanceRightNow = 0;
-let performanceThen = performanceRightNow;
+let dt = 1;
 
 
 const tileTypes = ['road', 'wall', 'dirt', 'spawn', 'finish-up', 'finish-down', 'bumper', 'check-point-left-road', 'check-point-right-road', 'check-point-left-dirt', 'check-point-right-dirt']
@@ -209,6 +208,7 @@ const resetCarValues = () => {
   pauseBuffer = 0;
   pauseBuffers = [0];
   lastRunTime = performance.now();
+  lastTickTime = performance.now();
   
   
   frameCount = 0;
@@ -592,7 +592,8 @@ const renderNewFrame = () => {
 }
 
 const step = (newtime) => {
-  dt = (performance.now() - lastRunTime) / 1000
+  dt = (performance.now() - lastTickTime) / 1000
+  lastTickTime = performance.now();
   if (!getRunning()) {
     isPaused = true;
     return;
