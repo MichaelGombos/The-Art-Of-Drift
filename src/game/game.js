@@ -52,7 +52,7 @@ let mapIndex;
 
 let timeDeltaMultipler = 1; // this value is set to 1 / currentFps * 60 each frame
 
-let targetFps = 20;
+let targetFps = 60;
 let currentFps = 60;
 const fpsInterval60 = 1000 / 60;
 
@@ -350,7 +350,7 @@ const placeGhost = (stepCount) => {
     ghost_stats = mapData.replay.stats[closestGhostStepIndex];
     ghost_runtime = mapData.replay.runtimes[closestGhostStepIndex];
 
-    console.log("ghost runtime vs accumulated time", closestGhostStepIndex, ghost_runtime, accumulatedTime);
+
 
     if(inSpectateMode){
       car.setX(ghostCar.getX());

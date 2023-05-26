@@ -45,26 +45,41 @@ const checkBest = (setter, index, oldPB) => {
     })
 
 
-
+    console.log("this is what I log if your PB if faster, I am going to send time to database, and update finish GUI time." , finishTime, oldPB)
 
     return true;
   }
   else if(!getInSpectateMode()){
-    const gameReplayObject = getReplayObject();
-    getCurrentAuthProfile().then((profile) => {
+    // const gameReplayObject = getReplayObject();
+    getCurrentAuthReplay(getGameMapIndex()).then((authBestReplay) => {
+      console.log("This is the replay", authBestReplay)
       const replayObject = {
-        time: finishTime,
-        playerName : profile.displayName,
+        time: authBestReplay.time,
+        playerName : authBestReplay.playerName,
         replay: {
-          inputs: JSON.stringify(gameReplayObject.inputs),
-          stats: JSON.stringify(gameReplayObject.stats),
-          runtimes : JSON.stringify(gameReplayObject.runtimes)
+          inputs: authBestReplay.replay.inputs,
+          stats: authBestReplay.replay.stats,
+          runtimes : authBestReplay.replay.runtimes
         },
-        playerVehicle: profile.vehicleID,
-        playerAvatar: profile.avatarId,
-        createdAt: getDatabaseTime()
+        playerVehicle: authBestReplay.playerVehicle,
+        playerAvatar: authBestReplay.playerAvatar,
+        createdAt: authBestReplay.createdAt
       }
+      // const replayObject = {
+      //   time: finishTime,
+      //   playerName : profile.displayName,
+      //   replay: {
+      //     inputs: JSON.stringify(gameReplayObject.inputs),
+      //     stats: JSON.stringify(gameReplayObject.stats),
+      //     runtimes : JSON.stringify(gameReplayObject.runtimes)
+      //   },
+      //   playerVehicle: profile.vehicleID,
+      //   playerAvatar: profile.avatarId,
+      //   createdAt: getDatabaseTime()
+      // }
       setter(replayObject)
+
+      console.log("this is what I log if your PB is NOT faster AND you arent spectating., I am going to send time to database, and update finish GUI time." , finishTime, oldPB, replayObject)
 
     })
 

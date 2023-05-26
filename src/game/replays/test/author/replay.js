@@ -1,5 +1,6 @@
 export default 
 {
   inputs:"[]",
-  stats:"[]"
+  stats:"[]",
+  runtimes:"[]"
 }
