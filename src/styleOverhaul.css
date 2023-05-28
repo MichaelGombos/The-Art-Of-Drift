@@ -65,7 +65,7 @@ a, a:focus, a:hover{
 }
 
 *:focus{
-  outline: 2px solid var(--sec);
+  outline: 2px solid var(--secondary-500);
 }
 
 

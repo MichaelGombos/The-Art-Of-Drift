@@ -28,6 +28,8 @@ const ghostNames = {
   personalBest: "best time"
 }
 
+
+
 const MedalRow = ({best, medal,currentDiff, setDiff,isGhostEnabled, setNewGhostEnabled, index}) => {
 
   const unlockedMedals = {  
@@ -53,7 +55,7 @@ const MedalRow = ({best, medal,currentDiff, setDiff,isGhostEnabled, setNewGhostE
       <Button style={currentDiff == medal ? "selected" : "light"} clickHandler={ () => {
         setDiff(medal)
       }
-      }>{medal}</Button>
+      }>{ghostNames[medal]}</Button>
       </div>
       <div className="medal-row__time"> 
 
