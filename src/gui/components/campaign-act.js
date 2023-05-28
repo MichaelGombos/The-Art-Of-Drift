@@ -14,9 +14,9 @@ const CampaignAct = ({actIndex, mapIndexArray,medalsRequired, medalsUnlocked,des
             {
               mapIndexArray.map(mapIndex => {
                 return (
-                <Button style={isLocked ? "disabled" : ""}  key={mapIndex}  clickHandler={
+                <Button alignStart={true} style={isLocked ? "disabled" : ""}  key={mapIndex}  clickHandler={
                   !isLocked ? (() => navigate(`${destination}/${mapIndex}`))
-                  : undefined}>{isLocked ? "locked (" + (medalsRequired - medalsUnlocked) + " medals required)" : mapNames[mapIndex] }
+                  : undefined}>{isLocked ? "locked (" + (medalsRequired - medalsUnlocked) + " medals required)" : `#${Number(mapIndex) + 1} ${mapNames[mapIndex]}` }
                   
                 </Button>
                 )

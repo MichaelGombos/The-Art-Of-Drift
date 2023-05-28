@@ -74,236 +74,236 @@ const replays = [
 {
   easy: {
     replay: map1Easy,
-    time: "00:01:38.014"
+    time: "00:00:45.801"
   },
   normal: {
     replay: map1Normal,
-    time: "00:01:08.284"
+    time: "00:00:33.195"
   }
   ,
   hard: {
     replay: map1Hard,
-    time: "00:01:01.465"
+    time: "00:00:24.258"
   },
   author: { 
     replay: map1Author,
-    time: "00:00:53.881"
+    time: "00:00:21.873"
   } //just in case... 
 },
  {
   easy: {
     replay: map2Easy,
-    time: "00:01:29.566"
+    time: "00:01:25.543"
   },
   normal: {
     replay: map2Normal,
-    time: "00:01:15.637"
+    time: "00:01:19.033"
   },
   hard: {
     replay: map2Hard,
-    time: "00:01:10.333"
+    time: "00:01:01.666"
   },
   author: {
     replay: map2Author,
-    time: "00:00:27.494"
+    time: "00:00:52.461"
   }
 },
 {
   easy: {
     replay: map3Easy,
-    time: "00:00:35.253"
+    time: "00:00:42.938"
   },
   normal: {
     replay: map3Normal,
-    time: "00:00:33.451"
+    time: "00:00:36.534"
   },
   hard: {
     replay: map3Hard,
-    time: "00:00:27.275"
+    time: "00:00:31.464"
   },
   author: {
     replay: map3Author,
-    time: "00:00:26.1.5"
+    time: "00:00:25.832"
   }
 },
 {
   easy: {
     replay: map4Easy,
-    time: "00:00:51.549"
+    time: "00:00:59.280"
   },
   normal: {
     replay: map4Normal,
-    time: "00:00:45.648"
+    time: "00:00:45.113"
   },
   hard: {
     replay: map4Hard,
-    time: "00:00:42.451"
+    time: "00:00:41.435"
   },
   author: {
     replay: map4Author,
-    time: "00:00:40.494"
+    time: "00:00:40.297"
   }
 },
  {
   easy: {
-    replay: map5Easy,
-    time: "00:00:29.901"
+    replay: map5Easy, //*
+    time: "00:00:47.828"
   },
   normal: {
     replay: map5Normal,
-    time: "00:00:26.313"
+    time: "00:00:35.065"
   },
   hard: {
     replay: map5Hard,
-    time: "00:00:24.352"
+    time: "00:00:29.382"
   },
   author: {
     replay: map5Author,
-    time: "00:00:23.3.5"
+    time: "00:00:28.029"
   }
 },
 {
  easy: {
    replay: map6Easy,
-   time: "00:00:47.551"
+   time: "00:00:32.614"
  },
  normal: {
    replay: map6Normal,
-   time: "00:00:30.451"
+   time: "00:00:28.910"
  },
  hard: {
    replay: map6Hard,
-   time: "00:00:26.1.5"
+   time: "00:00:21.715"
  },
  author: {
    replay: map6Author,
-   time: "00:00:25.403"
+   time: "00:00:20.396"
  }
 },
 {
  easy: {
    replay: map7Easy,
-   time: "00:00:36.012"
+   time: "00:00:50.409"
  },
  normal: {
    replay: map7Normal,
-   time: "00:00:33.023"
+   time: "00:00:44.700"
  },
  hard: {
    replay: map7Hard,
-   time: "00:00:32.884"
+   time: "00:00:30.174"
  },
  author: {
    replay: map7Author,
-   time: "00:00:30.198"
+   time: "00:00:26.729"
  }
 },
 {
  easy: {
    replay: map8Easy,
-   time: "00:00:36.977"
+   time: "00:00:54.471"
  },
  normal: {
    replay: map8Normal,
-   time: "00:00:27.802"
+   time: "00:00:43.163"
  },
  hard: {
    replay: map8Hard,
-   time: "00:00:18.901"
+   time: "00:00:33.500"
  },
  author: {
    replay: map8Author,
-   time: "00:00:17.965"
+   time: "00:00:32.237"
  }
 },
 {
  easy: {
    replay: map9Easy,
-   time: "00:00:49.4.5"
+   time: "00:00:50.179"
  },
  normal: {
    replay: map9Normal,
-   time: "00:00:46.988"
+   time: "00:00:34.582"
  },
  hard: {
    replay: map9Hard,
-   time: "00:00:38.802"
+   time: "00:00:27.773"
  },
  author: {
    replay: map9Author,
-   time: "00:00:36.297"
+   time: "00:00:25.416"
  }
 },
 {
  easy: {
    replay: map10Easy,
-   time: "00:00:37.901"
+   time: "00:00:52.848"
  },
  normal: {
    replay: map10Normal,
-   time: "00:00:34.977"
+   time: "00:00:46.023"
  },
  hard: {
    replay: map10Hard,
-   time: "00:00:29.901"
+   time: "00:00:36.430"
  },
  author: {
    replay: map10Author,
-   time: "00:00:28.752"
+   time: "00:00:23.671"
  }
 },
 {
  easy: {
    replay: map11Easy,
-   time: "00:00:50.901"
+   time: "00:01:12.143"
  },
  normal: {
    replay: map11Normal,
-   time: "00:00:41.977"
+   time: "00:01:03.401"
  },
  hard: {
    replay: map11Hard,
-   time: "00:00:36.4.5"
+   time: "00:00:44.229"
  },
  author: {
    replay: map11Author,
-   time: "00:00:35.099"
+   time: "00:00:42.164"
  }
 },
 {
  easy: {
    replay: map12Easy,
-   time: "00:01:11.099"
+   time: "00:00:29.204"
  },
  normal: {
    replay: map12Normal,
-   time: "00:00:56.835"
+   time: "00:00:22.359"
  },
  hard: {
    replay: map12Hard,
-   time: "00:00:51.023"
+   time: "00:00:16.429"
  },
  author: {
    replay: map12Author,
-   time: "00:00:48.395"
+   time: "00:00:14.599"
  }
 },
 {
  easy: {
    replay: map13Easy,
-   time: "00:00:49.035"
+   time: "00:00:29.045"
  },
  normal: {
    replay: map13Normal,
-   time: "00:00:46.901"
+   time: "00:00:27.276"
  },
  hard: {
    replay: map13Hard,
-   time: "00:00:43.901"
+   time: "00:00:22.884"
  },
  author: {
    replay: map13Author,
-   time: "00:00:42.839"
+   time: "00:00:19.833"
  }
 },
 
