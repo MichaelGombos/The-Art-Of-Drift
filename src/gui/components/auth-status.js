@@ -1,7 +1,7 @@
 //component that shows user status if they are logged in
 
 import React, {useState, useEffect} from "react";
-import { getCurrentAuthProfile } from "../helpers/databaseFacade";
+import { getCurrentAuthProfile, getProfileUID } from "../helpers/databaseFacade";
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 
@@ -19,7 +19,7 @@ const AuthStatus = ({isGuestSession, isShown, user, loading, error}) => {
   const [profileImageUrl, setProfileImageUrl] = useState(avatarGraphicURLs[0]);
   const [vehicleImageUrl, setVehicleImageUrl] = useState(vehicleMidGraphicURLs[0]);
   const navigate = useNavigate();
-
+  let profileLoaded = false;
   let textElement;
 
   useEffect(() => {
@@ -33,21 +33,46 @@ const AuthStatus = ({isGuestSession, isShown, user, loading, error}) => {
 
     }
     else if(user){
+      
+      getProfileUID(user.uid).then(profile => {
+      if(profile){
+        setNameText(profile.displayName)
+        setProfileImageUrl(avatarGraphicURLs[profile.avatarId])
+        setVehicleImageUrl(vehicleMidGraphicURLs[profile.vehicleID])
+        window.setAsyncLoader(false)
+        Window.setProfileLoaded()
+        profileLoaded = true;
+      }
+      else{
 
-      getCurrentAuthProfile().then(profile => {
-      setNameText(profile.displayName)
-      setProfileImageUrl(avatarGraphicURLs[profile.avatarId])
-      setVehicleImageUrl(vehicleMidGraphicURLs[profile.vehicleID])
-      window.setAsyncLoader(false)
-      Window.setProfileLoaded()
+      }
       })
     }
     else{
       window.setAsyncLoader(false)
     }
     window.refreshDocumentTree();
+    console.log("Status of Auth status", loading, error, user)
   }, [loading, error, user]) 
 
+  setTimeout(() => {
+    if(user && !profileLoaded){
+      
+      getProfileUID(user.uid).then(profile => {
+      if(profile){
+        setNameText(profile.displayName)
+        setProfileImageUrl(avatarGraphicURLs[profile.avatarId])
+        setVehicleImageUrl(vehicleMidGraphicURLs[profile.vehicleID])
+        window.setAsyncLoader(false)
+        Window.setProfileLoaded()
+        profileLoaded = true;
+      }
+      else{
+        console.log("NO Profile found yet.")
+      }
+      })
+    }
+  }, 1000)
 
 
   if(isShown){
