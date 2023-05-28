@@ -105,6 +105,22 @@ const FinishNavigation = ({newBest, mapIndex,bestReplayObject}) => {
             }}>Back to level screen</Button>
             : ""
           }
+          {
+            getGameMapIndex() >= 0 && getGameMapIndex() < 12 ?
+            <Button clickHandler={() => {
+              navigate(`/campaign/${Number(getGameMapIndex()) +1 }`);
+              turnOffGame();
+            }}>Next level</Button>
+            : ""
+          }
+          {
+            getGameMapIndex() == 12 ?
+            <Button clickHandler={() => {
+              navigate(`/credits`);
+              turnOffGame();
+            }}>Credits</Button>
+            : ""
+          }
             <Button clickHandler={() => {
               navigate("/campaign");
               turnOffGame();
