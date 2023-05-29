@@ -336,8 +336,9 @@ export const transitionMusic = (trackIDToEnable, restart) => {
     if(restart){
       trackIDtoLoopMap[trackIDToEnable].seek(0)
     }
-
-    trackIDtoLoopMap[trackIDToEnable].load()
+    if(trackIDtoLoopMap[trackIDToEnable].state() == "unloaded"){
+      trackIDtoLoopMap[trackIDToEnable].load()
+    }
     trackIDtoLoopMap[trackIDToEnable].play();
     trackIDtoLoopMap[trackIDToEnable].fade(0,.2 * musicMultiplier , 2000)
     currentRunningTrack = trackIDToEnable;
@@ -367,9 +368,11 @@ export const transitionMusicBasedOffLocation = () => {
   }
   else if ( //Silence
   currentRunningTrack != false && (
-  location.pathname.includes("/countdown") ||
+  location.pathname.includes("/countdown") 
+  ||
   location.pathname == "/" ||
-  location.pathname.includes("/invited") ) //but only the first bit.. I should change the URL to invited-title to make this easier
+  location.pathname.includes("/invited") 
+  ) //Don't want to load menu song on start.
   ){
    
     transitionMusic(false)

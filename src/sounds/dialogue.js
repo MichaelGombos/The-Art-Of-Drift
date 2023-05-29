@@ -206,7 +206,8 @@ const testSoundWow = new Howl ({
 let keyboardSoundSourceMap = {
   Backspace       :BackspaceKey,     
   Tab             :TabKey,  
-  Enter           :EnterKey,          
+  Enter           :EnterKey,     
+  Shift           :ShiftLeftKey,           
   ShiftLeft       :ShiftLeftKey,   
   ShiftRight      :ShiftRightKey,               
   ControlLeft     :ControlLeftKey,     
@@ -363,6 +364,7 @@ for (let soundSource in keyboardSoundSourceMap) { //fill soundHowMapForkeyboard
     src: [keyboardSoundSourceMap[soundSource]],
     loop:false,
     volume:.5,
+    preload:false
   })
 }
 
@@ -371,6 +373,7 @@ for (let soundSource in dialogueSoundSourceMap) { //fill soundHowMapForkeyboard
     src: [dialogueSoundSourceMap[soundSource]],
     loop:false,
     volume:.5,
+    preload:false
   })
 }
 
@@ -379,6 +382,7 @@ for (let soundSource in controllerSoundSourceArray) { //fill soundHowMapForkeybo
     src: [controllerSoundSourceArray[soundSource]],
     loop:false,
     volume:.5,
+    preload:false
   })
 }
 
@@ -389,6 +393,10 @@ const playSoundsSequentially = (sounds) => {
 
   const playNextSound = () => {
     if (index < sounds.length) {
+      console.log("sound info, " , sounds, index)
+      if(sounds[index].state() == "unloaded"){
+        sounds[index].load()
+      }
       sounds[index].volume(dialogueMultiplier)
       sounds[index].once('end', playNextSound);
       sounds[index].play();
@@ -418,6 +426,8 @@ const getHowlFromKeyId = (keyId, isKeyboard) => {
 let tutorialDialogue ;
 
 export const refreshDialogue = () => {
+
+  console.log("the problem key?", dialogueSoundHowlMap.dialogue_brakes_2, commandMap.brake.keyboard.primary,true)
   tutorialDialogue = {
     accelerate : [
       dialogueSoundHowlMap.dialogue_acceleration_intro,
@@ -521,6 +531,9 @@ export const playSoundChunk = (soundChunk) => {
     playSoundsSequentially(soundChunk)
   }
   else{ //individual sound
+    if(soundChunk.state() == "unloaded"){
+      soundChunk.load()
+    }
     soundChunk.volume(dialogueMultiplier )
     soundChunk.play()
     currentPlayingSound = soundChunk;

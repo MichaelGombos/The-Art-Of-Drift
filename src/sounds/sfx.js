@@ -204,13 +204,15 @@ const maxSpeedSound = new Howl({
   src: [maxSpeed],
   loop:false,
   volume:.5,
+  preload:false,
   preload:false
 })
 
 const dirtDriveLoop = new Howl({
   src: [dirtDrive],
   loop:true,
-  volume:.5
+  volume:.5,
+  preload:false
 })
 // dirtDriveLoop.rate(4);
 //rate *4 for top speed..
@@ -218,7 +220,8 @@ const dirtDriveLoop = new Howl({
 const roadSkidLoop = new Howl({
   src: [roadSkid],
   loop:true,
-  volume:0
+  volume:0,
+  preload:false
 }) 
 
 
@@ -267,6 +270,7 @@ let engineIdIdleList = [engine_0, engine_1, engine_2, engine_3, engine_4, engine
 
 export const engineTransition = (index1, index2) => { //dec vol s1 inc vol s2
   currentEngineIndex = index2;
+
   engineIdleLoop.fade(.2 * SFXMultiplier,0, 2000, engineIdIdleList[index1])
   engineIdleLoop.fade(0,.2 * SFXMultiplier, 2000, engineIdIdleList[index2])
 }
@@ -340,7 +344,9 @@ export const generateFrameSounds = (speed, x,y ,driftForce, onDirt,angle) => {
   if(speed > 9){
     if(!isAtMaxSpeed){
       isAtMaxSpeed = true;
-      maxSpeedSound.load() 
+      if(maxSpeedSound.state() == "unloaded"){
+        maxSpeedSound.load();
+      }
       maxSpeedSound.play() // will eventually have limiter so this isn't spammed..
       maxSpeedSound.volume(.2 * SFXMultiplier)
       //make max speed sound
@@ -353,6 +359,9 @@ export const generateFrameSounds = (speed, x,y ,driftForce, onDirt,angle) => {
   if(speed > 0 && onDirt){
     if(!isDrivingOnDirt){
       isDrivingOnDirt = true;
+      if(dirtDriveLoop.state() == "unloaded"){
+        dirtDriveLoop.load();
+      }
       dirtDriveLoop.play();
       dirtDriveLoop.volume(.2 * SFXMultiplier)
       //make driving on dirt sound
@@ -367,6 +376,9 @@ export const generateFrameSounds = (speed, x,y ,driftForce, onDirt,angle) => {
       // createDriftParticle(x, y, driftForce, angle);
       if(!isSkiddingOnRoad){
         isSkiddingOnRoad = true;
+        if(roadSkidLoop.state() == "unloaded"){
+          roadSkidLoop.load();
+        }
         roadSkidLoop.play();
         roadSkidLoop.volume(.2 * SFXMultiplier)
         //make skidding on dirt sound

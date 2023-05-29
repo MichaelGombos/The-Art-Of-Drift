@@ -117,6 +117,7 @@ const Dialogue = () => {
     if(location.pathname.includes("dialogue")){
 
       soundChunk = getTutorialDialogueAudio()[tutorialDialogue[params.id].dialogue][dialogueIndex]
+      console.log("this is the juicy sound chunk", soundChunk, tutorialDialogue[params.id].dialogue, [dialogueIndex])
       playSoundChunk(soundChunk)
     }
   }, [dialogueIndex])
