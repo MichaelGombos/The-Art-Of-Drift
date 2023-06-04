@@ -456,6 +456,14 @@ button{
   padding:20px;
 }
 
+.hidden-menu__mini-map{
+  position:absolute;
+  bottom: var(--gap-xl);
+  left: var(--gap-xl);
+  z-index:0;
+}
+
+
 .hidden-menu_controls{
   position: absolute;
   bottom:16px;

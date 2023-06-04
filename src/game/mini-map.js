@@ -5,6 +5,12 @@ import {drawCanvasMap} from "./graphics.js"
 
 
 const generateMiniMap = (mapData) => { 
+    let shouldShow = localStorage.getItem("showMiniMap") && JSON.parse(localStorage.getItem("showMiniMap"))
+    if(!shouldShow){
+        mapCanvas.classList.add("hidden")
+        return;
+    }
+    mapCanvas.classList.remove("hidden")
 
     const mapCtx = mapCanvas.getContext("2d");
 
@@ -13,9 +19,16 @@ const generateMiniMap = (mapData) => {
   
     drawCanvasMap(mapCtx,mapData)
 }
-
+//push mini map to its own component, and create a window.generateMiniMap(mapCanvasRef) function that uses the canvas in the component instead of the one from elements.js. This should be easy...
 
 const updateMiniMapPlayers = (player,ghost) => {
+    let shouldShow = localStorage.getItem("showMiniMap") && JSON.parse(localStorage.getItem("showMiniMap"))
+    if(!shouldShow){
+        playerCanvas.classList.add("hidden")
+        return;
+    }
+    playerCanvas.classList.remove("hidden")
+
     const playerCtx = playerCanvas.getContext("2d");
     playerCanvas.width = mapCanvas.width;
     playerCanvas.height = mapCanvas.height;
@@ -35,5 +48,17 @@ const updateMiniMapPlayers = (player,ghost) => {
 
 }
 
+const updateMapVisibility = (isShown) => {
+    if(!isShown){
+        playerCanvas.classList.add("hidden")
+        mapCanvas.classList.add("hidden")
+        return;
+    }
+    else{
+        playerCanvas.classList.remove("hidden")
+        mapCanvas.classList.remove("hidden")
+    }
+}
 
-export {generateMiniMap,updateMiniMapPlayers};
+
+export {generateMiniMap,updateMiniMapPlayers,updateMapVisibility};

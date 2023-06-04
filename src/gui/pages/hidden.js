@@ -31,18 +31,31 @@ const ResetGameButton = () => {
   )
 }
 
-const Hidden = ({showFPS,showExtraStats,showDashboard,showMobileControls}) => {
+const Hidden = ({showFPS,showExtraStats,showDashboard,showMobileControls,showHudButtons ,showLapInfo }) => {
   let isExtraStatsHidden = false;
   let isDashboardHidden = false;
   // TODO TOGGLE FOR THIS IN SETTINGS
   return (
     <div className="hidden-menu">
+      {
+        showHudButtons 
+        ?
         <div className="hidden-menu__navigation row gap-md" >
           <OpenMenuButton/>
           <ResetGameButton/>
         </div>
+        :
+        ""
+      }
+      {
+        showLapInfo
+        ?
+        <GameInfo/>
+         :
+          ""
+      }
 
-        <GameInfo  />
+
         <MobileControls showMobileControls ={showMobileControls} />
 
         <ExtraStats showInfo={showExtraStats} showFPS={showFPS}/>

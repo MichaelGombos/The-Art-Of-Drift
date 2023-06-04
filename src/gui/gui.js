@@ -129,6 +129,12 @@ const Menu = () => {
   const [showFPS,setShowFPS] = useState(localStorage.getItem("showFPS") ? JSON.parse(localStorage.getItem("showFPS")) : true);
   const [showExtraStats,setShowExtraStats] = useState(localStorage.getItem("showExtraStats") ? JSON.parse(localStorage.getItem("showExtraStats")) : true);
   const [showDashboard,setShowDashboard] = useState(localStorage.getItem("showDashboard") ? JSON.parse(localStorage.getItem("showDashboard")) : true);
+
+  const [showHudButtons,setShowHudButtons] = useState(localStorage.getItem("showHudButtons") ? JSON.parse(localStorage.getItem("showHudButtons")) : true);
+  const [showLapInfo,setShowLapInfo] = useState(localStorage.getItem("showLapInfo") ? JSON.parse(localStorage.getItem("showLapInfo")) : true);
+  const [showMiniMap,setShowMiniMap] = useState(localStorage.getItem("showMiniMap") ? JSON.parse(localStorage.getItem("showMiniMap")) : true);
+
+
   const [showAuthStatus,setShowAuthStatus] = useState(false);
   const [showAudioControl, setShowAudioControl] = useState(false);
   const [isGuestSession,setIsGuestSession] = useState(false);
@@ -227,7 +233,8 @@ const Menu = () => {
     loading = {loading}
     error = {error}/>
     <AudioControl
-    isShown = {showAudioControl}/>
+    isShown = {showAudioControl && showHudButtons}
+    />
     <MusicSource/>
     <ResultBanner/>
     <AsyncLoader loading={loading} user={user} />
@@ -279,6 +286,13 @@ const Menu = () => {
       setShowExtraStats={setShowExtraStats}
       showDashboard={showDashboard}
       setShowDashboard={setShowDashboard}
+
+      setShowHudButtons={setShowHudButtons}
+      showHudButtons={showHudButtons}
+      setShowLapInfo={setShowLapInfo}
+      showLapInfo={showLapInfo}
+      setShowMiniMap={setShowMiniMap}
+      showMiniMap={showMiniMap}
        />} />
       <Route  path="/settings/keybinds" element={<SettingsKeybinds/>}/>
       <Route  path="/countdown" element={<Countdown/>}/>
@@ -287,6 +301,8 @@ const Menu = () => {
       showFPS={showFPS}
       showExtraStats={showExtraStats}
       showDashboard={showDashboard}
+      showHudButtons={showHudButtons}
+      showLapInfo={showLapInfo}
        />}/>
       <Route  path="/pause" element={<Pause setPrevious={setPreviousType} />}/>
       <Route  path="/finish" element={<Finish/>}/>

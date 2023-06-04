@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { getDirectionalCamera, getEnableGhost, setDirectionalCamera, setEnableGhost } from "../../game/game";
 import { getParticleLimit, setIntensityMultipler, setParticleLimit, setSmoothnessMultiplier } from "../../game/graphics";
+import { updateMapVisibility } from "../../game/mini-map";
 import Button from "./button";
 
 const ExitSettingsButton = ({
@@ -20,7 +21,13 @@ const ExitSettingsButton = ({
   newShowExtraStats ,
   setShowExtraStats ,
   newShowDashboard  ,
-  setShowDashboard  
+  setShowDashboard  ,
+newShowHudButtons  , 
+setShowHudButtons ,
+newShowLapInfo    ,
+setShowLapInfo    ,
+newShowMiniMap    ,
+setShowMiniMap    ,
 }) => {
   const navigate = useNavigate();
 
@@ -46,6 +53,14 @@ const ExitSettingsButton = ({
           setShowDashboard(newShowDashboard)
           localStorage.setItem("showDashboard",newShowDashboard)
           
+          localStorage.setItem("showFPS",newShowHudButtons)  
+          setShowHudButtons(newShowHudButtons)
+          localStorage.setItem("showLapInfo",newShowLapInfo)     
+          setShowLapInfo(newShowLapInfo)
+          localStorage.setItem("showMiniMap",newShowMiniMap)     
+          setShowMiniMap(newShowMiniMap)
+          //refresh mini map visibility
+          updateMapVisibility(newShowMiniMap)
 
         }}>Save and exit</Button>
       )

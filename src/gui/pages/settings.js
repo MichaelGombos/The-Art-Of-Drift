@@ -25,24 +25,35 @@ const Settings = ({
   showExtraStats,
   setShowExtraStats,
   showDashboard,
-  setShowDashboard
+  setShowDashboard,
+  setShowHudButtons,
+  showHudButtons,
+  setShowLapInfo,
+  showLapInfo,
+  setShowMiniMap,
+  showMiniMap,
 }) => {
   const navigate = useNavigate();
 
   const particleLimitSlider = useRef(null)
-  let [newShowFPS, setNewShowFPS] = useState(showFPS)
-  let [newShowExtraStats,setNewShowExtraStats] = useState(showExtraStats)
-  let [newShowDashboard,setNewShowDashboard] = useState(showDashboard)
 
-  let [newEnableGhost, setNewEnableGhost] = useState(getEnableGhost());
-  let [newSfxSound, setNewSfxSound] = useState((getSFXMultiplier() * 100).toFixed(2));
-  let [newMusicSound, setNewMusicSound] = useState((getMusicMultipler() * 100).toFixed(2));
-  let [newParticleLimit,setNewParticleLimit] = useState(getParticleLimit());
-  let [gameDataSafeteyNet,setGameDataSafeteyNet] = useState(10);
-  let [newDirectionalCamera, setNewDirectionalCamera] = useState(getDirectionalCamera())
+  const [newShowHudButtons, setNewShowHudButtons] = useState(showHudButtons)
+  const [newShowLapInfo, setNewShowLapInfo] = useState(showLapInfo)
+  const [newShowMiniMap, setNewShowMiniMap] = useState(showMiniMap) 
 
-  let [newSmoothnessMultipler, setNewSmoothnessMultipler] = useState(getSmoothnessMultiplier() / 2)
-  let [newIntensityMultiplier , setNewIntensityMultiplier ] = useState(getIntensityMultipler() * 100)
+  const [newShowFPS, setNewShowFPS] = useState(showFPS)
+  const [newShowExtraStats,setNewShowExtraStats] = useState(showExtraStats)
+  const [newShowDashboard,setNewShowDashboard] = useState(showDashboard)
+
+  const [newEnableGhost, setNewEnableGhost] = useState(getEnableGhost());
+  const [newSfxSound, setNewSfxSound] = useState((getSFXMultiplier() * 100).toFixed(2));
+  const [newMusicSound, setNewMusicSound] = useState((getMusicMultipler() * 100).toFixed(2));
+  const [newParticleLimit,setNewParticleLimit] = useState(getParticleLimit());
+  const [gameDataSafeteyNet,setGameDataSafeteyNet] = useState(10);
+  const [newDirectionalCamera, setNewDirectionalCamera] = useState(getDirectionalCamera())
+
+  const [newSmoothnessMultipler, setNewSmoothnessMultipler] = useState(getSmoothnessMultiplier() / 2)
+  const [newIntensityMultiplier , setNewIntensityMultiplier ] = useState(getIntensityMultipler() * 100)
 
 
   const setStatefulMusic = (newVal) => {
@@ -153,6 +164,30 @@ const Settings = ({
               </InputToggle>
 
 
+              <InputToggle 
+              newValue={newShowHudButtons} 
+              setter={setNewShowHudButtons}
+              >
+                Show Hud Buttons
+              </InputToggle>
+
+
+              <InputToggle 
+              newValue={newShowLapInfo} 
+              setter={setNewShowLapInfo}
+              >
+                Show Lap Info
+              </InputToggle>
+
+
+              <InputToggle 
+              newValue={newShowMiniMap} 
+              setter={setNewShowMiniMap}
+              >
+                Show Mini Map
+              </InputToggle>
+
+
             <ExitSettingsButton isSaving={false} setNewDirectionalCamera = {setNewDirectionalCamera}  setNewEnableGhost={setNewEnableGhost} setNewParticleLimit={setNewParticleLimit} newEnableGhost={newEnableGhost} newParticleLimit={newParticleLimit} />
             <ExitSettingsButton 
             isSaving={true} 
@@ -170,6 +205,13 @@ const Settings = ({
             setShowExtraStats = {setShowExtraStats  }  
             newShowDashboard     = {newShowDashboard      }    
             setShowDashboard  = {setShowDashboard   }    
+
+            newShowHudButtons    = {newShowHudButtons}
+            setShowHudButtons  ={setShowHudButtons}
+            newShowLapInfo       = {newShowLapInfo}
+            setShowLapInfo     = {setShowLapInfo}
+            newShowMiniMap       = {newShowMiniMap}
+            setShowMiniMap     = {setShowMiniMap}
             />
           </div>
         </div>
