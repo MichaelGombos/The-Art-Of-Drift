@@ -716,7 +716,13 @@ Window.freecamTeleport = (xLocation, yLocation) => {
   }
   console.log("freecam teleported")
 }
-Window.getFreecamLocation = () => {return freecamOffset}
+Window.getFreeplayInfo = () => {return {
+  freecam: freecamOffset,
+  frame : ghostStep
+}}
+Window.addFrames = (framesToAdd) => {
+  ghostStep += framesToAdd;
+}
 Window.toggleFreecam = () => {
   isFreecamOn = !isFreecamOn;
 }
