@@ -362,19 +362,15 @@ If we call this right before placeCharacter, then we can be sure which ghost ste
 const updateFreecamLocation = (direction,multiplier) => {
   switch(direction){
     case("left"):
-      console.log("move freecam left")
       freecamOffset.x = freecamOffset.x + ((1 + 4) *multiplier)
       break;
     case("right"):
-      console.log("move freecam right")
       freecamOffset.x = freecamOffset.x - ((1+ 4) *multiplier)
       break;
     case("down"):
-      console.log("move freecam down")
       freecamOffset.y = freecamOffset.y - ((1 + 4) *multiplier)
       break;
     case("up"):
-      console.log("move freecam up")
       freecamOffset.y = freecamOffset.y + ((1 + 4) *multiplier)
       break;
   }

@@ -355,7 +355,6 @@ export const generateFrameSounds = (speed, x,y ,driftForce, onDirt,angle) => {
     }
   }
   else{
-    console.log("did this get hit?" ,speed , speed > 9)
     isAtMaxSpeed = false;
   }
   if(speed > 0 && onDirt){
