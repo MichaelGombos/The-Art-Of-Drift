@@ -398,7 +398,6 @@ const zoomFreecam = (direction, multiplier) => {
   }
 }
 const placeGhost = (stepCount) => {
-  console.log("placing ghost, " , stepCount)
     //ghost_held_directions = mapData.replay.inputs[stepCount]
 
 
@@ -463,7 +462,6 @@ const placeGhost = (stepCount) => {
 
     if(isFreecamOn){
       generateFrameSounds(ghostCar.getSpeed(),ghostCar.getX(), ghostCar.getY(), ghostCar.getDriftForce(), ghostCar.getOnDirt(), ghostCar.getAngle());
-      console.log("sounds generated with this data", ghost_stats)
     }
   // if (ghostCar.getSpeed() != 0) {
   //   ghostCar.collision(tilePixelCount, rows, columns, mapData.map)
@@ -577,13 +575,11 @@ const placeCharacter = () => {
           camPressure = direction.slice(direction.indexOf("@")+1)
         }
         if( direction.includes(commandToDirectionMap.brake) && held_directions.includes(commandToDirectionMap.accelerate)){
-          console.log("me gusta in" , direction)
           zoomFreecam("in",camPressure)
           updateCameraScale(freecamOffset.zoom)
           continue;
         }
         if( direction.includes(commandToDirectionMap.brake) && held_directions.includes(commandToDirectionMap.reverse)){
-          console.log("me gusta out")
           zoomFreecam("out",camPressure)
           updateCameraScale(freecamOffset.zoom)
           continue;
@@ -720,6 +716,7 @@ Window.freecamTeleport = (xLocation, yLocation) => {
   }
   console.log("freecam teleported")
 }
+Window.getFreecamLocation = () => {return freecamOffset}
 Window.toggleFreecam = () => {
   isFreecamOn = !isFreecamOn;
 }
