@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import { getDirectionalCamera, getEnableGhost, setDirectionalCamera, setEnableGhost } from "../../game/game";
+import { getDirectionalCamera, getEnableGhost, setDirectionalCamera, setEnableGhost, setFreecam, setSmoothReplay } from "../../game/game";
 import { getParticleLimit, setIntensityMultipler, setParticleLimit, setSmoothnessMultiplier } from "../../game/graphics";
 import { updateMapVisibility } from "../../game/mini-map";
 import Button from "./button";
@@ -28,6 +28,8 @@ newShowLapInfo    ,
 setShowLapInfo    ,
 newShowMiniMap    ,
 setShowMiniMap    ,
+newFreecam ,
+newIsSmoothReplayOn
 }) => {
   const navigate = useNavigate();
 
@@ -61,6 +63,13 @@ setShowMiniMap    ,
           setShowMiniMap(newShowMiniMap)
           //refresh mini map visibility
           updateMapVisibility(newShowMiniMap)
+
+          setFreecam(newFreecam)
+          localStorage.setItem("isFreeCamEnabled", newFreecam)
+
+          setSmoothReplay(newIsSmoothReplayOn)
+          localStorage.setItem("isSmoothReplayEnabled", newIsSmoothReplayOn)
+
 
         }}>Save and exit</Button>
       )

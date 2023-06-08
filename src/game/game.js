@@ -79,6 +79,12 @@ let replayFinishTime;
 let replayFinishSeconds;
 let accumulatedTime;
 
+const freecamOffset = {
+  x:0,
+  y:0,
+  zoom:0
+}
+
 
 let frameCount = 0;
 let fpsInterval, startTime, now, then, elapsed;
@@ -102,12 +108,18 @@ let milliseconds = 0;
 let timeString = "00:00:00";
 
 let enableGhost = localStorage.getItem("isGhostEnabled") ? JSON.parse(localStorage.getItem("isGhostEnabled")) :  false;
-let isDirectionalCameraOn = localStorage.getItem("isDirectionalCameraEnabled") ? JSON.parse(localStorage.getItem("isDirectionalCameraEnabled")) : false;
+let isDirectionalCameraOn = localStorage.getItem("isDirectionalCameraEnabled") ? JSON.parse(localStorage.getItem("isDirectionalCameraEnabled")) : false
+let isFreecamOn = localStorage.getItem("isFreeCamEnabled") ? JSON.parse(localStorage.getItem("isFreeCamEnabled")) : false
+let isSmoothReplayOn = localStorage.getItem("isSmoothReplayEnabled")? JSON.parse(localStorage.getItem("isSmoothReplayEnabled")) : false
 
 // functions
 const setGameMapIndex = (index) => {
   mapIndex = index;
 }
+
+const setSmoothReplay = (value) => {isSmoothReplayOn = value}
+
+const getSmoothReplay = () => {return isSmoothReplayOn}
 
 const setEnableGhost = (check) => {
   enableGhost = check;
@@ -115,6 +127,8 @@ const setEnableGhost = (check) => {
 }
 
 const setDirectionalCamera = (value) => {isDirectionalCameraOn = value}
+
+const setFreecam = (value) => {isFreecamOn = value}
 
 const getTargetFps = () => {return targetFps}
 
@@ -133,6 +147,8 @@ const getGameMapIndex = () => {return mapIndex}
 const getEnableGhost = () => {return enableGhost}
 
 const getDirectionalCamera = () => {return isDirectionalCameraOn}
+
+const getFreecam = () => {return isFreecamOn}
 
 const getTimeString = () => {return timeString}
 
@@ -342,9 +358,52 @@ We could have a second function that only handling location the closes replay st
 
 If we call this right before placeCharacter, then we can be sure which ghost step to use each time.
 */
+
+const updateFreecamLocation = (direction,multiplier) => {
+  switch(direction){
+    case("left"):
+      console.log("move freecam left")
+      freecamOffset.x = freecamOffset.x + ((1 + 4) *multiplier)
+      break;
+    case("right"):
+      console.log("move freecam right")
+      freecamOffset.x = freecamOffset.x - ((1+ 4) *multiplier)
+      break;
+    case("down"):
+      console.log("move freecam down")
+      freecamOffset.y = freecamOffset.y - ((1 + 4) *multiplier)
+      break;
+    case("up"):
+      console.log("move freecam up")
+      freecamOffset.y = freecamOffset.y + ((1 + 4) *multiplier)
+      break;
+  }
+}
+const resetFreecamLocation = () => {
+  freecamOffset.x = 0
+  freecamOffset.y = 0
+}
+
+const zoomFreecam = (direction, multiplier) => {
+  if(direction == "in"){
+    if(freecamOffset.zoom < 4){
+      freecamOffset.zoom = freecamOffset.zoom +  multiplier
+    }
+  }
+  else if(direction == "out"){
+    console.log("so this is what the zoom is looking like?", freecamOffset.zoom)
+    if(freecamOffset.zoom > -20){
+      freecamOffset.zoom = freecamOffset.zoom - multiplier
+    }
+  }
+}
 const placeGhost = (stepCount) => {
+  console.log("placing ghost, " , stepCount)
     //ghost_held_directions = mapData.replay.inputs[stepCount]
-    const closestGhostStepIndex = findClosestIndex(mapData.replay.runtimes, accumulatedTime);
+
+
+    const closestGhostStepIndex = !isSmoothReplayOn ? findClosestIndex(mapData.replay.runtimes, accumulatedTime) : ghostStep;
+    
 
     ghost_inputs = mapData.replay.inputs[closestGhostStepIndex];
     ghost_stats = mapData.replay.stats[closestGhostStepIndex];
@@ -352,13 +411,7 @@ const placeGhost = (stepCount) => {
 
 
 
-    if(inSpectateMode){
-      car.setX(ghostCar.getX());
-      car.setY(ghostCar.getY());
-      updateCameraShake(ghostCar.getSpeed())
-      updateCameraScale(ghostCar.getSpeed())
-      updateCameraAngle(ghostCar.getAngle())
-    }
+
     if(ghost_stats){
       ghostCar.setStats(ghost_stats)
     }
@@ -408,6 +461,10 @@ const placeGhost = (stepCount) => {
     // ghostCar.updateHandling();
     generateFrameParticles(ghostCar.getSpeed(),ghostCar.getX(), ghostCar.getY(), ghostCar.getDriftForce(), ghostCar.getOnDirt(), ghostCar.getAngle());
 
+    if(isFreecamOn){
+      generateFrameSounds(ghostCar.getSpeed(),ghostCar.getX(), ghostCar.getY(), ghostCar.getDriftForce(), ghostCar.getOnDirt(), ghostCar.getAngle());
+      console.log("sounds generated with this data", ghost_stats)
+    }
   // if (ghostCar.getSpeed() != 0) {
   //   ghostCar.collision(tilePixelCount, rows, columns, mapData.map)
   //     //friction
@@ -444,12 +501,131 @@ const placeGhost = (stepCount) => {
 
 
 const placeCharacter = () => {
+
+  car.updateAngleLock()
+  car.stabalizeDriftForce();
+  car.stabalizeAngle()
+  car.updateGear();
+  if (car.getSpeed() != 0) {
+      // car.collision( 1 / currentFps * 60 , tilePixelCount, rows, columns, mapData.map)
+      car.collision(tilePixelCount, rows, columns, mapData.map)
+      //friction
+      car.applyFriction();
+  }
+
+  if(!isFreecamOn){
+
+    generateFrameSounds(car.getSpeed(),car.getX(), car.getY(), car.getDriftForce(), car.getOnDirt(), car.getAngle());
+    generateFrameParticles(car.getSpeed(),car.getX(), car.getY(), car.getDriftForce(), car.getOnDirt(), car.getAngle());
+  }
+  
+  
+  //understeering
+
+
+
+
+  //Limits (gives the illusion of walls)
+  //set the right and bottom limit to the image size in the dom
+
+  const leftLimit = 0;
+  const rightLimit = (columns * tilePixelCount) - carSize;
+  const topLimit = 0;
+  const bottomLimit = (rows * tilePixelCount) - carSize;
+  if (car.getX() < leftLimit) {
+      car.setX(leftLimit);
+      car.reduceSpeed()
+  }
+  if (car.getX() > rightLimit) {
+      car.setX(rightLimit);
+      car.reduceSpeed()
+  }
+  if (car.getY() < topLimit) {
+      car.setY(topLimit);
+      car.reduceSpeed()
+  }
+  if (car.getY() > bottomLimit) {
+      car.setY(bottomLimit);
+      car.reduceSpeed()
+  }
+  const camera_left =  camera.clientWidth /2 + (freecamOffset.x) ; //2 is magic number
+  const camera_top =  camera.clientHeight /2 + (freecamOffset.y) ;
+
+  map.style.transform = `translate3d( ${-car.getX()*pixelSize+camera_left}px, ${-car.getY()*pixelSize+camera_top}px, 0 )`;
+
+  //place particles
+  for (let particle of particles) {
+      particle.element.style.transform = `translate3d( ${particle.x*pixelSize}px, ${particle.y*pixelSize}px , 0) rotate(${particle.angle}deg)`;
+  }
+
+  character.style.transform = `translate3d( ${car.getX()*pixelSize}px, ${car.getY()*pixelSize}px, 0 )`;
+  characterSprite.style.transform = `rotate(${car.getAngle().facing}deg)`;
+
+  // car interaction stuffz
+
   car.setDt(dt);
-  if(!inSpectateMode){
+  
+  if(isFreecamOn){
+    //if free cam was not on before, snap current camera location to car location (could be done outside this conditional)
+
+    // when free cam is on, allow the updateFreecamCamera function to be used. 
+    if (held_directions && held_directions.length > 0) {
+
+      for(let direction of held_directions){
+        let camPressure = 1;
+        if(direction.includes("@")){
+          camPressure = direction.slice(direction.indexOf("@")+1)
+        }
+        if( direction.includes(commandToDirectionMap.brake) && held_directions.includes(commandToDirectionMap.accelerate)){
+          console.log("me gusta in" , direction)
+          zoomFreecam("in",camPressure)
+          updateCameraScale(freecamOffset.zoom)
+          continue;
+        }
+        if( direction.includes(commandToDirectionMap.brake) && held_directions.includes(commandToDirectionMap.reverse)){
+          console.log("me gusta out")
+          zoomFreecam("out",camPressure)
+          updateCameraScale(freecamOffset.zoom)
+          continue;
+        }
+        if (direction.includes(commandToDirectionMap.turnright)) {
+          updateFreecamLocation("right",camPressure)
+        } 
+        if (direction.includes(commandToDirectionMap.turnleft)) {
+          updateFreecamLocation("left",camPressure)
+        }
+        if (direction.includes(commandToDirectionMap.accelerate)) {
+          updateFreecamLocation("up",camPressure)
+        } 
+        if (direction.includes(commandToDirectionMap.reverse)) {
+          updateFreecamLocation("down",camPressure)
+        }
+
+        
+        else{
+          car.setTurning(false)
+        }
+      }
+    }
+
+    return;
+  }else{
+    resetFreecamLocation();
+  }
+
+  if(inSpectateMode){
+    car.setX(ghostCar.getX());
+    car.setY(ghostCar.getY());
+    updateCameraShake(ghostCar.getSpeed())
+    updateCameraScale(ghostCar.getSpeed())
+    updateCameraAngle(ghostCar.getAngle())
+  }
+  else{
     updateCameraShake(car.getDriftForce())
     updateCameraScale(car.getSpeed())
     updateCameraAngle(car.getAngle())
   }
+
   pixelSize = parseInt(
       getComputedStyle(document.documentElement).getPropertyValue('--pixel-size')
   );
@@ -505,63 +681,6 @@ const placeCharacter = () => {
       }
   }
 
-
-  car.updateAngleLock()
-  car.stabalizeDriftForce();
-  car.stabalizeAngle()
-  car.updateGear();
-  if (car.getSpeed() != 0) {
-      // car.collision( 1 / currentFps * 60 , tilePixelCount, rows, columns, mapData.map)
-      car.collision(tilePixelCount, rows, columns, mapData.map)
-      //friction
-      car.applyFriction();
-  }
-
-  generateFrameSounds(car.getSpeed(),car.getX(), car.getY(), car.getDriftForce(), car.getOnDirt(), car.getAngle());
-  generateFrameParticles(car.getSpeed(),car.getX(), car.getY(), car.getDriftForce(), car.getOnDirt(), car.getAngle());
-  
-  
-  //understeering
-
-
-
-
-  //Limits (gives the illusion of walls)
-  //set the right and bottom limit to the image size in the dom
-
-  const leftLimit = 0;
-  const rightLimit = (columns * tilePixelCount) - carSize;
-  const topLimit = 0;
-  const bottomLimit = (rows * tilePixelCount) - carSize;
-  if (car.getX() < leftLimit) {
-      car.setX(leftLimit);
-      car.reduceSpeed()
-  }
-  if (car.getX() > rightLimit) {
-      car.setX(rightLimit);
-      car.reduceSpeed()
-  }
-  if (car.getY() < topLimit) {
-      car.setY(topLimit);
-      car.reduceSpeed()
-  }
-  if (car.getY() > bottomLimit) {
-      car.setY(bottomLimit);
-      car.reduceSpeed()
-  }
-  const camera_left =  camera.clientWidth /2  ; //magic number
-  const camera_top =  camera.clientHeight /2;
-
-  map.style.transform = `translate3d( ${-car.getX()*pixelSize+camera_left}px, ${-car.getY()*pixelSize+camera_top}px, 0 )`;
-
-  //place particles
-  for (let particle of particles) {
-      particle.element.style.transform = `translate3d( ${particle.x*pixelSize}px, ${particle.y*pixelSize}px , 0) rotate(${particle.angle}deg)`;
-  }
-
-  character.style.transform = `translate3d( ${car.getX()*pixelSize}px, ${car.getY()*pixelSize}px, 0 )`;
-  characterSprite.style.transform = `rotate(${car.getAngle().facing}deg)`;
-
 }
 
 const pushReplayInformation = () => {
@@ -589,6 +708,23 @@ const renderNewFrame = () => {
     ghostStep++;
   }
   updateMiniMapPlayers(car,ghostCar);
+}
+
+Window.cosmeticPause = () => {
+  isPaused = !isPaused;
+}
+Window.freecamTeleport = (xLocation, yLocation) => {
+  if(isFreecamOn){
+    freecamOffset.x = xLocation;
+    freecamOffset.y = yLocation;
+  }
+  console.log("freecam teleported")
+}
+Window.toggleFreecam = () => {
+  isFreecamOn = !isFreecamOn;
+}
+Window.setReplayFrame = (frame) => {
+  ghostStep = frame;
 }
 
 const step = (newtime) => {
@@ -689,11 +825,13 @@ export {
   renderFirstFrame,
   resetCarValues,
   getDirectionalCamera,
+  getFreecam,
   getStats,
   getEnableGhost,
   getInSpectateMode,
   getSpectateTime,
   setEnableGhost,
+  setSmoothReplay,
   setGameMapIndex,
   setTargetFps,
   setSpectateMode,
@@ -703,8 +841,10 @@ export {
   getReplayString,
   getFullKeyboardHeldKeys,
   setMapData,
+  setFreecam,
   setSpectateTime,
   setDirectionalCamera,
   getReplayFinishTime,
-  getReplayFinishSeconds
+  getReplayFinishSeconds,
+  getSmoothReplay
 }

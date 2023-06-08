@@ -170,8 +170,12 @@ const nameGhost = (name) => {
 const drawPlayerVehicle = (vehicleID) => {
   //set background image to car graphic
   characterSprite.style.backgroundImage = `url(${vehicleTopDownGraphicURLs[vehicleID]})`
+}
 
-  
+Window.updateCarGraphics = (playerCarID, ghostCarID) => {
+  drawPlayerVehicle(playerCarID)
+  drawGhostVehicle(ghostCarID)
+  console.log("updated car graphics", playerCarID, playerCarID)
 }
 
 const drawGhostVehicle = (vehicleID) => {

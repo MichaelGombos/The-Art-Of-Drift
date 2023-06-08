@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 
-import {getDirectionalCamera, getEnableGhost, setDirectionalCamera} from "../../game/game.js"
+import {getDirectionalCamera, getEnableGhost, getFreecam, getSmoothReplay, setDirectionalCamera} from "../../game/game.js"
 import {getIntensityMultipler, getParticleLimit, getSmoothnessMultiplier} from "../../game/graphics.js"
 import DeleteGameSaveButton from '../components/delete-game-save-button.js';
 import ExitSettingsButton from '../components/exit-settings-button.js';
@@ -40,6 +40,9 @@ const Settings = ({
   const [newShowHudButtons, setNewShowHudButtons] = useState(showHudButtons)
   const [newShowLapInfo, setNewShowLapInfo] = useState(showLapInfo)
   const [newShowMiniMap, setNewShowMiniMap] = useState(showMiniMap) 
+  const [newIsSmoothReplayOn, setNewIsSmoothReplayOn] = useState(getSmoothReplay())
+
+  const [newFreecam, setNewFreecam] = useState(getFreecam());
 
   const [newShowFPS, setNewShowFPS] = useState(showFPS)
   const [newShowExtraStats,setNewShowExtraStats] = useState(showExtraStats)
@@ -188,6 +191,21 @@ const Settings = ({
               </InputToggle>
 
 
+              <InputToggle 
+              newValue={newFreecam} 
+              setter={setNewFreecam}
+              >
+                Enable free cam
+              </InputToggle>
+
+              <InputToggle 
+              newValue={newIsSmoothReplayOn} 
+              setter={setNewIsSmoothReplayOn}
+              >
+                (experimental) Enable smooth replay
+              </InputToggle>
+
+
             <ExitSettingsButton isSaving={false} setNewDirectionalCamera = {setNewDirectionalCamera}  setNewEnableGhost={setNewEnableGhost} setNewParticleLimit={setNewParticleLimit} newEnableGhost={newEnableGhost} newParticleLimit={newParticleLimit} />
             <ExitSettingsButton 
             isSaving={true} 
@@ -212,6 +230,10 @@ const Settings = ({
             setShowLapInfo     = {setShowLapInfo}
             newShowMiniMap       = {newShowMiniMap}
             setShowMiniMap     = {setShowMiniMap}
+
+            newFreecam = {newFreecam}
+            newIsSmoothReplayOn = {newIsSmoothReplayOn}
+            
             />
           </div>
         </div>
