@@ -17,51 +17,66 @@ const ghostNames = {
   personalBest: "best time"
 }
 
-const setMap = async(index,difficulty) => { //sets map 
-  if(difficulty == "personalBest"){
-    await getCurrentAuthReplay(index).then(replayObject => {
-      setGameMapIndex(index);
-      console.log(replayObject.replay);
-      setMapData(maps[index],[replayObject.replay])// array of one
-      return ("personal best");
-    })
-  }
-  else{ 
+const setMap = async(index) => { //sets map 
+  await getCurrentAuthReplay(index).then(replayObject => {
     setGameMapIndex(index);
-    console.log(replays[index][difficulty]["replay"])
-    setMapData(maps[index],[replays[index][difficulty]["replay"]])
-    return (ghostNames[difficulty] + " medal");
-  }
+    setMapData(maps[index],[
+      replayObject.replay , 
+      replays[index]["easy"]["replay"],
+      replays[index]["normal"]["replay"],
+      replays[index]["hard"]["replay"],
+      replays[index]["author"]["replay"]
+    ] )
+  })
+  
 }
 
 
 
 
 
-const RaceLocalButton = ({mapIndex,difficulty,isGhostEnabled, children,style}) => {
+const RaceAllLocalButton = ({mapIndex,difficulty,isGhostEnabled, children,style}) => {
   const navigate = useNavigate();
 
   const handleRaceLocal = (index,difficulty,isGhostEnabled) =>{
   
     console.log("starting", performance.now());
-    let ghostName = difficulty == "personalBest" ? "personal best" : (ghostNames[difficulty] + " medal");
 
-    updateGhostCarEnabledList(0, true)
-    for(let i = 1; i < 5; i++){
-      updateGhostCarEnabledList(i, false)
-    }
-    setMap(index,difficulty).then( () => {
+    const ghostNames = [
+      "personal best",
+      "bronze",
+      "silver",
+      "gold",
+      "author"
+    ]
+
+    const ghostColors = [
+      "personalBest",
+      "easy",
+      "normal",
+      "hard",
+      "author"
+    ]
+
+    setMap(index).then( () => {
 
       getCurrentAuthProfile().then(profileData => {
         setEnableGhost(isGhostEnabled);
         setSpectateMode(false)
 
         startGame();
-        nameGhost(ghostName,0)
-        colorGhostCar(difficulty,0);
+        for(const ghostNameIndex in ghostNames){
+          nameGhost(ghostNames[ghostNameIndex],ghostNameIndex)
+        }
+
+        for(const ghostColorIndex in ghostColors){
+          colorGhostCar(ghostColors[ghostColorIndex],ghostColorIndex)
+        }
         drawPlayerVehicle(profileData.vehicleID);
-        drawGhostVehicle("campaign",0)
-        //add a bot car for the local replays :)
+        for(let i = 0; i < 5; i++){
+          drawGhostVehicle("campaign", i)
+          updateGhostCarEnabledList(i, true)
+        }
         navigate("/countdown");
         console.log("finish", performance.now());
       })
@@ -76,4 +91,4 @@ const RaceLocalButton = ({mapIndex,difficulty,isGhostEnabled, children,style}) =
   )
 }
 
-export default RaceLocalButton;
+export default RaceAllLocalButton;

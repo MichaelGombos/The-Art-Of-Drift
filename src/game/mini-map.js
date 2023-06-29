@@ -21,7 +21,7 @@ const generateMiniMap = (mapData) => {
 }
 //push mini map to its own component, and create a window.generateMiniMap(mapCanvasRef) function that uses the canvas in the component instead of the one from elements.js. This should be easy...
 
-const updateMiniMapPlayers = (player,ghost) => {
+const updateMiniMapPlayers = (player,ghosts) => {
     let shouldShow = localStorage.getItem("showMiniMap") && JSON.parse(localStorage.getItem("showMiniMap"))
     if(!shouldShow){
         playerCanvas.classList.add("hidden")
@@ -42,9 +42,11 @@ const updateMiniMapPlayers = (player,ghost) => {
     playerCtx.strokeRect(player.getX()/getTilePixelCount(),player.getY()/getTilePixelCount(),80,80);
   
     playerCtx.fillStyle = "blue"
-    playerCtx.fillRect(ghost.getX()/getTilePixelCount(),ghost.getY()/getTilePixelCount(),80,80);
-    playerCtx.strokeRect(ghost.getX()/getTilePixelCount(),ghost.getY()/getTilePixelCount(),80,80);
-  
+
+    for(const ghost in ghosts){
+        playerCtx.fillRect(ghost.getX()/getTilePixelCount(),ghost.getY()/getTilePixelCount(),80,80);
+        playerCtx.strokeRect(ghost.getX()/getTilePixelCount(),ghost.getY()/getTilePixelCount(),80,80);
+    }
 
 }
 

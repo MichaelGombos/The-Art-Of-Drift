@@ -4,8 +4,8 @@ import {
 import{
   character,
   characterSprite,
-  ghostCharacter,
-  ghostCharacterSprite,
+  ghostCharacters,
+  ghostCharacterSprites,
   map,
   mapGrid,
   gameCanvas,
@@ -38,7 +38,20 @@ let debug = 0;
 
 let car = createCar(false);
 // experimental-multi-ghost-race: Initialize ghostCars[] as an array, and create 5 cars.
-let ghostCars = [createCar(true)];
+let ghostCars = [
+  createCar(true),
+  createCar(true),
+  createCar(true),
+  createCar(true),
+  createCar(true)
+];
+let ghostCarEnabledList = [
+  false,
+  false,
+  false,
+  false,
+  false
+]
 let ghostStep = 0; //kind of like dubstep, but for ghosts. 
 let maxLaps = undefined;
 let mapAngle = undefined;
@@ -126,7 +139,23 @@ const getSmoothReplay = () => {return isSmoothReplayOn}
 
 const setEnableGhost = (check) => {
   enableGhost = check;
-  check ? ghostCharacter.classList.remove("hidden") : ghostCharacter.classList.add("hidden")
+  if(check){
+    for(const ghostCharacter of ghostCharacters){
+      ghostCharacter.classList.remove("hidden")
+    }
+  }else{
+    for(const ghostCharacter of ghostCharacters){
+      ghostCharacter.classList.add("hidden")
+    }
+  }
+}
+
+const updateGhostCarEnabledList = (index, newValue) => {
+  ghostCarEnabledList[index] = newValue;
+}
+
+const getGhostCarEnabledList = () => {
+  return ghostCarEnabledList;
 }
 
 const setDirectionalCamera = (value) => {isDirectionalCameraOn = value}
@@ -195,10 +224,12 @@ const updateCarSpawnPosition = () => {
 
   if(maps[mapIndex]){
     characterSprite.style.transform = `rotate(${maps[mapIndex].spawnAngle}deg)`;
-    ghostCharacterSprite.style.transform = `rotate(${maps[mapIndex].spawnAngle}deg)`;
+    for(const ghostCharacterSprite of ghostCharacterSprites){
+      ghostCharacterSprite.style.transform = `rotate(${maps[mapIndex].spawnAngle}deg)`;
+    }
 
     car.setAngle(maps[mapIndex].spawnAngle,maps[mapIndex].spawnAngle)
-    for(let ghostCar of ghostCars){
+    for(const ghostCar of ghostCars){
       ghostCar.setAngle(maps[mapIndex].spawnAngle,maps[mapIndex].spawnAngle)
     }
   }
@@ -214,7 +245,7 @@ const updateCarSpawnPosition = () => {
 
   car.setX(spawn.x * tilePixelCount)
   car.setY(spawn.y * tilePixelCount)
-  for(let ghostCar of ghostCars){
+  for(const ghostCar of ghostCars){
     ghostCar.setX(spawn.x * tilePixelCount)
     ghostCar.setY(spawn.y * tilePixelCount)
   }
@@ -240,7 +271,7 @@ const resetCarValues = () => {
   startTime = then;
   
   car.resetValues(inSpectateMode)
-  for(let ghostCar of ghostCars){
+  for(const ghostCar of ghostCars){
     ghostCar.resetValues(inSpectateMode);
   }
   createParticleLayer(getMapDataDimensions().width, getMapDataDimensions().height)
@@ -258,7 +289,7 @@ const resetCarValues = () => {
 }
 const setMapData = (map,replayJSONList) => {
 
-  for(let ghostCarIndex in ghostCars){
+  for(const ghostCarIndex in ghostCars){
     nameGhost('', ghostCarIndex);
   }
   maxLaps = map.lapCount;
@@ -269,7 +300,7 @@ const setMapData = (map,replayJSONList) => {
     replays: []
   };
 
-  for(let replayJSON of replayJSONList){
+  for(const replayJSON of replayJSONList){
     mapData.replays.push(
       {
         inputs: JSON.parse(replayJSON.inputs),
@@ -327,7 +358,9 @@ const generateMap = (inputData) => {
 const checkGameOver = (currentLap) => {
   if (currentLap >= maxLaps) {
       car.setEngineLock(true); //disbales acceleration
-      ghostCars[0].setEngineLock(true); //disbales acceleration
+      for(const ghostCar of ghostCars){
+        ghostCar.setEngineLock(true); //disbales acceleration
+      }
       replayFinishTime = timeString;
       replayFinishSeconds = accumulatedTime;
       generateRaceFinishSound();
@@ -414,7 +447,7 @@ const placeGhost = (stepCount,ghostIndex) => {
     const ghostCar = ghostCars[ghostIndex]
     const closestGhostStepIndex = !isSmoothReplayOn ? findClosestIndex(mapData.replays[ghostIndex].runtimes, accumulatedTime) : ghostStep;
     
-
+    console.log("This is where we crash, " , mapData.replays , ghostIndex)
     ghost_inputs = mapData.replays[ghostIndex].inputs[closestGhostStepIndex];
     ghost_stats = mapData.replays[ghostIndex].stats[closestGhostStepIndex];
     ghost_runtime = mapData.replays[ghostIndex].runtimes[closestGhostStepIndex];
@@ -434,8 +467,12 @@ const placeGhost = (stepCount,ghostIndex) => {
     if(isFreecamOn){
       generateFrameSounds(ghostCar.getSpeed(),ghostCar.getX(), ghostCar.getY(), ghostCar.getDriftForce(), ghostCar.getOnDirt(), ghostCar.getAngle());
     }
-  ghostCharacter.style.transform = `translate3d( ${ghostCar.getX()*pixelSize}px, ${ghostCar.getY()*pixelSize}px, 0 )`;
-  ghostCharacterSprite.style.transform = `rotate(${ghostCar.getAngle().facing}deg)`;
+
+
+      ghostCharacters[ghostIndex].style.transform = `translate3d( ${ghostCar.getX()*pixelSize}px, ${ghostCar.getY()*pixelSize}px, 0 )`;
+
+    ghostCharacterSprites[ghostIndex].style.transform = `rotate(${ghostCar.getAngle().facing}deg)`;
+
 }
 
 
@@ -510,7 +547,7 @@ const placeCharacter = () => {
     // when free cam is on, allow the updateFreecamCamera function to be used. 
     if (held_directions && held_directions.length > 0) {
 
-      for(let direction of held_directions){
+      for(const direction of held_directions){
         let camPressure = 1;
         if(direction.includes("@")){
           camPressure = direction.slice(direction.indexOf("@")+1)
@@ -579,7 +616,7 @@ const placeCharacter = () => {
       if (car.getSpeed() != 0) {
         let pressure = 1;
           //turn
-          for(let direction of held_directions){
+          for(const direction of held_directions){
             if(direction.includes("@")){
               pressure = direction.slice(direction.indexOf("@")+1)
             }
@@ -596,7 +633,7 @@ const placeCharacter = () => {
             }
           }
       }
-      for(let direction of held_directions){
+      for(const direction of held_directions){
         let pressure = 1;
         car.updateAccelerating(false)
         if(direction.includes("@")){
@@ -632,19 +669,27 @@ const renderFirstFrame = () => {
   //draw stuff
   placeCharacter();
   if(enableGhost){
-    placeGhost(ghostStep,0);
+    for(const ghostCarIndex in ghostCars){
+      if(ghostCarEnabledList[ghostCarIndex]){
+        placeGhost(ghostStep,ghostCarIndex);
+      }
+    }
   }
-  updateMiniMapPlayers(car,ghostCars[0]); //need to have this function iterate through ghost cars
+  updateMiniMapPlayers(car,ghostCars); //need to have this function iterate through ghost cars
 }
 
 const renderNewFrame = () => {
   //draw stuff
   placeCharacter();
   if(enableGhost){
-    placeGhost(ghostStep,0);
+    for(const ghostCarIndex in ghostCars){
+      if(ghostCarEnabledList[ghostCarIndex]){
+        placeGhost(ghostStep,ghostCarIndex);
+      }
+    }
     ghostStep++;
   }
-  updateMiniMapPlayers(car,ghostCars[0]); //need to have this function iterate through ghost cars
+  updateMiniMapPlayers(car,ghostCars); //need to have this function iterate through ghost cars
 }
 
 Window.cosmeticPause = () => {
@@ -695,7 +740,7 @@ const step = (newtime) => {
   if (elapsed > fpsInterval) {
     then = now - (elapsed % fpsInterval);
     renderNewFrame();
-    // for(let i = 0; i < (Math.floor(60/currentFps)) ; i++){
+    // for(const i = 0; i < (Math.floor(60/currentFps)) ; i++){
     //   renderNewFrame();
     //   //this works compared to having a delta time multiplier. But I am noticing camera stuttering at low fps (<20)
     // }
@@ -756,6 +801,8 @@ document.addEventListener("keydown",handleGameInputDown)
 document.addEventListener("keyup", handleGameInputUp);
 
 export {
+  getGhostCarEnabledList,
+  updateGhostCarEnabledList,
   generateMap,
   getTargetFps,
   getPlayerCarObject,

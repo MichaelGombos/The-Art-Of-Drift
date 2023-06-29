@@ -8,6 +8,7 @@ import MapCanvasPreview from '../components/map-canvas-preview.js';
 import RaceLocalButton from '../components/race-local-button.js';
 import LocalMedalsList from '../components/local-medals-list.js';
 import { getCurrentAuthReplayTime } from '../helpers/databaseFacade.js';
+import RaceAllLocalButton from '../components/race-all-button.js';
 
 const CampaignLevel = () => {
   
@@ -47,6 +48,10 @@ const CampaignLevel = () => {
               mapIndex={mapIndex}
               difficulty={"easy"}
               isGhostEnabled={false}>race solo</RaceLocalButton>
+              <RaceAllLocalButton
+              mapIndex={mapIndex} 
+              isGhostEnabled={"true"}
+              >Race all ghosts</RaceAllLocalButton>
               <Button clickHandler={() => navigate(`/campaign/progression/${mapIndex}`)}>Progression</Button>
               <Button clickHandler={() => navigate(`/leaderboards/campaign/${mapIndex}`)}>Leaderboard</Button>
               <Button clickHandler={() => navigate(`/campaign`)}>Back</Button>
