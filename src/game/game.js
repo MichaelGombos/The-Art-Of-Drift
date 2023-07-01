@@ -472,8 +472,6 @@ const placeGhost = (stepCount,ghostIndex) => {
     ghost_runtime = mapData.replays[ghostIndex].runtimes[closestGhostStepIndex];
 
 
-
-
     if(ghost_stats){
       ghostCar.setStats(ghost_stats)
     }

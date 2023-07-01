@@ -490,46 +490,46 @@ const createCar = (isGhost) => {
         if (direction === "right" && !angleLock.right) {
             if (driftForce <= driftForceMax / 2) {
                 if(isAccelerating){
-                    driftForce += .271 * dt;
+                    driftForce += .271 * dt * pressure;
                 }
                 else{
-                    driftForce += .255 * dt;
+                    driftForce += .255 * dt * pressure;
                 }
             } else if (driftForce > driftForceMax / 2 && pressure > .5) {
                 if(isAccelerating){
-                    driftForce += .15 * dt;
+                    driftForce += .15 * dt * pressure;
                 }
                 else{
-                    driftForce += .10 * dt;
+                    driftForce += .10 * dt * pressure;
                 }
             }
 
 
-            angle.facing += (turningSpeed * dt ) * pressure;
-            angle.moving += (turningSpeed * dt ) / driftForce;
+            angle.facing += (turningSpeed * pressure * dt );
+            angle.moving += (turningSpeed * pressure * dt ) / driftForce;
 
 
         } else if (direction === "left" && !angleLock.left) {
             if (driftForce <= driftForceMax / 2) {
                 if(isAccelerating){
-                    driftForce += .271 * dt;
+                    driftForce += .271 * dt * pressure;
                 }
                 else{
-                    driftForce += .255 * dt;
+                    driftForce += .255 * dt * pressure;
                 }
             } else if (driftForce > driftForceMax / 2 && pressure > .5) {
                 if(isAccelerating){
-                    driftForce += .15 * dt;
+                    driftForce += .15 * dt * pressure;
                 }
                 else{
-                    driftForce += .10 * dt;
+                    driftForce += .10 * dt * pressure;
                 }
             }
 
 
 
-            angle.facing -= (turningSpeed * dt ) * Math.abs(pressure);
-            angle.moving -= (turningSpeed * dt ) / driftForce;
+            angle.facing -= (turningSpeed * pressure * dt )
+            angle.moving -= (turningSpeed * pressure * dt ) / driftForce;
 
             //degree correction
             if (angle.facing < 0) {

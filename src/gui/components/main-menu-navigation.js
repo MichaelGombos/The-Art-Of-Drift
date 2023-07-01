@@ -3,7 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { startGame, resetGame, unPauseGame} from "../../game/main.js"
-import {setGameMapIndex, setMapData} from "../../game/game.js"
+import {setEnableGhost, setGameMapIndex, setMapData} from "../../game/game.js"
 import {freeplay, test, tutorial } from  "../../game/map-data.js"
 import Button from './button.js';
 import deltaTimeTest from '../../game/maps/deltaTimeTest.js';
@@ -16,11 +16,12 @@ const MainMenuNavigation = () => {
     <Button style="primary" clickHandler={() => navigate("/campaign") }>campaign</Button>
     <Button style="light" clickHandler={()=> {
       setGameMapIndex(undefined)
-      setMapData(tutorial,{
+      setEnableGhost(false)
+      setMapData(tutorial,[{
         inputs:"[]",
         stats:"[]",
         runtimes:"[]"
-      });
+      }]);
       resetGame();
       navigate("/hidden")
     }}
@@ -29,22 +30,24 @@ const MainMenuNavigation = () => {
     <Button style="light" clickHandler={() => navigate("/leaderboards")}>leaderboards</Button>
     <Button style="light" clickHandler={()=> {
       setGameMapIndex(undefined)
-      setMapData(freeplay,{
+      setEnableGhost(false)
+      setMapData(freeplay,[{
         inputs:"[]",
         stats:"[]",
         runtimes:"[]"
-      });
+      }]);
       resetGame();
       navigate("/hidden")
     }}
     >Free Play</Button>
     <Button style="light" clickHandler={()=> {
       setGameMapIndex(undefined)
-      setMapData(deltaTimeTest,{
+      setEnableGhost(false)
+      setMapData(deltaTimeTest,[{
         inputs:"[]",
         stats:"[]",
         runtimes:"[]"
-      });
+      }]);
       resetGame();
       navigate("/hidden")
     }}
