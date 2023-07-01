@@ -256,10 +256,21 @@ const setMapData = (map,replayJSON) => {
   mapAutoDrive = map.autoDrive;
   mapData = {
     map:decompressMapData(map.data),
-    replay: {
-      inputs: JSON.parse(replayJSON.inputs),
-      stats: JSON.parse(replayJSON.stats),
-      runtimes: JSON.parse([replayJSON.runtimes])
+    replays: []
+  };
+  if(replayJSONList.length > 0){
+    console.log("What could this possibly be?",replayJSONList)
+    for(const replayJSON of replayJSONList){
+      if(Object.keys(replayJSON).length !== 0){
+        console.log(replayJSON)
+        mapData.replays.push(
+          {
+            inputs: JSON.parse(replayJSON.inputs),
+            stats: JSON.parse(replayJSON.stats),
+            runtimes: JSON.parse([replayJSON.runtimes])
+          }
+        )
+      }
     }
   };
   generateMap(mapData.map)

@@ -51,6 +51,12 @@ const RaceDatabaseButtons = ({replayObject,mapIndex, isTextShort, mapObject}) =>
   const handleWatchReplay = (replay,name,vehicleID,spectateTime) => () => {
 
     getCurrentAuthProfile().then(profileData => {
+      setSpectateMode(true);
+      updateGhostCarEnabledList(0,true)
+      updateGhostCarEnabledList(1,false)
+      updateGhostCarEnabledList(2,false)
+      updateGhostCarEnabledList(3,false)
+      updateGhostCarEnabledList(4,false)
       setEnableGhost(true);
       setMapData(mapInfo,replay);
       setSpectateMode(true);
@@ -67,6 +73,12 @@ const RaceDatabaseButtons = ({replayObject,mapIndex, isTextShort, mapObject}) =>
   const handleRaceAgainst = (replay,name,vehicleID) => () => {
 
     getCurrentAuthProfile().then(profileData => {
+      setSpectateMode(false);
+      updateGhostCarEnabledList(0,true)
+      updateGhostCarEnabledList(1,false)
+      updateGhostCarEnabledList(2,false)
+      updateGhostCarEnabledList(3,false)
+      updateGhostCarEnabledList(4,false)
       setEnableGhost(true);
       setMapData(mapInfo,replay);
       setSpectateMode(false);

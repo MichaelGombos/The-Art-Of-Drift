@@ -161,8 +161,10 @@ const updateCameraAngle = (angle) => {
   }
 }
 
-const nameGhost = (name) => {
-  ghostCharacterNameTag.innerHTML = name;
+const nameGhost = (name,index) => {
+  //the index is unused for now
+  console.warn("Still needs a function to actually paint the nametag")
+  ghostCharacterNameTags[index].innerHTML = name
 }
 
 
