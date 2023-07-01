@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { maps } from "../../game/map-data.js";
 import { startGame } from '../../game/main.js';
-import {setMapData, setEnableGhost, setSpectateTime, setSpectateMode,setGameMapIndex} from "../../game/game.js"
+import {setMapData, setEnableGhost, setSpectateTime, setSpectateMode,setGameMapIndex, updateGhostCarEnabledList} from "../../game/game.js"
 
 import { nameGhost, colorGhostCar, colorPlayerCar, drawGhostVehicle, drawPlayerVehicle} from '../../game/graphics.js';
 import Button from './button.js';
@@ -60,13 +60,16 @@ const RaceDatabaseButtons = ({replayObject,mapIndex, isTextShort, mapObject}) =>
       setEnableGhost(true);
       setMapData(mapInfo,replay);
       setSpectateMode(true);
+      updateGhostCarEnabledList(0,true)
+      setEnableGhost(true);
+      setMapData(mapInfo,[replay]);
       startGame();
-      nameGhost(name);
-
-      colorGhostCar("white")
+      nameGhost(name,0);
+      
+      colorGhostCar(0, "white")
       drawPlayerVehicle(profileData.vehicleID);
-      drawGhostVehicle(vehicleID);
-      navigate("/countdown");
+      drawGhostVehicle(vehicleID,0);
+      navigate("/countdown")
     })
   }
 
@@ -82,12 +85,15 @@ const RaceDatabaseButtons = ({replayObject,mapIndex, isTextShort, mapObject}) =>
       setEnableGhost(true);
       setMapData(mapInfo,replay);
       setSpectateMode(false);
+      updateGhostCarEnabledList(0,true)
+      setEnableGhost(true);
+      setMapData(mapInfo,[replay]);
       startGame();
-      nameGhost(name);
+      nameGhost(name,0);
       
-      colorGhostCar("white")
+      colorGhostCar(0, "white")
       drawPlayerVehicle(profileData.vehicleID);
-      drawGhostVehicle(vehicleID);
+      drawGhostVehicle(vehicleID,0);
       navigate("/countdown");
     })
   }

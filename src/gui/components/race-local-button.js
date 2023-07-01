@@ -1,7 +1,7 @@
 import React from "react";
 
 import {resetGame, startGame} from "../../game/main.js"
-import {setMapData,setEnableGhost, setSpectateMode, setGameMapIndex} from "../../game/game.js"
+import {setMapData,setEnableGhost, setSpectateMode, setGameMapIndex, updateGhostCarEnabledList} from "../../game/game.js"
 import { maps } from "../../game/map-data.js";
 import { replays } from "../../game/replay.js"
 import { colorGhostCar, colorPlayerCar, drawGhostVehicle, drawPlayerVehicle, nameGhost } from '../../game/graphics.js';
@@ -17,19 +17,19 @@ const ghostNames = {
   personalBest: "best time"
 }
 
-const setMap = async(index,difficulty) => { //sets map returns ghost name
+const setMap = async(index,difficulty) => { //sets map 
   if(difficulty == "personalBest"){
     await getCurrentAuthReplay(index).then(replayObject => {
       setGameMapIndex(index);
       console.log(replayObject.replay);
-      setMapData(maps[index],replayObject.replay)
+      setMapData(maps[index],[replayObject.replay])// array of one
       return ("personal best");
     })
   }
   else{ 
     setGameMapIndex(index);
     console.log(replays[index][difficulty]["replay"])
-    setMapData(maps[index],replays[index][difficulty]["replay"])
+    setMapData(maps[index],[replays[index][difficulty]["replay"]])
     return (ghostNames[difficulty] + " medal");
   }
 }
@@ -46,17 +46,21 @@ const RaceLocalButton = ({mapIndex,difficulty,isGhostEnabled, children,style}) =
     console.log("starting", performance.now());
     let ghostName = difficulty == "personalBest" ? "personal best" : (ghostNames[difficulty] + " medal");
 
-    setMap(index,difficulty).then( name => {
+    updateGhostCarEnabledList(0, true)
+    for(let i = 1; i < 5; i++){
+      updateGhostCarEnabledList(i, false)
+    }
+    setMap(index,difficulty).then( () => {
 
       getCurrentAuthProfile().then(profileData => {
         setEnableGhost(isGhostEnabled);
         setSpectateMode(false)
 
         startGame();
-        nameGhost(ghostName)
-        colorGhostCar(difficulty);
+        nameGhost(ghostName,0)
+        colorGhostCar(difficulty,0);
         drawPlayerVehicle(profileData.vehicleID);
-        drawGhostVehicle("campaign")
+        drawGhostVehicle("campaign",0)
         //add a bot car for the local replays :)
         navigate("/countdown");
         console.log("finish", performance.now());

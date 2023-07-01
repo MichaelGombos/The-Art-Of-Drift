@@ -1,6 +1,6 @@
 import { Application, Sprite, AnimatedSprite, Texture } from 'pixi.js';
 
-import {map,camera, mapParticles, ghostCharacter, characterSprite, ghostCharacterSprite, ghostCharacterNameTag , particleLayer, cameraShakeContainer} from "./elements.js"
+import {map,camera, mapParticles, ghostCharacters, characterSprite, ghostCharacterSprites, ghostCharacterNameTags , particleLayer, cameraShakeContainer} from "./elements.js"
 import { getDirectionalCamera, getPlayerCarObject } from "./game.js";
 
 
@@ -126,7 +126,7 @@ const vehicleTopDownGraphicURLs = [
 let animatedParticleTick = 0; //used to confirm if we should place a particle or wait.
 let staticParticleTick = 0; //used to confirm if we should place a particle or wait.
 
-map.insertBefore(mapParticles , ghostCharacter);
+// map.insertBefore(mapParticles , ghostCharacters);
 
 let intensityMultiplier = localStorage.getItem("intensityMultiplier") ?  JSON.parse(localStorage.getItem("intensityMultiplier"))  : 1;
 let smoothnessMultiplier = localStorage.getItem("smoothnessMultiplier") ? JSON.parse(localStorage.getItem("smoothnessMultiplier")) : 100;
@@ -180,12 +180,12 @@ Window.updateCarGraphics = (playerCarID, ghostCarID) => {
   console.log("updated car graphics", playerCarID, playerCarID)
 }
 
-const drawGhostVehicle = (vehicleID) => {
+const drawGhostVehicle = (vehicleID,ghostCarIndex) => {
   if(vehicleID == "campaign"){
-    ghostCharacterSprite.style.backgroundImage = `url(${vehicleTopDownGraphicCampaignURL})`
+    ghostCharacterSprites[ghostCarIndex].style.backgroundImage = `url(${vehicleTopDownGraphicCampaignURL})`
   }
   else{
-    ghostCharacterSprite.style.backgroundImage = `url(${vehicleTopDownGraphicURLs[vehicleID]})`
+    ghostCharacterSprites[ghostCarIndex].style.backgroundImage = `url(${vehicleTopDownGraphicURLs[vehicleID]})`
   }
 }
 
@@ -193,12 +193,12 @@ const colorPlayerCar = () => {
   // characterSprite.style.filter = playerColors[localStorage.getItem("playerColor")];
 }
 
-const colorGhostCar = (color) => {
+const colorGhostCar = (color, ghostCarIndex) => {
   if(ghostColors[color]){
-    ghostCharacterSprite.style.filter = ghostColors[color];
+    ghostCharacterSprites[ghostCarIndex].style.filter = ghostColors[color];
   }
   else if(playerColors[color]){
-    ghostCharacterSprite.style.filter = playerColors[color]
+    ghostCharacterSprites[ghostCarIndex].style.filter = playerColors[color]
   }
 
 }

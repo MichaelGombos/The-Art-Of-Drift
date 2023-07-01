@@ -30,7 +30,7 @@ const ghostNames = {
 
 
 
-const MedalRow = ({best, medal,currentDiff, setDiff,isGhostEnabled, setNewGhostEnabled, index}) => {
+const MedalRow = ({best, medal,difficultyList, toggleDifficulty,isGhostEnabled, setNewGhostEnabled, index, buttonIndex}) => {
 
   const unlockedMedals = {  
     personalBest : true,
@@ -52,8 +52,8 @@ const MedalRow = ({best, medal,currentDiff, setDiff,isGhostEnabled, setNewGhostE
   return (  
     <li className={`horizantal-navigation-menu act__navigation medal-row ${unlockedMedals[medal] ? "" : "locked-text"}`}>
       <div className="vertical-navigation-menu act__navigation medal-row__menu"> 
-      <Button style={currentDiff == medal ? "selected" : "light"} clickHandler={ () => {
-        setDiff(medal)
+      <Button style={difficultyList[buttonIndex] == true ? "selected" : "light"} clickHandler={ () => {
+        toggleDifficulty(buttonIndex)
       }
       }>{ghostNames[medal]}</Button>
       </div>

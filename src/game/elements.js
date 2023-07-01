@@ -4,9 +4,29 @@ const particleLayer = document.querySelector('#particle-layer')
 const character = document.querySelector(".character");
 const characterSprite = document.querySelector(".character_spritesheet")
 
-const ghostCharacter = document.querySelector(".ghost");
-const ghostCharacterSprite = document.querySelector(".ghost_spritesheet")
-const ghostCharacterNameTag = document.querySelector(".ghost .driver-name")
+const ghostCharacters = [ 
+    document.querySelector(".ghost-1"),
+    document.querySelector(".ghost-2"),
+    document.querySelector(".ghost-3"),
+    document.querySelector(".ghost-4"),
+    document.querySelector(".ghost-5")
+]
+
+const ghostCharacterSprites = [
+    document.querySelector(".ghost-1_spritesheet"),
+    document.querySelector(".ghost-2_spritesheet"),
+    document.querySelector(".ghost-3_spritesheet"),
+    document.querySelector(".ghost-4_spritesheet"),
+    document.querySelector(".ghost-5_spritesheet")
+]
+
+const ghostCharacterNameTags = [
+    document.querySelector(".ghost-1 .driver-name"),
+    document.querySelector(".ghost-2 .driver-name"),
+    document.querySelector(".ghost-3 .driver-name"),
+    document.querySelector(".ghost-4 .driver-name"),
+    document.querySelector(".ghost-5 .driver-name")
+]
 
 const stats = {
     time: document.querySelector("#time"),
@@ -44,9 +64,9 @@ export {
   particleLayer, 
   character,
   characterSprite,
-  ghostCharacter,
-  ghostCharacterSprite,
-  ghostCharacterNameTag,
+  ghostCharacters,
+  ghostCharacterSprites,
+  ghostCharacterNameTags,
   stats,
   timeHeader,
   fpsText,
