@@ -3,7 +3,7 @@ import { useFetcher, useNavigate } from "react-router-dom";
 
 import Button from "./button.js";
 import { maps } from '../../game/map-data.js';
-import { getInSpectateMode,getGameMapIndex,getReplayString,setEnableGhost,setMapData, getReplayObject } from "../../game/game";
+import { getInSpectateMode,getGameMapIndex,getReplayString,setEnableGhost,setMapData, getReplayObject, updateGhostCarEnabledList } from "../../game/game";
 import { pauseGame, resetGame, startGame,turnOffGame } from "../../game/main";
 import { getCurrentAuthProfile, getCurrentAuthReplay, getCurrentAuthReplayTime } from "../helpers/databaseFacade.js";
 import { auth } from "../helpers/firebase.js";
@@ -51,11 +51,13 @@ const FinishNavigation = ({newBest, mapIndex,bestReplayObject}) => {
 
   const racePB = (index,replayObject) => {
     getCurrentAuthProfile().then(profileData => {
-      setMapData(maps[index],replayObject.replay)
+      // setMapData(maps[index],replayObject.replay)
+      //do I even need to set the map data? isn't it already set? try..
       setEnableGhost(true);
       console.log("race pb" , replayObject)
-      colorGhostCar("personalBest")
-      drawGhostVehicle(replayObject.playerVehicle)
+      colorGhostCar("personalBest",0)
+      updateGhostCarEnabledList(0,true)
+      drawGhostVehicle(replayObject.playerVehicle,0)
       drawPlayerVehicle(profileData.vehicleID)
       resetGame();
       navigate("/hidden");
