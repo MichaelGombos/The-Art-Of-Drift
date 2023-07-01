@@ -16,9 +16,16 @@ const sendTime = async(mapIndex,replayObject) => {
   console.log("map History", getMapHistory())
 }
 
+const addToProgression = (index ,finishTime,finishSeconds) => {
+  //add current time to progression graph
+  const historyDate = new Date;
+  addToMapHistory(index,{time : finishTime, timeSeconds: finishSeconds, createdAt:`${historyDate.getMonth()}/${historyDate.getDay()}/${historyDate.getFullYear()}-${historyDate.getHours()}:${historyDate.getMinutes()}`}) 
+}
 const checkBest = (setter, index, oldPB) => {
   const finishTime = getReplayFinishTime();
   const finishSeconds = getReplayFinishSeconds();
+  addToProgression(index,finishTime, finishSeconds)
+
 
 
   if(!getInSpectateMode() && finishTime < oldPB || !oldPB || oldPB == "00:00:00.000"){
@@ -84,9 +91,7 @@ const checkBest = (setter, index, oldPB) => {
     })
 
 
-    const historyDate = new Date;
-    addToMapHistory(index,{time : finishTime, timeSeconds: finishSeconds, createdAt:`${historyDate.getMonth()}/${historyDate.getDay()}/${historyDate.getFullYear()}-${historyDate.getHours()}:${historyDate.getMinutes()}`}) //database time not yet supported in arrays.
-    console.log("databasetime", getDatabaseTime()) 
+
     return false;
   }
   else{
