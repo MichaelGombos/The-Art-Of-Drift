@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React , {useEffect} from 'react';
 
 import {getRunning, pauseGame,resetGame, unPauseGame} from "../../game/main.js"
 import { useNavigate } from 'react-router-dom';
@@ -19,8 +19,11 @@ const counterToTextMap = {
 const Countdown = () => {
   const navigate = useNavigate();
   const [counter, setCounter] = useState(3);
-
-  React.useEffect(() => {
+  useEffect(() => {
+    pauseGame();
+  },[]);
+  
+  useEffect(() => {
 
     if(counter < 0){
       navigate("/hidden");
@@ -38,7 +41,7 @@ const Countdown = () => {
 
   return (
     <>
-      <div className="countdown">
+      <div className={`countdown countdown__${counter} `}>
         <p className='f-p1'>{counterToTextMap[String(counter)]}</p>
       </div>
       <Hidden/>

@@ -449,6 +449,35 @@ button{
   gap:var(--gap-md);
 }
 
+/* ------- countdown ----- */
+
+.countdown{
+  background-color: rgba(0, 0, 0, 0.526);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width:100%;
+  height:100%;
+  z-index: 1;
+}
+
+.countdown__2{
+  background-color: rgba(0, 0, 0, 0.526);
+}
+
+.countdown__1{
+  background-color: rgba(0, 0, 0, 0.28);
+}
+
+.countdown__0{
+  background-color: rgba(0, 0, 0, 0.16);
+}
+
+
+.countdown p{
+  font-size:100px;
+}
 /* ------- hidden menu ------- */
 
 .hidden-menu{
