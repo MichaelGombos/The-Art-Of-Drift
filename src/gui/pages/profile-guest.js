@@ -112,6 +112,8 @@ const ProfileGuest = ({ user, loading, error}) => {
               <Button alignStart={true} style="primary" clickHandler = {() => navigate("/profile/guest/edit")}>Edit profile</Button>
               <Button alignStart={true}  clickHandler = {() => navigate("/profile/guest/upgrade/email")}>Upgrade to email account</Button>
               <Button alignStart={true} icon="google" clickHandler = {() => navigate("/profile/guest/upgrade/gmail")}>Upgrade to gmail account</Button>
+
+              <Button style="danger" clickHandler={( () => logOut('/'))}>Log Out</Button>
               <Button alignStart={true} clickHandler = {() => navigate(-1)}>Exit</Button> 
             </div>
 

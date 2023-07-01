@@ -77,11 +77,38 @@ const Settings = ({
       <div className="vertical-navigation-menu menu-container" >
         <div className="vertical-navigation-menu options-menu col-6 gap-lg align-center ">
           <h1 className="f-h1">Settings</h1>
-          <div  className="settings-wrapper col-2 align-center gap-md vertical-navigation-menu">
+          <div  className="scroll-container settings-wrapper col-3 align-center gap-md vertical-navigation-menu">
             {/* placeholder */}
-            <Button clickHandler={( () => navigate(isGuestSession ? "/profile/guest" : "/profile" ))}>View Profile</Button>
+            <ExitSettingsButton 
+            isSaving={true} 
+            setNewEnableGhost={setNewEnableGhost} 
+            setNewParticleLimit={setNewParticleLimit} 
+            setNewDirectionalCamera = {setNewDirectionalCamera} 
+            newEnableGhost={newEnableGhost} 
+            newParticleLimit={newParticleLimit} 
+            newDirectionalCamera={newDirectionalCamera}
+            newIntensityMultiplier = {newIntensityMultiplier}
+            newSmoothnessMultipler = {newSmoothnessMultipler}
+            newShowFPS           = {newShowFPS            }  
+            setShowFPS        = {setShowFPS         }  
+            newShowExtraStats    = {newShowExtraStats     }  
+            setShowExtraStats = {setShowExtraStats  }  
+            newShowDashboard     = {newShowDashboard      }    
+            setShowDashboard  = {setShowDashboard   }    
+
+            newShowHudButtons    = {newShowHudButtons}
+            setShowHudButtons  ={setShowHudButtons}
+            newShowLapInfo       = {newShowLapInfo}
+            setShowLapInfo     = {setShowLapInfo}
+            newShowMiniMap       = {newShowMiniMap}
+            setShowMiniMap     = {setShowMiniMap}
+
+            newFreecam = {newFreecam}
+            newIsSmoothReplayOn = {newIsSmoothReplayOn}
+            
+            />
+            <ExitSettingsButton isSaving={false} setNewDirectionalCamera = {setNewDirectionalCamera}  setNewEnableGhost={setNewEnableGhost} setNewParticleLimit={setNewParticleLimit} newEnableGhost={newEnableGhost} newParticleLimit={newParticleLimit} />
             <Button clickHandler={( () => navigate("/settings/keybinds" ))}>View Controls</Button>
-            <Button style="danger" clickHandler={( () => logOut('/'))}>Log Out</Button>
             <DeleteGameSaveButton gameDataSafeteyNet={gameDataSafeteyNet} setGameDataSafeteyNet={setGameDataSafeteyNet}/>
             <ResetSettingsButton 
             particleLimitSlider={particleLimitSlider}
@@ -135,7 +162,7 @@ const Settings = ({
               newValue={newDirectionalCamera} 
               setter={setNewDirectionalCamera}
               >
-                Enable Directional Camera
+                <span title="This feature will make your camera angle match your cars facing direction. I think its pretty fun, but it may give you a headache.">Enable Directional Camera⚠️</span>
               </InputToggle>
 
               <InputToggle 
@@ -202,39 +229,12 @@ const Settings = ({
               newValue={newIsSmoothReplayOn} 
               setter={setNewIsSmoothReplayOn}
               >
-                (experimental) Enable smooth replay
+                <span title="This feature is only meant for recording footage for the game trailer. Instead of taking the replays frametime and using the data from each frame to match up the replay, we will just run the replay as fast as we can. This will be an issue if your fps is below or above the replays recorded fps, but if not, it can give the recording a smoother look">Enable smooth replay⚠️</span>
+               
               </InputToggle>
 
 
-            <ExitSettingsButton isSaving={false} setNewDirectionalCamera = {setNewDirectionalCamera}  setNewEnableGhost={setNewEnableGhost} setNewParticleLimit={setNewParticleLimit} newEnableGhost={newEnableGhost} newParticleLimit={newParticleLimit} />
-            <ExitSettingsButton 
-            isSaving={true} 
-            setNewEnableGhost={setNewEnableGhost} 
-            setNewParticleLimit={setNewParticleLimit} 
-            setNewDirectionalCamera = {setNewDirectionalCamera} 
-            newEnableGhost={newEnableGhost} 
-            newParticleLimit={newParticleLimit} 
-            newDirectionalCamera={newDirectionalCamera}
-            newIntensityMultiplier = {newIntensityMultiplier}
-            newSmoothnessMultipler = {newSmoothnessMultipler}
-            newShowFPS           = {newShowFPS            }  
-            setShowFPS        = {setShowFPS         }  
-            newShowExtraStats    = {newShowExtraStats     }  
-            setShowExtraStats = {setShowExtraStats  }  
-            newShowDashboard     = {newShowDashboard      }    
-            setShowDashboard  = {setShowDashboard   }    
-
-            newShowHudButtons    = {newShowHudButtons}
-            setShowHudButtons  ={setShowHudButtons}
-            newShowLapInfo       = {newShowLapInfo}
-            setShowLapInfo     = {setShowLapInfo}
-            newShowMiniMap       = {newShowMiniMap}
-            setShowMiniMap     = {setShowMiniMap}
-
-            newFreecam = {newFreecam}
-            newIsSmoothReplayOn = {newIsSmoothReplayOn}
-            
-            />
+           
           </div>
         </div>
       </div>

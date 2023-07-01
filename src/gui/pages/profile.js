@@ -125,7 +125,7 @@ const Profile = ({ locationPathHistory, user, loading, error}) => {
 
             <div className="vertical-navigation-menu profile__navigation col-6 gap-sm">
               <Button alignStart={true} style="primary" clickHandler = {() => navigate("/profile/edit")}>Edit</Button>
-              <Button alignStart={true}  clickHandler = { handleGuestSignIn}>Logout (play as guest)</Button>
+               <Button style="danger" clickHandler={( () => logOut('/'))}>Log Out</Button>
               <Button alignStart={true} clickHandler = {() => navigate(firstPageThatWasntProfile)}>Exit</Button> 
             </div>
 
