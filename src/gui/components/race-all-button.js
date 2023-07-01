@@ -8,6 +8,7 @@ import { colorGhostCar, colorPlayerCar, drawGhostVehicle, drawPlayerVehicle, nam
 import { useNavigate } from "react-router-dom";
 import Button from "./button.js";
 import { getCurrentAuthProfile, getCurrentAuthReplay } from "../helpers/databaseFacade.js";
+import { generateSeededArray } from "../helpers/util.js";
 
 const ghostNames = {
   easy : "Bronze",
@@ -67,10 +68,8 @@ const RaceAllLocalButton = ({mapIndex,difficulty,isGhostEnabled, children,style,
         setSpectateMode(false)
 
         startGame();
-        console.log("This is right before ghost naming loop")
         for(const ghostNameIndex in ghostNames){
 
-          console.log("Inside the ghost naming loop", ghostNames, ghostNameIndex, ghostNames[ghostNameIndex])
           nameGhost(ghostNames[ghostNameIndex],ghostNameIndex)
         }
 
@@ -81,13 +80,17 @@ const RaceAllLocalButton = ({mapIndex,difficulty,isGhostEnabled, children,style,
         for(let i = 0; i < 5; i++){
           if(difficultyList[i]){
             if(difficultyList[i] ==true){
+              console.log("This is the list when I set the map, ", difficultyList)
               if(i == 0){
                 drawGhostVehicle(profileData.vehicleID, i)
               }
               else{
-                drawGhostVehicle("campaign", i)
+                drawGhostVehicle(generateSeededArray(mapIndex,5)[i], i)
               }
-              updateGhostCarEnabledList(i, true) //this needs to be done when buttons are toggled. //done?
+              updateGhostCarEnabledList(i, true)
+            }
+            else{
+              updateGhostCarEnabledList(i, false)
             }
           }
         }

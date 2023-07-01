@@ -35,4 +35,25 @@ export const findClosestIndex = (arr, target) => {
   return closest;
 }
 
-console.log("closes index test" , findClosestIndex([1,2,3,4,5,99,10], 7))
+class SeededRNG {
+  constructor(seed) {
+      this.seed = seed;
+  }
+
+  nextFloat() {
+      // LCG using parameters from Numerical Recipes
+      this.seed = (this.seed * 1664525 + 1013904223) % 4294967296;
+      return this.seed / 4294967296;
+  }
+}
+
+export const generateSeededArray = (seed, length) => {
+  const rng = new SeededRNG(seed);
+  const result = [];
+  for (let i = 0; i < length; i++) {
+      result.push(Math.floor(rng.nextFloat() * 8)); // generate numbers from 0 to 8 
+  }
+  return result;
+}
+
+console.log("generate seeded array test" , generateSeededArray(3,4))
