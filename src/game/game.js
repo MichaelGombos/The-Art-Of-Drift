@@ -467,7 +467,6 @@ const placeGhost = (stepCount,ghostIndex) => {
     const ghostCar = ghostCars[ghostIndex]
     const closestGhostStepIndex = !isSmoothReplayOn ? findClosestIndex(mapData.replays[ghostIndex].runtimes, accumulatedTime) : ghostStep;
     
-    console.log("This is where we crash, " , mapData.replays , ghostIndex)
     ghost_inputs = mapData.replays[ghostIndex].inputs[closestGhostStepIndex];
     ghost_stats = mapData.replays[ghostIndex].stats[closestGhostStepIndex];
     ghost_runtime = mapData.replays[ghostIndex].runtimes[closestGhostStepIndex];

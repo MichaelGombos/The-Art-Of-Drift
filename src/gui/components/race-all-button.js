@@ -80,8 +80,15 @@ const RaceAllLocalButton = ({mapIndex,difficulty,isGhostEnabled, children,style,
         drawPlayerVehicle(profileData.vehicleID);
         for(let i = 0; i < 5; i++){
           if(difficultyList[i]){
-            drawGhostVehicle("campaign", i)
-            updateGhostCarEnabledList(i, true) //this needs to be done when buttons are toggled. //done?
+            if(difficultyList[i] ==true){
+              if(i == 0){
+                drawGhostVehicle(profileData.vehicleID, i)
+              }
+              else{
+                drawGhostVehicle("campaign", i)
+              }
+              updateGhostCarEnabledList(i, true) //this needs to be done when buttons are toggled. //done?
+            }
           }
         }
         navigate("/countdown");
