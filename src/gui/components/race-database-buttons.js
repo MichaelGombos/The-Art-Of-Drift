@@ -53,6 +53,10 @@ const RaceDatabaseButtons = ({replayObject,mapIndex, isTextShort, mapObject}) =>
     getCurrentAuthProfile().then(profileData => {
       setSpectateMode(true);
       updateGhostCarEnabledList(0,true)
+      updateGhostCarEnabledList(1,false)
+      updateGhostCarEnabledList(2,false)
+      updateGhostCarEnabledList(3,false)
+      updateGhostCarEnabledList(4,false)
       setEnableGhost(true);
       setMapData(mapInfo,[replay]);
       startGame();
@@ -70,6 +74,10 @@ const RaceDatabaseButtons = ({replayObject,mapIndex, isTextShort, mapObject}) =>
     getCurrentAuthProfile().then(profileData => {
       setSpectateMode(false);
       updateGhostCarEnabledList(0,true)
+      updateGhostCarEnabledList(1,false)
+      updateGhostCarEnabledList(2,false)
+      updateGhostCarEnabledList(3,false)
+      updateGhostCarEnabledList(4,false)
       setEnableGhost(true);
       setMapData(mapInfo,[replay]);
       startGame();

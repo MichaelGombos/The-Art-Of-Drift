@@ -163,8 +163,8 @@ const updateCameraAngle = (angle) => {
 
 const nameGhost = (name,index) => {
   //the index is unused for now
-  console.warn("THE NAMEGHOST STILL NEEDS AN INDEX FOR MULTIPLE GHOSTS")
-  ghostCharacterNameTags[index] = name
+  console.warn("Still needs a function to actually paint the nametag")
+  ghostCharacterNameTags[index].innerHTML = name
 }
 
 

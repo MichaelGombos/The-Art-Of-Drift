@@ -300,8 +300,9 @@ const setMapData = (map,replayJSONList) => {
     replays: []
   };
   if(replayJSONList.length > 0){
+    console.log("What could this possibly be?",replayJSONList)
     for(const replayJSON of replayJSONList){
-      if(replayJSON == true){
+      if(Object.keys(replayJSON).length !== 0){
         console.log(replayJSON)
         mapData.replays.push(
           {

@@ -20,8 +20,10 @@ const ghostNames = {
 const setMap = async(index) => { //sets map 
   await getCurrentAuthReplay(index).then(replayObject => {
     setGameMapIndex(index);
+    const pbReplayData = replayObject ? replayObject.replay : 
+    replays[index]["author"]["replay"] //filler, could put empty objec
     setMapData(maps[index],[
-      replayObject.replay , 
+      pbReplayData , 
       replays[index]["easy"]["replay"],
       replays[index]["normal"]["replay"],
       replays[index]["hard"]["replay"],
@@ -65,7 +67,10 @@ const RaceAllLocalButton = ({mapIndex,difficulty,isGhostEnabled, children,style,
         setSpectateMode(false)
 
         startGame();
+        console.log("This is right before ghost naming loop")
         for(const ghostNameIndex in ghostNames){
+
+          console.log("Inside the ghost naming loop", ghostNames, ghostNameIndex, ghostNames[ghostNameIndex])
           nameGhost(ghostNames[ghostNameIndex],ghostNameIndex)
         }
 
