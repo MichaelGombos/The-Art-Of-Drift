@@ -162,12 +162,14 @@ const Menu = () => {
       }
     }
 
-    if(window.innerHeight < 800 || window.innerWidth < 800){
-      setShowMobileControls(true);
-    }else{
-      setShowMobileControls(false);
-    }
   }
+  const toggleMobileHud = (showHud) => (e) => {
+    console.log("this is the event that is toggling the hud", e)
+    setShowMobileControls(showHud);
+  }
+  document.addEventListener("keypress",toggleMobileHud(false))
+  document.addEventListener("touchstart",toggleMobileHud(true))
+  
 
 
   useEffect(() => {
@@ -545,6 +547,7 @@ class GUI extends Component {
     }
 
   }
+
    onKeyPressed = (e) => {
 
     //TODO replace with switch statement.
