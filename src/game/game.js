@@ -4,8 +4,8 @@ import {
 import{
   character,
   characterSprite,
-  ghostCharacter,
-  ghostCharacterSprite,
+  ghostCharacters,
+  ghostCharacterSprites,
   map,
   mapGrid,
   gameCanvas,
@@ -37,7 +37,21 @@ let debug = 0;
 // const ghostInput = 
 
 let car = createCar(false);
-let ghostCar = createCar(true);
+// experimental-multi-ghost-race: Initialize ghostCars[] as an array, and create 5 cars.
+let ghostCars = [
+  createCar(true),
+  createCar(true),
+  createCar(true),
+  createCar(true),
+  createCar(true)
+];
+let ghostCarEnabledList = [
+  false,
+  false,
+  false,
+  false,
+  false
+]
 let ghostStep = 0; //kind of like dubstep, but for ghosts. 
 let maxLaps = undefined;
 let mapAngle = undefined;
@@ -63,6 +77,8 @@ const carSize = tilePixelCount;
 let held_directions = []; 
 let full_keyboard_held_keys = []; //only used in the keybind settings page.
 let ghost_held_directions = []; 
+
+//experimental-multi-ghost-race: These can basically stay the same, althought I will have 5 ghosts, theoretically these should only be able to be used one at a time, which should save some
 let ghost_inputs = []
 let ghost_stats = []
 let ghost_runtime = []
@@ -94,7 +110,7 @@ let dt = 1;
 const tileTypes = ['road', 'wall', 'dirt', 'spawn', 'finish-up', 'finish-down', 'bumper', 'check-point-left-road', 'check-point-right-road', 'check-point-left-dirt', 'check-point-right-dirt']
 
 let mapData = {map:[[1]],
-replay:[[]]}; 
+replays:[[]]}; 
 let rows;
 let columns;
 let spawn = {};
@@ -123,7 +139,23 @@ const getSmoothReplay = () => {return isSmoothReplayOn}
 
 const setEnableGhost = (check) => {
   enableGhost = check;
-  check ? ghostCharacter.classList.remove("hidden") : ghostCharacter.classList.add("hidden")
+  if(check){
+    for(const ghostCharacter of ghostCharacters){
+      ghostCharacter.classList.remove("hidden")
+    }
+  }else{
+    for(const ghostCharacter of ghostCharacters){
+      ghostCharacter.classList.add("hidden")
+    }
+  }
+}
+
+const updateGhostCarEnabledList = (index, newValue) => {
+  ghostCarEnabledList[index] = newValue;
+}
+
+const getGhostCarEnabledList = () => {
+  return ghostCarEnabledList;
 }
 
 const setDirectionalCamera = (value) => {isDirectionalCameraOn = value}
@@ -165,7 +197,7 @@ const getSpectateTime = () => {return spectateTime}
 const getPlayerCarObject = () => {return car}
 
 const getStats = () => {
-  const target = inSpectateMode ? ghostCar : car;
+  const target = inSpectateMode ? ghostCars[0] : car;
   const targetInputs = inSpectateMode ? (ghost_inputs ? ghost_inputs : [[]])  : held_directions;
   return {
     fps : currentFps,
@@ -192,10 +224,14 @@ const updateCarSpawnPosition = () => {
 
   if(maps[mapIndex]){
     characterSprite.style.transform = `rotate(${maps[mapIndex].spawnAngle}deg)`;
-    ghostCharacterSprite.style.transform = `rotate(${maps[mapIndex].spawnAngle}deg)`;
+    for(const ghostCharacterSprite of ghostCharacterSprites){
+      ghostCharacterSprite.style.transform = `rotate(${maps[mapIndex].spawnAngle}deg)`;
+    }
 
     car.setAngle(maps[mapIndex].spawnAngle,maps[mapIndex].spawnAngle)
-    ghostCar.setAngle(maps[mapIndex].spawnAngle,maps[mapIndex].spawnAngle)
+    for(const ghostCar of ghostCars){
+      ghostCar.setAngle(maps[mapIndex].spawnAngle,maps[mapIndex].spawnAngle)
+    }
   }
   else{
     characterSprite.style.transform = `rotate(${mapAngle}deg)`
@@ -209,8 +245,10 @@ const updateCarSpawnPosition = () => {
 
   car.setX(spawn.x * tilePixelCount)
   car.setY(spawn.y * tilePixelCount)
-  ghostCar.setX(spawn.x * tilePixelCount)
-  ghostCar.setY(spawn.y * tilePixelCount)
+  for(const ghostCar of ghostCars){
+    ghostCar.setX(spawn.x * tilePixelCount)
+    ghostCar.setY(spawn.y * tilePixelCount)
+  }
 }
 
 const setSpectateMode = (spectateMode) => {
@@ -233,8 +271,9 @@ const resetCarValues = () => {
   startTime = then;
   
   car.resetValues(inSpectateMode)
-  ghostCar.resetValues(inSpectateMode);
-
+  for(const ghostCar of ghostCars){
+    ghostCar.resetValues(inSpectateMode);
+  }
   createParticleLayer(getMapDataDimensions().width, getMapDataDimensions().height)
   console.log("PARTICLE LAYER DIMENSIONS", getMapDataDimensions().width, getMapDataDimensions().height)
   updateCarSpawnPosition();
@@ -248,20 +287,33 @@ const resetCarValues = () => {
 
   
 }
-const setMapData = (map,replayJSON) => {
+const setMapData = (map,replayJSONList) => {
 
-  nameGhost('');
+  for(const ghostCarIndex in ghostCars){
+    nameGhost('', ghostCarIndex);
+  }
   maxLaps = map.lapCount;
   mapAngle = map.spawnAngle;
   mapAutoDrive = map.autoDrive;
   mapData = {
     map:decompressMapData(map.data),
-    replay: {
-      inputs: JSON.parse(replayJSON.inputs),
-      stats: JSON.parse(replayJSON.stats),
-      runtimes: JSON.parse([replayJSON.runtimes])
-    }
+    replays: []
   };
+  if(replayJSONList.length > 0){
+    for(const replayJSON of replayJSONList){
+      if(replayJSON == true){
+        console.log(replayJSON)
+        mapData.replays.push(
+          {
+            inputs: JSON.parse(replayJSON.inputs),
+            stats: JSON.parse(replayJSON.stats),
+            runtimes: JSON.parse([replayJSON.runtimes])
+          }
+        )
+      }
+    }
+  }
+
   generateMap(mapData.map)
   generateMiniMap(mapData.map)
 }
@@ -311,7 +363,9 @@ const generateMap = (inputData) => {
 const checkGameOver = (currentLap) => {
   if (currentLap >= maxLaps) {
       car.setEngineLock(true); //disbales acceleration
-      ghostCar.setEngineLock(true); //disbales acceleration
+      for(const ghostCar of ghostCars){
+        ghostCar.setEngineLock(true); //disbales acceleration
+      }
       replayFinishTime = timeString;
       replayFinishSeconds = accumulatedTime;
       generateRaceFinishSound();
@@ -393,16 +447,15 @@ const zoomFreecam = (direction, multiplier) => {
     }
   }
 }
-const placeGhost = (stepCount) => {
-    //ghost_held_directions = mapData.replay.inputs[stepCount]
-
-
-    const closestGhostStepIndex = !isSmoothReplayOn ? findClosestIndex(mapData.replay.runtimes, accumulatedTime) : ghostStep;
+const placeGhost = (stepCount,ghostIndex) => {
+   //experimental-multi-ghost-race : Going to change this function by adding the ghostCar as a parameter. and the replay data should also be contained in an array
+    const ghostCar = ghostCars[ghostIndex]
+    const closestGhostStepIndex = !isSmoothReplayOn ? findClosestIndex(mapData.replays[ghostIndex].runtimes, accumulatedTime) : ghostStep;
     
-
-    ghost_inputs = mapData.replay.inputs[closestGhostStepIndex];
-    ghost_stats = mapData.replay.stats[closestGhostStepIndex];
-    ghost_runtime = mapData.replay.runtimes[closestGhostStepIndex];
+    console.log("This is where we crash, " , mapData.replays , ghostIndex)
+    ghost_inputs = mapData.replays[ghostIndex].inputs[closestGhostStepIndex];
+    ghost_stats = mapData.replays[ghostIndex].stats[closestGhostStepIndex];
+    ghost_runtime = mapData.replays[ghostIndex].runtimes[closestGhostStepIndex];
 
 
 
@@ -410,87 +463,21 @@ const placeGhost = (stepCount) => {
     if(ghost_stats){
       ghostCar.setStats(ghost_stats)
     }
-    if(stepCount == mapData.replay.inputs.length && inSpectateMode){
+    if(stepCount == mapData.replays[ghostIndex].inputs.length && inSpectateMode){
       window.changeGUIScreen("/finish");
     }
 
-    // if (ghost_held_directions && ghost_held_directions.length > 0) {
-    //   if (ghostCar.getSpeed() != 0) {
-    //       let pressure = 1;
-    //       //turn
-    //       for(let direction of ghost_held_directions){
-    //         if(direction.includes("@")){
-    //           pressure = direction.slice(direction.indexOf("@")+1)
-    //         }
-
-    //         if (direction.includes(directions.right)) {
-    //           ghostCar.turn("right",pressure);
-    //           ghostCar.setTurning(true)
-    //         } else if (direction.includes(directions.left)) {
-    //           ghostCar.turn("left",pressure);
-    //           ghostCar.setTurning(true)
-    //         }
-    //         else{
-    //           ghostCar.setTurning(false)
-    //         }
-    //       }
-    //       ghostCharacterSprite.style.transform = `rotate(${ghostCar.getAngle().facing}deg)`;
-    //   }
-    //   for(let direction of ghost_held_directions){
-    //     let pressure = 1;
-    //     if(direction.includes("@")){
-    //       pressure = direction.slice(direction.indexOf("@")+1)
-    //     }
-    //     if (direction.includes(directions.down)) {
-    //       ghostCar.accelerate(false,pressure)
-    //     }
-    //     if (direction.includes(directions.up)) {
-    //       ghostCar.accelerate(true,pressure)
-    //     }
-    //   }
-    // }
-
-    // ghostCar.updateAngleLock()
-    // ghostCar.stabalizeDriftForce();
-    // ghostCar.stabalizeAngle()
-    // ghostCar.updateHandling();
     generateFrameParticles(ghostCar.getSpeed(),ghostCar.getX(), ghostCar.getY(), ghostCar.getDriftForce(), ghostCar.getOnDirt(), ghostCar.getAngle());
 
     if(isFreecamOn){
       generateFrameSounds(ghostCar.getSpeed(),ghostCar.getX(), ghostCar.getY(), ghostCar.getDriftForce(), ghostCar.getOnDirt(), ghostCar.getAngle());
     }
-  // if (ghostCar.getSpeed() != 0) {
-  //   ghostCar.collision(tilePixelCount, rows, columns, mapData.map)
-  //     //friction
-  //     ghostCar.applyFriction();
-  // }
 
-  //Limits (gives the illusion of walls)
-  //set the right and bottom limit to the image size in the dom
 
-  // const leftLimit = 0;
-  // const rightLimit = (columns * tilePixelCount) - carSize;
-  // const topLimit = 0;
-  // const bottomLimit = (rows * tilePixelCount) - carSize;
-  // if (ghostCar.getX() < leftLimit) {
-  //   ghostCar.setX(leftLimit);
-  //   ghostCar.reduceSpeed()
-  // }
-  // if (ghostCar.getX() > rightLimit) {
-  //   ghostCar.setX(rightLimit);
-  //   ghostCar.reduceSpeed()
-  // }
-  // if (ghostCar.getY() < topLimit) {
-  //   ghostCar.setY(topLimit);
-  //   ghostCar.reduceSpeed()
-  // }
-  // if (ghostCar.getY() > bottomLimit) {
-  //   ghostCar.setY(bottomLimit);
-  //   ghostCar.reduceSpeed()
-  // }
+      ghostCharacters[ghostIndex].style.transform = `translate3d( ${ghostCar.getX()*pixelSize}px, ${ghostCar.getY()*pixelSize}px, 0 )`;
 
-  ghostCharacter.style.transform = `translate3d( ${ghostCar.getX()*pixelSize}px, ${ghostCar.getY()*pixelSize}px, 0 )`;
-  ghostCharacterSprite.style.transform = `rotate(${ghostCar.getAngle().facing}deg)`;
+    ghostCharacterSprites[ghostIndex].style.transform = `rotate(${ghostCar.getAngle().facing}deg)`;
+
 }
 
 
@@ -565,7 +552,7 @@ const placeCharacter = () => {
     // when free cam is on, allow the updateFreecamCamera function to be used. 
     if (held_directions && held_directions.length > 0) {
 
-      for(let direction of held_directions){
+      for(const direction of held_directions){
         let camPressure = 1;
         if(direction.includes("@")){
           camPressure = direction.slice(direction.indexOf("@")+1)
@@ -605,12 +592,12 @@ const placeCharacter = () => {
     resetFreecamLocation();
   }
 
-  if(inSpectateMode){
-    car.setX(ghostCar.getX());
-    car.setY(ghostCar.getY());
-    updateCameraShake(ghostCar.getSpeed())
-    updateCameraScale(ghostCar.getSpeed())
-    updateCameraAngle(ghostCar.getAngle())
+  if(inSpectateMode){ //for now will just choose the first car.
+    car.setX(ghostCars[0].getX());
+    car.setY(ghostCars[0].getY());
+    updateCameraShake(ghostCars[0].getSpeed())
+    updateCameraScale(ghostCars[0].getSpeed())
+    updateCameraAngle(ghostCars[0].getAngle())
   }
   else{
     updateCameraShake(car.getDriftForce())
@@ -634,7 +621,7 @@ const placeCharacter = () => {
       if (car.getSpeed() != 0) {
         let pressure = 1;
           //turn
-          for(let direction of held_directions){
+          for(const direction of held_directions){
             if(direction.includes("@")){
               pressure = direction.slice(direction.indexOf("@")+1)
             }
@@ -651,7 +638,7 @@ const placeCharacter = () => {
             }
           }
       }
-      for(let direction of held_directions){
+      for(const direction of held_directions){
         let pressure = 1;
         car.updateAccelerating(false)
         if(direction.includes("@")){
@@ -687,19 +674,27 @@ const renderFirstFrame = () => {
   //draw stuff
   placeCharacter();
   if(enableGhost){
-    placeGhost(ghostStep);
+    for(const ghostCarIndex in ghostCars){
+      if(ghostCarEnabledList[ghostCarIndex]){
+        placeGhost(ghostStep,ghostCarIndex);
+      }
+    }
   }
-  updateMiniMapPlayers(car,ghostCar);
+  updateMiniMapPlayers(car,ghostCars); //need to have this function iterate through ghost cars
 }
 
 const renderNewFrame = () => {
   //draw stuff
   placeCharacter();
   if(enableGhost){
-    placeGhost(ghostStep);
+    for(const ghostCarIndex in ghostCars){
+      if(ghostCarEnabledList[ghostCarIndex]){
+        placeGhost(ghostStep,ghostCarIndex);
+      }
+    }
     ghostStep++;
   }
-  updateMiniMapPlayers(car,ghostCar);
+  updateMiniMapPlayers(car,ghostCars); //need to have this function iterate through ghost cars
 }
 
 Window.cosmeticPause = () => {
@@ -750,7 +745,7 @@ const step = (newtime) => {
   if (elapsed > fpsInterval) {
     then = now - (elapsed % fpsInterval);
     renderNewFrame();
-    // for(let i = 0; i < (Math.floor(60/currentFps)) ; i++){
+    // for(const i = 0; i < (Math.floor(60/currentFps)) ; i++){
     //   renderNewFrame();
     //   //this works compared to having a delta time multiplier. But I am noticing camera stuttering at low fps (<20)
     // }
@@ -811,6 +806,8 @@ document.addEventListener("keydown",handleGameInputDown)
 document.addEventListener("keyup", handleGameInputUp);
 
 export {
+  getGhostCarEnabledList,
+  updateGhostCarEnabledList,
   generateMap,
   getTargetFps,
   getPlayerCarObject,
