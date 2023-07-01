@@ -299,16 +299,21 @@ const setMapData = (map,replayJSONList) => {
     map:decompressMapData(map.data),
     replays: []
   };
-
-  for(const replayJSON of replayJSONList){
-    mapData.replays.push(
-      {
-        inputs: JSON.parse(replayJSON.inputs),
-        stats: JSON.parse(replayJSON.stats),
-        runtimes: JSON.parse([replayJSON.runtimes])
+  if(replayJSONList.length > 0){
+    for(const replayJSON of replayJSONList){
+      if(replayJSON == true){
+        console.log(replayJSON)
+        mapData.replays.push(
+          {
+            inputs: JSON.parse(replayJSON.inputs),
+            stats: JSON.parse(replayJSON.stats),
+            runtimes: JSON.parse([replayJSON.runtimes])
+          }
+        )
       }
-    )
+    }
   }
+
   generateMap(mapData.map)
   generateMiniMap(mapData.map)
 }
