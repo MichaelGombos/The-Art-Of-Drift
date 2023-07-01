@@ -7,9 +7,16 @@ import { getInSpectateMode,getGameMapIndex,getReplayString,setEnableGhost,setMap
 import { pauseGame, resetGame, startGame,turnOffGame } from "../../game/main";
 import { getCurrentAuthProfile, getCurrentAuthReplay, getCurrentAuthReplayTime } from "../helpers/databaseFacade.js";
 import { auth } from "../helpers/firebase.js";
-import { colorGhostCar, drawGhostVehicle, drawPlayerVehicle } from "../../game/graphics.js";
+import { colorGhostCar, drawGhostVehicle, drawPlayerVehicle, nameGhost } from "../../game/graphics.js";
+import { replays } from "../../game/replay.js";
 
-
+const ghostNames = [
+  "personal best",
+  "bronze",
+  "silver",
+  "gold",
+  "author"
+]
 const FinishNavigation = ({newBest, mapIndex,bestReplayObject}) => {
 
   const navigate = useNavigate();
@@ -51,12 +58,20 @@ const FinishNavigation = ({newBest, mapIndex,bestReplayObject}) => {
 
   const racePB = (index,replayObject) => {
     getCurrentAuthProfile().then(profileData => {
-      // setMapData(maps[index],replayObject.replay)
-      //do I even need to set the map data? isn't it already set? try..
+      setMapData(maps[index],
+        [replayObject.replay, 
+        replays[index]["easy"]["replay"],
+        replays[index]["normal"]["replay"],
+        replays[index]["hard"]["replay"],
+        replays[index]["author"]["replay"]]
+        )
       setEnableGhost(true);
       console.log("race pb" , replayObject)
       colorGhostCar("personalBest",0)
       updateGhostCarEnabledList(0,true)
+      for(const ghostNameIndex in ghostNames){
+        nameGhost(ghostNames[ghostNameIndex],ghostNameIndex)
+      }
       drawGhostVehicle(replayObject.playerVehicle,0)
       drawPlayerVehicle(profileData.vehicleID)
       resetGame();

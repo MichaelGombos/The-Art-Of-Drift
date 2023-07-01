@@ -464,8 +464,10 @@ const zoomFreecam = (direction, multiplier) => {
 }
 const placeGhost = (stepCount,ghostIndex) => {
    //experimental-multi-ghost-race : Going to change this function by adding the ghostCar as a parameter. and the replay data should also be contained in an array
+    console.log("This moment we own it ", ghostIndex, mapData.replays)
     const ghostCar = ghostCars[ghostIndex]
     const closestGhostStepIndex = !isSmoothReplayOn ? findClosestIndex(mapData.replays[ghostIndex].runtimes, accumulatedTime) : ghostStep;
+
     
     ghost_inputs = mapData.replays[ghostIndex].inputs[closestGhostStepIndex];
     ghost_stats = mapData.replays[ghostIndex].stats[closestGhostStepIndex];

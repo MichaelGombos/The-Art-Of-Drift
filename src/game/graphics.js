@@ -225,10 +225,10 @@ const generateFrameParticles = (rawSpeed, x,y ,driftForce, onDirt,angle) => {
       addParticle("tire_tracks",1,x, y, driftForce, angle.facing, (driftForce-4.5) / 2.5) //magic number to get to 7, the max drift force.
       if(driftForce > 5){
 
-        addParticle("road_dust",speed/20,x + (Math.floor(Math.random() * 60) - 30 ) , y, driftForce, angle.moving)
-        addParticle("road_dust",speed/20,x + (Math.floor(Math.random() * 60) - 30 ), y, driftForce, angle.moving)
-        addParticle("road_dust",speed/20,x, y + (Math.floor(Math.random() * 60) - 30 ), driftForce, angle.moving)
-        addParticle("road_dust",speed/20,x, y + (Math.floor(Math.random() * 60) - 30 ), driftForce, angle.moving)
+        addParticle("road_dust",speed/20,x + (Math.floor(Math.random() * 3 * speed) - 1.5 * speed ) , y, driftForce, angle.moving)
+        addParticle("road_dust",speed/20,x + (Math.floor(Math.random() * 3 * speed) -  1.5 * speed ), y, driftForce, angle.moving)
+        addParticle("road_dust",speed/20,x, y + (Math.floor(Math.random() * 3 * speed) -  1.5 * speed ), driftForce, angle.moving)
+        addParticle("road_dust",speed/20,x, y + (Math.floor(Math.random() * 3 * speed) -  1.5 * speed ), driftForce, angle.moving)
       }
 
   }
