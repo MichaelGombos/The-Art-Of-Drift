@@ -23,6 +23,8 @@ const CampaignLevel = () => {
     tempDifficultyList[index] = !tempDifficultyList[index]
     setDifficultyList(tempDifficultyList)
     console.log("just tried to toggle the difficulty List!",index,tempDifficultyList)
+    window.refreshDocumentTree()
+
   }
 
   useEffect(() => {
@@ -30,6 +32,7 @@ const CampaignLevel = () => {
       setBestTime(time);
     })
   },[])
+
 
   //need a calculate medals function.
   return (
@@ -49,7 +52,10 @@ const CampaignLevel = () => {
 
           <div className='horizantal-navigation-menu act__navigation level-menu__footer row w-100 gap-md'>
             <div className='vertical-navigation-menu act__navigation level-navigation col-2 gap-md'>
-              {
+
+
+
+{
                 !difficultyList.every(diff => diff === false) //ensure there is atleast one enabled
                 ?
                 <RaceAllLocalButton
@@ -58,18 +64,20 @@ const CampaignLevel = () => {
                 difficultyList = {difficultyList}
                 isGhostEnabled={"true"}
                 >{difficultyList.filter(diff => diff === true).length === 1 ? //check if only one is selected.
-                "Race selected time"
+                "Race medal"
                 :
-                "Race selected times"
+                "Race medals"
                 }</RaceAllLocalButton>
                 : 
-                ""
+                <RaceAllLocalButton
+                style="light" 
+                mapIndex={mapIndex} 
+                difficultyList = {difficultyList}
+                isGhostEnabled={"true"}
+                >
+                Race solo
+                </RaceAllLocalButton>
               }
-
-              <RaceLocalButton style="light" 
-              mapIndex={mapIndex}
-              difficulty={"easy"}
-              isGhostEnabled={false}>race solo</RaceLocalButton>
               <Button clickHandler={() => navigate(`/campaign/progression/${mapIndex}`)}>Progression</Button>
               <Button clickHandler={() => navigate(`/leaderboards/campaign/${mapIndex}`)}>Leaderboard</Button>
               <Button clickHandler={() => navigate(`/campaign`)}>Back</Button>
