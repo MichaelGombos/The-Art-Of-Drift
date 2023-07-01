@@ -35,7 +35,7 @@ const setMap = async(index) => { //sets map
 
 
 
-const RaceAllLocalButton = ({mapIndex,difficulty,isGhostEnabled, children,style}) => {
+const RaceAllLocalButton = ({mapIndex,difficulty,isGhostEnabled, children,style,difficultyList}) => {
   const navigate = useNavigate();
 
   const handleRaceLocal = (index,difficulty,isGhostEnabled) =>{
@@ -74,8 +74,10 @@ const RaceAllLocalButton = ({mapIndex,difficulty,isGhostEnabled, children,style}
         }
         drawPlayerVehicle(profileData.vehicleID);
         for(let i = 0; i < 5; i++){
-          drawGhostVehicle("campaign", i)
-          updateGhostCarEnabledList(i, true)
+          if(difficultyList[i]){
+            drawGhostVehicle("campaign", i)
+            updateGhostCarEnabledList(i, true) //this needs to be done when buttons are toggled. //done?
+          }
         }
         navigate("/countdown");
         console.log("finish", performance.now());

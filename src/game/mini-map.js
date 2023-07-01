@@ -43,7 +43,7 @@ const updateMiniMapPlayers = (player,ghosts) => {
   
     playerCtx.fillStyle = "blue"
 
-    for(const ghost in ghosts){
+    for(const ghost of ghosts){
         playerCtx.fillRect(ghost.getX()/getTilePixelCount(),ghost.getY()/getTilePixelCount(),80,80);
         playerCtx.strokeRect(ghost.getX()/getTilePixelCount(),ghost.getY()/getTilePixelCount(),80,80);
     }

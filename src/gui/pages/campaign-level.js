@@ -15,7 +15,16 @@ const CampaignLevel = () => {
   const navigate = useNavigate();
   let {mapIndex} = useParams();
   let [difficulty, setDifficulty] = useState("easy");
+  let [difficultyList, setDifficultyList] = useState([false,false,false,false,false])
   const [bestTime, setBestTime] = useState()
+
+  const toggleDifficulty = (index) => {
+    const tempDifficultyList = JSON.parse(JSON.stringify(difficultyList))
+    tempDifficultyList[index] = !tempDifficultyList[index]
+    setDifficultyList(tempDifficultyList)
+    console.log("just tried to toggle the difficulty List!",index,tempDifficultyList)
+  }
+
   useEffect(() => {
     getCurrentAuthReplayTime(mapIndex).then(time => {
       setBestTime(time);
@@ -33,25 +42,34 @@ const CampaignLevel = () => {
 
           <div className='horizantal-navigation-menu act__navigation level-menu__main row w-100 gap-md align-center'>
             <div className="vertical-navigation-menu act__navigation difficulty-selector col-2 gap-md">
-              <LocalMedalsList pb={bestTime} difficulty={difficulty} setDifficulty={setDifficulty} mapIndex={mapIndex} />
+              <LocalMedalsList pb={bestTime} difficultyList={difficultyList} toggleDifficulty={toggleDifficulty} difficulty={difficulty} setDifficulty={setDifficulty} mapIndex={mapIndex} />
             </div>
             <MapCanvasPreview width="col-4" mapIndex={mapIndex}/>
           </div>
 
           <div className='horizantal-navigation-menu act__navigation level-menu__footer row w-100 gap-md'>
             <div className='vertical-navigation-menu act__navigation level-navigation col-2 gap-md'>
-              <RaceLocalButton style="primary" 
-              mapIndex={mapIndex}
-              difficulty={difficulty}
-              isGhostEnabled={true}>Race selected time</RaceLocalButton>
+              {
+                !difficultyList.every(diff => diff === false) //ensure there is atleast one enabled
+                ?
+                <RaceAllLocalButton
+                style="primary" 
+                mapIndex={mapIndex} 
+                difficultyList = {difficultyList}
+                isGhostEnabled={"true"}
+                >{difficultyList.filter(diff => diff === true).length === 1 ? //check if only one is selected.
+                "Race selected time"
+                :
+                "Race selected times"
+                }</RaceAllLocalButton>
+                : 
+                ""
+              }
+
               <RaceLocalButton style="light" 
               mapIndex={mapIndex}
               difficulty={"easy"}
               isGhostEnabled={false}>race solo</RaceLocalButton>
-              <RaceAllLocalButton
-              mapIndex={mapIndex} 
-              isGhostEnabled={"true"}
-              >Race all ghosts</RaceAllLocalButton>
               <Button clickHandler={() => navigate(`/campaign/progression/${mapIndex}`)}>Progression</Button>
               <Button clickHandler={() => navigate(`/leaderboards/campaign/${mapIndex}`)}>Leaderboard</Button>
               <Button clickHandler={() => navigate(`/campaign`)}>Back</Button>
