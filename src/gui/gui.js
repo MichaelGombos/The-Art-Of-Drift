@@ -310,6 +310,7 @@ const Menu = () => {
       showHudButtons={showHudButtons}
       showLapInfo={showLapInfo}
       showDebugMenu={showDebugMenu}
+      setShowDebugMenu={setShowDebugMenu}
        />}/>
       <Route  path="/pause" element={<Pause setPrevious={setPreviousType} />}/>
       <Route  path="/finish" element={<Finish/>}/>

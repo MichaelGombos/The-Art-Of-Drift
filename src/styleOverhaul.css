@@ -484,11 +484,21 @@ button{
   width: 100%;
   padding:20px;
 }
+.hidden-menu__debug-menu{
+  position: absolute;
+  left: calc(var(--gap-xl) *3);
+  background-color: #00000042;
+  height: 100px;
+  width: 25%;
+}
 
+.hidden-menu__debug-menu .pixel-button{
+  zoom:.5
+}
 .hidden-menu__mini-map{
   position:absolute;
   bottom: var(--gap-xl);
-  left: var(--gap-xl);
+  left: calc(var(--gap-xl) *3);
   z-index:0;
 }
 
@@ -548,8 +558,8 @@ button{
 
 #mini-map{
   position:absolute;
-  bottom:var(--gap-xl);
-  left:var(--gap-xl);
+  bottom: var(--gap-xl);
+  left: calc(var(--gap-xl) *3);
   z-index:0;
 }
 

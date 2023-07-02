@@ -33,7 +33,7 @@ const ResetGameButton = () => {
   )
 }
 
-const Hidden = ({showFPS,showExtraStats,showDashboard,showMobileControls,showHudButtons ,showLapInfo, showDebugMenu }) => {
+const Hidden = ({showFPS,showExtraStats,showDashboard,showMobileControls,showHudButtons ,showLapInfo, showDebugMenu,setShowDebugMenu }) => {
   let isExtraStatsHidden = false;
   let isDashboardHidden = false;
   // TODO TOGGLE FOR THIS IN SETTINGS
@@ -60,7 +60,7 @@ const Hidden = ({showFPS,showExtraStats,showDashboard,showMobileControls,showHud
 {
         showDebugMenu
         ?
-        <DebugMenu/>
+        <DebugMenu setShowDebugMenu={setShowDebugMenu}/>
          :
           ""
       }
