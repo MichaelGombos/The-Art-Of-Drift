@@ -29,10 +29,12 @@ setShowLapInfo    ,
 newShowMiniMap    ,
 setShowMiniMap    ,
 newFreecam ,
-newIsSmoothReplayOn
+newIsSmoothReplayOn,
+newShowDebugMenu    ,
+setShowDebugMenu 
 }) => {
   const navigate = useNavigate();
-
+  console.log("really? nothing.")
     if(isSaving){
       return(
         <Button style="primary" clickHandler={() => {
@@ -69,7 +71,8 @@ newIsSmoothReplayOn
 
           setSmoothReplay(newIsSmoothReplayOn)
           localStorage.setItem("isSmoothReplayEnabled", newIsSmoothReplayOn)
-
+          console.log("this is the debug menu status that we are saving..", newShowDebugMenu)
+          setShowDebugMenu(newShowDebugMenu)
 
         }}>Save and exit</Button>
       )

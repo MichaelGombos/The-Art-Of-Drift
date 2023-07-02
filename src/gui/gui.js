@@ -134,6 +134,8 @@ const Menu = () => {
   const [showLapInfo,setShowLapInfo] = useState(localStorage.getItem("showLapInfo") ? JSON.parse(localStorage.getItem("showLapInfo")) : true);
   const [showMiniMap,setShowMiniMap] = useState(localStorage.getItem("showMiniMap") ? JSON.parse(localStorage.getItem("showMiniMap")) : true);
 
+  const [showDebugMenu, setShowDebugMenu] = useState(true)
+
 
   const [showAuthStatus,setShowAuthStatus] = useState(false);
   const [showAudioControl, setShowAudioControl] = useState(false);
@@ -295,6 +297,8 @@ const Menu = () => {
       showLapInfo={showLapInfo}
       setShowMiniMap={setShowMiniMap}
       showMiniMap={showMiniMap}
+      setShowDebugMenu={setShowDebugMenu}
+      showDebugMenu={showDebugMenu}
        />} />
       <Route  path="/settings/keybinds" element={<SettingsKeybinds/>}/>
       <Route  path="/countdown" element={<Countdown/>}/>
@@ -305,6 +309,7 @@ const Menu = () => {
       showDashboard={showDashboard}
       showHudButtons={showHudButtons}
       showLapInfo={showLapInfo}
+      showDebugMenu={showDebugMenu}
        />}/>
       <Route  path="/pause" element={<Pause setPrevious={setPreviousType} />}/>
       <Route  path="/finish" element={<Finish/>}/>

@@ -32,10 +32,14 @@ const Settings = ({
   showLapInfo,
   setShowMiniMap,
   showMiniMap,
+  showDebugMenu,
+  setShowDebugMenu
 }) => {
   const navigate = useNavigate();
 
   const particleLimitSlider = useRef(null)
+
+  const [newShowDebugMenu, setNewShowDebugMenu]= useState(showDebugMenu)
 
   const [newShowHudButtons, setNewShowHudButtons] = useState(showHudButtons)
   const [newShowLapInfo, setNewShowLapInfo] = useState(showLapInfo)
@@ -106,6 +110,9 @@ const Settings = ({
             newFreecam = {newFreecam}
             newIsSmoothReplayOn = {newIsSmoothReplayOn}
             
+
+              newShowDebugMenu     = {newShowDebugMenu} 
+              setShowDebugMenu  =             {setShowDebugMenu}
             />
             <ExitSettingsButton isSaving={false} setNewDirectionalCamera = {setNewDirectionalCamera}  setNewEnableGhost={setNewEnableGhost} setNewParticleLimit={setNewParticleLimit} newEnableGhost={newEnableGhost} newParticleLimit={newParticleLimit} />
             <Button clickHandler={( () => navigate("/settings/keybinds" ))}>View Controls</Button>
@@ -163,6 +170,13 @@ const Settings = ({
               setter={setNewDirectionalCamera}
               >
                 <span title="This feature will make your camera angle match your cars facing direction. I think its pretty fun, but it may give you a headache.">Enable Directional Camera⚠️</span>
+              </InputToggle>
+
+              <InputToggle 
+              newValue={newShowDebugMenu} 
+              setter={setNewShowDebugMenu}
+              >
+                Show debug menu
               </InputToggle>
 
               <InputToggle 
