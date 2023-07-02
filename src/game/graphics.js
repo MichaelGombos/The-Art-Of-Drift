@@ -152,6 +152,10 @@ export const updateCameraShake = (driftForce) => {
 const updateCameraScale = (speed) => {
   camera.style.scale = 2 - (Math.abs(speed)/getPlayerCarObject().getMaxSpeed())
 }
+export const updateFreeCameraScale = (amount) => {
+  const newScale = (amount + 100) / 50
+  x = 4.25 - newScale
+}
 const updateCameraAngle = (angle) => {
   if(getDirectionalCamera() == true){
     camera.style.transform = `rotate(${-angle.facing + 270}deg)`

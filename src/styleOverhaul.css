@@ -486,14 +486,19 @@ button{
 }
 .hidden-menu__debug-menu{
   position: absolute;
+  padding:8px;
+  top: 39%;
   left: calc(var(--gap-xl) *3);
   background-color: #00000042;
-  height: 100px;
-  width: 25%;
+  gap: var(--gap-sm);
+  width: 33%;
 }
 
 .hidden-menu__debug-menu .pixel-button{
-  zoom:.5
+  zoom:.75
+}
+.hidden-menu__debug-menu .input-slider-container{
+
 }
 .hidden-menu__mini-map{
   position:absolute;

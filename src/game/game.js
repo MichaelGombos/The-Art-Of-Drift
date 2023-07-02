@@ -20,7 +20,8 @@ import {
   updateCameraScale,
   updateCameraAngle,
   createParticleLayer,
-  updateCameraShake
+  updateCameraShake,
+  updateFreeCameraScale
 } from "./graphics.js"
 import {maps} from "./map-data.js"
 import {generateMiniMap,updateMiniMapPlayers} from "./mini-map.js"
@@ -52,6 +53,7 @@ let ghostCarEnabledList = [
   false,
   false
 ]
+let gameSpeed = 1;
 let ghostStep = 0; //kind of like dubstep, but for ghosts. 
 let maxLaps = undefined;
 let mapAngle = undefined;
@@ -61,6 +63,8 @@ let replayExport = {
   stats : ["peanut butter jelly time!"],
   runtimes : []
 }
+let isCosmeticPauseOn = false;
+let playDirection = true; 
 
 let mapIndex;
 
@@ -90,6 +94,7 @@ let lastTickTime = 0;
 let reqAnim;
 let isPaused = true;
 let inSpectateMode;
+let freecamSpeed = 1;
 let spectateTime;
 let replayFinishTime;
 let replayFinishSeconds;
@@ -133,9 +138,38 @@ const setGameMapIndex = (index) => {
   mapIndex = index;
 }
 
+const setPlayDirection = (value) => {
+  playDirection = value;
+  ghostStep += playDirection ? 1 : -1;
+}
+
+const getPlayDirection = (value) => {
+  return playDirection;
+}
+
+const setGameSpeed = (value) => {
+  gameSpeed = value / 100;
+}
+
+const setGhostStep = (value) => {
+  ghostStep = value;
+}
+
+const getGhostStep = () => {
+  return ghostStep;
+}
+
+const getGameSpeed = () => {
+  return gameSpeed;
+}
+
 const setSmoothReplay = (value) => {isSmoothReplayOn = value}
 
 const getSmoothReplay = () => {return isSmoothReplayOn}
+
+const setCosmeticPause = (value) => {isCosmeticPauseOn = value}
+
+const getCosmeticPause = () => {return isCosmeticPauseOn}
 
 const setEnableGhost = (check) => {
   enableGhost = check;
@@ -181,6 +215,8 @@ const getEnableGhost = () => {return enableGhost}
 const getDirectionalCamera = () => {return isDirectionalCameraOn}
 
 const getFreecam = () => {return isFreecamOn}
+
+const getFreecamLocation = () => {return freecamOffset}
 
 const getTimeString = () => {return timeString}
 
@@ -334,6 +370,17 @@ const setMapData = (map,replayJSONList) => {
 }
 const getMapData = () => {return mapData}
 
+const getShortestGhostReplayLength = () => {
+  let shortestArrayLength = 9999999;
+
+  for(const replayObjects of mapData.replays){
+    if(replayObjects.stats && replayObjects.stats.length < shortestArrayLength){
+      shortestArrayLength = replayObjects.stats.length
+    }
+  }
+  return shortestArrayLength;
+}
+
 const getMapDataDimensions = () => {
   return {
     width: gameCanvas.width,
@@ -427,20 +474,31 @@ We could have a second function that only handling location the closes replay st
 
 If we call this right before placeCharacter, then we can be sure which ghost step to use each time.
 */
+export const setFreecamSpeed = (speed) => {
+  freecamSpeed = speed /10;
+}
+
+export const setFreecamOffsetX = (offset) => {
+  freecamOffset.x = -offset;
+}
+
+export const setFreecamOffsetY = (offset) => {
+  freecamOffset.y = -offset;
+}
 
 const updateFreecamLocation = (direction,multiplier) => {
   switch(direction){
     case("left"):
-      freecamOffset.x = freecamOffset.x + ((1 + 4) *multiplier)
+      freecamOffset.x = freecamOffset.x + ((1 + 4) *multiplier * freecamSpeed)
       break;
     case("right"):
-      freecamOffset.x = freecamOffset.x - ((1+ 4) *multiplier)
+      freecamOffset.x = freecamOffset.x - ((1+ 4) *multiplier * freecamSpeed)
       break;
     case("down"):
-      freecamOffset.y = freecamOffset.y - ((1 + 4) *multiplier)
+      freecamOffset.y = freecamOffset.y - ((1 + 4) *multiplier * freecamSpeed)
       break;
     case("up"):
-      freecamOffset.y = freecamOffset.y + ((1 + 4) *multiplier)
+      freecamOffset.y = freecamOffset.y + ((1 + 4) *multiplier * freecamSpeed)
       break;
   }
 }
@@ -449,18 +507,24 @@ const resetFreecamLocation = () => {
   freecamOffset.y = 0
 }
 
-const zoomFreecam = (direction, multiplier) => {
-  if(direction == "in"){
-    if(freecamOffset.zoom < 4){
-      freecamOffset.zoom = freecamOffset.zoom +  multiplier
-    }
-  }
-  else if(direction == "out"){
-    console.log("so this is what the zoom is looking like?", freecamOffset.zoom)
-    if(freecamOffset.zoom > -20){
-      freecamOffset.zoom = freecamOffset.zoom - multiplier
-    }
-  }
+// const zoomFreecam = (direction, multiplier) => {
+//   if(direction == "in"){
+//     if(freecamOffset.zoom < 4){
+//       freecamOffset.zoom = freecamOffset.zoom +  multiplier
+//     }
+//   }
+//   else if(direction == "out"){
+//     console.log("so this is what the zoom is looking like?", freecamOffset.zoom)
+//     if(freecamOffset.zoom > -20){
+//       freecamOffset.zoom = freecamOffset.zoom - multiplier
+//     }
+//   }
+// }
+
+export const setFreecamZoom = (amount) => {
+  freecamOffset.zoom = amount
+  updateFreeCameraScale(amount)
+
 }
 const placeGhost = (stepCount,ghostIndex) => {
    //experimental-multi-ghost-race : Going to change this function by adding the ghostCar as a parameter. and the replay data should also be contained in an array
@@ -700,13 +764,15 @@ const renderFirstFrame = () => {
 const renderNewFrame = () => {
   //draw stuff
   placeCharacter();
-  if(enableGhost){
+  if(enableGhost && !isCosmeticPauseOn){
     for(const ghostCarIndex in ghostCars){
       if(ghostCarEnabledList[ghostCarIndex]){
         placeGhost(ghostStep,ghostCarIndex);
       }
     }
-    ghostStep++;
+    if(ghostStep >= 0){
+      ghostStep = ghostStep + (playDirection ? 1 : -1);
+    }
   }
   updateMiniMapPlayers(car,ghostCars); //need to have this function iterate through ghost cars
 }
@@ -736,7 +802,10 @@ Window.setReplayFrame = (frame) => {
 }
 
 const step = (newtime) => {
-  dt = (performance.now() - lastTickTime) / 1000
+  const elapsedGameSpeedMult = isSmoothReplayOn ? gameSpeed : 1;
+  const dtGameSpeedMult = isSmoothReplayOn ? 1 : gameSpeed;
+
+  dt = (performance.now() - lastTickTime) / 1000 * dtGameSpeedMult
   lastTickTime = performance.now();
   if (!getRunning()) {
     isPaused = true;
@@ -756,7 +825,7 @@ const step = (newtime) => {
   elapsed = now - then;
 
   pushReplayInformation();
-  if (elapsed > fpsInterval) {
+  if (elapsed * elapsedGameSpeedMult > fpsInterval) {
     then = now - (elapsed % fpsInterval);
     renderNewFrame();
     // for(const i = 0; i < (Math.floor(60/currentFps)) ; i++){
@@ -765,7 +834,7 @@ const step = (newtime) => {
     // }
 
 
-    accumulatedTime = now - startTime - pauseBuffers.reduce((buffer, reduce) => buffer + reduce);
+    accumulatedTime = (now - startTime - pauseBuffers.reduce((buffer, reduce) => buffer + reduce) ) * gameSpeed;
     currentFps = Math.round(1000 / (accumulatedTime / ++frameCount) * 100) / 100;
     timeString = msToTime(Math.round(accumulatedTime));
     lastRunTime = performance.now();
@@ -855,6 +924,16 @@ export {
   setSpectateTime,
   setDirectionalCamera,
   getReplayFinishTime,
+  getFreecamLocation,
   getReplayFinishSeconds,
-  getSmoothReplay
+  getSmoothReplay,
+  setGameSpeed,
+  getGameSpeed,
+  getGhostStep,
+  setGhostStep,
+  getCosmeticPause,
+  setCosmeticPause,
+  getShortestGhostReplayLength,
+  setPlayDirection,
+  getPlayDirection
 }
