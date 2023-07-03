@@ -343,7 +343,6 @@ export const generateFrameSounds = (speed, x,y ,driftForce, onDirt,angle) => {
 
   if(speed > 9){
     if(!isAtMaxSpeed){
-      console.log("ONLY NOW TURN TO MAX SPEED YUN", isAtMaxSpeed, speed)
       isAtMaxSpeed = true;
       if(maxSpeedSound.state() == "unloaded"){
         maxSpeedSound.load();

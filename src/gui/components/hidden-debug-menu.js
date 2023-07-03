@@ -1,9 +1,21 @@
 import React, {useEffect, useState} from "react"
-import { getCosmeticPause, getFreecam, getFreecamLocation, getGhostStep, getPlayDirection, getShortestGhostReplayLength, getSmoothReplay, setCosmeticPause, setFreecam, setFreecamOffsetX,setFreecamOffsetY, setFreecamSpeed, setFreecamZoom, setGameSpeed, setGhostStep, setPlayDirection, setSmoothReplay } from "../../game/game"
+import { getCosmeticPause, getFreecam, getFreecamGhostFocus, getFreecamLocation, getGhostCarEnabledList, getGhostStep, getMapData, getPlayDirection, getPlayerCarObject, getShortestGhostReplayLength, getSmoothReplay, setCosmeticPause, setFreecam, setFreecamGhostFocus, setFreecamOffsetX,setFreecamOffsetY, setFreecamSpeed, setFreecamZoom, setGameSpeed, setGhostStep, setPlayDirection, setSmoothReplay, updateGhostCarEnabledList } from "../../game/game"
+import { drawGhostVehicle, getCarVisbility, getGhostCarModels, setCarVisibility } from "../../game/graphics"
+import { vehicleMidGraphicURLs } from "../helpers/profileGraphicUrls"
 
 import Button from "./button"
 import InputSlider from "./input-slider"
-const DebugCameraMenu = ({setShowDebugMenu}) => {
+
+const ghostCarNames = [
+  "Personal Best",
+  "Bronze",
+  "Silver",
+  "Gold",
+  "Author"
+]
+
+const DebugCameraMenu = ({setShowDebugMenu , teleportMenuEnabled, setTeleportMenuEnabled, carMenuEnabled, setCarMenuEnabled}) => {
+
 
   const [newZoom,setNewZoom] = useState(1)
   const [newFlySpeed,setNewFlySpeed] = useState(1)
@@ -20,6 +32,8 @@ const DebugCameraMenu = ({setShowDebugMenu}) => {
   const [shortestReplay, setShortestReplay] = useState(getShortestGhostReplayLength())
   const [playInReverse, setPlayInReverse] = useState(getPlayDirection())
   const [isSmoothReplayOn, setIsSmoothReplayOn] = useState(getSmoothReplay())
+
+  const [isCarVisible,setIsCarVisible] = useState(getCarVisbility())
 
   const setStatefulZoom = (amount) => {
     setNewZoom(Number(amount))
@@ -55,6 +69,7 @@ const DebugCameraMenu = ({setShowDebugMenu}) => {
   const toggleStatefulFreecam = () => {
     setFreecamEnabled(!getFreecam())
     setFreecam(!getFreecam())
+    setStatefulZoom(112.5)
   }
 
   const toggleStatefulCosmeticPause = () => {
@@ -63,14 +78,20 @@ const DebugCameraMenu = ({setShowDebugMenu}) => {
   }
 
   const toggleStatefulReverse = () => {
-    setPlayDirection(!getPlayDirection())
     setPlayInReverse(!getPlayDirection())
+    setPlayDirection(!getPlayDirection())
   }
 
   const toggleStatefulSmoothReplay = () => {
-    setSmoothReplay(!getSmoothReplay())
     setIsSmoothReplayOn(!getSmoothReplay())
+    setSmoothReplay(!getSmoothReplay())
   }
+
+  const toggleStatefulCarVisibility = () => {
+    setIsCarVisible(!getCarVisbility())
+    setCarVisibility(!getCarVisbility())
+  }
+
 
 
 
@@ -83,7 +104,7 @@ const DebugCameraMenu = ({setShowDebugMenu}) => {
   },[])
 
   return (
-    <div className="hidden-menu__debug-menu col-6" >
+    <div className="hidden-menu__debug-menu debug-menu__camera-menu col-6" >
       <p className="f-p2">Camera menu</p>
       <div className="row gap-sm">
         <div className="col-3 gap-md">
@@ -127,7 +148,7 @@ const DebugCameraMenu = ({setShowDebugMenu}) => {
   setter={setStatefulGameSpeed}
   minimum={1}
   maximum={100}>
-    game speed%
+    physics speed%
     </InputSlider>
 
     {
@@ -137,7 +158,7 @@ const DebugCameraMenu = ({setShowDebugMenu}) => {
       setter={setStatefulGameStep}
       minimum={0}
       maximum={shortestReplay - 10}>
-        game step
+        ghost replay time
         </InputSlider>
     }
 
@@ -145,14 +166,16 @@ const DebugCameraMenu = ({setShowDebugMenu}) => {
         </div>
         <div className="col-3 gap-sm">
         <Button
-    clickHandler={()=> {console.log("hi")}}
+    style={carMenuEnabled ? "selected" : "light"}
+    clickHandler={ () => {setCarMenuEnabled(!carMenuEnabled)}}
     >
-      hide car menu
+      {carMenuEnabled ? "Hide car menu" : "show car menu"}
     </Button>
     <Button
-    clickHandler={()=> {console.log("hi")}}
+    style={teleportMenuEnabled ? "selected" : "light"}
+    clickHandler={() => {setTeleportMenuEnabled(!teleportMenuEnabled)}}
     >
-      hide teleport menu
+      {teleportMenuEnabled ? "hide teleport menu" : "show teleport menu"}
     </Button>
     <Button
     style={freecamEnabled ? "selected" : "light"}
@@ -195,8 +218,14 @@ const DebugCameraMenu = ({setShowDebugMenu}) => {
     </Button>
 
     <Button
+    style={isCarVisible ? "selected" : "light"}
+    clickHandler={()=> {toggleStatefulCarVisibility()}}
+    >
+   {isCarVisible ? "hide car" : "show car"}
+    </Button>
+
+    <Button
     clickHandler={()=> {
-      setStatefulZoom(112.5)
       setShowDebugMenu(false)
     }}
     >
@@ -210,11 +239,155 @@ const DebugCameraMenu = ({setShowDebugMenu}) => {
   )
 }
 
+const GhostCarMenu = ({ghostCarIndex, freecamGhostFocusIndex, setFreecamGhostFocusIndex}) => {
+  const [ghostReplays, setGhostReplays] = useState(getMapData().replays)
+  const [ghostIcon,setGhostIcon] = useState(vehicleMidGraphicURLs[getGhostCarModels()[ghostCarIndex]])
+  const [isCarDisabled, setIsCarDisabled] = useState(getGhostCarEnabledList[ghostCarIndex])
+
+  const toggleStatefulCosmeticPause = () => {
+    setIsCosmeticPauseOn(!getCosmeticPause())
+    setCosmeticPause(!getCosmeticPause())
+  }
+
+  const handleTeleportPress = () => {
+    const stats = ghostReplays[ghostCarIndex].stats
+    const step = getGhostStep();
+    const ghostLocation = {
+      x : stats[step][0],
+      y : stats[step][1]
+    }
+    setFreecamOffsetX( 0)
+    setFreecamOffsetY( 0)
+    getPlayerCarObject().setX(Number(ghostLocation.x))
+    getPlayerCarObject().setY(Number(ghostLocation.y)) 
+  }
+
+  const handleFocusPress = () => {
+
+    console.log("just pressed focus.")
+    if(getFreecamGhostFocus() == ghostCarIndex){
+      console.log("setting to null")
+      setFreecamGhostFocusIndex(null);
+      setFreecamGhostFocus(null)
+    }
+    else{
+      console.log("setting to index", ghostCarIndex)
+      setFreecamGhostFocusIndex(ghostCarIndex);
+      setFreecamGhostFocus(ghostCarIndex)
+    }
+  }
+
+  const toggleStatefulEnableGhost = () => {
+    updateGhostCarEnabledList(ghostCarIndex, !getGhostCarEnabledList()[ghostCarIndex])
+    setIsCarDisabled(!getGhostCarEnabledList()[ghostCarIndex])
+  }
+
+  useEffect(() => {
+    setIsCarDisabled(!getGhostCarEnabledList()[ghostCarIndex])
+  },[getGhostCarEnabledList()[ghostCarIndex]])
+
+
+  return  (
+  <div className="col-1 gap-md">
+    <p>{ghostCarNames[ghostCarIndex]}</p>
+    <img className={`car-menu__ghost-image car-menu__ghost-image${ghostCarIndex}`} src={ghostIcon}/>
+    <Button 
+    clickHandler={handleTeleportPress}
+    >Teleport</Button>
+    <Button 
+    style={freecamGhostFocusIndex == ghostCarIndex ? "selected" : "light"}
+    clickHandler={handleFocusPress}
+    >Focus</Button>
+    <Button 
+    clickHandler={() => {
+      getGhostCarModels()[ghostCarIndex] >= 8 ?
+      drawGhostVehicle(0,ghostCarIndex)
+      :
+      drawGhostVehicle(getGhostCarModels()[ghostCarIndex]+1, ghostCarIndex)
+
+      setGhostIcon(vehicleMidGraphicURLs[getGhostCarModels()[ghostCarIndex]])
+  }}
+    >Car Type</Button>
+    <Button 
+    style={isCarDisabled ? "selected" : "light"}
+    clickHandler={toggleStatefulEnableGhost}
+    >{isCarDisabled ? "enable" : "disable"}</Button>
+  </div>
+  )
+}
+
+const DebugCarMenu = () => {
+
+  const [freecamGhostFocusIndex, setFreecamGhostFocusIndex] = useState(getFreecamGhostFocus())
+  return (
+    <div className = "hidden-menu__debug-menu  debug-menu__car-menu col-6">
+      <p className="f-p2">Car menu</p>
+      <div className="row gap-sm">
+        <GhostCarMenu 
+        ghostCarIndex={0}
+        freecamGhostFocusIndex = {freecamGhostFocusIndex}
+        setFreecamGhostFocusIndex = {setFreecamGhostFocusIndex}
+        />
+        <GhostCarMenu 
+        ghostCarIndex={1}
+        freecamGhostFocusIndex = {freecamGhostFocusIndex}
+        setFreecamGhostFocusIndex = {setFreecamGhostFocusIndex}
+        />
+        <GhostCarMenu 
+        ghostCarIndex={2}
+        freecamGhostFocusIndex = {freecamGhostFocusIndex}
+        setFreecamGhostFocusIndex = {setFreecamGhostFocusIndex}
+        />
+        <GhostCarMenu 
+        ghostCarIndex={3}
+        freecamGhostFocusIndex = { freecamGhostFocusIndex}
+        setFreecamGhostFocusIndex = {setFreecamGhostFocusIndex}
+        />
+        <GhostCarMenu 
+        ghostCarIndex={4}
+        freecamGhostFocusIndex = {freecamGhostFocusIndex}
+        setFreecamGhostFocusIndex = {setFreecamGhostFocusIndex}
+        />
+      </div>
+    </div>
+  )
+}
+
+const DebugTeleportMenu = () => {
+  return (
+    <div className = "hidden-menu__debug-menu debug-menu__teleport-menu col-6">
+      <p>This is the debug teleport menu</p>
+    </div>
+  )
+}
+
 const DebugMenu = ({setShowDebugMenu}) => {
 
+  const [carMenuEnabled,setCarMenuEnabled] = useState(true)
+  const [teleportMenuEnabled,setTeleportMenuEnabled] = useState(true)
   
   return (
-    <DebugCameraMenu setShowDebugMenu={setShowDebugMenu}/>
+    <>
+    <DebugCameraMenu 
+    setShowDebugMenu={setShowDebugMenu}
+    setCarMenuEnabled = {setCarMenuEnabled}
+    carMenuEnabled = {carMenuEnabled}
+    setTeleportMenuEnabled = {setTeleportMenuEnabled}
+    teleportMenuEnabled = {teleportMenuEnabled}
+    />
+
+    {carMenuEnabled ? 
+    <DebugCarMenu></DebugCarMenu>
+    : ""
+    }
+
+        
+    {teleportMenuEnabled ? 
+    <DebugTeleportMenu></DebugTeleportMenu>
+    : ""
+    }
+    </>
+
   )
 }
 

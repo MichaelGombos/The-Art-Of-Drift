@@ -53,6 +53,8 @@ let ghostCarEnabledList = [
   false,
   false
 ]
+
+let freecamGhostFocus = null;
 let gameSpeed = 1;
 let ghostStep = 0; //kind of like dubstep, but for ghosts. 
 let maxLaps = undefined;
@@ -163,6 +165,14 @@ const getGameSpeed = () => {
   return gameSpeed;
 }
 
+const setFreecamGhostFocus = (index) => {
+  freecamGhostFocus = index;
+}
+
+const getFreecamGhostFocus = () => {
+  return freecamGhostFocus;
+}
+
 const setSmoothReplay = (value) => {isSmoothReplayOn = value}
 
 const getSmoothReplay = () => {return isSmoothReplayOn}
@@ -170,6 +180,7 @@ const getSmoothReplay = () => {return isSmoothReplayOn}
 const setCosmeticPause = (value) => {isCosmeticPauseOn = value}
 
 const getCosmeticPause = () => {return isCosmeticPauseOn}
+
 
 const setEnableGhost = (check) => {
   enableGhost = check;
@@ -184,8 +195,14 @@ const setEnableGhost = (check) => {
   }
 }
 
-const updateGhostCarEnabledList = (index, newValue) => {
-  ghostCarEnabledList[index] = newValue;
+const updateGhostCarEnabledList = (index, turningOn) => {
+  ghostCarEnabledList[index] = turningOn;
+  if(turningOn){
+    ghostCharacters[index].classList.remove("hidden")
+  }
+  else{
+    ghostCharacters[index].classList.add("hidden")
+  }
 }
 
 const getGhostCarEnabledList = () => {
@@ -479,11 +496,11 @@ export const setFreecamSpeed = (speed) => {
 }
 
 export const setFreecamOffsetX = (offset) => {
-  freecamOffset.x = -offset;
+  freecamOffset.x = offset;
 }
 
 export const setFreecamOffsetY = (offset) => {
-  freecamOffset.y = -offset;
+  freecamOffset.y = offset;
 }
 
 const updateFreecamLocation = (direction,multiplier) => {
@@ -528,7 +545,6 @@ export const setFreecamZoom = (amount) => {
 }
 const placeGhost = (stepCount,ghostIndex) => {
    //experimental-multi-ghost-race : Going to change this function by adding the ghostCar as a parameter. and the replay data should also be contained in an array
-    console.log("This moment we own it ", ghostIndex, mapData.replays)
     const ghostCar = ghostCars[ghostIndex]
     const closestGhostStepIndex = !isSmoothReplayOn ? findClosestIndex(mapData.replays[ghostIndex].runtimes, accumulatedTime) : ghostStep;
 
@@ -624,11 +640,29 @@ const placeCharacter = () => {
 
   car.setDt(dt);
   
+
   if(isFreecamOn){
     //if free cam was not on before, snap current camera location to car location (could be done outside this conditional)
 
     // when free cam is on, allow the updateFreecamCamera function to be used. 
-    if (held_directions && held_directions.length > 0) {
+    if(freecamGhostFocus !== null){
+      const stats = mapData.replays[freecamGhostFocus].stats
+      console.log("This is where I messed up",stats
+      )
+      const ghostLocation = {
+        x : stats[ghostStep][0],
+        y : stats[ghostStep][1]
+      }
+      
+      setFreecamOffsetX( 0)
+      setFreecamOffsetY( 0)
+      car.setX(Number(ghostLocation.x));
+      car.setY(Number(ghostLocation.y));
+      updateCameraShake(stats[ghostStep][6])
+      updateCameraScale(stats[ghostStep][6])
+      updateCameraAngle({facing:stats[ghostStep][2]})
+      }
+    else if (held_directions && held_directions.length > 0) {
 
       for(const direction of held_directions){
         let camPressure = 1;
@@ -669,7 +703,7 @@ const placeCharacter = () => {
   }else{
     resetFreecamLocation();
   }
-
+  
   if(inSpectateMode){ //for now will just choose the first car.
     car.setX(ghostCars[0].getX());
     car.setY(ghostCars[0].getY());
@@ -935,5 +969,7 @@ export {
   setCosmeticPause,
   getShortestGhostReplayLength,
   setPlayDirection,
-  getPlayDirection
+  getPlayDirection,
+  setFreecamGhostFocus,
+  getFreecamGhostFocus
 }

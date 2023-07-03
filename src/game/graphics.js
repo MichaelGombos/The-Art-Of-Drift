@@ -1,6 +1,6 @@
 import { Application, Sprite, AnimatedSprite, Texture } from 'pixi.js';
 
-import {map,camera, mapParticles, ghostCharacters, characterSprite, ghostCharacterSprites, ghostCharacterNameTags , particleLayer, cameraShakeContainer} from "./elements.js"
+import {map,camera, mapParticles, ghostCharacters,character, characterSprite, ghostCharacterSprites, ghostCharacterNameTags , particleLayer, cameraShakeContainer} from "./elements.js"
 import { getDirectionalCamera, getPlayerCarObject } from "./game.js";
 
 
@@ -100,6 +100,14 @@ const ghostColors = {
 
 }
 
+const activeGhostCarModels = [
+  null,
+  null,
+  null,
+  null,
+  null
+]
+
 const playerColors = {
   red : "sepia(60%) saturate(2088%) hue-rotate(310deg) brightness(90%) contrast(152%)",
   orange : "sepia(65%) saturate(2950%) hue-rotate(304deg) brightness(110%) contrast(103%)",
@@ -122,6 +130,8 @@ const vehicleTopDownGraphicURLs = [
   vehicleTopDownGraphic8,
   vehicleTopDownGraphic9
 ]
+
+let isCarHidden = false;
 
 let animatedParticleTick = 0; //used to confirm if we should place a particle or wait.
 let staticParticleTick = 0; //used to confirm if we should place a particle or wait.
@@ -154,7 +164,7 @@ const updateCameraScale = (speed) => {
 }
 export const updateFreeCameraScale = (amount) => {
   const newScale = (amount + 100) / 50
-  x = 4.25 - newScale
+  map.style.zoom = 4.25 - newScale
 }
 const updateCameraAngle = (angle) => {
   if(getDirectionalCamera() == true){
@@ -171,7 +181,19 @@ const nameGhost = (name,index) => {
   ghostCharacterNameTags[index].innerHTML = name
 }
 
+const setCarVisibility = (hideCar) => {
+  if(hideCar){
+    character.classList.add("hidden")
+  }
+  else{
+    character.classList.remove("hidden")
+  }
+  isCarHidden = hideCar;
+}
 
+const getCarVisbility = () => {
+  return isCarHidden;
+}
 
 const drawPlayerVehicle = (vehicleID) => {
   //set background image to car graphic
@@ -189,8 +211,13 @@ const drawGhostVehicle = (vehicleID,ghostCarIndex) => {
     ghostCharacterSprites[ghostCarIndex].style.backgroundImage = `url(${vehicleTopDownGraphicCampaignURL})`
   }
   else{
+    activeGhostCarModels[ghostCarIndex] = vehicleID;
     ghostCharacterSprites[ghostCarIndex].style.backgroundImage = `url(${vehicleTopDownGraphicURLs[vehicleID]})`
   }
+}
+
+export const getGhostCarModels = () => {
+  return activeGhostCarModels;
 }
 
 const colorPlayerCar = () => {
@@ -601,4 +628,6 @@ window.addWindowParticle = addParticle
 export {clearParticles, generateFrameParticles,setParticleLimit,getParticleLimit, particles, colorGhostCar,colorPlayerCar, nameGhost, drawCanvasMap, drawCanvasMapColor, updateCameraScale,updateCameraAngle, playerColors,
   drawPlayerVehicle,
 drawGhostVehicle, addParticle,
-createParticleLayer}
+createParticleLayer,
+setCarVisibility,
+getCarVisbility}
