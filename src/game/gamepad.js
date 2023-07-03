@@ -90,9 +90,15 @@ function getGamepadStatus() {
     }
   });
 
+//   function adjustSensitivity(value) {
+//     let sign = value < 0 ? -1 : 1; 
+//     return sign * Math.pow(value,2); 
+// }
+
   //sticks
-  controller.axes.forEach((axis, i) => {
-    if(Math.abs(axis) > .025){
+  controller.axes.forEach((rawAxis, i) => {
+    const axis = rawAxis //leaving for now.
+    if(Math.abs(rawAxis) > .025){
       if(i == 0){ //left analog, horizantal
         full_game_pad_status[18] = true;
         if(axis <0){

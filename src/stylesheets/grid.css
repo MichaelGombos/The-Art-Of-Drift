@@ -31,6 +31,13 @@
 .col-2{
   width: 33%;
 }
+.col-1{
+  width: 16.667%;
+}
+
+.col-1over5{
+  width:20%;
+}
 
 .gap-sm{
   gap:var(--gap-sm);

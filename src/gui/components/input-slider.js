@@ -43,8 +43,8 @@ const InputSlider = ({minimum,maximum,newValue,setter,sideEffect, children, pare
     });
 
   return (
-    <div className='particle-limit row w-100 justify-between align-center horizantal-navigation-menu'>
-    <label htmlFor="particle-selector">{children} ({newValue})</label>
+    <div className='input-slider-container row w-100 justify-between align-center horizantal-navigation-menu'>
+    <label htmlFor="input-slider-label">{children} ({newValue})</label>
     <motion.input
 
 whileFocus={ {scale: 1.15} }

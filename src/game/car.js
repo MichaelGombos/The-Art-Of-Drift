@@ -78,13 +78,13 @@ const createCar = (isGhost) => {
     const getOnBoucne = () => {return onBounce}
     const getStats = () => {
         return [
-            x.toFixed(2),
-            y.toFixed(2),
-            angle.facing.toFixed(2),
-            angle.moving.toFixed(2),
-            onDirt,
-            driftForce.toFixed(2),
-            speed
+            x.toFixed(2), //0
+            y.toFixed(2), //1
+            angle.facing.toFixed(2), //2
+            angle.moving.toFixed(2), //3
+            onDirt, //4
+            driftForce.toFixed(2), //5
+            speed //6
         ]
     }
     const getDt = () => {return dt}

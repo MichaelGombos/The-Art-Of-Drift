@@ -484,11 +484,65 @@ button{
   width: 100%;
   padding:20px;
 }
+.hidden-menu__debug-menu{
+  position: absolute;
+  padding:8px;
+  background-color: #00000042;
+  gap: var(--gap-sm);
+}
 
+.debug-menu__camera-menu{
+  top: 10%;
+  right: var(--gap-xl);
+  width: 33%;
+}
+.car-menu__ghost-image{
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+}
+
+.car-menu__ghost-image0{
+  filter: opacity(.25);
+}
+.car-menu__ghost-image1{
+  filter: sepia(56%) saturate(3169%) hue-rotate(337deg) brightness(85%) contrast(100%);
+}
+.car-menu__ghost-image2{
+  filter: saturate(7169%) brightness(65%) contrast(101%);
+}
+.car-menu__ghost-image3{
+  filter: sepia(46%) saturate(2500.8%) hue-rotate(354deg) brightness(105%) contrast(97%);
+}
+.car-menu__ghost-image4{
+  filter: sepia(46%) saturate(7169%) hue-rotate(67deg) brightness(85%) contrast(101%);
+}
+
+
+.debug-menu__car-menu{
+
+  bottom: 10%;
+  right: var(--gap-xl);
+  width: 44%;
+}
+
+.debug-menu__teleport-menu{
+
+  top: 33%;
+  left: calc(var(--gap-xl) * 3);
+  width: 33%;
+}
+
+.hidden-menu__debug-menu .pixel-button{
+  zoom:.75
+}
+.hidden-menu__debug-menu .input-slider-container{
+
+}
 .hidden-menu__mini-map{
   position:absolute;
   bottom: var(--gap-xl);
-  left: var(--gap-xl);
+  left: calc(var(--gap-xl) *3);
   z-index:0;
 }
 
@@ -548,8 +602,8 @@ button{
 
 #mini-map{
   position:absolute;
-  bottom:var(--gap-xl);
-  left:var(--gap-xl);
+  bottom: var(--gap-xl);
+  left: calc(var(--gap-xl) *3);
   z-index:0;
 }
 

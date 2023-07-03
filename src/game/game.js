@@ -20,7 +20,8 @@ import {
   updateCameraScale,
   updateCameraAngle,
   createParticleLayer,
-  updateCameraShake
+  updateCameraShake,
+  updateFreeCameraScale
 } from "./graphics.js"
 import {maps} from "./map-data.js"
 import {generateMiniMap,updateMiniMapPlayers} from "./mini-map.js"
@@ -52,6 +53,11 @@ let ghostCarEnabledList = [
   false,
   false
 ]
+
+let isGameValid = true;
+
+let freecamGhostFocus = null;
+let gameSpeed = 1;
 let ghostStep = 0; //kind of like dubstep, but for ghosts. 
 let maxLaps = undefined;
 let mapAngle = undefined;
@@ -61,6 +67,8 @@ let replayExport = {
   stats : ["peanut butter jelly time!"],
   runtimes : []
 }
+let isCosmeticPauseOn = false;
+let playDirection = true; 
 
 let mapIndex;
 
@@ -90,6 +98,7 @@ let lastTickTime = 0;
 let reqAnim;
 let isPaused = true;
 let inSpectateMode;
+let freecamSpeed = 1;
 let spectateTime;
 let replayFinishTime;
 let replayFinishSeconds;
@@ -133,9 +142,47 @@ const setGameMapIndex = (index) => {
   mapIndex = index;
 }
 
+const setPlayDirection = (value) => {
+  playDirection = value;
+  ghostStep += playDirection ? 1 : -1;
+}
+
+const getPlayDirection = (value) => {
+  return playDirection;
+}
+
+const setGameSpeed = (value) => {
+  gameSpeed = value / 100;
+}
+
+const setGhostStep = (value) => {
+  ghostStep = value;
+}
+
+const getGhostStep = () => {
+  return ghostStep;
+}
+
+const getGameSpeed = () => {
+  return gameSpeed;
+}
+
+const setFreecamGhostFocus = (index) => {
+  freecamGhostFocus = index;
+}
+
+const getFreecamGhostFocus = () => {
+  return freecamGhostFocus;
+}
+
 const setSmoothReplay = (value) => {isSmoothReplayOn = value}
 
 const getSmoothReplay = () => {return isSmoothReplayOn}
+
+const setCosmeticPause = (value) => {isCosmeticPauseOn = value}
+
+const getCosmeticPause = () => {return isCosmeticPauseOn}
+
 
 const setEnableGhost = (check) => {
   enableGhost = check;
@@ -150,12 +197,25 @@ const setEnableGhost = (check) => {
   }
 }
 
-const updateGhostCarEnabledList = (index, newValue) => {
-  ghostCarEnabledList[index] = newValue;
+const updateGhostCarEnabledList = (index, turningOn) => {
+  ghostCarEnabledList[index] = turningOn;
+  if(turningOn){
+    ghostCharacters[index].classList.remove("hidden")
+  }
+  else{
+    ghostCharacters[index].classList.add("hidden")
+  }
 }
 
 const getGhostCarEnabledList = () => {
   return ghostCarEnabledList;
+}
+
+const getIsGameValid = () => {
+  return isGameValid;
+}
+const setIsGameValid = (isValid) => {
+  isGameValid = isValid;
 }
 
 const setDirectionalCamera = (value) => {isDirectionalCameraOn = value}
@@ -181,6 +241,8 @@ const getEnableGhost = () => {return enableGhost}
 const getDirectionalCamera = () => {return isDirectionalCameraOn}
 
 const getFreecam = () => {return isFreecamOn}
+
+const getFreecamLocation = () => {return freecamOffset}
 
 const getTimeString = () => {return timeString}
 
@@ -216,6 +278,7 @@ const getStats = () => {
     angleLockLeft : target.getAngleLock().left,
     angleLockRight : target.getAngleLock().right,
     particleCount : particles.length,
+    isGameValid : isGameValid,
     inputs : targetInputs
   }
 }
@@ -258,7 +321,7 @@ const setSpectateTime = (s) => {
   spectateTime = s;
 }
 const resetCarValues = () => {
-
+  isGameValid = true;
   pauseBuffer = 0;
   pauseBuffers = [0];
   lastRunTime = performance.now();
@@ -334,6 +397,17 @@ const setMapData = (map,replayJSONList) => {
 }
 const getMapData = () => {return mapData}
 
+const getShortestGhostReplayLength = () => {
+  let shortestArrayLength = 9999999;
+
+  for(const replayObjects of mapData.replays){
+    if(replayObjects.stats && replayObjects.stats.length < shortestArrayLength){
+      shortestArrayLength = replayObjects.stats.length
+    }
+  }
+  return shortestArrayLength;
+}
+
 const getMapDataDimensions = () => {
   return {
     width: gameCanvas.width,
@@ -376,7 +450,7 @@ const generateMap = (inputData) => {
 }
 
 const checkGameOver = (currentLap) => {
-  if (currentLap >= maxLaps) {
+  if (currentLap >= maxLaps && isGameValid) {
       car.setEngineLock(true); //disbales acceleration
       for(const ghostCar of ghostCars){
         ghostCar.setEngineLock(true); //disbales acceleration
@@ -427,20 +501,31 @@ We could have a second function that only handling location the closes replay st
 
 If we call this right before placeCharacter, then we can be sure which ghost step to use each time.
 */
+export const setFreecamSpeed = (speed) => {
+  freecamSpeed = speed /10;
+}
+
+export const setFreecamOffsetX = (offset) => {
+  freecamOffset.x = offset;
+}
+
+export const setFreecamOffsetY = (offset) => {
+  freecamOffset.y = offset;
+}
 
 const updateFreecamLocation = (direction,multiplier) => {
   switch(direction){
     case("left"):
-      freecamOffset.x = freecamOffset.x + ((1 + 4) *multiplier)
+      freecamOffset.x = freecamOffset.x + ((1 + 4) *multiplier * freecamSpeed)
       break;
     case("right"):
-      freecamOffset.x = freecamOffset.x - ((1+ 4) *multiplier)
+      freecamOffset.x = freecamOffset.x - ((1+ 4) *multiplier * freecamSpeed)
       break;
     case("down"):
-      freecamOffset.y = freecamOffset.y - ((1 + 4) *multiplier)
+      freecamOffset.y = freecamOffset.y - ((1 + 4) *multiplier * freecamSpeed)
       break;
     case("up"):
-      freecamOffset.y = freecamOffset.y + ((1 + 4) *multiplier)
+      freecamOffset.y = freecamOffset.y + ((1 + 4) *multiplier * freecamSpeed)
       break;
   }
 }
@@ -449,22 +534,27 @@ const resetFreecamLocation = () => {
   freecamOffset.y = 0
 }
 
-const zoomFreecam = (direction, multiplier) => {
-  if(direction == "in"){
-    if(freecamOffset.zoom < 4){
-      freecamOffset.zoom = freecamOffset.zoom +  multiplier
-    }
-  }
-  else if(direction == "out"){
-    console.log("so this is what the zoom is looking like?", freecamOffset.zoom)
-    if(freecamOffset.zoom > -20){
-      freecamOffset.zoom = freecamOffset.zoom - multiplier
-    }
-  }
+// const zoomFreecam = (direction, multiplier) => {
+//   if(direction == "in"){
+//     if(freecamOffset.zoom < 4){
+//       freecamOffset.zoom = freecamOffset.zoom +  multiplier
+//     }
+//   }
+//   else if(direction == "out"){
+//     console.log("so this is what the zoom is looking like?", freecamOffset.zoom)
+//     if(freecamOffset.zoom > -20){
+//       freecamOffset.zoom = freecamOffset.zoom - multiplier
+//     }
+//   }
+// }
+
+export const setFreecamZoom = (amount) => {
+  freecamOffset.zoom = amount
+  updateFreeCameraScale(amount)
+
 }
 const placeGhost = (stepCount,ghostIndex) => {
    //experimental-multi-ghost-race : Going to change this function by adding the ghostCar as a parameter. and the replay data should also be contained in an array
-    console.log("This moment we own it ", ghostIndex, mapData.replays)
     const ghostCar = ghostCars[ghostIndex]
     const closestGhostStepIndex = !isSmoothReplayOn ? findClosestIndex(mapData.replays[ghostIndex].runtimes, accumulatedTime) : ghostStep;
 
@@ -560,11 +650,29 @@ const placeCharacter = () => {
 
   car.setDt(dt);
   
+
   if(isFreecamOn){
     //if free cam was not on before, snap current camera location to car location (could be done outside this conditional)
 
     // when free cam is on, allow the updateFreecamCamera function to be used. 
-    if (held_directions && held_directions.length > 0) {
+    if(freecamGhostFocus !== null){
+      const stats = mapData.replays[freecamGhostFocus].stats
+      console.log("This is where I messed up",stats
+      )
+      const ghostLocation = {
+        x : stats[ghostStep][0],
+        y : stats[ghostStep][1]
+      }
+      
+      setFreecamOffsetX( 0)
+      setFreecamOffsetY( 0)
+      car.setX(Number(ghostLocation.x));
+      car.setY(Number(ghostLocation.y));
+      updateCameraShake(stats[ghostStep][6])
+      updateCameraScale(stats[ghostStep][6])
+      updateCameraAngle({facing:stats[ghostStep][2]})
+      }
+    else if (held_directions && held_directions.length > 0) {
 
       for(const direction of held_directions){
         let camPressure = 1;
@@ -605,7 +713,7 @@ const placeCharacter = () => {
   }else{
     resetFreecamLocation();
   }
-
+  
   if(inSpectateMode){ //for now will just choose the first car.
     car.setX(ghostCars[0].getX());
     car.setY(ghostCars[0].getY());
@@ -700,13 +808,15 @@ const renderFirstFrame = () => {
 const renderNewFrame = () => {
   //draw stuff
   placeCharacter();
-  if(enableGhost){
+  if(enableGhost && !isCosmeticPauseOn){
     for(const ghostCarIndex in ghostCars){
       if(ghostCarEnabledList[ghostCarIndex]){
         placeGhost(ghostStep,ghostCarIndex);
       }
     }
-    ghostStep++;
+    if(ghostStep >= 0){
+      ghostStep = ghostStep + (playDirection ? 1 : -1);
+    }
   }
   updateMiniMapPlayers(car,ghostCars); //need to have this function iterate through ghost cars
 }
@@ -736,7 +846,10 @@ Window.setReplayFrame = (frame) => {
 }
 
 const step = (newtime) => {
-  dt = (performance.now() - lastTickTime) / 1000
+  const elapsedGameSpeedMult = isSmoothReplayOn ? gameSpeed : 1;
+  const dtGameSpeedMult = isSmoothReplayOn ? 1 : gameSpeed;
+
+  dt = (performance.now() - lastTickTime) / 1000 * dtGameSpeedMult
   lastTickTime = performance.now();
   if (!getRunning()) {
     isPaused = true;
@@ -756,7 +869,7 @@ const step = (newtime) => {
   elapsed = now - then;
 
   pushReplayInformation();
-  if (elapsed > fpsInterval) {
+  if (elapsed * elapsedGameSpeedMult > fpsInterval) {
     then = now - (elapsed % fpsInterval);
     renderNewFrame();
     // for(const i = 0; i < (Math.floor(60/currentFps)) ; i++){
@@ -765,7 +878,7 @@ const step = (newtime) => {
     // }
 
 
-    accumulatedTime = now - startTime - pauseBuffers.reduce((buffer, reduce) => buffer + reduce);
+    accumulatedTime = (now - startTime - pauseBuffers.reduce((buffer, reduce) => buffer + reduce) ) * gameSpeed;
     currentFps = Math.round(1000 / (accumulatedTime / ++frameCount) * 100) / 100;
     timeString = msToTime(Math.round(accumulatedTime));
     lastRunTime = performance.now();
@@ -855,6 +968,20 @@ export {
   setSpectateTime,
   setDirectionalCamera,
   getReplayFinishTime,
+  getFreecamLocation,
   getReplayFinishSeconds,
-  getSmoothReplay
+  getSmoothReplay,
+  setGameSpeed,
+  getGameSpeed,
+  getGhostStep,
+  setGhostStep,
+  getCosmeticPause,
+  setCosmeticPause,
+  getShortestGhostReplayLength,
+  setPlayDirection,
+  getPlayDirection,
+  setFreecamGhostFocus,
+  getFreecamGhostFocus,
+  setIsGameValid,
+  getIsGameValid
 }

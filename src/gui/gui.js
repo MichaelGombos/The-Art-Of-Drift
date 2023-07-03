@@ -134,6 +134,8 @@ const Menu = () => {
   const [showLapInfo,setShowLapInfo] = useState(localStorage.getItem("showLapInfo") ? JSON.parse(localStorage.getItem("showLapInfo")) : true);
   const [showMiniMap,setShowMiniMap] = useState(localStorage.getItem("showMiniMap") ? JSON.parse(localStorage.getItem("showMiniMap")) : true);
 
+  const [showDebugMenu, setShowDebugMenu] = useState(false)
+
 
   const [showAuthStatus,setShowAuthStatus] = useState(false);
   const [showAudioControl, setShowAudioControl] = useState(false);
@@ -164,7 +166,6 @@ const Menu = () => {
 
   }
   const toggleMobileHud = (showHud) => (e) => {
-    console.log("this is the event that is toggling the hud", e)
     setShowMobileControls(showHud);
   }
   document.addEventListener("keypress",toggleMobileHud(false))
@@ -295,6 +296,8 @@ const Menu = () => {
       showLapInfo={showLapInfo}
       setShowMiniMap={setShowMiniMap}
       showMiniMap={showMiniMap}
+      setShowDebugMenu={setShowDebugMenu}
+      showDebugMenu={showDebugMenu}
        />} />
       <Route  path="/settings/keybinds" element={<SettingsKeybinds/>}/>
       <Route  path="/countdown" element={<Countdown/>}/>
@@ -305,6 +308,8 @@ const Menu = () => {
       showDashboard={showDashboard}
       showHudButtons={showHudButtons}
       showLapInfo={showLapInfo}
+      showDebugMenu={showDebugMenu}
+      setShowDebugMenu={setShowDebugMenu}
        />}/>
       <Route  path="/pause" element={<Pause setPrevious={setPreviousType} />}/>
       <Route  path="/finish" element={<Finish/>}/>

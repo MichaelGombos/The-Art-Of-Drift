@@ -13,6 +13,8 @@ import ExtraStats from '../components/hidden-extra-stats.js';
 import Dashboard from '../components/hidden-dashboard.js';
 import { generatePauseSound } from '../../sounds/sfx.js';
 import MobileControls from '../components/hidden-mobile-controls.js';
+import DebugMenu from '../components/hidden-debug-menu.js';
+
 
 const OpenMenuButton = () => {
   const navigate = useNavigate();
@@ -31,7 +33,7 @@ const ResetGameButton = () => {
   )
 }
 
-const Hidden = ({showFPS,showExtraStats,showDashboard,showMobileControls,showHudButtons ,showLapInfo }) => {
+const Hidden = ({showFPS,showExtraStats,showDashboard,showMobileControls,showHudButtons ,showLapInfo, showDebugMenu,setShowDebugMenu }) => {
   let isExtraStatsHidden = false;
   let isDashboardHidden = false;
   // TODO TOGGLE FOR THIS IN SETTINGS
@@ -55,7 +57,13 @@ const Hidden = ({showFPS,showExtraStats,showDashboard,showMobileControls,showHud
           ""
       }
 
-
+{
+        showDebugMenu
+        ?
+        <DebugMenu setShowDebugMenu={setShowDebugMenu}/>
+         :
+          ""
+      }
         <MobileControls showMobileControls ={showMobileControls} />
 
         <ExtraStats showInfo={showExtraStats} showFPS={showFPS}/>
