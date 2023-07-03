@@ -134,7 +134,7 @@ const Menu = () => {
   const [showLapInfo,setShowLapInfo] = useState(localStorage.getItem("showLapInfo") ? JSON.parse(localStorage.getItem("showLapInfo")) : true);
   const [showMiniMap,setShowMiniMap] = useState(localStorage.getItem("showMiniMap") ? JSON.parse(localStorage.getItem("showMiniMap")) : true);
 
-  const [showDebugMenu, setShowDebugMenu] = useState(true)
+  const [showDebugMenu, setShowDebugMenu] = useState(false)
 
 
   const [showAuthStatus,setShowAuthStatus] = useState(false);
@@ -166,7 +166,6 @@ const Menu = () => {
 
   }
   const toggleMobileHud = (showHud) => (e) => {
-    console.log("this is the event that is toggling the hud", e)
     setShowMobileControls(showHud);
   }
   document.addEventListener("keypress",toggleMobileHud(false))

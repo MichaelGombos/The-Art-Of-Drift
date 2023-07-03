@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react"
-import { getCosmeticPause, getFreecam, getFreecamGhostFocus, getFreecamLocation, getGhostCarEnabledList, getGhostStep, getMapData, getPlayDirection, getPlayerCarObject, getShortestGhostReplayLength, getSmoothReplay, setCosmeticPause, setFreecam, setFreecamGhostFocus, setFreecamOffsetX,setFreecamOffsetY, setFreecamSpeed, setFreecamZoom, setGameSpeed, setGhostStep, setPlayDirection, setSmoothReplay, updateGhostCarEnabledList } from "../../game/game"
+import { getCosmeticPause, getFreecam, getFreecamGhostFocus, getFreecamLocation, getGameMapIndex, getGhostCarEnabledList, getGhostStep, getMapData, getPlayDirection, getPlayerCarObject, getShortestGhostReplayLength, getSmoothReplay, setCosmeticPause, setFreecam, setFreecamGhostFocus, setFreecamOffsetX,setFreecamOffsetY, setFreecamSpeed, setFreecamZoom, setGameSpeed, setGhostStep, setIsGameValid, setPlayDirection, setSmoothReplay, updateGhostCarEnabledList } from "../../game/game"
 import { drawGhostVehicle, getCarVisbility, getGhostCarModels, setCarVisibility } from "../../game/graphics"
 import { vehicleMidGraphicURLs } from "../helpers/profileGraphicUrls"
 
@@ -61,7 +61,6 @@ const DebugCameraMenu = ({setShowDebugMenu , teleportMenuEnabled, setTeleportMen
   }
 
   const setStatefulGameStep = (value) => {
-    console.log("I am settings the ghost step to", value)
     setNewGameStep(Number(value))
     setGhostStep(Number(value))
   }
@@ -147,7 +146,7 @@ const DebugCameraMenu = ({setShowDebugMenu , teleportMenuEnabled, setTeleportMen
   newValue={newGameSpeed} 
   setter={setStatefulGameSpeed}
   minimum={1}
-  maximum={100}>
+  maximum={200}>
     physics speed%
     </InputSlider>
 
@@ -264,14 +263,11 @@ const GhostCarMenu = ({ghostCarIndex, freecamGhostFocusIndex, setFreecamGhostFoc
 
   const handleFocusPress = () => {
 
-    console.log("just pressed focus.")
     if(getFreecamGhostFocus() == ghostCarIndex){
-      console.log("setting to null")
       setFreecamGhostFocusIndex(null);
       setFreecamGhostFocus(null)
     }
     else{
-      console.log("setting to index", ghostCarIndex)
       setFreecamGhostFocusIndex(ghostCarIndex);
       setFreecamGhostFocus(ghostCarIndex)
     }
@@ -354,9 +350,72 @@ const DebugCarMenu = () => {
 }
 
 const DebugTeleportMenu = () => {
+  //map ${getGameMapIndex()}
+  const [TPLocations, setTPLocations] = useState(localStorage.getItem("debugTeleportList") == true ? JSON.parse(localStorage.getItem("debugTeleportList")) : [] )
+  const [locationIndex, setLocationIndex] = useState(0)
+
+  const handleTPLocationChange = (e) => {
+    setLocationIndex(e.target.selectedIndex)
+  }
+
+  const handleTeleportPress = () => {
+    getPlayerCarObject().setX(Number(TPLocations[locationIndex].coords[0]))
+    getPlayerCarObject().setY(Number(TPLocations[locationIndex].coords[1]))
+  }
+
+  const handleDeletePress = () => {
+
+    let tempLocationArray = JSON.parse(JSON.stringify(TPLocations))
+
+    tempLocationArray.splice(locationIndex, 1);
+    
+    setTPLocations(tempLocationArray)
+    localStorage.setItem("debugTeleportList", JSON.stringify(tempLocationArray))
+    setLocationIndex(0)
+  }
+
+  const addCurrentCamLocation = () => {
+    const camRelativeX = getPlayerCarObject().getX() - getFreecamLocation().x
+    const camRelativeY = getPlayerCarObject().getY() - getFreecamLocation().y
+    const tempTPLocation = {
+      name:`map ${getGameMapIndex()} tp#${TPLocations.length+1}`,
+      coords: [camRelativeX, camRelativeY]
+    }
+
+    localStorage.setItem("debugTeleportList",JSON.stringify(TPLocations.concat(tempTPLocation)))
+
+    setTPLocations(TPLocations.concat(tempTPLocation))
+  }
+
   return (
     <div className = "hidden-menu__debug-menu debug-menu__teleport-menu col-6">
-      <p>This is the debug teleport menu</p>
+      <p>Teleport Menu</p>
+      <p>{`Current Selected location ${locationIndex}`}</p>
+      <select name="tp-locations" id="tp-locations" onChange={handleTPLocationChange}>
+        {TPLocations ? TPLocations.map( (location, locationIndex) => {
+          console.log("This is that I see while mapping", TPLocations)
+          return (
+            <option  key={locationIndex} value={`[${location.coords[0] },${location.coords[1]}]` }>
+              {`${location.name} x,y : ${location.coords[0]}, ${location.coords[1]}`}
+            </option>
+          )
+        }) :
+        ""
+        }
+      </select>
+      <Button
+        clickHandler={addCurrentCamLocation}
+      >
+        Add cam location to list</Button>
+
+      <Button
+        clickHandler={handleTeleportPress}
+      >
+        Tp to selected location</Button>
+
+      <Button
+      clickHandler={handleDeletePress}
+      >Delete selected location</Button>
     </div>
   )
 }
@@ -366,6 +425,10 @@ const DebugMenu = ({setShowDebugMenu}) => {
   const [carMenuEnabled,setCarMenuEnabled] = useState(true)
   const [teleportMenuEnabled,setTeleportMenuEnabled] = useState(true)
   
+  useEffect(() =>{ //invalidate game if open
+    setIsGameValid(false)
+  }) 
+
   return (
     <>
     <DebugCameraMenu 

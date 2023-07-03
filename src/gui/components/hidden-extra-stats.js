@@ -38,6 +38,8 @@ const ExtraStats = ({showFPS,showInfo}) => {
         <li>FACING ANGLE <span id="facing">{stats.facingAngle}</span></li>
 
         <li>PARTICLE COUNT <span id="particle-count">{stats.particleCount}</span></li>
+
+        <li>VALID GAME <span id="valid-game">{stats.isGameValid ? "Yes" : "NO"}</span></li>
         </>
         : "" }
     </ul>

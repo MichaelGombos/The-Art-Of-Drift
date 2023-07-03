@@ -54,6 +54,8 @@ let ghostCarEnabledList = [
   false
 ]
 
+let isGameValid = true;
+
 let freecamGhostFocus = null;
 let gameSpeed = 1;
 let ghostStep = 0; //kind of like dubstep, but for ghosts. 
@@ -209,6 +211,13 @@ const getGhostCarEnabledList = () => {
   return ghostCarEnabledList;
 }
 
+const getIsGameValid = () => {
+  return isGameValid;
+}
+const setIsGameValid = (isValid) => {
+  isGameValid = isValid;
+}
+
 const setDirectionalCamera = (value) => {isDirectionalCameraOn = value}
 
 const setFreecam = (value) => {isFreecamOn = value}
@@ -269,6 +278,7 @@ const getStats = () => {
     angleLockLeft : target.getAngleLock().left,
     angleLockRight : target.getAngleLock().right,
     particleCount : particles.length,
+    isGameValid : isGameValid,
     inputs : targetInputs
   }
 }
@@ -311,7 +321,7 @@ const setSpectateTime = (s) => {
   spectateTime = s;
 }
 const resetCarValues = () => {
-
+  isGameValid = true;
   pauseBuffer = 0;
   pauseBuffers = [0];
   lastRunTime = performance.now();
@@ -440,7 +450,7 @@ const generateMap = (inputData) => {
 }
 
 const checkGameOver = (currentLap) => {
-  if (currentLap >= maxLaps) {
+  if (currentLap >= maxLaps && isGameValid) {
       car.setEngineLock(true); //disbales acceleration
       for(const ghostCar of ghostCars){
         ghostCar.setEngineLock(true); //disbales acceleration
@@ -971,5 +981,7 @@ export {
   setPlayDirection,
   getPlayDirection,
   setFreecamGhostFocus,
-  getFreecamGhostFocus
+  getFreecamGhostFocus,
+  setIsGameValid,
+  getIsGameValid
 }
