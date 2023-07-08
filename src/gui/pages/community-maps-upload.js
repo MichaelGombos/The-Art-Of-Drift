@@ -48,13 +48,13 @@ const CommunityMapsUpload = ({previewMap, setPreviewMap}) => {
   
   return (
 
-    <div className="dark-background ">
-      <div className='menu-container col-6 gap-lg'>
+    <div className="vertical-navigation-menu dark-background ">
+      <div className='vertical-navigation-menu menu-container col-6 gap-lg'>
 
           <h1 className="f-h2">Upload <span className="text-secondary-500">Map</span></h1>
-          <div className="row w-100 gap-md upload-map__menu">
-          <div className='col-3 gap-xl align-center'>
-            <div className="signup-footer col-6 gap-md">
+          <div className="horizantal-navigation-menu row w-100 gap-md upload-map__menu">
+          <div className='vertical-navigation-menu col-3 gap-xl align-center'>
+            <div className="vertical-navigation-menu signup-footer col-6 gap-md">
             <TextInput id="upload-preview-data" 
             labelText="Map Data"
             placeholderText="Paste map data here"
@@ -82,7 +82,7 @@ const CommunityMapsUpload = ({previewMap, setPreviewMap}) => {
             </div>
           </div>
 
-          <div className='col-3 gap-xl align-center'>
+          <div className=' col-3 gap-xl align-center'>
             <div className="signup-footer col-6 gap-md">
             <div className='map-upload-canvas__wrapper gap-md scroll-container scroll-container--tall'>
               <canvas 

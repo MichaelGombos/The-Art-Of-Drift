@@ -13,14 +13,14 @@ const AsyncLoader = () => {
     if(fullOverlay && value == false){ 
       setTimeout(() => {
         window.refreshDocumentTree()
-        setLoading(value)
+        setLoading(false) //The visual seemed unnessesary, re enable by setting this to "true"
       },  500) //extra time for actions to mount to the dom.
 
       //TODO, function to remap the navigation controls after the actions mount to the dom.
       
     }
     else{
-      setLoading(value)
+      setLoading(false)
     }
   }
   const loaderPageList = [

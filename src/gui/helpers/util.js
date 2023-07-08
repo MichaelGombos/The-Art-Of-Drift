@@ -56,4 +56,50 @@ export const generateSeededArray = (seed, length) => {
   return result;
 }
 
+export const trendDown = (start, end, count) => {
+  let current = start;
+  let target = end;
+  let step = (current - target) / count;
+  let sequence = [];
+
+  for(let i = 0; i < count; i++) {
+      // If we've reached the last number, just push the target
+      if (i === count - 1) {
+          sequence.push(target);
+          break;
+      }
+
+      // Add some large random fluctuation
+      let randomFluctuation = (Math.random() * 2 - 1) * step * 5;
+
+      // Ensure current is always between start and target
+      current = Math.max(Math.min(current - step + randomFluctuation, start), target);
+
+      sequence.push(Math.round(current));
+  }
+
+  return sequence;
+}
+
+
+
+export const msToTime = (s) => {
+
+  // Pad to 2 or 3 digits, default is 2
+  function pad(n, z) {
+    z = z || 2;
+    return ('00' + n).slice(-z);
+  }
+
+  var ms = s % 1000;
+  s = (s - ms) / 1000;
+  var secs = s % 60;
+  s = (s - secs) / 60;
+  var mins = s % 60;
+  var hrs = (s - mins) / 60;
+
+  return pad(hrs) + ':' + pad(mins) + ':' + pad(secs) + '.' + pad(ms, 3);
+}
+
+
 console.log("generate seeded array test" , generateSeededArray(3,4))

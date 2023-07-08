@@ -29,7 +29,7 @@ import getGamePadHeldDirections from "./gamepad.js"
 import { decompressMapData } from "./map-compression.js"
 import { commandList, commandMap, commandToDirectionMap, controllerCodesMap, keyboardToCommandMap } from "../gui/helpers/controls.js"
 import { generateFrameSounds, generateRaceFinishSound } from "../sounds/sfx.js"
-import { findClosestIndex } from "../gui/helpers/util.js"
+import { findClosestIndex, msToTime } from "../gui/helpers/util.js"
 
 
 
@@ -469,23 +469,7 @@ const checkGameOver = (currentLap) => {
   }
 }
 
-function msToTime(s) {
 
-  // Pad to 2 or 3 digits, default is 2
-  function pad(n, z) {
-    z = z || 2;
-    return ('00' + n).slice(-z);
-  }
-
-  var ms = s % 1000;
-  s = (s - ms) / 1000;
-  var secs = s % 60;
-  s = (s - secs) / 60;
-  var mins = s % 60;
-  var hrs = (s - mins) / 60;
-
-  return pad(hrs) + ':' + pad(mins) + ':' + pad(secs) + '.' + pad(ms, 3);
-}
 
 
 //TODO 

@@ -22,7 +22,6 @@ const RaceCommunityMapButton = ({mapInfo}) => {
       drawPlayerVehicle(profileData.vehicleID)
       setSpectateMode(false);
       startGame()
-      nameGhost("chungus");
       navigate("/countdown");
     })
 

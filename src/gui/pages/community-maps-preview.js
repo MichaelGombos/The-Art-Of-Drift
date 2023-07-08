@@ -61,13 +61,15 @@ const CommunityMapsPreview = () => {
     //then navigate to view the map you just uploaded
   
   const handlePlayCommunityMap = () => {
-    setEnableGhost(false);
-    setGameMapIndex(mapId);
-    setMapData(JSON.parse(mapInformation.mapObject),[[]])
-    setSpectateMode(false);
-    startGame()
-    nameGhost("chungus");
-    navigate("/countdown");
+    getCurrentAuthProfile().then(profileData => {
+      drawPlayerVehicle(profileData.vehicleID);
+      setEnableGhost(false);
+      setGameMapIndex(mapId);
+      setMapData(JSON.parse(mapInformation.mapObject),[[]])
+      setSpectateMode(false);
+      startGame()
+      navigate("/countdown");
+    })
   }
 
   const handleDeleteMap = () => {

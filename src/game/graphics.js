@@ -178,7 +178,7 @@ const updateCameraAngle = (angle) => {
 const nameGhost = (name,index) => {
   //the index is unused for now
   console.warn("Still needs a function to actually paint the nametag")
-  ghostCharacterNameTags[index].innerHTML = name
+  ghostCharacterNameTags[index].innerHTML = name == false ? "" : name
 }
 
 const setCarVisibility = (hideCar) => {
