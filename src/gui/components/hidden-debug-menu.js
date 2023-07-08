@@ -243,10 +243,6 @@ const GhostCarMenu = ({ghostCarIndex, freecamGhostFocusIndex, setFreecamGhostFoc
   const [ghostIcon,setGhostIcon] = useState(vehicleMidGraphicURLs[getGhostCarModels()[ghostCarIndex]])
   const [isCarDisabled, setIsCarDisabled] = useState(getGhostCarEnabledList[ghostCarIndex])
 
-  const toggleStatefulCosmeticPause = () => {
-    setIsCosmeticPauseOn(!getCosmeticPause())
-    setCosmeticPause(!getCosmeticPause())
-  }
 
   const handleTeleportPress = () => {
     const stats = ghostReplays[ghostCarIndex].stats
@@ -270,6 +266,9 @@ const GhostCarMenu = ({ghostCarIndex, freecamGhostFocusIndex, setFreecamGhostFoc
     else{
       setFreecamGhostFocusIndex(ghostCarIndex);
       setFreecamGhostFocus(ghostCarIndex)
+      setFreecamOffsetX( 0)
+      setFreecamOffsetY( 0)
+
     }
   }
 
@@ -282,6 +281,32 @@ const GhostCarMenu = ({ghostCarIndex, freecamGhostFocusIndex, setFreecamGhostFoc
     setIsCarDisabled(!getGhostCarEnabledList()[ghostCarIndex])
   },[getGhostCarEnabledList()[ghostCarIndex]])
 
+  useEffect(() => {
+    setGhostIcon(vehicleMidGraphicURLs[getGhostCarModels()[ghostCarIndex]])
+  } , [getGhostCarModels()[ghostCarIndex]])
+
+  const onDebugKeybindPress = (e) => {
+    if(location.pathname == "/hidden"){
+      if(e.key == "9" ){
+        for(let i = 0; i <= 4; i++){
+          getGhostCarModels()[i] >= 8 ?
+          drawGhostVehicle(0,i)
+          :
+          drawGhostVehicle(getGhostCarModels()[i]+1, i)
+        }
+      }
+      else if(e.key == "8" ){
+        getGhostCarModels()[0] >= 8 ?
+        drawGhostVehicle(0,0) //2nd is index
+        :
+        drawGhostVehicle(getGhostCarModels()[0]+1, 0)
+      }
+    }
+  }
+
+
+
+  document.addEventListener("keydown", onDebugKeybindPress )
 
   return  (
   <div className="col-1 gap-md">

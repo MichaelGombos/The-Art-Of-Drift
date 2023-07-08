@@ -664,15 +664,15 @@ const placeCharacter = () => {
         y : focusStats[closestGhostStepIndex][1]
       }
       
-      setFreecamOffsetX( 0)
-      setFreecamOffsetY( 0)
+
       car.setX(Number(ghostLocation.x));
       car.setY(Number(ghostLocation.y));
       updateCameraShake(focusStats[closestGhostStepIndex][6])
       updateCameraScale(focusStats[closestGhostStepIndex][6])
       updateCameraAngle({facing:focusStats[ghostStep][2]})
       }
-    else if (held_directions && held_directions.length > 0) {
+      
+    if (held_directions && held_directions.length > 0) {
 
       for(const direction of held_directions){
         let camPressure = 1;
