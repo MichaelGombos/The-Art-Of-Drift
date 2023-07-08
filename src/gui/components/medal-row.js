@@ -30,7 +30,7 @@ const ghostNames = {
 
 
 
-const MedalRow = ({best, medal,difficultyList, toggleDifficulty,isGhostEnabled, setNewGhostEnabled, index, buttonIndex}) => {
+const MedalRow = ({bypassAuthorMedalUnlock, best, medal,difficultyList, toggleDifficulty,isGhostEnabled, setNewGhostEnabled, index, buttonIndex}) => {
 
   const unlockedMedals = {  
     personalBest : true,
@@ -43,10 +43,10 @@ const MedalRow = ({best, medal,difficultyList, toggleDifficulty,isGhostEnabled, 
 
 
   
-  if(medal == "author" && !unlockedMedals.hard){
+  if(!bypassAuthorMedalUnlock && medal == "author" && !unlockedMedals.hard){
     return "";
   }
-  if(medal == "personalBest" && !best){
+  if(!bypassAuthorMedalUnlock && medal == "personalBest" && !best){
     return "";
   }
   return (  

@@ -133,6 +133,7 @@ const Menu = () => {
   const [showHudButtons,setShowHudButtons] = useState(localStorage.getItem("showHudButtons") ? JSON.parse(localStorage.getItem("showHudButtons")) : true);
   const [showLapInfo,setShowLapInfo] = useState(localStorage.getItem("showLapInfo") ? JSON.parse(localStorage.getItem("showLapInfo")) : true);
   const [showMiniMap,setShowMiniMap] = useState(localStorage.getItem("showMiniMap") ? JSON.parse(localStorage.getItem("showMiniMap")) : true);
+  const [bypassAuthorMedalUnlock, setBypassAuthorMedalUnlock] = useState(localStorage.getItem("bypassAuthorMedalUnlock") ? JSON.parse(localStorage.getItem("bypassAuthorMedalUnlock")) : false);
 
   const [showDebugMenu, setShowDebugMenu] = useState(false)
 
@@ -257,7 +258,7 @@ const Menu = () => {
       <Route  path="/profile/guest/upgrade/gmail" element={<ProfileUpgrade type="gmail" user = {user} loading = {loading} error = {error}/>}/>
       <Route  path="/profile/guest/upgrade/email" element={<ProfileUpgrade type="email" user = {user} loading = {loading} error = {error}/>}/>
       <Route  path="/campaign" element={<Campaign/>} />
-      <Route  path="/campaign/:mapIndex" element={<CampaignLevel/>} />
+      <Route  path="/campaign/:mapIndex" element={<CampaignLevel bypassAuthorMedalUnlock={bypassAuthorMedalUnlock}/>} />
       <Route  path="/campaign/progression/:id" element={<Progression/>} />
       <Route  path="/community-maps" element={<CommunityMaps/>} />    
       <Route  path="/community-maps/create" element={<MapMaker 
@@ -281,6 +282,8 @@ const Menu = () => {
       <Route  path="/leaderboards/campaign" element={<CampaignLeaderboards/>} />
       <Route  path="/leaderboards/campaign/:mapIndex" element={<CampaignLeaderboard/>} />
       <Route  path="/settings" element={<Settings 
+      setBypassAuthorMedalUnlock = {setBypassAuthorMedalUnlock}
+      bypassAuthorMedalUnlock = {bypassAuthorMedalUnlock}
       isGuestSession={isGuestSession}
       previous={previousType} 
       showFPS={showFPS}

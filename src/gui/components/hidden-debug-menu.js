@@ -146,7 +146,7 @@ const DebugCameraMenu = ({setShowDebugMenu , teleportMenuEnabled, setTeleportMen
   newValue={newGameSpeed} 
   setter={setStatefulGameSpeed}
   minimum={1}
-  maximum={200}>
+  maximum={100}>
     physics speed%
     </InputSlider>
 

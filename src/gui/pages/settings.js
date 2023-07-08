@@ -19,6 +19,9 @@ import { getSFXMultiplier, setSFXMultiplier } from '../../sounds/sfx.js';
 const {useState} = React
 
 const Settings = ({ 
+
+  setBypassAuthorMedalUnlock,
+  bypassAuthorMedalUnlock,
   isGuestSession,
   showFPS,
   setShowFPS,
@@ -38,6 +41,8 @@ const Settings = ({
   const navigate = useNavigate();
 
   const particleLimitSlider = useRef(null)
+
+  const [newBypassAuthorMedalUnlock, setNewBypassAuthorMedalUnlock] = useState(bypassAuthorMedalUnlock)
 
   const [newShowDebugMenu, setNewShowDebugMenu]= useState(showDebugMenu)
 
@@ -111,8 +116,11 @@ const Settings = ({
             newIsSmoothReplayOn = {newIsSmoothReplayOn}
             
 
-              newShowDebugMenu     = {newShowDebugMenu} 
-              setShowDebugMenu  =             {setShowDebugMenu}
+            newShowDebugMenu     = {newShowDebugMenu} 
+            setShowDebugMenu  =             {setShowDebugMenu}
+
+            newBypassAuthorMedalUnlock = {newBypassAuthorMedalUnlock}
+            setBypassAuthorMedalUnlock = {setBypassAuthorMedalUnlock}
             />
             <ExitSettingsButton isSaving={false} setNewDirectionalCamera = {setNewDirectionalCamera}  setNewEnableGhost={setNewEnableGhost} setNewParticleLimit={setNewParticleLimit} newEnableGhost={newEnableGhost} newParticleLimit={newParticleLimit} />
             <Button clickHandler={( () => navigate("/settings/keybinds" ))}>View Controls</Button>
@@ -245,6 +253,13 @@ const Settings = ({
               >
                 <span title="This feature is only meant for recording footage for the game trailer. Instead of taking the replays frametime and using the data from each frame to match up the replay, we will just run the replay as fast as we can. This will be an issue if your fps is below or above the replays recorded fps, but if not, it can give the recording a smoother look">Enable smooth replay⚠️</span>
                
+              </InputToggle>
+
+              <InputToggle 
+              newValue={newBypassAuthorMedalUnlock} 
+              setter={setNewBypassAuthorMedalUnlock}
+              >
+                Bypass Author Medal Time Requirement
               </InputToggle>
 
 

@@ -4,10 +4,11 @@ import MedalRow from './medal-row';
 
 
 
-const LocalMedalsList = ({pb,difficultyList,toggleDifficulty, mapIndex}) => {
+const LocalMedalsList = ({bypassAuthorMedalUnlock,pb,difficultyList,toggleDifficulty, mapIndex}) => {
   return (
     <>
-        {pb ? <MedalRow 
+        {pb  ? <MedalRow 
+        bypassAuthorMedalUnlock = {bypassAuthorMedalUnlock}
         buttonIndex = {0}
         medal="personalBest" 
         best={pb} 
@@ -15,6 +16,7 @@ const LocalMedalsList = ({pb,difficultyList,toggleDifficulty, mapIndex}) => {
         toggleDifficulty={toggleDifficulty} 
         index={mapIndex} /> : ""}
         <MedalRow 
+        bypassAuthorMedalUnlock = {bypassAuthorMedalUnlock}
         buttonIndex = {1}
         medal="easy" 
         best={pb} 
@@ -22,6 +24,7 @@ const LocalMedalsList = ({pb,difficultyList,toggleDifficulty, mapIndex}) => {
         toggleDifficulty={toggleDifficulty} 
         index={mapIndex} />
         <MedalRow 
+        bypassAuthorMedalUnlock = {bypassAuthorMedalUnlock}
         buttonIndex = {2}
         medal="normal" 
         best={pb}
@@ -29,6 +32,7 @@ const LocalMedalsList = ({pb,difficultyList,toggleDifficulty, mapIndex}) => {
         toggleDifficulty={toggleDifficulty}
         index={mapIndex} />
         <MedalRow 
+        bypassAuthorMedalUnlock = {bypassAuthorMedalUnlock}
         buttonIndex = {3}
         medal="hard" 
         best={pb} 
@@ -36,6 +40,7 @@ const LocalMedalsList = ({pb,difficultyList,toggleDifficulty, mapIndex}) => {
         toggleDifficulty={toggleDifficulty} 
         index={mapIndex} />
         <MedalRow 
+        bypassAuthorMedalUnlock = {bypassAuthorMedalUnlock}
         buttonIndex = {4}
         medal="author" 
         best={pb} 

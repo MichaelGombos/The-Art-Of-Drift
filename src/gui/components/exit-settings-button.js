@@ -31,7 +31,9 @@ setShowMiniMap    ,
 newFreecam ,
 newIsSmoothReplayOn,
 newShowDebugMenu    ,
-setShowDebugMenu 
+setShowDebugMenu ,
+newBypassAuthorMedalUnlock,
+setBypassAuthorMedalUnlock
 }) => {
   const navigate = useNavigate();
   console.log("really? nothing.")
@@ -71,8 +73,10 @@ setShowDebugMenu
 
           setSmoothReplay(newIsSmoothReplayOn)
           localStorage.setItem("isSmoothReplayEnabled", newIsSmoothReplayOn)
-          console.log("this is the debug menu status that we are saving..", newShowDebugMenu)
           setShowDebugMenu(newShowDebugMenu)
+
+          setBypassAuthorMedalUnlock(newBypassAuthorMedalUnlock);
+          localStorage.setItem("bypassAuthorMedalUnlock", newBypassAuthorMedalUnlock)
 
         }}>Save and exit</Button>
       )

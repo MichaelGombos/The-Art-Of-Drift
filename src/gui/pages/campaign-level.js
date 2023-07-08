@@ -10,7 +10,7 @@ import LocalMedalsList from '../components/local-medals-list.js';
 import { getCurrentAuthReplayTime } from '../helpers/databaseFacade.js';
 import RaceAllLocalButton from '../components/race-all-button.js';
 
-const CampaignLevel = () => {
+const CampaignLevel = ({bypassAuthorMedalUnlock}) => {
   
   const navigate = useNavigate();
   let {mapIndex} = useParams();
@@ -45,7 +45,7 @@ const CampaignLevel = () => {
 
           <div className='horizantal-navigation-menu act__navigation level-menu__main row w-100 gap-md align-center'>
             <div className="vertical-navigation-menu act__navigation difficulty-selector col-2 gap-md">
-              <LocalMedalsList pb={bestTime} difficultyList={difficultyList} toggleDifficulty={toggleDifficulty} difficulty={difficulty} setDifficulty={setDifficulty} mapIndex={mapIndex} />
+              <LocalMedalsList bypassAuthorMedalUnlock={bypassAuthorMedalUnlock} pb={bestTime} difficultyList={difficultyList} toggleDifficulty={toggleDifficulty} difficulty={difficulty} setDifficulty={setDifficulty} mapIndex={mapIndex} />
             </div>
             <MapCanvasPreview width="col-4" mapIndex={mapIndex}/>
           </div>
