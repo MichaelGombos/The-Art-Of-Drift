@@ -247,20 +247,20 @@ const Settings = ({
                 Enable free cam
               </InputToggle>
 
-              <InputToggle 
+              {/* <InputToggle 
               newValue={newIsSmoothReplayOn} 
               setter={setNewIsSmoothReplayOn}
               >
                 <span title="This feature is only meant for recording footage for the game trailer. Instead of taking the replays frametime and using the data from each frame to match up the replay, we will just run the replay as fast as we can. This will be an issue if your fps is below or above the replays recorded fps, but if not, it can give the recording a smoother look">Enable smooth replay⚠️</span>
                
-              </InputToggle>
+              </InputToggle> */}
 
-              <InputToggle 
+              {/* <InputToggle 
               newValue={newBypassAuthorMedalUnlock} 
               setter={setNewBypassAuthorMedalUnlock}
               >
                 Bypass Author Medal Time Requirement
-              </InputToggle>
+              </InputToggle> */}
 
 
            
