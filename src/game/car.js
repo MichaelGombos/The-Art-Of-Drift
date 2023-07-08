@@ -632,7 +632,7 @@ const createCar = (isGhost) => {
                 }
                 if(!isGhost){
                     if (Math.abs(speed) > 4 ) {
-                        speed = speed - (.30 * (dt)) ;
+                        speed = speed - (Math. sign(speed) * (.30 * (dt))) ;
 
 
                         // createDirtParticle(x, y);

@@ -240,6 +240,26 @@ let particleLimit = localStorage.getItem("particleLimit") ? JSON.parse(localStor
 const generateFrameParticles = (rawSpeed, x,y ,driftForce, onDirt,angle) => {
   let speed = Math.abs(rawSpeed)
   let domParticles = Array.from(mapParticles.children) 
+
+
+  let diff = angle.facing - angle.moving;
+
+  // let isFacingNearlyVertical = 
+  // diff >= 330 && diff <= 360
+  // || diff >= 0 && diff <= 30 
+  // || diff >= 180 && diff <= 210
+  // || diff >= 150 && diff <= 180
+
+  let isFacingNearlyVertical = 
+  diff >= 350 && diff <= 360
+  || diff >= 0 && diff <= 10 
+  || diff >= 180 && diff <= 190
+  || diff >= 170 && diff <= 180
+
+  if(diff < 0){
+    diff += 360;
+ }
+
   if(speed > 9){
 
     addParticle("max_speed",1, x,y,driftForce,angle.moving)
@@ -250,10 +270,14 @@ const generateFrameParticles = (rawSpeed, x,y ,driftForce, onDirt,angle) => {
 
     addParticle("drift_dirt",speed/10,x,y,driftForce,angle.moving)
   }
-  if (driftForce > 4.5 && !onDirt) {
+
+
+
+
+  if (!isFacingNearlyVertical || driftForce > 4.5 && !onDirt) {
       // createDriftParticle(x, y, driftForce, angle);
 
-      addParticle("tire_tracks",1,x, y, driftForce, angle.facing, (driftForce-4.5) / 2.5) //magic number to get to 7, the max drift force.
+      addParticle("tire_tracks",1,x, y, driftForce, angle.facing, driftForce / 14) 
       if(driftForce > 5){
 
         addParticle("road_dust",speed/20,x + (Math.floor(Math.random() * 3 * speed) - 1.5 * speed ) , y, driftForce, angle.moving)
@@ -565,12 +589,12 @@ const staticTextureMap = {
 
 const spriteDetailsMap = {
   "tire_tracks" : {
-    scale: .2,
-    anchor: [.75,.75],
+    scale: .5,
+    anchor: [.50,.50],
     animationSpeed : .1,
     angleOffset : 0,
     angleVariance : 0,
-    alpha: .25,
+    alpha: 1,
     width: 300,
     height: 140,
     deleteDelay : 100000,
