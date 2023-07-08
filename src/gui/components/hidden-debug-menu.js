@@ -111,7 +111,7 @@ const DebugCameraMenu = ({setShowDebugMenu , teleportMenuEnabled, setTeleportMen
   newValue={newZoom} 
   setter={setStatefulZoom}
   minimum={-100}
-  maximum={100}>
+  maximum={150}>
     Zoom
     </InputSlider>
 
@@ -202,10 +202,10 @@ const DebugCameraMenu = ({setShowDebugMenu , teleportMenuEnabled, setTeleportMen
     </Button>
 
     <Button
-    style={playInReverse ? "selected" : "light"}
+    style={playInReverse ? "light" : "selected"}
     clickHandler={()=> {toggleStatefulReverse()}}
     >
-   {playInReverse ? "Play Forward" : "Play in reverse"}
+   {playInReverse ? "Play in reverse" : "Play Forward"}
     </Button>
 
 
@@ -213,7 +213,7 @@ const DebugCameraMenu = ({setShowDebugMenu , teleportMenuEnabled, setTeleportMen
     style={isSmoothReplayOn ? "selected" : "light"}
     clickHandler={()=> {toggleStatefulSmoothReplay()}}
     >
-   {isSmoothReplayOn ? "disable smooth replay" : "Enable smooth replay"}
+   {isSmoothReplayOn ? "Enable Fair replay" : "Enable smooth replay"}
     </Button>
 
     <Button

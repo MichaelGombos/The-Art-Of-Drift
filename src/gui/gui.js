@@ -148,6 +148,19 @@ const Menu = () => {
 
   const [locationPathHistory,setLocationPathHistory] = useState([]); //allows back to work on pages.
 
+
+
+  const onKeybindPress = (e) => {
+    if(location.pathname == "/hidden"){
+      if(e.key == "0" ){
+        setShowDebugMenu(!showDebugMenu)
+      }
+    }
+  }
+
+  document.addEventListener("keydown", onKeybindPress )
+
+
   window.giveAuthStatus = () => console.log(showAuthStatus)
   const location = useLocation();
   const navigate = useNavigate();

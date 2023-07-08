@@ -53,7 +53,7 @@
 }
 .character,.ghost {
   width: calc( var(--grid-cell) * 9);
-  height: calc( var(--grid-cell) * 9w);
+  height: calc( var(--grid-cell) * 9);
   position: absolute;
 }
 
