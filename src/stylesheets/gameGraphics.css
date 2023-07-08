@@ -52,8 +52,8 @@
   opacity: 1;
 }
 .character,.ghost {
-  width: calc( var(--grid-cell) * 4);
-  height: calc( var(--grid-cell) * 4);
+  width: calc( var(--grid-cell) * 9);
+  height: calc( var(--grid-cell) * 9w);
   position: absolute;
 }
 

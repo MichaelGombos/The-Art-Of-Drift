@@ -56,6 +56,8 @@ let ghostCarEnabledList = [
 
 let isGameValid = true;
 
+let focusStats = null;
+let closestGhostStepIndex = null;
 let freecamGhostFocus = null;
 let gameSpeed = 1;
 let ghostStep = 0; //kind of like dubstep, but for ghosts. 
@@ -556,7 +558,7 @@ export const setFreecamZoom = (amount) => {
 const placeGhost = (stepCount,ghostIndex) => {
    //experimental-multi-ghost-race : Going to change this function by adding the ghostCar as a parameter. and the replay data should also be contained in an array
     const ghostCar = ghostCars[ghostIndex]
-    const closestGhostStepIndex = !isSmoothReplayOn ? findClosestIndex(mapData.replays[ghostIndex].runtimes, accumulatedTime) : ghostStep;
+    closestGhostStepIndex = !isSmoothReplayOn ? findClosestIndex(mapData.replays[ghostIndex].runtimes, accumulatedTime) : ghostStep;
 
     
     ghost_inputs = mapData.replays[ghostIndex].inputs[closestGhostStepIndex];
@@ -656,21 +658,19 @@ const placeCharacter = () => {
 
     // when free cam is on, allow the updateFreecamCamera function to be used. 
     if(freecamGhostFocus !== null){
-      const stats = mapData.replays[freecamGhostFocus].stats
-      console.log("This is where I messed up",stats
-      )
+      focusStats = mapData.replays[freecamGhostFocus].stats
       const ghostLocation = {
-        x : stats[ghostStep][0],
-        y : stats[ghostStep][1]
+        x : focusStats[closestGhostStepIndex][0],
+        y : focusStats[closestGhostStepIndex][1]
       }
       
       setFreecamOffsetX( 0)
       setFreecamOffsetY( 0)
       car.setX(Number(ghostLocation.x));
       car.setY(Number(ghostLocation.y));
-      updateCameraShake(stats[ghostStep][6])
-      updateCameraScale(stats[ghostStep][6])
-      updateCameraAngle({facing:stats[ghostStep][2]})
+      updateCameraShake(focusStats[closestGhostStepIndex][6])
+      updateCameraScale(focusStats[closestGhostStepIndex][6])
+      updateCameraAngle({facing:focusStats[ghostStep][2]})
       }
     else if (held_directions && held_directions.length > 0) {
 

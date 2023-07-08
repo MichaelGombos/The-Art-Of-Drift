@@ -301,65 +301,127 @@ const drawCanvasMap = (context,mapData) => {
 }
 
 const drawCanvasMapColor = (context,mapData) => {
+  let style = "dirt" //other is track
   context.globalCompositeOperation='destination-over';
   for(let rowIndex in mapData){
     for(let cellIndex in mapData[rowIndex]){
-      switch(Number(mapData[rowIndex][cellIndex])){
-        case (0): //road
-          context.fillStyle = "#e69c69";
-          break;
-        case (1): //wall
-          context.fillStyle = "#8a4836";
-          break;
-        case (2): // dirt
-          context.fillStyle = "#bf6f4a";
-          break;
-        case (3): //spawn
-          context.fillStyle = "#71c9ff";
-          break;
-        case (4): //finish-up
-          context.fillStyle = "#73ff71";
-          break;
-        case (5): //finish-down
-          context.fillStyle = "#ff29e2";
-          break;
-        case (6): //bumper
-          context.fillStyle = "#0027d2";
-          break;
-        case (7): //check-point-left-road
-          context.fillStyle = "#e69c69";
-          break;
-        case (8): //check-point-right-road
-          context.fillStyle = "#e69c69";
-          break;
-        case (9): //check-point-left-dirt
-          context.fillStyle = "#bf6f4a";
-          break;
-        case (10): //check-point-right-dirt
-          context.fillStyle = "#bf6f4a";
-          break;
-        case (11): //tutorial-trigger 0
-          context.fillStyle = "#47694d";
-          break;
-        case (12): //tutorial-trigger 1
-          context.fillStyle = "#4f7555";
-          break;
-        case (13): //tutorial-trigger 2 
-          context.fillStyle = "#598561";
-          break;
-        case (14): //tutorial-trigger 3 
-          context.fillStyle = "#65966e";
-          break;
-        case (15): //tutorial-trigger 4 
-          context.fillStyle = "#77b582";
-          break;
-        case (16): //tutorial-trigger 5
-          context.fillStyle = "#87cc93";
-          break;
-        default:
-          context.fillStyle = "white";
-          break;
-      }  
+      if(style == "dirt"){
+        switch(Number(mapData[rowIndex][cellIndex])){
+          case (0): //road
+            context.fillStyle = "#7F7F7F";
+            break;
+          case (1): //wall
+            context.fillStyle = "#181818";
+            break;
+          case (2): // dirt
+            context.fillStyle = "#3A3A3A";
+            break;
+          case (3): //spawn
+            context.fillStyle = "#71c9ff";
+            break;
+          case (4): //finish-up
+            context.fillStyle = "#FFFFFF";
+            break;
+          case (5): //finish-down
+            context.fillStyle = "#FFFFFF";
+            break;
+          case (6): //bumper
+            context.fillStyle = "#2C67FF";
+            break;
+          case (7): //check-point-left-road
+            context.fillStyle = "#7F7F7F";
+            break;
+          case (8): //check-point-right-road
+            context.fillStyle = "#7F7F7F";
+            break;
+          case (9): //check-point-left-dirt
+            context.fillStyle = "#3A3A3A";
+            break;
+          case (10): //check-point-right-dirt
+            context.fillStyle = "#3A3A3A";
+            break;
+          case (11): //tutorial-trigger 0
+            context.fillStyle = "#47694d";
+            break;
+          case (12): //tutorial-trigger 1
+            context.fillStyle = "#4f7555";
+            break;
+          case (13): //tutorial-trigger 2 
+            context.fillStyle = "#598561";
+            break;
+          case (14): //tutorial-trigger 3 
+            context.fillStyle = "#65966e";
+            break;
+          case (15): //tutorial-trigger 4 
+            context.fillStyle = "#77b582";
+            break;
+          case (16): //tutorial-trigger 5
+            context.fillStyle = "#87cc93";
+            break;
+          default:
+            context.fillStyle = "white";
+            break;
+        }  
+      }
+      else{ //track
+        switch(Number(mapData[rowIndex][cellIndex])){
+          case (0): //road
+            context.fillStyle = "#2E2E2E";
+            break;
+          case (1): //wall
+            context.fillStyle = "#FF7A00";
+            break;
+          case (2): // dirt
+            context.fillStyle = "#559558";
+            break;
+          case (3): //spawn
+            context.fillStyle = "#71c9ff";
+            break;
+          case (4): //finish-up
+            context.fillStyle = "#FFAE63";
+            break;
+          case (5): //finish-down
+            context.fillStyle = "#FFAE63";
+            break;
+          case (6): //bumper
+            context.fillStyle = "#2C67FF";
+            break;
+          case (7): //check-point-left-road
+            context.fillStyle = "#2E2E2E";
+            break;
+          case (8): //check-point-right-road
+            context.fillStyle = "#2E2E2E";
+            break;
+          case (9): //check-point-left-dirt
+            context.fillStyle = "#559558";
+            break;
+          case (10): //check-point-right-dirt
+            context.fillStyle = "#559558";
+            break;
+          case (11): //tutorial-trigger 0
+            context.fillStyle = "#47694d";
+            break;
+          case (12): //tutorial-trigger 1
+            context.fillStyle = "#4f7555";
+            break;
+          case (13): //tutorial-trigger 2 
+            context.fillStyle = "#598561";
+            break;
+          case (14): //tutorial-trigger 3 
+            context.fillStyle = "#65966e";
+            break;
+          case (15): //tutorial-trigger 4 
+            context.fillStyle = "#77b582";
+            break;
+          case (16): //tutorial-trigger 5
+            context.fillStyle = "#87cc93";
+            break;
+          default:
+            context.fillStyle = "white";
+            break;
+        }  
+      }
+
       context.fillRect(cellIndex,rowIndex,1,1);
     }
   }
@@ -528,7 +590,7 @@ const spriteDetailsMap = {
     deleteDelay : 1000,
     tick: 0,
     frequency: 1,
-    tint : 0xf2cbb1
+    tint : 0xFFFFFF
   },
   "collision_bounce" : {
     scale: 1.2,
@@ -584,7 +646,7 @@ const spriteDetailsMap = {
     deleteDelay : 1000,
     tick: 0,
     frequency: 6,
-    tint : 0xbf6f4a
+    tint : 0xFFFFFF
   },
 }
 
@@ -620,6 +682,7 @@ const addParticle = (type = "road_dust", scaleMultiplier, carX= 69,carY = 69, dr
   else{
     spriteDetailsMap[type].tick = spriteDetailsMap[type].tick+1;
   }
+
 
 }
 
