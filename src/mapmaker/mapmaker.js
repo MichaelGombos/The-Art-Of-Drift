@@ -716,7 +716,7 @@ const {mapID} = useParams();
 
   return(
     <div className='map-maker-canvas__wrapper gap-md scroll-container scroll-container--tall'>
-      <p className="map-maker-canvas__text">map : loading...</p>
+      <p className="map-maker-canvas__text">Disclaimer: To create a valid map, you will need to have two checkpoints that the car can pass through.</p>
       <img
             className={`canvas-overlay__image ${showOverlay ? "" : "canvas-overlay__image--hidden"}`}
             src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRl3jJYs7ebxFT8bboef4nbUjmkm1eZAXQj8rbTvbnh&s"}
