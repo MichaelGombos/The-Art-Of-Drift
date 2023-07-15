@@ -3,14 +3,14 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { decompressMapData } from "../../game/map-compression";
 import Button from "../components/button";
 import TextInput from "../components/input-text";
-import { addMap, deleteMap, getDatabaseTime, getMap } from "../helpers/databaseFacade";
+import { addMap, deleteMap, getCurrentAuthProfile, getDatabaseTime, getMap } from "../helpers/databaseFacade";
 import { auth } from "../helpers/firebase";
 
 import { avatarGraphicURLs } from "../helpers/profileGraphicUrls";
 import generateCanvasMapColor from "../helpers/canvasGenerator";
 import { setEnableGhost, setGameMapIndex, setMapData, setSpectateMode } from "../../game/game";
 import { startGame } from "../../game/main";
-import { nameGhost } from "../../game/graphics";
+import { drawPlayerVehicle, nameGhost } from "../../game/graphics";
 
 const toHHMMSS = (number) => {
   var sec_num = parseInt(number, 10); // don't forget the second param
