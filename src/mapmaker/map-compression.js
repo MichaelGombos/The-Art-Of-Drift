@@ -1,4 +1,7 @@
 
+
+
+
 const compressMapData = (input) => {
   const output = []
 
@@ -30,6 +33,12 @@ const compressMapData = (input) => {
 }
 
 const decompressMapData = (compressedInput) => {
+
+  let code = 0
+  let count =0
+  let tileValue = 0
+
+
   const output = [];
 
   for(let rowIndex = 0; rowIndex < compressedInput.length; rowIndex++){
@@ -39,9 +48,9 @@ const decompressMapData = (compressedInput) => {
         outputRow.push(compressedInput[rowIndex][cellIndex])
       }
       else{ //compressed chunk
-        let code = compressedInput[rowIndex][cellIndex];
-        let count = code.slice(0,code.indexOf("t"))
-        let tileValue = code.slice(code.indexOf("t")+1)
+         code = compressedInput[rowIndex][cellIndex];
+         count = code.slice(0,code.indexOf("t"))
+         tileValue = code.slice(code.indexOf("t")+1)
 
         for(let decodeIndex = 0; decodeIndex < count; decodeIndex++){
           outputRow.push(Number(tileValue));
